@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
   headerBar: {
     width: '100%',
     height: 40,
-    backgroundColor: '#42c3ff',
+    backgroundColor: '#38B6FF',
   },
 
   logo: {
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
 
   buttonSignIn: {
     borderRadius: 20,
-    backgroundColor: '#42c3ff',
+    backgroundColor: '#38B6FF',
     width: 380,
     height: 43,
     padding: 10,
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
 
    buttonSignUp: {
     borderRadius: 20,
-    backgroundColor: '#42c3ff',
+    backgroundColor: '#38B6FF',
     width: 380,
     height: 43,
     padding: 10,

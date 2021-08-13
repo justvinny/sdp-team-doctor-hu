@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, TouchableHighlight, View } from 'react-native';
+import { StyleSheet, Text, TouchableHighlight, View , Image} from 'react-native';
 
 export default function WelcomeScreen() {
   const hi = () => {
@@ -9,7 +9,7 @@ export default function WelcomeScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.headerBar}></View>
-      <Text style= {styles.header}>Welcome to Patient App</Text>
+      <Image source={require('../assets/images/logo.png')} style={styles.logo} resizeMode={'contain'}/>
 
       <TouchableHighlight onPress={hi} style={styles.buttonSignIn}>
         <View>
@@ -38,33 +38,30 @@ const styles = StyleSheet.create({
   headerBar: {
     width: '100%',
     height: 40,
-    backgroundColor: '#69718A',
+    backgroundColor: '#42c3ff',
   },
 
-  header: {
-    fontWeight: 'bold',
-    color: '#575A68',
-    top: 200,
-    fontSize: 18,
+  logo: {
+    top: 100,
   },
 
   buttonSignIn: {
     borderRadius: 20,
-    backgroundColor: '#69718A',
+    backgroundColor: '#42c3ff',
     width: 380,
     height: 43,
     padding: 10,
-    top: 300,
+    top: 250,
     alignItems: 'center',
    },
 
    buttonSignUp: {
     borderRadius: 20,
-    backgroundColor: '#69718A',
+    backgroundColor: '#42c3ff',
     width: 380,
     height: 43,
     padding: 10,
-    top: 350,
+    top: 270,
     alignItems: 'center',
    },
 
@@ -76,7 +73,6 @@ const styles = StyleSheet.create({
   or: {
     fontSize: 14,
     color: '#C6C8D2',
-    top: 325,
-
+    top: 260,
   }
 });

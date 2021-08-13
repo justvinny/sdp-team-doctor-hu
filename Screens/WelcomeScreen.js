@@ -6,6 +6,7 @@ export default function WelcomeScreen() {
   const hi = () => {
     alert("hi");
   }
+  
   return (
     <View style={styles.container}>
       <View style={styles.headerBar}></View>
@@ -31,7 +32,7 @@ export default function WelcomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#EFF1F8',
+    backgroundColor: '#DFE1E7',
     alignItems: 'center',
   },
 
@@ -72,7 +73,7 @@ const styles = StyleSheet.create({
 
   or: {
     fontSize: 14,
-    color: '#C6C8D2',
+    color: '#9F9F9F',
     top: 260,
   }
 });

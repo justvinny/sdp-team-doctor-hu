@@ -1,11 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import WelcomeScreen from './Screens/WelcomeScreen';
 
-export default function App() {
+export default function WelcomeScreen() {
   return (
-    <WelcomeScreen></WelcomeScreen>
+    <View style={styles.container}>
+      <Text>Vinson created this repository.</Text>
+      <StatusBar style="auto" />
+    </View>
   );
 }
 

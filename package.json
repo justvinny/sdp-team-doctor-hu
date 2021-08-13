@@ -16,7 +16,10 @@
     "react-native-web": "~0.13.12"
   },
   "devDependencies": {
-    "@babel/core": "^7.9.0"
+    
+  },
+  "resolutions": {
+    "@babel/plugin-transform-react-display-name": "7.14.5"
   },
   "private": true
 }

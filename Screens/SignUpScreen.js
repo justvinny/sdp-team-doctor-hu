@@ -10,28 +10,26 @@ export default function SignUpScreen() {
   return (
     <View style={styles.container}>
         <View style={styles.headerBar}></View>
-        <Text style={styles.headerBarText}>Sign In</Text>
+        <Text style={styles.headerBarText}>Sign Up</Text>
         <View style={styles.backIcon}></View>
-        <Text style={styles.headerText}>Sign In</Text>
-        <Text style={styles.headerDescription}>Please enter your login details.</Text>
+        
 
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding': 'height'}>
             <TextInput style={styles.input} placeholder={'Email*'}></TextInput>
             <TextInput style={styles.input} placeholder={'Password*'}></TextInput>
+            <TextInput style={styles.input} placeholder={'Repeat Password*'}></TextInput>
         </KeyboardAvoidingView>
 
-        <TouchableHighlight onPress={hi} style={styles.buttonSignIn}>
+        <TouchableHighlight onPress={hi} style={styles.buttonSignUp}>
         <View>
-          <Text style={styles.buttonText}>Sign In</Text>
+          <Text style={styles.buttonText}>Sign Up</Text>
         </View>
       </TouchableHighlight>
 
-      <TouchableHighlight onPress={hi} style={styles.buttonForgot}>
-        <View>
-          <Text style={styles.buttonText}>Forgot Password</Text>
-        </View>
-      </TouchableHighlight>
+      <Text style={styles.passwordCheckCharacter}>Has at least 8 characters</Text>
+      <Text style={styles.passwordCheckNumber}>Has at least 1 number</Text>
 
+      <Text style={styles.signInNavigator}>Already have an account? Sign in</Text>
     </View>
   );
 }
@@ -70,44 +68,46 @@ const styles = StyleSheet.create({
     top: 70,
   },
 
-  headerDescription: {
-      color: '#9F9F9F',
-      fontSize: 18,
-      top: 100,
-  },
-
   input: {
       backgroundColor: '#FFFFFF',
       height: 50,
       width: 380,
-      top: 200,
+      top: 100,
       paddingHorizontal: 10,
       marginBottom: 10,
   },
 
-  buttonSignIn: {
+  buttonSignUp: {
     borderRadius: 20,
     backgroundColor: '#38B6FF',
     width: 380,
     height: 43,
     padding: 10,
-    top: 250,
-    alignItems: 'center',
-    borderRadius: 20,
-   },
-
-   buttonForgot: {
-    borderRadius: 20,
-    backgroundColor: '#38B6FF',
-    width: 250,
-    height: 43,
-    padding: 10,
-    top: 300,
+    top: 150,
     alignItems: 'center',
     borderRadius: 20,
    },
 
    buttonText: {
-     color: "#FFFFFF",
+       color:'#FFFFFF',
+   },
+
+   passwordCheckCharacter: {
+    color: '#9F9F9F',
+    top: 60,
+    right: 80,
+    fontSize: 13,
+   },
+
+   passwordCheckNumber: {
+    color: '#9F9F9F',
+    top: 42,
+    left: 110,
+    fontSize: 13,
+   },
+
+   signInNavigator: {
+    color: '#9F9F9F',
+    top: 150,
    },
 });

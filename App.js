@@ -1,13 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import StaffProfile from './Screens/StaffProfile';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Vinson created this repository.</Text>
-      <StatusBar style="auto" />
-    </View>
+    <StaffProfile />
   );
 }
 

@@ -7,7 +7,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <SearchUserScreen/>
-      <StatusBar style="auto" />
+      <StatusBar style="light" backgroundColor="grey" />
     </View>
   );
 }

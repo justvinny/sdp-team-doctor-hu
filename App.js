@@ -4,10 +4,10 @@ import { StyleSheet, Text, View } from 'react-native';
 import SearchUserScreen from './components/search/SearchUserScreen';
 
 export default function App() {
-  
+
   return (
     <View style={styles.container}>
-      <SearchUserScreen/>
+      <SearchUserScreen />
       <StatusBar style="light" backgroundColor="grey" />
     </View>
   );

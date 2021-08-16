@@ -1,10 +1,14 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
-const UserCard = ({name}) => {
+const UserCard = ({ name }) => {
+    const fullName = (name.middle)
+        ? name.first + " " + name.middle + " " + name.last
+        : name.first + " " + name.last;
+
     return (
         <View style={styles.container}>
-            <Text>{name}</Text>
+            <Text>{fullName}</Text>
             <Text style={styles.viewProfileText}>View Profile</Text>
         </View>
     )

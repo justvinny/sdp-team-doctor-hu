@@ -1,102 +1,48 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, FlatList, TextInput, StyleSheet, Text, Pressable } from "react-native";
 import UserCard from "./UserCard";
 import { Ionicons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import Constants from "expo-constants";
+import firestoreService from "../../firebase/firestoreService";
 
 const SearchUserScreen = () => {
-    const [data, setData] = useState([
-        {
-            id: 1,
-            name: "John Smith"
-        },
-        {
-            id: 2,
-            name: "James Armstrong"
-        },
-        {
-            id: 3,
-            name: "Michelle Donut"
-        },
-        {
-            id: 4,
-            name: "Vanessa Porkchop"
-        },
-        {
-            id: 5,
-            name: "Luke Chicken"
-        },
-        {
-            id: 6,
-            name: "John Smith"
-        },
-        {
-            id: 7,
-            name: "James Armstrong"
-        },
-        {
-            id: 8,
-            name: "Michelle Donut"
-        },
-        {
-            id: 9,
-            name: "Vanessa Porkchop"
-        },
-        {
-            id: 10,
-            name: "Luke Chicken"
-        },
-        {
-            id: 11,
-            name: "John Smith"
-        },
-        {
-            id: 12,
-            name: "James Armstrong"
-        },
-        {
-            id: 13,
-            name: "Michelle Donut"
-        },
-        {
-            id: 14,
-            name: "Vanessa Porkchop"
-        },
-        {
-            id: 15,
-            name: "Luke Chicken"
-        },
-        {
-            id: 16,
-            name: "John Smith"
-        },
-        {
-            id: 17,
-            name: "James Armstrong"
-        },
-        {
-            id: 18,
-            name: "Michelle Donut"
-        },
-        {
-            id: 19,
-            name: "Vanessa Porkchop"
-        },
-        {
-            id: 20,
-            name: "Luke Chicken"
-        },
-    ]);
+    const [users, setUsers] = useState([]);
     const [search, setSearch] = useState("");
 
+    useEffect(() => {
+        firestoreService.getAllStaff()
+            .then(data => setUsers(data));
+    });
+
     const renderUser = ({ item }) => {
-        return <UserCard name={item.name} />
+        return (item.name) ? <UserCard name={item.name} /> : <></>;
     }
 
-    const compareByName = (a, b) => {
-        let nameA = a.name.toLowerCase();
-        let nameB = b.name.toLowerCase();
+    const getSortedUsers = () => {
+        return users.filter(user => {
+            const fullName = getFullName(user);
+
+            return fullName.toLowerCase().includes(search.toLowerCase());
+        })
+            .sort((userA, userB) => {
+                const fullNameA = getFullName(userA);
+                const fullNameB = getFullName(userB);
+
+                return compareByName(fullNameA, fullNameB);
+            });
+    }
+
+    const getFullName = (user) => {
+        return (user.name.middle)
+            ? `${user.name.first} ${user.name.middle} ${user.name.last}`
+            : `${user.name.first} ${user.name.last}`;
+
+    }
+
+    const compareByName = (nameA, nameB) => {
+        nameA = nameA.toLowerCase();
+        nameB = nameB.toLowerCase();
         if (nameA < nameB) {
             return -1;
         }
@@ -111,15 +57,22 @@ const SearchUserScreen = () => {
         setSearch("");
     }
 
+    const back = () => {
+        // TODO
+    }
+
     return (
         <>
             <View style={styles.container}>
-                <Ionicons
-                    style={styles.arrowBack}
-                    name="arrow-back"
-                    size={32}
-                    color="#fff"
-                />
+
+                <Pressable onPress={back}>
+                    <Ionicons
+                        style={styles.arrowBack}
+                        name="arrow-back"
+                        size={32}
+                        color="#fff"
+                    />
+                </Pressable>
                 <View style={styles.searchBox}>
                     <Ionicons name="search" size={24} color="grey" />
                     <TextInput
@@ -129,12 +82,16 @@ const SearchUserScreen = () => {
                         value={search}
                     />
                     <Pressable onPress={clearSearch}>
-                        <MaterialIcons name="clear" size={24} color="grey" />
+                        <MaterialIcons
+                            name="clear"
+                            size={24}
+                            color="grey"
+                        />
                     </Pressable>
                 </View>
             </View>
             <FlatList
-                data={data.filter(user => user.name.toLowerCase().includes(search.toLowerCase())).sort((a, b) => compareByName(a, b))}
+                data={getSortedUsers()}
                 renderItem={renderUser}
                 keyExtractor={item => item.id.toString()}
             />

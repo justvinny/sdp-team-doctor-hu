@@ -25,6 +25,17 @@ const getAllPatients = async () => {
     }
 }
 
+const getUserById = async (id) => {
+    try {
+        const doc = await db.collection(COLLECTION_USERS)
+            .doc(id)
+            .get();
+        return doc.data();
+    } catch (error) {
+        return "Error getting user: " + error;
+    }
+}
+
 // Create operations.
 const createPatient = async (id, first, middle, last, isStaff) => {
     const newPatient = {
@@ -344,7 +355,8 @@ const deleteUser = async (userId) => {
 const firestoreService = {
     getAllStaff,
     getAllPatients,
-    addUser: createUser,
+    getUserById,
+    createUser,
     createPatient,
     createStaff,
     updateAbout,

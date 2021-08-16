@@ -1,22 +1,21 @@
-import firebase from "./firebase";
+import { auth } from "./firebaseConfig";
 
-const signUp = (email, password) => () => {
-    firebase.auth().createUserWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-            console.log(userCredential.user.email);
-        }).catch((error) => {
-            console.log(error.message);
-        });
+const signUp = async (email, password) => {
+    try {
+        const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+        return userCredential.user;
+    } catch (error) {
+        return console.log(error.message);
+    }
 }
 
-const signIn = (email, password) => () => {
-    firebase.auth().signInWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-            console.log(userCredential.user.email + " is logged in.");
-        })
-        .catch((error) => {
-            console.log(error.message);
-        });
+const signIn = async (email, password) => {
+    try {
+        const userCredential = await auth.signInWithEmailAndPassword(email, password);
+        return userCredential.user;
+    } catch (error) {
+        return console.log(error.message);
+    }
 }
 
 const authService = {

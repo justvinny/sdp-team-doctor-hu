@@ -7,7 +7,7 @@ const signUp = async (email, password, first, middle, last, isStaff) => {
         const id = userCredential.user.uid;
 
         let successfullyCreated;
-        if (newUser.isStaff) {
+        if (isStaff) {
             successfullyCreated = await firestoreService.createStaff(id, first, middle, last, isStaff);
         } else {
             successfullyCreated = await firestoreService.createPatient(id, first, middle, last, isStaff);

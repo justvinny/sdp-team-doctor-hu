@@ -4,6 +4,8 @@ import "firebase/firestore";
 import { LogBox } from "react-native";
 
 // Ignore setting a timer warning. 
+// Comment out this line when using the expo web as it crashes the app.
+// Works fine as is though when using expo android/IOS.
 LogBox.ignoreLogs(['Setting a timer']);
 
 // Initialize Firebase

@@ -6,8 +6,8 @@ import firestoreService from './firebase/firestoreService';
 
 export default function App() {
   const click = () => {
-    firestoreService.getUserById("hcXH0dAlb94Hnh83R1DH")
-      .then(data => console.log(data));
+    authService.signUp("test2@test2.co.nz", "123456", "Jada", "Gay", "Dude", false)
+      .then((msg) => alert(msg));
   }
 
   return (

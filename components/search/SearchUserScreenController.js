@@ -6,10 +6,12 @@ import SearchUserScreenView from "./SearchUserScreenView";
 const SearchUserScreenController = ({ navigation }) => {
     const [users, setUsers] = useState([]);
     const [search, setSearch] = useState("");
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         firestoreService.getAllStaff()
-            .then(data => setUsers(data));
+            .then(data => setUsers(data))
+            .then(() => setLoading(false));
     }, []);
 
     const renderUser = ({ item }) => {
@@ -61,6 +63,8 @@ const SearchUserScreenController = ({ navigation }) => {
             clearSearch={clearSearch}
             getSortedUsers={getSortedUsers}
             renderUser={renderUser}
+            loading={loading}
+            setLoading={setLoading}
         />
     )
 }

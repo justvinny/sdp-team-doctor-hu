@@ -88,7 +88,8 @@ const createStaff = async (id, first, middle, last, isStaff) => {
 const createUser = async (newUser) => {
     try {
         const docRef = await db.collection(COLLECTION_USERS)
-            .add(newUser);
+            .doc(newUser.id)
+            .set(newUser);
         return "User successfully added with " + docRef.id;
     } catch (error) {
         return "Error adding user: " + error;

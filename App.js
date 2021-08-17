@@ -21,7 +21,6 @@ export default function App() {
       </View >
     )
   }
-
   // Temporary to test navigation
   const Page = () => (
     <View style={styles.container}>

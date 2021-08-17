@@ -26,7 +26,6 @@ const styles = StyleSheet.create({
         paddingBottom: 16,
         borderBottomWidth: 1,
         borderBottomColor: "#F0F0F0",
-        alignSelf: "stretch"
     },
     viewProfileText: {
         color: "#0077cc"

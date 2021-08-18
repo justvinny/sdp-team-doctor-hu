@@ -12,7 +12,8 @@ const DirectMessageScreen = ({ navigation, route }) => {
     const [userMessages, setUserMessages] = useState([]);
     const authId = useContext(AuthContext);
     const name = route.params?.item?.name?.first;
-    
+    const id = route.params?.item?.id;
+
     useLayoutEffect(() => {
         navigation.setOptions({
             title: name
@@ -23,8 +24,12 @@ const DirectMessageScreen = ({ navigation, route }) => {
         const unsubscribe = firestoreService
             .getLiveMessages(authId)
             .onSnapshot(doc => {
-                if (doc.data())
-                    setUserMessages(doc.data().messages.reverse());
+                if (doc.data()) {
+                    const msgs = doc.data().messages
+                        .filter(msg => msg.sentTo === id || msg.sentBy === id)
+                        .reverse();
+                    setUserMessages(msgs);
+                }
             });
 
         return unsubscribe;

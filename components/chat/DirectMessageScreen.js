@@ -42,11 +42,13 @@ const DirectMessageScreen = ({ navigation, route }) => {
             timestamp: Date.now()
         }
 
-        clear();
+        if (inputMessage) {
+            clear();
 
-        // Record messages on both accounts involved.
-        firestoreService.addMessage(authId, newMessage);
-        firestoreService.addMessage(newMessage.sentTo, newMessage);
+            // Record messages on both accounts involved.
+            firestoreService.addMessage(authId, newMessage);
+            firestoreService.addMessage(newMessage.sentTo, newMessage);
+        }
     }
 
     return (

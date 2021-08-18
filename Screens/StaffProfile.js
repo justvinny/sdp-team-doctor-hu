@@ -1,7 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { Button, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { MaterialIcons } from '@expo/vector-icons';
 
 function ProfileInformation({label, placeholder, value, onChangeText, editable})
 {
@@ -12,8 +13,8 @@ function ProfileInformation({label, placeholder, value, onChangeText, editable})
         value={value}
         placeholder={placeholder}
         onChangeText={onChangeText}
-        style={styles.input}
         editable={editable}
+        style={styles.input}
       />
     </View>
   );
@@ -25,6 +26,20 @@ export default function StaffProfile() {
   const[lastName, setLastName] = useState('');
   const[enabled, setEnabled] = useState(false);
 
+  const doneIcon = (
+    <View style={{flexDirection: 'row'}}>
+      <MaterialIcons name="done" size={24} color="black" style={{ marginRight: 5 }}/>
+      <Text>Done</Text>
+    </View>
+  );
+
+  const editIcon = (
+    <View style={{ flexDirection: 'row', padding: 2}}>
+      <MaterialIcons name="edit" size={24} color="black" style={{ marginRight: 5 }}/>
+      <Text>Edit</Text>
+    </View>
+  )
+
   function editText() {
     enabled ? setEnabled(false) : setEnabled(true);
   }
@@ -34,13 +49,13 @@ export default function StaffProfile() {
         <View style={styles.container}>
           <StatusBar style="auto" />
 
-          <Button title={enabled? "Done" : "Edit Details"} onPress={editText}/>
-          <Pressable onPress={editText}>
-            <Text>{enabled ? "Done" : "Edit Details"}</Text>
-          </Pressable>
+          <TouchableOpacity style={styles.button} onPress={editText}>
+            <Text>{enabled ? doneIcon : editIcon}</Text>
+          </TouchableOpacity>
+
           <ProfileInformation
           label="First Name:"
-          placeholder="First Name" 
+          placeholder="First Name"
           value={firstName}
           onChangeText={setFirstName}
           editable={enabled}/>
@@ -64,6 +79,7 @@ export default function StaffProfile() {
   const styles = StyleSheet.create({
     container: {
       flex: 1,
+      flexDirection: 'column',
       backgroundColor: '#fff',
       alignItems: 'center',
       justifyContent: 'center',
@@ -79,8 +95,14 @@ export default function StaffProfile() {
       textAlign: 'right',
     },
     inputView: {
+      padding: 10,
       flexDirection: 'row',
       alignItems: 'center',
+    },
+    button: {
+      alignItems: 'center',
+      backgroundColor: '#DDDDDD',
       padding: 10,
+      borderRadius: 10,
     }
   });

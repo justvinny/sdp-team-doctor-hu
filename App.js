@@ -5,6 +5,7 @@ import React from 'react';
 import SearchUserScreenController from './components/search/SearchUserScreenController';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import StaffProfile from './Screens/StaffProfile';
 
 const Stack = createNativeStackNavigator();
 
@@ -15,6 +16,7 @@ export default function App() {
       <Text style={{ fontSize: 24, textAlign: "center", margin: 8 }}>Temporary Home Menu</Text>
       <Button onPress={() => navigation.navigate("Page")} title="Other Page" />
       <Button onPress={() => navigation.navigate("Search")} title="Search Page" />
+      <StaffProfile />
     </View >
   )
 

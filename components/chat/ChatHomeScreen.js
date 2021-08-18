@@ -58,7 +58,7 @@ const ChatHomeScreen = ({ navigation }) => {
     const renderPage = () => {
         if (loading) {
             return <ActivityIndicator size="large" color={colorDefaults.primary} style={styles.center} />
-        } else if (!loading && staff.length == 0) {
+        } else if (!loading && staff.length === 0) {
             return (
                 <>
                     <MaterialIcons name="message" size={50} color={colorDefaults.primary} style={styles.center} />

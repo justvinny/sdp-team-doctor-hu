@@ -15,14 +15,21 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   const [authUserId, setAuthUserId] = useState("");
+  const [loggedIn, setLoggedIn] = useState(false);
 
   // Temporary to test navigation
   const Home = ({ navigation }) => (
     <View style={styles.container} >
       <Text style={{ fontSize: 24, textAlign: "center", margin: 8 }}>Temporary Home Menu</Text>
-      <Button color={colorDefaults.primary} onPress={() => navigation.navigate("Page")} title="Other Page" />
-      <Button color={colorDefaults.primary} onPress={() => navigation.navigate("Search")} title="Search Page" />
-      <Button color={colorDefaults.primary} onPress={() => navigation.navigate("ChatHome")} title="Message Staff" />
+      {
+        (loggedIn)
+          ? <>
+            <Button color={colorDefaults.primary} onPress={() => navigation.navigate("Page")} title="Other Page" />
+            <Button color={colorDefaults.primary} onPress={() => navigation.navigate("Search")} title="Search Page" />
+            <Button color={colorDefaults.primary} onPress={() => navigation.navigate("ChatHome")} title="Message Staff" />
+          </>
+          : <></>
+      }
     </View >
   )
 
@@ -50,6 +57,9 @@ export default function App() {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
         setAuthUserId(user.uid);
+        setLoggedIn(true);
+      } else {
+        setLoggedIn(false);
       }
     })
 
@@ -72,11 +82,17 @@ export default function App() {
             animation: "slide_from_left"
           }}
         >
+          {
+            (loggedIn)
+              ? <>
+                <Stack.Screen component={Page} name="Page" />
+                <Stack.Screen component={SearchUserScreenController} name="Search" />
+                <Stack.Screen component={ChatHomeScreen} name="ChatHome" />
+                <Stack.Screen component={DirectMessageScreen} name="DirectMessage" />
+              </>
+              : <></>
+          }
           <Stack.Screen component={Home} name="Home" />
-          <Stack.Screen component={Page} name="Page" />
-          <Stack.Screen component={SearchUserScreenController} name="Search" />
-          <Stack.Screen component={ChatHomeScreen} name="ChatHome" />
-          <Stack.Screen component={DirectMessageScreen} name="DirectMessage" />
         </Stack.Navigator>
         <StatusBar style="light" />
       </NavigationContainer>

@@ -53,24 +53,26 @@ export default function StaffProfile() {
             <Text>{enabled ? doneIcon : editIcon}</Text>
           </TouchableOpacity>
 
-          <ProfileInformation
-          label="First Name:"
-          placeholder="First Name"
-          value={firstName}
-          onChangeText={setFirstName}
-          editable={enabled}/>
-          <ProfileInformation
-          label="Middle Name:"
-          placeholder="Middle Name"
-          value={middleName}
-          onChangeText={setMiddleName}
-          editable={enabled}/>
-          <ProfileInformation
-          label="Last Name:"
-          placeholder="Last Name"
-          value={lastName}
-          onChangeText={setLastName}
-          editable={enabled}/>
+          <View style={styles.profiles}>
+            <ProfileInformation
+            label="First Name:"
+            placeholder="First Name"
+            value={firstName}
+            onChangeText={setFirstName}
+            editable={enabled}/>
+            <ProfileInformation
+            label="Middle Name:"
+            placeholder="Middle Name"
+            value={middleName}
+            onChangeText={setMiddleName}
+            editable={enabled}/>
+            <ProfileInformation
+            label="Last Name:"
+            placeholder="Last Name"
+            value={lastName}
+            onChangeText={setLastName}
+            editable={enabled}/>
+          </View>
         </View>
     </SafeAreaProvider>
     );
@@ -80,8 +82,13 @@ export default function StaffProfile() {
     container: {
       flex: 1,
       flexDirection: 'column',
-      backgroundColor: '#fff',
+      backgroundColor: '#eef1fa',
       alignItems: 'center',
+      justifyContent: 'center',
+    },
+    profiles: {
+      flex: 1,
+      flexDirection: 'column',
       justifyContent: 'center',
     },
     input: {
@@ -93,6 +100,7 @@ export default function StaffProfile() {
     text: {
       marginRight: 10,
       textAlign: 'right',
+      width: 100,
     },
     inputView: {
       padding: 10,

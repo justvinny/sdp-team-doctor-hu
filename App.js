@@ -16,7 +16,7 @@ export default function App() {
       <Text style={{ fontSize: 24, textAlign: "center", margin: 8 }}>Temporary Home Menu</Text>
       <Button onPress={() => navigation.navigate("Page")} title="Other Page" />
       <Button onPress={() => navigation.navigate("Search")} title="Search Page" />
-      <StaffProfile />
+      <Button onPress={() => navigation.navigate("StaffProfile")} title="Staff Page" />
     </View >
   )
 
@@ -43,6 +43,7 @@ export default function App() {
       >
         <Stack.Screen component={Home} name="Home" />
         <Stack.Screen component={Page} name="Page" />
+        <Stack.Screen component={StaffProfile} name="StaffProfile" />
         <Stack.Screen component={SearchUserScreenController} name="Search" />
       </Stack.Navigator>
       <StatusBar style="light" />

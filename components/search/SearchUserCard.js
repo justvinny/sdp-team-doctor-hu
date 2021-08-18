@@ -1,13 +1,15 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { Text, StyleSheet, TouchableOpacity } from "react-native";
 import colorDefaults from "../../theme/colorDefaults";
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 
-const SearchUserCard = ({ item, type }) => {
-    const fullName = (item.name.middle)
-        ? `${item.name.first} ${item.name.middle} ${item.name.last}`
-        : `${item.name.first} ${item.name.last}`;
+const SearchUserCard = ({ navigation, item, type }) => {
+    const { name } = item;
+
+    const fullName = (name.middle)
+        ? `${name.first} ${name.middle} ${name.last}`
+        : `${name.first} ${name.last}`;
 
     const getSearchType = () => {
         switch (type) {
@@ -21,7 +23,7 @@ const SearchUserCard = ({ item, type }) => {
     const getAction = () => {
         switch (type) {
             case "chat":
-                console.log("Chat action " + fullName);
+                navigation.replace("DirectMessage", { item })
                 break;
             default:
                 console.log("View profile action." + fullName);
@@ -48,8 +50,5 @@ const styles = StyleSheet.create({
         paddingBottom: 16,
         borderBottomWidth: 1,
         borderBottomColor: colorDefaults.bottomBorderColor,
-    },
-    viewProfileText: {
-        color: "#0077cc"
     }
 });

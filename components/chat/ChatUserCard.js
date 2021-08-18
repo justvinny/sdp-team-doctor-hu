@@ -4,9 +4,11 @@ import { FontAwesome } from '@expo/vector-icons';
 import colorDefaults from "../../theme/colorDefaults";
 import dateUtility from "../../utilities/dateUtility";
 
-const ChatUserCard = ({ name, messages }) => {
+const ChatUserCard = ({ item, navigation }) => {
+    const { name, messages } = item;
+
     const latestMessage = (messages.length > 0)
-        ? messages.sort((a, b) => a.timestamp - b.timestamp)[0]
+        ? messages.sort((a, b) => a.timestamp - b.timestamp).reverse()[0]
         : undefined;
 
     const fullName = (name.middle)
@@ -20,14 +22,18 @@ const ChatUserCard = ({ name, messages }) => {
     const getLatestDate = (latestMessage)
         ? dateUtility.getFormattedDayNow(new Date(latestMessage.timestamp))
         : "-";
+        
+    const messageUser = () => {
+        navigation.navigate("DirectMessage", { item });
+    }
 
     return (
-        <TouchableOpacity style={styles.userContainer} activeOpacity={0.5}>
+        <TouchableOpacity style={styles.userContainer} activeOpacity={0.5} onPress={messageUser}>
             <View style={styles.leftContainer}>
                 <FontAwesome name="user-circle" size={32} color={colorDefaults.primary} />
                 <View style={styles.middleContainer}>
                     <Text style={styles.name}>{fullName}</Text>
-                    <Text style={styles.subText}>{getLatestMessage}</Text>
+                    <Text style={styles.subText} numberOfLines={1}>{getLatestMessage}</Text>
                 </View>
             </View>
             <Text style={[styles.date, styles.subText]}>{getLatestDate}</Text>
@@ -41,9 +47,9 @@ const styles = StyleSheet.create({
     userContainer: {
         display: "flex",
         flexDirection: "row",
-        justifyContent: "space-between",
+        justifyContent: "flex-start",
         alignItems: "center",
-        width: "100%",
+        alignSelf: "stretch",
         padding: 12,
         paddingTop: 16,
         paddingBottom: 16,
@@ -52,13 +58,14 @@ const styles = StyleSheet.create({
 
     },
     leftContainer: {
-        display: "flex",
+        flex: 1,
         flexDirection: "row",
         justifyContent: "flex-start",
         alignItems: "center"
     },
     middleContainer: {
-        marginLeft: 8
+        marginLeft: 8,
+        marginRight: 8
     },
     name: {
         fontWeight: "bold"

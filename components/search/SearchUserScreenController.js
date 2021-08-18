@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import SearchUserCard from "./SearchUserCard";
+import React, { useContext, useEffect, useState } from "react";
 import firestoreService from "../../firebase/firestoreService";
+import AuthContext from "../AuthContext";
 import SearchUserScreenView from "./SearchUserScreenView";
 
 const SearchUserScreenController = ({ navigation, route }) => {
@@ -9,6 +9,7 @@ const SearchUserScreenController = ({ navigation, route }) => {
     const [loading, setLoading] = useState(true);
 
     const type = (route.params) ? route.params.type : "none";
+    const authId = useContext(AuthContext);
 
     useEffect(() => {
         firestoreService.getAllStaff()
@@ -16,12 +17,9 @@ const SearchUserScreenController = ({ navigation, route }) => {
             .then(() => setLoading(false));
     }, []);
 
-    const renderUser = ({ item }) => {
-        return (item) ? <SearchUserCard item={item} type={type}/> : <></>;
-    }
-
     const getSortedUsers = () => {
         return users.filter(user => {
+            if (authId == user.id) return false;
             const fullName = getFullName(user);
 
             return fullName.toLowerCase().includes(search.toLowerCase());
@@ -60,11 +58,11 @@ const SearchUserScreenController = ({ navigation, route }) => {
 
     return (
         <SearchUserScreenView
+            navigation={navigation}
             search={search}
             setSearch={setSearch}
             clearSearch={clearSearch}
             getSortedUsers={getSortedUsers}
-            renderUser={renderUser}
             loading={loading}
             setLoading={setLoading}
             type={type}

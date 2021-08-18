@@ -1,13 +1,18 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
-import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
+import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
+import { View, StyleSheet, TouchableOpacity, ActivityIndicator, Text } from "react-native";
 import { AntDesign } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 import ChatUserCard from "./ChatUserCard";
 import { FlatList } from "react-native-gesture-handler";
 import firestoreService from "../../firebase/firestoreService";
+import colorDefaults from "../../theme/colorDefaults";
+import AuthContext from "../AuthContext";
 
 const ChatHomeScreen = ({ navigation }) => {
 
-    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [staff, setStaff] = useState([]);
+    const authId = useContext(AuthContext);
 
     const openSearch = () => {
         navigation.navigate("Search", {
@@ -15,10 +20,28 @@ const ChatHomeScreen = ({ navigation }) => {
         });
     }
 
+    // Realtime staff data from firestore.
+    // Only grab staff that have messages related to logged in user.
     useEffect(() => {
-        firestoreService
-            .getAllStaff()
-            .then(data => setData(data));
+        const unsubscribe = firestoreService
+            .getAllStaffLive()
+            .onSnapshot((querySnapshot) => {
+                const staffWithMessage = querySnapshot.docs.map(doc => doc.data())
+                    .filter(staff => {
+                        if (staff.messages.length === 0) {
+                            return false;
+                        } else if (staff.id === authId) {
+                            return false;
+                        }
+
+                        return staff.messages.find(message => message.sentTo === authId
+                            || message.sentBy === authId);
+                    });
+                setStaff(staffWithMessage);
+                setLoading(false);
+            });
+
+        return unsubscribe;
     }, []);
 
     useLayoutEffect(() => {
@@ -32,13 +55,31 @@ const ChatHomeScreen = ({ navigation }) => {
         });
     }, [navigation]);
 
-    return (
-        <View>
+    const renderPage = () => {
+        if (loading) {
+            return <ActivityIndicator size="large" color={colorDefaults.primary} style={styles.center} />
+        } else if (!loading && staff.length == 0) {
+            return (
+                <>
+                    <MaterialIcons name="message" size={50} color={colorDefaults.primary} style={styles.center} />
+                    <Text style={styles.noMsgTxt}>No messages</Text>
+                </>
+            )
+        }
+
+        return (
             <FlatList
-                data={data}
-                renderItem={({ item }) => <ChatUserCard name={item.name} messages={item.messages} />}
+                data={staff}
+                renderItem={({ item }) => <ChatUserCard item={item} navigation={navigation} />}
                 keyExtractor={(item) => item?.id}
+                style={styles.flatList}
             />
+        )
+    }
+
+    return (
+        <View style={styles.container}>
+            {renderPage()}
         </View>
     )
 }
@@ -49,6 +90,18 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: "flex-start",
-        alignContent: "center"
+        alignItems: "center"
+    },
+    center: {
+        marginTop: "60%"
+    },
+    noMsgTxt: {
+        fontWeight: "bold",
+        fontSize: 20,
+        color: colorDefaults.primary
+    },
+    flatList: {
+        flex: 1,
+        alignSelf: "stretch"
     }
 });

@@ -1,10 +1,11 @@
-import 'react-native-gesture-handler';
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import SearchUserScreenController from './components/search/SearchUserScreenController';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import SearchUserScreenController from './components/search/SearchUserScreenController';
+import ChatHomeScreen from './components/chat/ChatHomeScreen';
+import colorDefaults from './theme/colorDefaults';
 
 const Stack = createNativeStackNavigator();
 
@@ -13,8 +14,9 @@ export default function App() {
   const Home = ({ navigation }) => (
     <View style={styles.container} >
       <Text style={{ fontSize: 24, textAlign: "center", margin: 8 }}>Temporary Home Menu</Text>
-      <Button onPress={() => navigation.navigate("Page")} title="Other Page" />
-      <Button onPress={() => navigation.navigate("Search")} title="Search Page" />
+      <Button color={colorDefaults.primary} onPress={() => navigation.navigate("Page")} title="Other Page" />
+      <Button color={colorDefaults.primary} onPress={() => navigation.navigate("Search")} title="Search Page" />
+      <Button color={colorDefaults.primary} onPress={() => navigation.navigate("ChatHome")} title="Message Staff" />
     </View >
   )
 
@@ -29,7 +31,7 @@ export default function App() {
       <Stack.Navigator
         screenOptions={{
           headerStyle: {
-            backgroundColor: "grey"
+            backgroundColor: colorDefaults.primary
           },
           headerTitleStyle: {
             color: "#fff"
@@ -42,6 +44,7 @@ export default function App() {
         <Stack.Screen component={Home} name="Home" />
         <Stack.Screen component={Page} name="Page" />
         <Stack.Screen component={SearchUserScreenController} name="Search" />
+        <Stack.Screen component={ChatHomeScreen} name="ChatHome" />
       </Stack.Navigator>
       <StatusBar style="light" />
     </NavigationContainer>

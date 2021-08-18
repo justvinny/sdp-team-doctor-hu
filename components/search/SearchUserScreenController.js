@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import UserCard from "./UserCard";
+import SearchUserCard from "./SearchUserCard";
 import firestoreService from "../../firebase/firestoreService";
 import SearchUserScreenView from "./SearchUserScreenView";
 
@@ -15,7 +15,7 @@ const SearchUserScreenController = ({ navigation }) => {
     }, []);
 
     const renderUser = ({ item }) => {
-        return (item.name) ? <UserCard name={item.name} /> : <></>;
+        return (item.name) ? <SearchUserCard name={item.name} /> : <></>;
     }
 
     const getSortedUsers = () => {

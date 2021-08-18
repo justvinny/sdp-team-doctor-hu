@@ -2,6 +2,7 @@ import React from "react";
 import { View, TextInput, StyleSheet, Pressable } from "react-native";
 import { Ionicons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
+import colorDefaults from "../../theme/colorDefaults";
 
 const SearchBox = ({search, setSearch, clearSearch}) => {
 
@@ -40,7 +41,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "flex-start",
         alignItems: "flex-end",
-        backgroundColor: "grey"
+        backgroundColor: colorDefaults.primary
     },
     searchBox: {
         flex: 1,

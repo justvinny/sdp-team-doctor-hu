@@ -2,7 +2,7 @@ import React from "react";
 import { View, FlatList, StyleSheet, ActivityIndicator, Text } from "react-native";
 import SearchBox from "./SearchBox";
 
-const SearchUserScreenView = ({ search, setSearch, clearSearch, getSortedUsers, renderUser, loading, setLoading }) => (
+const SearchUserScreenView = ({ search, setSearch, clearSearch, getSortedUsers, renderUser, loading, setLoading, type }) => (
     < View style={styles.container} >
         <SearchBox
             search={search}

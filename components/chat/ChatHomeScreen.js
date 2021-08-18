@@ -9,6 +9,12 @@ const ChatHomeScreen = ({ navigation }) => {
 
     const [data, setData] = useState([]);
 
+    const openSearch = () => {
+        navigation.navigate("Search", {
+            type: "chat"
+        });
+    }
+
     useEffect(() => {
         firestoreService
             .getAllStaff()
@@ -19,7 +25,7 @@ const ChatHomeScreen = ({ navigation }) => {
         navigation.setOptions({
             title: "Messages",
             headerRight: () => (
-                <TouchableOpacity activeOpacity={0.5}>
+                <TouchableOpacity activeOpacity={0.5} onPress={openSearch}>
                     <AntDesign name="adduser" size={24} color="#fff" />
                 </TouchableOpacity>
             )

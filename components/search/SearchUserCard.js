@@ -1,17 +1,38 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import colorDefaults from "../../theme/colorDefaults";
+import { AntDesign } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 
-const SearchUserCard = ({ name }) => {
-    const fullName = (name.middle)
-        ? name.first + " " + name.middle + " " + name.last
-        : name.first + " " + name.last;
+const SearchUserCard = ({ item, type }) => {
+    const fullName = (item.name.middle)
+        ? `${item.name.first} ${item.name.middle} ${item.name.last}`
+        : `${item.name.first} ${item.name.last}`;
+
+    const getSearchType = () => {
+        switch (type) {
+            case "chat":
+                return <AntDesign name="message1" size={24} color={colorDefaults.primary} />
+            default:
+                return <MaterialIcons name="person-search" size={24} color={colorDefaults.primary} />
+        }
+    }
+
+    const getAction = () => {
+        switch (type) {
+            case "chat":
+                console.log("Chat action " + fullName);
+                break;
+            default:
+                console.log("View profile action." + fullName);
+        }
+    }
 
     return (
-        <View style={styles.container}>
+        <TouchableOpacity style={styles.container} activeOpacity={0.5} onPress={getAction}>
             <Text>{fullName}</Text>
-            <Text style={styles.viewProfileText}>View Profile</Text>
-        </View>
+            {getSearchType()}
+        </TouchableOpacity>
     )
 }
 

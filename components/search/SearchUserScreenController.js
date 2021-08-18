@@ -3,10 +3,12 @@ import SearchUserCard from "./SearchUserCard";
 import firestoreService from "../../firebase/firestoreService";
 import SearchUserScreenView from "./SearchUserScreenView";
 
-const SearchUserScreenController = ({ navigation }) => {
+const SearchUserScreenController = ({ navigation, route }) => {
     const [users, setUsers] = useState([]);
     const [search, setSearch] = useState("");
     const [loading, setLoading] = useState(true);
+
+    const type = (route.params) ? route.params.type : "none";
 
     useEffect(() => {
         firestoreService.getAllStaff()
@@ -15,7 +17,7 @@ const SearchUserScreenController = ({ navigation }) => {
     }, []);
 
     const renderUser = ({ item }) => {
-        return (item.name) ? <SearchUserCard name={item.name} /> : <></>;
+        return (item) ? <SearchUserCard item={item} type={type}/> : <></>;
     }
 
     const getSortedUsers = () => {
@@ -65,6 +67,7 @@ const SearchUserScreenController = ({ navigation }) => {
             renderUser={renderUser}
             loading={loading}
             setLoading={setLoading}
+            type={type}
         />
     )
 }

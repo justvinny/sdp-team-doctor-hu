@@ -27,14 +27,14 @@ export default function StaffProfile() {
   const[enabled, setEnabled] = useState(false);
 
   const doneIcon = (
-    <View style={{flexDirection: 'row'}}>
+    <View style={styles.icon}>
       <MaterialIcons name="done" size={24} color="black" style={{ marginRight: 5 }}/>
       <Text>Done</Text>
     </View>
   );
 
   const editIcon = (
-    <View style={{ flexDirection: 'row', padding: 2}}>
+    <View style={styles.icon}>
       <MaterialIcons name="edit" size={24} color="black" style={{ marginRight: 5 }}/>
       <Text>Edit</Text>
     </View>
@@ -84,12 +84,20 @@ export default function StaffProfile() {
       flexDirection: 'column',
       backgroundColor: '#eef1fa',
       alignItems: 'center',
+      justifyContent: 'space-between',
+      padding: 10,
+    },
+    icon: {
+      flexDirection: 'row',
       justifyContent: 'center',
+      alignItems: 'center',
     },
     profiles: {
       flex: 1,
       flexDirection: 'column',
       justifyContent: 'center',
+      borderRadius: 10,
+      backgroundColor: 'white',
     },
     input: {
       borderColor: 'black',
@@ -100,16 +108,17 @@ export default function StaffProfile() {
     text: {
       marginRight: 10,
       textAlign: 'right',
-      width: 100,
+      width: 120,
     },
     inputView: {
       padding: 10,
       flexDirection: 'row',
       alignItems: 'center',
+      backgroundColor: 'white',
     },
     button: {
       alignItems: 'center',
-      backgroundColor: '#DDDDDD',
+      backgroundColor: '#d3d3d3',
       padding: 10,
       borderRadius: 10,
     }

@@ -1,7 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { StyleSheet, Image, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
 function ProfileInformation({label, placeholder, value, onChangeText, editable})
@@ -38,20 +37,22 @@ export default function StaffProfile() {
       <MaterialIcons name="edit" size={24} color="black" style={{ marginRight: 5 }}/>
       <Text>Edit</Text>
     </View>
-  )
+  );
 
   function editText() {
     enabled ? setEnabled(false) : setEnabled(true);
-  }
+  };
 
+ const ProfileName = (
+  <View style={styles.name}>
+    <Text>{firstName + " " + middleName + " " + lastName}</Text>
+  </View>
+ );
   return (
-    <SafeAreaProvider>
         <View style={styles.container}>
           <StatusBar style="auto" />
 
-          <TouchableOpacity style={styles.button} onPress={editText}>
-            <Text>{enabled ? doneIcon : editIcon}</Text>
-          </TouchableOpacity>
+          {ProfileName}
 
           <View style={styles.profiles}>
             <ProfileInformation
@@ -73,8 +74,13 @@ export default function StaffProfile() {
             onChangeText={setLastName}
             editable={enabled}/>
           </View>
+
+          <View>
+            <TouchableOpacity style={styles.button} onPress={editText}>
+              <Text>{enabled ? doneIcon : editIcon}</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-    </SafeAreaProvider>
     );
   }
   
@@ -97,13 +103,13 @@ export default function StaffProfile() {
       flexDirection: 'column',
       justifyContent: 'center',
       borderRadius: 10,
-      backgroundColor: 'white',
     },
     input: {
       borderColor: 'black',
       borderWidth: 0.5,
       padding: 5,
       width: 200,
+      height: 40,
     },
     text: {
       marginRight: 10,
@@ -114,12 +120,14 @@ export default function StaffProfile() {
       padding: 10,
       flexDirection: 'row',
       alignItems: 'center',
-      backgroundColor: 'white',
+      margin: 5,
+      backgroundColor: '#d3d3d3',
     },
     button: {
       alignItems: 'center',
       backgroundColor: '#d3d3d3',
       padding: 10,
       borderRadius: 10,
+      marginBottom: 80,
     }
   });

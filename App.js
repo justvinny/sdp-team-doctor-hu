@@ -29,7 +29,7 @@ export default function App() {
   // Temporary to test navigation
   const Page = () => {
     const signUp = () => {
-      authService.signUp("test@co.nz", "123456", "Steph", "", "Curry", true)
+      authService.signUp("test3@co.nz", "123456", "Luka", "", "Doncic", true)
         .then(msg => console.log(msg));
     }
 
@@ -42,7 +42,8 @@ export default function App() {
   }
 
   useEffect(() => {
-    authService.signIn("test1@co.nz", "123456");
+    authService.signIn("test1@co.nz", "123456")
+      .then(user => console.log("Logged in user id: " + user.uid));
   }, []);
 
   useEffect(() => {

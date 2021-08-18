@@ -1,14 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { FontAwesome } from '@expo/vector-icons';
 import colorDefaults from "../../theme/colorDefaults";
 import dateUtility from "../../utilities/dateUtility";
+import AuthContext from "../AuthContext";
 
 const ChatUserCard = ({ item, navigation }) => {
     const { name, messages } = item;
+    const authId = useContext(AuthContext);
 
     const latestMessage = (messages.length > 0)
-        ? messages.sort((a, b) => a.timestamp - b.timestamp).reverse()[0]
+        ? messages.sort((a, b) => a.timestamp - b.timestamp)
+            .filter(msg => msg.sentBy === authId || msg.sentTo === authId)
+            .reverse()[0]
         : undefined;
 
     const fullName = (name.middle)
@@ -22,7 +26,7 @@ const ChatUserCard = ({ item, navigation }) => {
     const getLatestDate = (latestMessage)
         ? dateUtility.getFormattedDayNow(new Date(latestMessage.timestamp))
         : "-";
-        
+
     const messageUser = () => {
         navigation.navigate("DirectMessage", { item });
     }
@@ -64,6 +68,7 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     middleContainer: {
+        flex: 1,
         marginLeft: 8,
         marginRight: 8
     },

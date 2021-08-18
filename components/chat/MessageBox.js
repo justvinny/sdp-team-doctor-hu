@@ -23,7 +23,8 @@ const styles = StyleSheet.create({
         justifyContent: "flex-start",
         alignItems: "flex-end",
         alignSelf: "flex-end",
-        marginBottom: 12
+        marginBottom: 12,
+        maxWidth: "80%"
     },
     textYou: {
         color: "white",
@@ -37,7 +38,8 @@ const styles = StyleSheet.create({
         justifyContent: "flex-start",
         alignItems: "flex-start",
         alignSelf: "flex-start",
-        marginBottom: 12
+        marginBottom: 12,
+        maxWidth: "80%"
     },
     textOther: {
         padding: 12,

@@ -134,6 +134,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     margin: 5,
     backgroundColor: '#d3d3d3',
+    borderRadius: 10,
   },
   button: {
     alignItems: 'center',

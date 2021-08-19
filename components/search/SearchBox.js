@@ -1,14 +1,15 @@
 import React from "react";
-import { View, TextInput, StyleSheet, Pressable } from "react-native";
+import { View, TextInput, StyleSheet, TouchableOpacity } from "react-native";
 import { Ionicons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
+import colorDefaults from "../../theme/colorDefaults";
 
 const SearchBox = ({search, setSearch, clearSearch}) => {
 
     return (
         <View style={styles.container}>
             <View style={styles.searchBox}>
-                <Ionicons name="search" size={24} color="black" />
+                <Ionicons name="search" size={24} color={colorDefaults.primary} />
                 <TextInput
                     style={styles.searchInput}
                     placeholder="Search User"
@@ -16,13 +17,13 @@ const SearchBox = ({search, setSearch, clearSearch}) => {
                     value={search}
                 />
                 {(search.length > 0)
-                    ? <Pressable onPress={clearSearch}>
+                    ? <TouchableOpacity onPress={clearSearch} activeOpacity={0.5}>
                         <MaterialIcons
                             name="clear"
                             size={24}
-                            color="black"
+                            color={colorDefaults.primary}
                         />
-                    </Pressable>
+                    </TouchableOpacity>
                     : <></>
                 }
             </View>
@@ -40,7 +41,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "flex-start",
         alignItems: "flex-end",
-        backgroundColor: "grey"
+        backgroundColor: colorDefaults.primary
     },
     searchBox: {
         flex: 1,

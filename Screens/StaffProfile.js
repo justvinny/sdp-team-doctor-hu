@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Image, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
 function ProfileInformation({ label, placeholder, value, onChangeText, editable }) {
@@ -24,13 +24,23 @@ export default function StaffProfile() {
   const [lastName, setLastName] = useState('');
   const [enabled, setEnabled] = useState(false);
 
+  function editText() {
+    enabled ? setEnabled(false) : setEnabled(true);
+  };
+
+  const ProfileName = (
+    <View>
+      <Text style={styles.name}>{firstName + " " + lastName}</Text>
+    </View>
+  );
+
   const doneIcon = (
     <View style={styles.icon}>
       <MaterialIcons name="done" size={24} color="black" style={{ marginRight: 5 }} />
       <Text>Done</Text>
     </View>
   );
-
+  
   const editIcon = (
     <View style={styles.icon}>
       <MaterialIcons name="edit" size={24} color="black" style={{ marginRight: 5 }} />
@@ -38,19 +48,12 @@ export default function StaffProfile() {
     </View>
   );
 
-  function editText() {
-    enabled ? setEnabled(false) : setEnabled(true);
-  };
-
-  const ProfileName = (
-    <View style={styles.name}>
-      <Text>{firstName + " " + lastName}</Text>
-    </View>
-  );
 
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
+
+      <Image style={styles.image} source={require('../assets/icon.png')} />
 
       {ProfileName}
 
@@ -93,6 +96,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     padding: 10,
   },
+  image: {
+    width: 200,
+    height: 200,
+    marginBottom: 20,
+  },
   icon: {
     flexDirection: 'row',
     justifyContent: 'center',
@@ -129,5 +137,9 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
     marginBottom: 80,
-  }
+  },
+  name: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
 });

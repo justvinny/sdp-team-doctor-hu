@@ -19,9 +19,9 @@ function ProfileInformation({ label, placeholder, value, onChangeText, editable 
 }
 
 export default function StaffProfile() {
-  const [firstName, setFirstName] = useState('');
+  const [firstName, setFirstName] = useState('John');
   const [middleName, setMiddleName] = useState('');
-  const [lastName, setLastName] = useState('');
+  const [lastName, setLastName] = useState('Doe');
   const [enabled, setEnabled] = useState(false);
 
   function editText() {
@@ -100,6 +100,10 @@ const styles = StyleSheet.create({
     width: 200,
     height: 200,
     marginBottom: 20,
+    marginTop: 20,
+    borderRadius:100,
+    borderColor: 'black',
+    borderWidth: 2,
   },
   icon: {
     flexDirection: 'row',

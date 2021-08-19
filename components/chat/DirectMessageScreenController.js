@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 import firestoreService from "../../firebase/firestoreService";
 import AuthContext from "../AuthContext";
 import Staff from "../../models/Staff";
-import DirectMessageScreenView from "./DIrectMessageScreenView";
+import DirectMessageScreenView from "./DirectMessageScreenView";
 
 const DirectMessageScreenController = ({ navigation, route }) => {
     // States

@@ -22,7 +22,7 @@ const SearchUserScreenView = ({ navigation, search, setSearch, clearSearch, getS
         return (
             <FlatList
                 data={getSortedUsers()}
-                renderItem={({item}) => <SearchUserCard navigation={navigation} item={item} type={type}/>}
+                renderItem={({item}) => <SearchUserCard navigation={navigation} user={item} type={type}/>}
                 keyExtractor={item => item.id.toString()}
                 style={styles.flatList}
             />
@@ -47,7 +47,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: "flex-start",
-        alignItems: "center"
+        alignItems: "center",
+        backgroundColor: colorDefaults.backDropColor
     },
     center: {
         marginTop: "40%"
@@ -59,6 +60,7 @@ const styles = StyleSheet.create({
     },
     flatList: {
         flex: 1,
-        alignSelf: "stretch"
+        alignSelf: "stretch",
+        backgroundColor: colorDefaults.backDropColor
     }
 });

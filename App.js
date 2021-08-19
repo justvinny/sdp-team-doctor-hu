@@ -4,9 +4,9 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SearchUserScreenController from './components/search/SearchUserScreenController';
-import ChatHomeScreen from './components/chat/ChatHomeScreen';
+import ChatHomeScreenController from './components/chat/ChatHomeScreenController';
 import colorDefaults from './theme/colorDefaults';
-import DirectMessageScreen from './components/chat/DirectMessageScreen';
+import DirectMessageScreenController from './components/chat/DirectMessageScreenController';
 import authService from './firebase/authService'
 import AuthContext from "./components/AuthContext";
 import { auth } from './firebase/firebaseConfig';
@@ -14,6 +14,7 @@ import { auth } from './firebase/firebaseConfig';
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  // Authentication states
   const [authUserId, setAuthUserId] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
 
@@ -48,11 +49,13 @@ export default function App() {
     )
   }
 
+  // Test sign in method.
   useEffect(() => {
     authService.signIn("test1@co.nz", "123456")
       .then(user => console.log("Logged in user id: " + user.uid));
   }, []);
 
+  // Watch authentication state: check if a user is already signed in.
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
@@ -82,17 +85,17 @@ export default function App() {
             animation: "slide_from_left"
           }}
         >
+          <Stack.Screen component={Home} name="Home" />
           {
             (loggedIn)
               ? <>
                 <Stack.Screen component={Page} name="Page" />
                 <Stack.Screen component={SearchUserScreenController} name="Search" />
-                <Stack.Screen component={ChatHomeScreen} name="ChatHome" />
-                <Stack.Screen component={DirectMessageScreen} name="DirectMessage" />
+                <Stack.Screen component={ChatHomeScreenController} name="ChatHome" />
+                <Stack.Screen component={DirectMessageScreenController} name="DirectMessage" />
               </>
               : <></>
           }
-          <Stack.Screen component={Home} name="Home" />
         </Stack.Navigator>
         <StatusBar style="light" />
       </NavigationContainer>
@@ -104,7 +107,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: colorDefaults.backDropColor,
     alignItems: 'stretch',
     justifyContent: 'flex-start',
   },

@@ -1,49 +1,13 @@
-import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
+import React, { useLayoutEffect } from "react";
 import { View, StyleSheet, TouchableOpacity, ActivityIndicator, Text } from "react-native";
-import { AntDesign } from '@expo/vector-icons';
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons, AntDesign } from '@expo/vector-icons';
 import ChatUserCard from "./ChatUserCard";
 import { FlatList } from "react-native-gesture-handler";
-import firestoreService from "../../firebase/firestoreService";
 import colorDefaults from "../../theme/colorDefaults";
-import AuthContext from "../AuthContext";
 
-const ChatHomeScreen = ({ navigation }) => {
+const ChatHomeScreenView = ({ navigation, loading, staff, openSearch, messageUser }) => {
 
-    const [loading, setLoading] = useState(true);
-    const [staff, setStaff] = useState([]);
-    const authId = useContext(AuthContext);
-
-    const openSearch = () => {
-        navigation.navigate("Search", {
-            type: "chat"
-        });
-    }
-
-    // Realtime staff data from firestore.
-    // Only grab staff that have messages related to logged in user.
-    useEffect(() => {
-        const unsubscribe = firestoreService
-            .getAllStaffLive()
-            .onSnapshot((querySnapshot) => {
-                const staffWithMessage = querySnapshot.docs.map(doc => doc.data())
-                    .filter(staff => {
-                        if (staff.messages.length === 0) {
-                            return false;
-                        } else if (staff.id === authId) {
-                            return false;
-                        }
-
-                        return staff.messages.find(message => message.sentTo === authId
-                            || message.sentBy === authId);
-                    });
-                setStaff(staffWithMessage);
-                setLoading(false);
-            });
-
-        return unsubscribe;
-    }, []);
-
+    // Modify app header.
     useLayoutEffect(() => {
         navigation.setOptions({
             title: "Messages",
@@ -55,6 +19,7 @@ const ChatHomeScreen = ({ navigation }) => {
         });
     }, [navigation]);
 
+    // Conditionally render between loading, empty, and not empty.
     const renderPage = () => {
         if (loading) {
             return <ActivityIndicator size="large" color={colorDefaults.primary} style={styles.center} />
@@ -70,7 +35,7 @@ const ChatHomeScreen = ({ navigation }) => {
         return (
             <FlatList
                 data={staff}
-                renderItem={({ item }) => <ChatUserCard item={item} navigation={navigation} />}
+                renderItem={({ item }) => <ChatUserCard user={item} messageUser={messageUser}/>}
                 keyExtractor={(item) => item?.id}
                 style={styles.flatList}
             />
@@ -84,13 +49,14 @@ const ChatHomeScreen = ({ navigation }) => {
     )
 }
 
-export default ChatHomeScreen;
+export default ChatHomeScreenView;
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: "flex-start",
-        alignItems: "center"
+        alignItems: "center",
+        backgroundColor: colorDefaults.backDropColor
     },
     center: {
         marginTop: "60%"
@@ -102,6 +68,7 @@ const styles = StyleSheet.create({
     },
     flatList: {
         flex: 1,
-        alignSelf: "stretch"
+        alignSelf: "stretch",
+        backgroundColor: colorDefaults.backDropColor
     }
 });

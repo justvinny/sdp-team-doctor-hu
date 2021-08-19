@@ -3,13 +3,10 @@ import { Text, StyleSheet, TouchableOpacity } from "react-native";
 import colorDefaults from "../../theme/colorDefaults";
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
+import Staff from "../../models/Staff";
 
-const SearchUserCard = ({ navigation, item, type }) => {
-    const { name } = item;
-
-    const fullName = (name.middle)
-        ? `${name.first} ${name.middle} ${name.last}`
-        : `${name.first} ${name.last}`;
+const SearchUserCard = ({ navigation, user, type }) => {
+    const staff = Staff.staffFirestoreFactory(user);
 
     const getSearchType = () => {
         switch (type) {
@@ -23,16 +20,16 @@ const SearchUserCard = ({ navigation, item, type }) => {
     const getAction = () => {
         switch (type) {
             case "chat":
-                navigation.replace("DirectMessage", { item })
+                navigation.replace("DirectMessage", { user })
                 break;
             default:
-                console.log("View profile action." + fullName);
+                console.log("View profile action." + staff.getFullName());
         }
     }
 
     return (
         <TouchableOpacity style={styles.container} activeOpacity={0.5} onPress={getAction}>
-            <Text>{fullName}</Text>
+            <Text>{staff.getFullName()}</Text>
             {getSearchType()}
         </TouchableOpacity>
     )

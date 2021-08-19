@@ -4,23 +4,19 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import StaffMenu from './Screens/StaffMenu';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   // Temporary to test navigation
-  const Home = ({ navigation }) => {
-    const click = () => {
-      navigation.navigate("Page")
-    }
-
-    return (
-      <View style={styles.container} >
-        <Text>Vinson created this repository.</Text>
-        <Button onPress={click} title="Sign-up" />
-      </View >
-    )
-  }
+  const Home = ({ navigation }) => (
+    <View style={styles.container} >
+      <Text style={{ fontSize: 24, textAlign: "center", margin: 8 }}>Temporary Home Menu</Text>
+      <Button onPress={() => navigation.navigate("Page")} title="Other Page" />
+      <Button onPress={() => navigation.navigate("StaffMenu")} title="StaffMenu" />
+    </View >
+  )
   // Temporary to test navigation
   const Page = () => (
     <View style={styles.container}>
@@ -38,6 +34,7 @@ export default function App() {
       >
         <Stack.Screen component={Home} name="Home" />
         <Stack.Screen component={Page} name="Page" />
+        <Stack.Screen component={StaffMenu} name="StaffMenu" />
       </Stack.Navigator>
       <StatusBar style="light" />
     </NavigationContainer>

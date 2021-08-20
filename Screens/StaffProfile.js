@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { Button, StyleSheet, Image, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Image, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 import colorDefaults from '../theme/colorDefaults';
 
-const Tab = createBottomTabNavigator();
+const Tab = createMaterialTopTabNavigator();
 
 function ProfileInformation({ label, placeholder, value, onChangeText, editable }) {
   return (
@@ -22,7 +21,7 @@ function ProfileInformation({ label, placeholder, value, onChangeText, editable 
   );
 }
 
-function ProfileScreen({ navigation }) {
+function ProfileScreen() {
   const [firstName, setFirstName] = useState('John');
   const [middleName, setMiddleName] = useState('');
   const [lastName, setLastName] = useState('Doe');
@@ -85,47 +84,26 @@ function ProfileScreen({ navigation }) {
   );
 }
 
-function TextScreen() {
+function AboutScreen() {
   return (
-    <View style={{marginTop: 50}}>
+    <View>
       <Text>Hello Second Tab</Text>
     </View>
   )
 }
-
-const Stack = createNativeStackNavigator();
 
 export default function StaffProfile() {
   return (
     <>
       <Image style={styles.image} source={require('../assets/icon.png')} />
       <Tab.Navigator
-        screenOptions={{
-          headerShown: false,
-          tabBarStyle: {
-            position: "absolute",
-            top: 0,
-            left: 0,
-            backgroundColor: colorDefaults.primary,
-          },
-          tabBarInactiveTintColor: "white",
-          tabBarActiveTintColor: "white",
-          tabBarActiveBackgroundColor: colorDefaults.secondary,
-          tabBarIcon: () => <></>,
-          tabBarLabelStyle: {
-            fontSize: 16,
-            fontWeight: "bold",
-            position: "absolute",
-            top: 0,
-            bottom: 0,
-            left: 0,
-            right: 0,
-            textAlignVertical: "center"
-          }
-        }}
-      >
+      screenOptions={{
+        tabBarLabelStyle: { color: 'white' },
+        tabBarStyle: { backgroundColor: colorDefaults.primary},
+        tabBarIndicatorStyle: { backgroundColor: 'black' }
+      }}>
         <Tab.Screen name="Profile" component={ProfileScreen} />
-        <Tab.Screen name="About" component={TextScreen} />
+        <Tab.Screen name="About" component={AboutScreen} />
       </Tab.Navigator>
     </>
   );
@@ -135,11 +113,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: '#eef1fa',
+    backgroundColor: colorDefaults.backDropColor,
     alignItems: 'center',
     justifyContent: 'space-between',
     padding: 10,
-    marginTop: 50
   },
   image: {
     width: 200,
@@ -179,12 +156,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     margin: 5,
-    backgroundColor: '#d3d3d3',
+    //backgroundColor: '#e0e0e0',
+    backgroundColor: colorDefaults.bottomBorderColor,
     borderRadius: 10,
   },
   button: {
     alignItems: 'center',
-    backgroundColor: '#d3d3d3',
+    backgroundColor: colorDefaults.bottomBorderColor,
     padding: 10,
     borderRadius: 10,
     marginBottom: 80,

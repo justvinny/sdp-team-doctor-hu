@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, Image, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
-import colorDefaults from '../theme/colorDefaults';
+import colorDefaults from '../../theme/colorDefaults';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -95,7 +95,7 @@ function AboutScreen() {
 export default function StaffProfile() {
   return (
     <>
-      <Image style={styles.image} source={require('../assets/icon.png')} />
+      <Image style={styles.image} source={require('../../assets/icon.png')} />
       <Tab.Navigator
       screenOptions={{
         tabBarLabelStyle: { color: 'white' },

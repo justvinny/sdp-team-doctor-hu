@@ -10,7 +10,7 @@ import DirectMessageScreenController from './components/chat/DirectMessageScreen
 import authService from './firebase/authService'
 import AuthContext from "./components/AuthContext";
 import { auth } from './firebase/firebaseConfig';
-import StaffProfile from './Screens/StaffProfile';
+import StaffProfile from './components/profile/StaffProfile';
 
 const Stack = createNativeStackNavigator();
 

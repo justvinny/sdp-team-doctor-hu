@@ -1,10 +1,9 @@
-import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { Button, StyleSheet, Image, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import colorDefaults from '../theme/colorDefaults';
 
 const Tab = createBottomTabNavigator();
 
@@ -23,7 +22,7 @@ function ProfileInformation({ label, placeholder, value, onChangeText, editable 
   );
 }
 
-function ProfileScreen({navigation}) {
+function ProfileScreen({ navigation }) {
   const [firstName, setFirstName] = useState('John');
   const [middleName, setMiddleName] = useState('');
   const [lastName, setLastName] = useState('Doe');
@@ -45,22 +44,17 @@ function ProfileScreen({navigation}) {
       <Text>Done</Text>
     </View>
   );
-  
+
   const editIcon = (
     <View style={styles.icon}>
       <MaterialIcons name="edit" size={24} color="black" style={{ marginRight: 5 }} />
       <Text>Edit</Text>
     </View>
-  ); 
+  );
 
   return (
     <View style={styles.container}>
-      <StatusBar style="auto" />
-
-      <Image style={styles.image} source={require('../assets/icon.png')} />
-
       {ProfileName}
-
       <View style={styles.profiles}>
         <ProfileInformation
           label="First Name:"
@@ -82,13 +76,10 @@ function ProfileScreen({navigation}) {
           editable={enabled} />
       </View>
 
-      <View style={{flexDirection: 'row'}}>
+      <View style={{ flexDirection: 'row' }}>
         <TouchableOpacity style={styles.button} onPress={editText}>
           <Text>{enabled ? doneIcon : editIcon}</Text>
         </TouchableOpacity>
-
-
-        <Button onPress={() => navigation.navigate("Second")} title="About" />
       </View>
     </View>
   );
@@ -96,7 +87,7 @@ function ProfileScreen({navigation}) {
 
 function TextScreen() {
   return (
-    <View>
+    <View style={{marginTop: 50}}>
       <Text>Hello Second Tab</Text>
     </View>
   )
@@ -105,20 +96,40 @@ function TextScreen() {
 const Stack = createNativeStackNavigator();
 
 export default function StaffProfile() {
-  return(
-    <Stack.Navigator>
-      <Stack.Screen name="Profile" component={ProfileScreen} />
-      <Stack.Screen name="Second" component={TextScreen} />
-    </Stack.Navigator>
+  return (
+    <>
+      <Image style={styles.image} source={require('../assets/icon.png')} />
+      <Tab.Navigator
+        screenOptions={{
+          headerShown: false,
+          tabBarStyle: {
+            position: "absolute",
+            top: 0,
+            left: 0,
+            backgroundColor: colorDefaults.primary,
+          },
+          tabBarInactiveTintColor: "white",
+          tabBarActiveTintColor: "white",
+          tabBarActiveBackgroundColor: colorDefaults.secondary,
+          tabBarIcon: () => <></>,
+          tabBarLabelStyle: {
+            fontSize: 16,
+            fontWeight: "bold",
+            position: "absolute",
+            top: 0,
+            bottom: 0,
+            left: 0,
+            right: 0,
+            textAlignVertical: "center"
+          }
+        }}
+      >
+        <Tab.Screen name="Profile" component={ProfileScreen} />
+        <Tab.Screen name="About" component={TextScreen} />
+      </Tab.Navigator>
+    </>
   );
 }
-
-   /*  <Tab.Navigator>
-      <Tab.Screen name="Profile" component={ProfileScreen} />
-      <Tab.Screen name="Second" component={TextScreen} />
-    </Tab.Navigator> */
-
-    
 
 const styles = StyleSheet.create({
   container: {
@@ -128,15 +139,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     padding: 10,
+    marginTop: 50
   },
   image: {
     width: 200,
     height: 200,
     marginBottom: 20,
     marginTop: 20,
-    borderRadius:100,
+    borderRadius: 100,
     borderColor: 'black',
     borderWidth: 2,
+    alignSelf: "center"
   },
   icon: {
     flexDirection: 'row',

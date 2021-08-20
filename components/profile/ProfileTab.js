@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { KeyboardAvoidingView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import colorDefaults from '../../theme/colorDefaults';
 import ProfileInformation from './ProfileInformation';
@@ -70,7 +70,10 @@ function ProfileTab({ user, setUser }) {
                     onChangeText={setLastName}
                     editable={enabled} />
             </View>
-            <View>
+            <View
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
+                style={styles.container}
+            >
                 <TouchableOpacity style={styles.button} onPress={editText}>
                     <Text>{enabled ? doneIcon : editIcon}</Text>
                 </TouchableOpacity>
@@ -96,15 +99,15 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     profiles: {
-        flex: 1,
+        display: "flex",
         flexDirection: 'column',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         borderRadius: 10,
     },
     button: {
         backgroundColor: colorDefaults.bottomBorderColor,
         padding: 10,
-        borderRadius: 10,
+        borderRadius: 10
     },
     name: {
         fontSize: 18,

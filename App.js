@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View, Button, SafeAreaView } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SearchUserScreenController from './components/search/SearchUserScreenController';
 import ChatHomeScreenController from './components/chat/ChatHomeScreenController';
@@ -72,38 +72,39 @@ export default function App() {
   }, []);
 
   return (
-    <AuthContext.Provider value={authUserId}>
-      <NavigationContainer>
-        <Stack.Navigator
-          screenOptions={{
-            headerStyle: {
-              backgroundColor: colorDefaults.primary
-            },
-            headerTitleStyle: {
-              color: "#fff"
-            },
-            headerTintColor: "#fff",
-            headerShadowVisible: false,
-            animation: "slide_from_left"
-          }}
-        >
-          <Stack.Screen component={Home} name="Home" />
-          {
-            (loggedIn)
-              ? <>
-                <Stack.Screen component={Page} name="Page" />
-                <Stack.Screen component={SearchUserScreenController} name="Search" />
-                <Stack.Screen component={ChatHomeScreenController} name="ChatHome" />
-                <Stack.Screen component={DirectMessageScreenController} name="DirectMessage" />
-                <Stack.Screen component={StaffProfile} name="StaffProfile" />
-              </>
-              : <></>
-          }
-        </Stack.Navigator>
-        <StatusBar style="light" />
-      </NavigationContainer>
-    </AuthContext.Provider>
-
+    <SafeAreaView style={styles.container}>
+      <AuthContext.Provider value={authUserId}>
+        <NavigationContainer>
+          <Stack.Navigator
+            screenOptions={{
+              headerStyle: {
+                backgroundColor: colorDefaults.primary
+              },
+              headerTitleStyle: {
+                color: "#fff"
+              },
+              headerTintColor: "#fff",
+              headerShadowVisible: false,
+              animation: "slide_from_left"
+            }}
+          >
+            <Stack.Screen component={Home} name="Home" />
+            {
+              (loggedIn)
+                ? <>
+                  <Stack.Screen component={Page} name="Page" />
+                  <Stack.Screen component={SearchUserScreenController} name="Search" />
+                  <Stack.Screen component={ChatHomeScreenController} name="ChatHome" />
+                  <Stack.Screen component={DirectMessageScreenController} name="DirectMessage" />
+                  <Stack.Screen component={StaffProfile} name="StaffProfile" />
+                </>
+                : <></>
+            }
+          </Stack.Navigator>
+          <StatusBar style="light" />
+        </NavigationContainer>
+      </AuthContext.Provider>
+    </SafeAreaView>
   );
 }
 

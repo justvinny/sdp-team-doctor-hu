@@ -4,7 +4,7 @@ import colorDefaults from '../../theme/colorDefaults';
 
 function ProfileInformation({ label, placeholder, value, onChangeText, editable }) {
   return (
-    <View style={styles.inputView}>
+    <View keyboardVerticalOffset={200} behavior="height" style={styles.inputView}>
       <Text style={styles.text}>{label}</Text>
       <TextInput
         value={value}
@@ -38,7 +38,6 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       alignItems: 'center',
       margin: 5,
-      //backgroundColor: '#e0e0e0',
       backgroundColor: colorDefaults.bottomBorderColor,
       borderRadius: 10,
     }

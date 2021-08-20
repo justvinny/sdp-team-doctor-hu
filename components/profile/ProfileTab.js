@@ -1,86 +1,87 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { KeyboardAvoidingView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import colorDefaults from '../../theme/colorDefaults';
 import ProfileInformation from './ProfileInformation';
 import firestoreService from '../../firebase/firestoreService';
+import { useHeaderHeight } from '@react-navigation/bottom-tabs/node_modules/@react-navigation/elements';
 
 function ProfileTab({ user, setUser }) {
-    const [firstName, setFirstName] = useState(user.name.first);
-    const [middleName, setMiddleName] = useState(user.name.middle);
-    const [lastName, setLastName] = useState(user.name.last);
-    const [enabled, setEnabled] = useState(false);
+        const [firstName, setFirstName] = useState(user.name.first);
+        const [middleName, setMiddleName] = useState(user.name.middle);
+        const [lastName, setLastName] = useState(user.name.last);
+        const [enabled, setEnabled] = useState(false);
 
-    const save = async () => {
-        firestoreService.updateFirstName(user.id, firstName);
-        firestoreService.updateMiddleName(user.id, middleName);
-        firestoreService.updateLastName(user.id, lastName);
-    }
-
-    function editText() {
-        if (enabled) {
-            save();
-            let updatedUser = {
-                ...user,
-                name: {
-                    first: firstName,
-                    middle: middleName,
-                    last: lastName
-                }
-            }
-            setUser(updatedUser);
+        const save = async () => {
+            firestoreService.updateFirstName(user.id, firstName);
+            firestoreService.updateMiddleName(user.id, middleName);
+            firestoreService.updateLastName(user.id, lastName);
         }
 
-        enabled ? setEnabled(false) : setEnabled(true);
-    };
+        function editText() {
+            if (enabled) {
+                save();
+                let updatedUser = {
+                    ...user,
+                    name: {
+                        first: firstName,
+                        middle: middleName,
+                        last: lastName
+                    }
+                }
+                setUser(updatedUser);
+            }
 
-    const doneIcon = (
-        <View style={styles.icon}>
-            <MaterialIcons name="done" size={24} color="black" style={{ marginRight: 5 }} />
-            <Text>Done</Text>
-        </View>
-    );
+            enabled ? setEnabled(false) : setEnabled(true);
+        };
 
-    const editIcon = (
-        <View style={styles.icon}>
-            <MaterialIcons name="edit" size={24} color="black" style={{ marginRight: 5 }} />
-            <Text>Edit</Text>
-        </View>
-    );
-
-    return (
-        <View style={styles.container}>
-            <View style={styles.profiles}>
-                <ProfileInformation
-                    label="First Name:"
-                    placeholder="First Name"
-                    value={firstName}
-                    onChangeText={setFirstName}
-                    editable={enabled} />
-                <ProfileInformation
-                    label="Middle Name:"
-                    placeholder="Middle Name"
-                    value={middleName}
-                    onChangeText={setMiddleName}
-                    editable={enabled} />
-                <ProfileInformation
-                    label="Last Name:"
-                    placeholder="Last Name"
-                    value={lastName}
-                    onChangeText={setLastName}
-                    editable={enabled} />
+        const doneIcon = (
+            <View style={styles.icon}>
+                <MaterialIcons name="done" size={24} color="black" style={{ marginRight: 5 }} />
+                <Text>Done</Text>
             </View>
-            <View
-                behavior={Platform.OS === "ios" ? "padding" : "height"}
-                style={styles.container}
-            >
-                <TouchableOpacity style={styles.button} onPress={editText}>
-                    <Text>{enabled ? doneIcon : editIcon}</Text>
-                </TouchableOpacity>
+        );
+
+        const editIcon = (
+            <View style={styles.icon}>
+                <MaterialIcons name="edit" size={24} color="black" style={{ marginRight: 5 }} />
+                <Text>Edit</Text>
             </View>
-        </View>
-    );
-}
+        );
+
+        return (
+            <KeyboardAvoidingView style={styles.container} keyboardVerticalOffset={useHeaderHeight()}>
+                <View style={styles.profiles}>
+                    <ProfileInformation
+                        label="First Name:"
+                        placeholder="First Name"
+                        value={firstName}
+                        onChangeText={setFirstName}
+                        editable={enabled} />
+                    <ProfileInformation
+                        label="Middle Name:"
+                        placeholder="Middle Name"
+                        value={middleName}
+                        onChangeText={setMiddleName}
+                        editable={enabled} />
+                    <ProfileInformation
+                        label="Last Name:"
+                        placeholder="Last Name"
+                        value={lastName}
+                        onChangeText={setLastName}
+                        editable={enabled} />
+                </View>
+                <View
+                    behavior={Platform.OS === "ios" ? "padding" : "height"}
+                    style={styles.container}
+                >
+                    <TouchableOpacity style={styles.button} onPress={editText}>
+                        <Text>{enabled ? doneIcon : editIcon}</Text>
+                    </TouchableOpacity>
+                </View>
+            </KeyboardAvoidingView>
+        );
+    }
 
 export default ProfileTab;
 

@@ -1,7 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { StyleSheet, Image, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Button, StyleSheet, Image, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+const Tab = createBottomTabNavigator();
 
 function ProfileInformation({ label, placeholder, value, onChangeText, editable }) {
   return (
@@ -18,7 +23,7 @@ function ProfileInformation({ label, placeholder, value, onChangeText, editable 
   );
 }
 
-export default function StaffProfile() {
+function ProfileScreen({navigation}) {
   const [firstName, setFirstName] = useState('John');
   const [middleName, setMiddleName] = useState('');
   const [lastName, setLastName] = useState('Doe');
@@ -46,8 +51,7 @@ export default function StaffProfile() {
       <MaterialIcons name="edit" size={24} color="black" style={{ marginRight: 5 }} />
       <Text>Edit</Text>
     </View>
-  );
-
+  ); 
 
   return (
     <View style={styles.container}>
@@ -78,14 +82,43 @@ export default function StaffProfile() {
           editable={enabled} />
       </View>
 
-      <View>
+      <View style={{flexDirection: 'row'}}>
         <TouchableOpacity style={styles.button} onPress={editText}>
           <Text>{enabled ? doneIcon : editIcon}</Text>
         </TouchableOpacity>
+
+
+        <Button onPress={() => navigation.navigate("Second")} title="About" />
       </View>
     </View>
   );
 }
+
+function TextScreen() {
+  return (
+    <View>
+      <Text>Hello Second Tab</Text>
+    </View>
+  )
+}
+
+const Stack = createNativeStackNavigator();
+
+export default function StaffProfile() {
+  return(
+    <Stack.Navigator>
+      <Stack.Screen name="Profile" component={ProfileScreen} />
+      <Stack.Screen name="Second" component={TextScreen} />
+    </Stack.Navigator>
+  );
+}
+
+   /*  <Tab.Navigator>
+      <Tab.Screen name="Profile" component={ProfileScreen} />
+      <Tab.Screen name="Second" component={TextScreen} />
+    </Tab.Navigator> */
+
+    
 
 const styles = StyleSheet.create({
   container: {

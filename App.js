@@ -10,6 +10,7 @@ import DirectMessageScreenController from './components/chat/DirectMessageScreen
 import authService from './firebase/authService'
 import AuthContext from "./components/AuthContext";
 import { auth } from './firebase/firebaseConfig';
+import StaffProfile from './Screens/StaffProfile';
 
 const Stack = createNativeStackNavigator();
 
@@ -28,6 +29,7 @@ export default function App() {
             <Button color={colorDefaults.primary} onPress={() => navigation.navigate("Page")} title="Other Page" />
             <Button color={colorDefaults.primary} onPress={() => navigation.navigate("Search")} title="Search Page" />
             <Button color={colorDefaults.primary} onPress={() => navigation.navigate("ChatHome")} title="Message Staff" />
+            <Button color={colorDefaults.primary} onPress={() => navigation.navigate("StaffProfile")} title="View Staff Profile" />
           </>
           : <></>
       }
@@ -93,6 +95,7 @@ export default function App() {
                 <Stack.Screen component={SearchUserScreenController} name="Search" />
                 <Stack.Screen component={ChatHomeScreenController} name="ChatHome" />
                 <Stack.Screen component={DirectMessageScreenController} name="DirectMessage" />
+                <Stack.Screen component={StaffProfile} name="StaffProfile" />
               </>
               : <></>
           }

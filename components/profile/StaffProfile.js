@@ -1,11 +1,12 @@
-import React, { useState, useContext, useEffect, useLayoutEffect } from 'react';
-import { StyleSheet, Image, Text, View, Keyboard } from 'react-native';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
-import colorDefaults from '../../theme/colorDefaults';
-import ProfileTab from './ProfileTab';
-import AuthContext from '../AuthContext';
-import firestoreService from '../../firebase/firestoreService';
-import Staff from '../../models/Staff';
+import React, { useState, useContext, useEffect, useLayoutEffect } from "react";
+import { StyleSheet, Image, Text, View } from "react-native";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import colorDefaults from "../../theme/colorDefaults";
+import ProfileTab from "./ProfileTab";
+import AuthContext from "../AuthContext";
+import firestoreService from "../../firebase/firestoreService";
+import Staff from "../../models/Staff";
+import { ScrollView } from "react-native-gesture-handler";
 const Tab = createMaterialTopTabNavigator();
 
 function AboutScreen() {
@@ -13,30 +14,28 @@ function AboutScreen() {
     <View>
       <Text>Hello Second Tab</Text>
     </View>
-  )
+  );
 }
 
 export default function StaffProfile({ navigation }) {
   const authId = useContext(AuthContext);
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
-  const [keyboardShown, setKeyboardShown] = useState(false);
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: "Staff Profile"
+      title: "Staff Profile",
     });
   }, []);
 
   useEffect(() => {
-    firestoreService.getUserById(authId)
-      .then(data => {
-        setUser(data);
-        setLoading(false);
-      })
+    firestoreService.getUserById(authId).then((data) => {
+      setUser(data);
+      setLoading(false);
+    });
   }, []);
 
-  useEffect(() => {
+  /* useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener("keyboardDidShow",
       () => {
         setKeyboardShown(true);
@@ -53,42 +52,40 @@ export default function StaffProfile({ navigation }) {
       keyboardDidShowListener.remove();
       keyboardDidHideListener.remove();
     };
-  }, [])
-  
+  }, []) */
+
   const renderPage = () => {
     if (loading) {
-      return <></>
+      return <></>;
     }
 
     return (
       <>
-        {
-          keyboardShown
-            ? <></>
-            : <View style={styles.container}>
-              <Image style={styles.image} source={require('../../assets/icon.png')} />
-              <Text style={styles.name}>{Staff.getFullName(user.name)}</Text>
-            </View>
-        }
+        <View style={styles.container}>
+          <Image
+            style={styles.image}
+            source={require("../../assets/icon.png")}
+          />
+          <Text style={styles.name}>{Staff.getFullName(user.name)}</Text>
+        </View>
 
         <Tab.Navigator
           screenOptions={{
-            tabBarLabelStyle: { color: 'white' },
+            tabBarLabelStyle: { color: "white" },
             tabBarStyle: { backgroundColor: colorDefaults.primary },
-            tabBarIndicatorStyle: { backgroundColor: 'black' }
-          }}>
+            tabBarIndicatorStyle: { backgroundColor: "black" },
+          }}
+        >
           <Tab.Screen name="Profile">
-            {({ props }) => <ProfileTab
-              {...props}
-              user={user}
-              setUser={setUser}
-            />}
+            {({ props }) => (
+              <ProfileTab {...props} user={user} setUser={setUser} />
+            )}
           </Tab.Screen>
           <Tab.Screen name="About" component={AboutScreen} />
         </Tab.Navigator>
       </>
     );
-  }
+  };
 
   return renderPage();
 }
@@ -105,11 +102,11 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     marginTop: 20,
     borderRadius: 100,
-    borderColor: 'black',
-    borderWidth: 2
+    borderColor: "black",
+    borderWidth: 2,
   },
   name: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
 });

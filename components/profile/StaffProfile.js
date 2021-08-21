@@ -7,15 +7,8 @@ import AuthContext from "../AuthContext";
 import firestoreService from "../../firebase/firestoreService";
 import Staff from "../../models/Staff";
 import { ScrollView } from "react-native-gesture-handler";
+import AboutTab from "./AboutTab";
 const Tab = createMaterialTopTabNavigator();
-
-function AboutScreen() {
-  return (
-    <View>
-      <Text>Hello Second Tab</Text>
-    </View>
-  );
-}
 
 export default function StaffProfile({ navigation }) {
   const authId = useContext(AuthContext);
@@ -81,7 +74,7 @@ export default function StaffProfile({ navigation }) {
               <ProfileTab {...props} user={user} setUser={setUser} />
             )}
           </Tab.Screen>
-          <Tab.Screen name="About" component={AboutScreen} />
+          <Tab.Screen name="About" component={AboutTab} />
         </Tab.Navigator>
       </>
     );

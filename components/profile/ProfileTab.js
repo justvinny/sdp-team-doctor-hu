@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   KeyboardAvoidingView,
-  Platform,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -14,6 +13,7 @@ import colorDefaults from "../../theme/colorDefaults";
 import ProfileInformation from "./ProfileInformation";
 import firestoreService from "../../firebase/firestoreService";
 import { ScrollView } from "react-native-gesture-handler";
+import { useHeaderHeight } from '@react-navigation/elements';
 
 function ProfileTab({ user, setUser }) {
   const [firstName, setFirstName] = useState(user.name.first);
@@ -44,6 +44,7 @@ function ProfileTab({ user, setUser }) {
     enabled ? setEnabled(false) : setEnabled(true);
   }
 
+
   const doneIcon = (
     <View style={styles.icon}>
       <MaterialIcons
@@ -72,7 +73,7 @@ function ProfileTab({ user, setUser }) {
     <KeyboardAvoidingView
       style={styles.container}
       behavior={"padding"}
-      keyboardVerticalOffset={100}
+      keyboardVerticalOffset={useHeaderHeight()}
     >
       <ScrollView>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -98,14 +99,12 @@ function ProfileTab({ user, setUser }) {
               onChangeText={setLastName}
               editable={enabled}
             />
+            <TouchableOpacity style={styles.button} onPress={editText}>
+              <Text>{enabled ? doneIcon : editIcon}</Text>
+            </TouchableOpacity>
           </View>
         </TouchableWithoutFeedback>
       </ScrollView>
-      <View style={styles.container}>
-        <TouchableOpacity style={styles.button} onPress={editText}>
-          <Text>{enabled ? doneIcon : editIcon}</Text>
-        </TouchableOpacity>
-      </View>
     </KeyboardAvoidingView>
   );
 }
@@ -136,6 +135,8 @@ const styles = StyleSheet.create({
     backgroundColor: colorDefaults.bottomBorderColor,
     padding: 10,
     borderRadius: 10,
+    marginBottom: 10,
+    alignSelf: "center"
   },
   name: {
     fontSize: 18,

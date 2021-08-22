@@ -4,12 +4,13 @@ import colorDefaults from "../../theme/colorDefaults";
 import SearchBox from "./SearchBox";
 import { MaterialIcons } from '@expo/vector-icons';
 import SearchUserCard from "./SearchUserCard";
+import LoadingScreen from "../../Screens/LoadingScreen";
 
 const SearchUserScreenView = ({ navigation, search, setSearch, clearSearch, getSortedUsers, loading, type }) => {
 
     const renderPage = () => {
         if (loading) {
-            return <ActivityIndicator size="large" color="grey" style={styles.center}/>
+            return <LoadingScreen />
         } else if (!loading && getSortedUsers().length === 0) {
             return (
                 <>

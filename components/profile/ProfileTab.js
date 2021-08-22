@@ -13,7 +13,6 @@ import colorDefaults from "../../theme/colorDefaults";
 import ProfileInformation from "./ProfileInformation";
 import firestoreService from "../../firebase/firestoreService";
 import { ScrollView } from "react-native-gesture-handler";
-import { useHeaderHeight } from '@react-navigation/elements';
 
 function ProfileTab({ user, setUser }) {
   const [firstName, setFirstName] = useState(user.name.first);
@@ -44,7 +43,6 @@ function ProfileTab({ user, setUser }) {
     enabled ? setEnabled(false) : setEnabled(true);
   }
 
-
   const doneIcon = (
     <View style={styles.icon}>
       <MaterialIcons
@@ -70,11 +68,7 @@ function ProfileTab({ user, setUser }) {
   );
 
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior={"padding"}
-      keyboardVerticalOffset={useHeaderHeight()}
-    >
+    <KeyboardAvoidingView style={styles.container} behavior={"padding"}>
       <ScrollView>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.profiles}>
@@ -136,7 +130,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
     marginBottom: 10,
-    alignSelf: "center"
+    alignSelf: "center",
   },
   name: {
     fontSize: 18,

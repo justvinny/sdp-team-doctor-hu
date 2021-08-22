@@ -4,6 +4,7 @@ import { MaterialIcons, AntDesign } from '@expo/vector-icons';
 import ChatUserCard from "./ChatUserCard";
 import { FlatList } from "react-native-gesture-handler";
 import colorDefaults from "../../theme/colorDefaults";
+import LoadingScreen from "../../Screens/LoadingScreen";
 
 const ChatHomeScreenView = ({ navigation, loading, staff, openSearch, messageUser }) => {
 
@@ -22,7 +23,7 @@ const ChatHomeScreenView = ({ navigation, loading, staff, openSearch, messageUse
     // Conditionally render between loading, empty, and not empty.
     const renderPage = () => {
         if (loading) {
-            return <ActivityIndicator size="large" color={colorDefaults.primary} style={styles.center} />
+            return <LoadingScreen />
         } else if (!loading && staff.length === 0) {
             return (
                 <>
@@ -35,7 +36,7 @@ const ChatHomeScreenView = ({ navigation, loading, staff, openSearch, messageUse
         return (
             <FlatList
                 data={staff}
-                renderItem={({ item }) => <ChatUserCard user={item} messageUser={messageUser}/>}
+                renderItem={({ item }) => <ChatUserCard user={item} messageUser={messageUser} />}
                 keyExtractor={(item) => item?.id}
                 style={styles.flatList}
             />

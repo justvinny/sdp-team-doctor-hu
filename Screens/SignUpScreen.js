@@ -1,20 +1,17 @@
 import { StatusBar } from 'expo-status-bar';
 import React , { useState } from 'react';
-import { KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, View, TouchableHighlight } from 'react-native';
+import { KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, View, TouchableHighlight, Pressable } from 'react-native';
 
-export default function SignUpScreen() {
+export default function SignUpScreen({ navigation }) {
     const hi = () => {
         alert("hi");
       }
 
   return (
     <View style={styles.container}>
-        <View style={styles.headerBar}></View>
-        <Text style={styles.headerBarText}>Sign Up</Text>
-        <View style={styles.backIcon}></View>
-        
-
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding': 'height'}>
+            <TextInput style={styles.input} placeholder={'First Name*'}></TextInput>
+            <TextInput style={styles.input} placeholder={'Last Name*'}></TextInput>
             <TextInput style={styles.input} placeholder={'Email*'}></TextInput>
             <TextInput style={styles.input} placeholder={'Password*'}></TextInput>
             <TextInput style={styles.input} placeholder={'Repeat Password*'}></TextInput>
@@ -29,7 +26,9 @@ export default function SignUpScreen() {
       <Text style={styles.passwordCheckCharacter}>Has at least 8 characters</Text>
       <Text style={styles.passwordCheckNumber}>Has at least 1 number</Text>
 
-      <Text style={styles.signInNavigator}>Already have an account? Sign in</Text>
+      <Pressable style={styles.signInNavigator} onPress={() => navigation.navigate('Sign In')}>
+        <Text style={styles.signInNavigatorText} >Already have an account? Sign in</Text>
+      </Pressable>
     </View>
   );
 }
@@ -39,27 +38,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#DFE1E7',
     alignItems: 'center',
-  },
-
-  headerBar: {
-    width: '100%',
-    height: 80,
-    backgroundColor: '#38B6FF',
-  },
-
-  headerBarText: {
-      fontSize: 18,
-      color: '#FFFFFF',
-      bottom: 35,
-
-  },
-
-  backIcon: {
-      backgroundColor: '#FFFFFF',
-      width:  25,
-      height: 20,
-      right: 180,
-      bottom: 60,
   },
 
   headerText: {
@@ -107,7 +85,10 @@ const styles = StyleSheet.create({
    },
 
    signInNavigator: {
-    color: '#9F9F9F',
     top: 150,
+   },
+
+   signInNavigatorText: {
+    color: '#9F9F9F',
    },
 });

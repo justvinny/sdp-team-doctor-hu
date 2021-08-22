@@ -9,15 +9,13 @@ export default function SignUpScreen() {
 
   return (
     <View style={styles.container}>
-        <View style={styles.headerBar}></View>
-        <Text style={styles.headerBarText}>Sign In</Text>
         <View style={styles.backIcon}></View>
         <Text style={styles.headerText}>Sign In</Text>
         <Text style={styles.headerDescription}>Please enter your login details.</Text>
 
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding': 'height'}>
             <TextInput style={styles.input} placeholder={'Email*'}></TextInput>
-            <TextInput style={styles.input} placeholder={'Password*'}></TextInput>
+            <TextInput style={styles.input} placeholder={'Password*'} secureTextEntry={true}></TextInput>
         </KeyboardAvoidingView>
 
         <TouchableHighlight onPress={hi} style={styles.buttonSignIn}>
@@ -41,27 +39,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#DFE1E7',
     alignItems: 'center',
-  },
-
-  headerBar: {
-    width: '100%',
-    height: 80,
-    backgroundColor: '#38B6FF',
-  },
-
-  headerBarText: {
-      fontSize: 18,
-      color: '#FFFFFF',
-      bottom: 35,
-
-  },
-
-  backIcon: {
-      backgroundColor: '#FFFFFF',
-      width:  25,
-      height: 20,
-      right: 180,
-      bottom: 60,
   },
 
   headerText: {

@@ -2,17 +2,16 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, TouchableHighlight, View , Image} from 'react-native';
 
-export default function WelcomeScreen() {
+export default function WelcomeScreen( {navigation} ) {
   const hi = () => {
     alert("hi");
   }
   
   return (
     <View style={styles.container}>
-      <View style={styles.headerBar}></View>
       <Image source={require('../assets/images/logo.png')} style={styles.logo} resizeMode={'contain'}/>
 
-      <TouchableHighlight onPress={hi} style={styles.buttonSignIn}>
+      <TouchableHighlight onPress={() => navigation.navigate('Sign In')} style={styles.buttonSignIn}>
         <View>
           <Text style={styles.buttonText}>Sign In</Text>
         </View>
@@ -20,7 +19,7 @@ export default function WelcomeScreen() {
 
       <Text style={styles.or}>Or</Text>
 
-      <TouchableHighlight onPress={hi} style={styles.buttonSignUp}>
+      <TouchableHighlight onPress={() => navigation.navigate('Sign Up')} style={styles.buttonSignUp}>
         <View>
           <Text style={styles.buttonText}>Sign Up</Text>
         </View>
@@ -34,12 +33,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#DFE1E7',
     alignItems: 'center',
-  },
-
-  headerBar: {
-    width: '100%',
-    height: 40,
-    backgroundColor: '#38B6FF',
   },
 
   logo: {

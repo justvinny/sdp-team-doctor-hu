@@ -4,7 +4,6 @@ import { StyleSheet, Text, View, Button } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import 'react-native-gesture-handler';
-import SearchUserScreenController from './components/search/SearchUserScreenController';
 import WelcomeScreen from './Screens/WelcomeScreen';
 import SignInScreen from './Screens/SignInScreen';
 import SignUpScreen from './Screens/SignUpScreen';
@@ -12,27 +11,13 @@ import SignUpScreen from './Screens/SignUpScreen';
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  // Temporary to test navigation
-  const Home = ({ navigation }) => (
-    <View style={styles.container} >
-      <Text style={{ fontSize: 24, textAlign: "center", margin: 8 }}>Temporary Home Menu</Text>
-      <Button onPress={() => navigation.navigate("Page")} title="Other Page" />
-      <Button onPress={() => navigation.navigate("Search")} title="Search Page" />
-    </View >
-  )
 
-  // Temporary to test navigation
-  const Page = () => (
-    <View style={styles.container}>
-      <Text>Another Page.</Text>
-    </View>
-  )
   return (
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
           headerStyle: {
-            backgroundColor: "grey"
+            backgroundColor: "#38B6FF"
           },
           headerTitleStyle: {
             color: "#fff"
@@ -42,9 +27,9 @@ export default function App() {
           animation: "slide_from_left"
         }}
       >
-        <Stack.Screen component={Home} name="Home" />
-        <Stack.Screen component={Page} name="Page" />
-        <Stack.Screen component={SearchUserScreenController} name="Search" />
+        <Stack.Screen component={WelcomeScreen} name="Home" />
+        <Stack.Screen component={SignInScreen} name="Sign In" />
+        <Stack.Screen component={SignUpScreen} name="Sign Up" />
       </Stack.Navigator>
       <StatusBar style="light" />
     </NavigationContainer>

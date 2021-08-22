@@ -74,7 +74,11 @@ export default function StaffProfile({ navigation }) {
               <ProfileTab {...props} user={user} setUser={setUser} />
             )}
           </Tab.Screen>
-          <Tab.Screen name="About" component={AboutTab} />
+          <Tab.Screen name="About">
+            {({ props }) => (
+              <AboutTab {...props} user={user} setUser={setUser} />
+            )}
+          </Tab.Screen>
         </Tab.Navigator>
       </>
     );

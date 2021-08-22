@@ -6,26 +6,32 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import colorDefaults from "../../theme/colorDefaults";
+import firestoreService from "../../firebase/firestoreService";
+import { ScrollView } from "react-native-gesture-handler";
 
-function AboutTab() {
+function AboutTab({ user, setUser }) {
   const [enabled, setEnabled] = useState(false);
+  const [aboutText, setAbout] = useState(user.about);
+
+  const save = async () => {
+    firestoreService.updateAbout(user.id, aboutText);
+  };
 
   function editText() {
-    /* if (enabled) {
-          save();
-          let updatedUser = {
-            ...user,
-            name: {
-              first: firstName,
-              middle: middleName,
-              last: lastName,
-            },
-          };
-          setUser(updatedUser);
-        } */
+    if (enabled) {
+      save();
+      let updatedUser = {
+        ...user,
+        about: aboutText,
+      };
+      setUser(updatedUser);
+    }
 
     enabled ? setEnabled(false) : setEnabled(true);
   }
@@ -55,19 +61,24 @@ function AboutTab() {
   );
 
   return (
-    <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        multiline
-        numberOfLines={4}
-        editable={enabled}
-      >
-        Hello World
-      </TextInput>
-      <TouchableOpacity style={styles.button} onPress={editText}>
-        <Text>{enabled ? doneIcon : editIcon}</Text>
-      </TouchableOpacity>
-    </View>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <ScrollView>
+        <KeyboardAvoidingView style={styles.container}>
+          <TextInput
+            style={styles.input}
+            multiline
+            numberOfLines={3}
+            editable={enabled}
+            placeholder="Tell us a little bit about yourself."
+            onChangeText={setAbout}
+            value={aboutText}
+          ></TextInput>
+          <TouchableOpacity style={styles.button} onPress={editText}>
+            <Text>{enabled ? doneIcon : editIcon}</Text>
+          </TouchableOpacity>
+        </KeyboardAvoidingView>
+      </ScrollView>
+    </TouchableWithoutFeedback>
   );
 }
 

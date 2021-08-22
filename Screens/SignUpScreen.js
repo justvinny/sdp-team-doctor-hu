@@ -13,8 +13,8 @@ export default function SignUpScreen({ navigation }) {
             <TextInput style={styles.input} placeholder={'First Name*'}></TextInput>
             <TextInput style={styles.input} placeholder={'Last Name*'}></TextInput>
             <TextInput style={styles.input} placeholder={'Email*'}></TextInput>
-            <TextInput style={styles.input} placeholder={'Password*'}></TextInput>
-            <TextInput style={styles.input} placeholder={'Repeat Password*'}></TextInput>
+            <TextInput style={styles.input} placeholder={'Password*'} secureTextEntry={true}></TextInput>
+            <TextInput style={styles.input} placeholder={'Repeat Password*'} secureTextEntry={true}></TextInput>
         </KeyboardAvoidingView>
 
         <TouchableHighlight onPress={hi} style={styles.buttonSignUp}>

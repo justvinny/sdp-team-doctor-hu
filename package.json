@@ -23,11 +23,9 @@
     "react-native-screens": "^3.4.0",
     "react-native-web": "~0.13.12"
   },
-
   "resolutions": {
     "@babel/plugin-transform-react-display-name": "7.14.5"
   },
-
   "devDependencies": {
     "@babel/core": "~7.9.0"
   },

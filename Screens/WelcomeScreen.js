@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, TouchableHighlight, View , Image} from 'react-native';
+import colorDefaults from '../theme/colorDefaults';
 
 export default function WelcomeScreen( {navigation} ) {
   const hi = () => {
@@ -31,7 +32,7 @@ export default function WelcomeScreen( {navigation} ) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#DFE1E7',
+    backgroundColor: colorDefaults.backDropColor,
     alignItems: 'center',
   },
 
@@ -41,7 +42,7 @@ const styles = StyleSheet.create({
 
   buttonSignIn: {
     borderRadius: 20,
-    backgroundColor: '#38B6FF',
+    backgroundColor: colorDefaults.primary,
     width: 380,
     height: 43,
     padding: 10,
@@ -51,7 +52,7 @@ const styles = StyleSheet.create({
 
    buttonSignUp: {
     borderRadius: 20,
-    backgroundColor: '#38B6FF',
+    backgroundColor: colorDefaults.primary,
     width: 380,
     height: 43,
     padding: 10,

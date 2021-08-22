@@ -1,102 +1,138 @@
-import { StatusBar } from 'expo-status-bar';
-import React , { useState } from 'react';
+import React, { useState } from 'react';
 import { KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, View, TouchableHighlight, Pressable } from 'react-native';
+import { auth } from '../firebase/firebaseConfig';
+import colorDefaults from '../theme/colorDefaults';
+import LoadingScreen from './LoadingScreen';
 
-export default function SignUpScreen( {navigation} ) {
-    const hi = () => {
-        alert("hi");
-      }
+export default function SignInScreen({ navigation }) {
+  const [email, setEmail] = useState("test1@co.nz");
+  const [password, setPassword] = useState("123456");
+  const [loading, setLoading] = useState(false);
+
+  const hi = () => {
+    alert("hi");
+  }
+
+  // Sample account to login
+  // email : test1@.co.nz
+  // pass : 123456
+  const signIn = () => {
+    setLoading(true);
+    auth.signInWithEmailAndPassword(email, password)
+      .catch((error) => alert(error.message))
+      .finally(() => setLoading(false));
+  }
 
   return (
-    <View style={styles.container}>
-        <View style={styles.backIcon}></View>
-        <Text style={styles.headerText}>Sign In</Text>
-        <Text style={styles.headerDescription}>Please enter your login details.</Text>
+    <>
+      {
+        (loading)
+          ? <LoadingScreen />
+          : <View style={styles.container}>
+            <Text style={styles.headerText}>Sign In</Text>
+            <Text style={styles.headerDescription}>Please enter your login details.</Text>
 
-        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding': 'height'}>
-            <TextInput style={styles.input} placeholder={'Email*'}></TextInput>
-            <TextInput style={styles.input} placeholder={'Password*'} secureTextEntry={true}></TextInput>
-        </KeyboardAvoidingView>
+            <KeyboardAvoidingView style={styles.inputContainer} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+              <TextInput
+                style={styles.input}
+                placeholder={'Email*'}
+                value={email}
+                onChangeText={setEmail}
+              />
+              <TextInput
+                style={styles.input}
+                placeholder={'Password*'}
+                secureTextEntry={true}
+                value={password}
+                onChangeText={setPassword}
+              />
+            </KeyboardAvoidingView>
 
-        <TouchableHighlight onPress={hi} style={styles.buttonSignIn}>
-        <View>
-          <Text style={styles.buttonText}>Sign In</Text>
-        </View>
-      </TouchableHighlight>
+            <TouchableHighlight onPress={signIn} style={styles.buttonSignIn}>
+              <View>
+                <Text style={styles.buttonText}>Sign In</Text>
+              </View>
+            </TouchableHighlight>
 
-      <TouchableHighlight onPress={hi} style={styles.buttonForgot}>
-        <View>
-          <Text style={styles.buttonText}>Forgot Password</Text>
-        </View>
-      </TouchableHighlight>
+            <TouchableHighlight onPress={hi} style={styles.buttonForgot}>
+              <View>
+                <Text style={styles.buttonText}>Forgot Password</Text>
+              </View>
+            </TouchableHighlight>
 
-      <Pressable style={styles.signUpNavigator} onPress={() => navigation.navigate('Sign Up')}>
-        <Text style={styles.signUpNavigatorText} >New? Sign up here.</Text>
-      </Pressable>
+            <Pressable style={styles.signUpNavigator} onPress={() => navigation.navigate('Sign Up')}>
+              <Text style={styles.signUpNavigatorText} >New? Sign up here.</Text>
+            </Pressable>
+          </View>
+      }
+    </>
 
-    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#DFE1E7',
+    backgroundColor: colorDefaults.backDropColor,
     alignItems: 'center',
+    paddingTop: 100
   },
 
   headerText: {
     fontSize: 20,
-    color: '#000000',
-    top: 70,
+    color: '#000000'
   },
 
   headerDescription: {
-      color: '#9F9F9F',
-      fontSize: 18,
-      top: 100,
+    color: '#9F9F9F',
+    fontSize: 18,
+    marginTop: 8,
+    marginBottom: 8
+  },
+
+  inputContainer: {
+    width: "100%",
+    alignItems: "stretch"
   },
 
   input: {
-      backgroundColor: '#FFFFFF',
-      height: 50,
-      width: 380,
-      top: 200,
-      paddingHorizontal: 10,
-      marginBottom: 10,
+    backgroundColor: '#FFFFFF',
+    margin: 8,
+    marginTop: 8,
+    padding: 8
   },
 
   buttonSignIn: {
     borderRadius: 20,
-    backgroundColor: '#38B6FF',
+    backgroundColor: colorDefaults.primary,
     width: 380,
     height: 43,
     padding: 10,
-    top: 250,
     alignItems: 'center',
     borderRadius: 20,
-   },
+    margin: 8
+  },
 
-   buttonForgot: {
+  buttonForgot: {
     borderRadius: 20,
-    backgroundColor: '#38B6FF',
+    backgroundColor: colorDefaults.primary,
     width: 250,
     height: 43,
     padding: 10,
-    top: 300,
     alignItems: 'center',
     borderRadius: 20,
-   },
+    margin: 8
+  },
 
-   buttonText: {
-     color: "#FFFFFF",
-   },
+  buttonText: {
+    color: "#FFFFFF"
+  },
 
-   signUpNavigator: {
-    top: 350,
-   },
+  signUpNavigator: {
+    margin: 8
+  },
 
-   signUpNavigatorText: {
+  signUpNavigatorText: {
     color: '#9F9F9F',
-   },
+  },
 });

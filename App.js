@@ -4,7 +4,8 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import StaffMenu from './Screens/StaffMenu';
+import StaffMenu from './components/staffMenu';
+import Square from './components/square';
 
 const Stack = createNativeStackNavigator();
 
@@ -15,6 +16,9 @@ export default function App() {
       <Text style={{ fontSize: 24, textAlign: "center", margin: 8 }}>Temporary Home Menu</Text>
       <Button onPress={() => navigation.navigate("Page")} title="Other Page" />
       <Button onPress={() => navigation.navigate("StaffMenu")} title="StaffMenu" />
+
+      <Square/>
+      
     </View >
   )
   // Temporary to test navigation

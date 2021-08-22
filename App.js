@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View, Button, SafeAreaView } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SearchUserScreenController from './components/search/SearchUserScreenController';
 import ChatHomeScreenController from './components/chat/ChatHomeScreenController';
@@ -10,6 +10,7 @@ import DirectMessageScreenController from './components/chat/DirectMessageScreen
 import authService from './firebase/authService'
 import AuthContext from "./components/AuthContext";
 import { auth } from './firebase/firebaseConfig';
+import StaffProfile from './components/profile/StaffProfile';
 
 const Stack = createNativeStackNavigator();
 
@@ -28,6 +29,7 @@ export default function App() {
             <Button color={colorDefaults.primary} onPress={() => navigation.navigate("Page")} title="Other Page" />
             <Button color={colorDefaults.primary} onPress={() => navigation.navigate("Search")} title="Search Page" />
             <Button color={colorDefaults.primary} onPress={() => navigation.navigate("ChatHome")} title="Message Staff" />
+            <Button color={colorDefaults.primary} onPress={() => navigation.navigate("StaffProfile")} title="View Staff Profile" />
           </>
           : <></>
       }
@@ -70,37 +72,39 @@ export default function App() {
   }, []);
 
   return (
-    <AuthContext.Provider value={authUserId}>
-      <NavigationContainer>
-        <Stack.Navigator
-          screenOptions={{
-            headerStyle: {
-              backgroundColor: colorDefaults.primary
-            },
-            headerTitleStyle: {
-              color: "#fff"
-            },
-            headerTintColor: "#fff",
-            headerShadowVisible: false,
-            animation: "slide_from_left"
-          }}
-        >
-          <Stack.Screen component={Home} name="Home" />
-          {
-            (loggedIn)
-              ? <>
-                <Stack.Screen component={Page} name="Page" />
-                <Stack.Screen component={SearchUserScreenController} name="Search" />
-                <Stack.Screen component={ChatHomeScreenController} name="ChatHome" />
-                <Stack.Screen component={DirectMessageScreenController} name="DirectMessage" />
-              </>
-              : <></>
-          }
-        </Stack.Navigator>
-        <StatusBar style="light" />
-      </NavigationContainer>
-    </AuthContext.Provider>
-
+    <SafeAreaView style={styles.container}>
+      <AuthContext.Provider value={authUserId}>
+        <NavigationContainer>
+          <Stack.Navigator
+            screenOptions={{
+              headerStyle: {
+                backgroundColor: colorDefaults.primary
+              },
+              headerTitleStyle: {
+                color: "#fff"
+              },
+              headerTintColor: "#fff",
+              headerShadowVisible: false,
+              animation: "slide_from_left"
+            }}
+          >
+            <Stack.Screen component={Home} name="Home" />
+            {
+              (loggedIn)
+                ? <>
+                  <Stack.Screen component={Page} name="Page" />
+                  <Stack.Screen component={SearchUserScreenController} name="Search" />
+                  <Stack.Screen component={ChatHomeScreenController} name="ChatHome" />
+                  <Stack.Screen component={DirectMessageScreenController} name="DirectMessage" />
+                  <Stack.Screen component={StaffProfile} name="StaffProfile" />
+                </>
+                : <></>
+            }
+          </Stack.Navigator>
+          <StatusBar style="light" />
+        </NavigationContainer>
+      </AuthContext.Provider>
+    </SafeAreaView>
   );
 }
 

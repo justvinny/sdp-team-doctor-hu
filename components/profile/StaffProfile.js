@@ -6,7 +6,6 @@ import ProfileTab from "./ProfileTab";
 import AuthContext from "../AuthContext";
 import firestoreService from "../../firebase/firestoreService";
 import Staff from "../../models/Staff";
-import { ScrollView } from "react-native-gesture-handler";
 import AboutTab from "./AboutTab";
 const Tab = createMaterialTopTabNavigator();
 
@@ -27,25 +26,6 @@ export default function StaffProfile({ navigation }) {
       setLoading(false);
     });
   }, []);
-
-  /* useEffect(() => {
-    const keyboardDidShowListener = Keyboard.addListener("keyboardDidShow",
-      () => {
-        setKeyboardShown(true);
-      });
-
-    const keyboardDidHideListener = Keyboard.addListener(
-      'keyboardDidHide',
-      () => {
-        setKeyboardShown(false); 
-      }
-    );
-
-    return () => {
-      keyboardDidShowListener.remove();
-      keyboardDidHideListener.remove();
-    };
-  }, []) */
 
   const renderPage = () => {
     if (loading) {

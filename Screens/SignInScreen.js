@@ -1,8 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
 import React , { useState } from 'react';
-import { KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, View, TouchableHighlight } from 'react-native';
+import { KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, View, TouchableHighlight, Pressable } from 'react-native';
 
-export default function SignUpScreen() {
+export default function SignUpScreen( {navigation} ) {
     const hi = () => {
         alert("hi");
       }
@@ -29,6 +29,10 @@ export default function SignUpScreen() {
           <Text style={styles.buttonText}>Forgot Password</Text>
         </View>
       </TouchableHighlight>
+
+      <Pressable style={styles.signUpNavigator} onPress={() => navigation.navigate('Sign Up')}>
+        <Text style={styles.signUpNavigatorText} >New? Sign up here.</Text>
+      </Pressable>
 
     </View>
   );
@@ -86,5 +90,13 @@ const styles = StyleSheet.create({
 
    buttonText: {
      color: "#FFFFFF",
+   },
+
+   signUpNavigator: {
+    top: 350,
+   },
+
+   signUpNavigatorText: {
+    color: '#9F9F9F',
    },
 });

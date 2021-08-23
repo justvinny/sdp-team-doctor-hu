@@ -80,11 +80,11 @@ const styles = StyleSheet.create({
 
   headerText: {
     fontSize: 20,
-    color: '#000000'
+    color: 'black'
   },
 
   headerDescription: {
-    color: '#9F9F9F',
+    color: colorDefaults.subText,
     fontSize: 18,
     marginTop: 8,
     marginBottom: 8
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
   },
 
   input: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: 'white',
     margin: 8,
     marginTop: 8,
     padding: 8
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
   },
 
   buttonText: {
-    color: "#FFFFFF"
+    color: "white"
   },
 
   signUpNavigator: {
@@ -133,6 +133,6 @@ const styles = StyleSheet.create({
   },
 
   signUpNavigatorText: {
-    color: '#9F9F9F',
+    color: colorDefaults.subText,
   },
 });

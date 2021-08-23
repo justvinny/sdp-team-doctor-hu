@@ -8,7 +8,7 @@ const ChatHomeScreenController = ({ navigation }) => {
     // State
     const [loading, setLoading] = useState(true);
     const [staff, setStaff] = useState([]);
-    const authId = useContext(AuthContext);
+    const { authUserId } = useContext(AuthContext);
 
     // Realtime staff data from firestore.
     // Only grab staff that have messages related to logged in user.
@@ -20,12 +20,12 @@ const ChatHomeScreenController = ({ navigation }) => {
                     .filter(staff => {
                         if (staff.messages.length === 0) {
                             return false;
-                        } else if (staff.id === authId) {
+                        } else if (staff.id === authUserId) {
                             return false;
                         }
 
-                        return staff.messages.find(message => message.sentTo === authId
-                            || message.sentBy === authId);
+                        return staff.messages.find(message => message.sentTo === authUserId
+                            || message.sentBy === authUserId);
                     })
                     .map(staff => Staff.staffFirestoreFactory(staff));
                 setStaff(staffWithMessage);

@@ -4,12 +4,12 @@ import colorDefaults from "../../theme/colorDefaults"
 import AuthContext from "../AuthContext";
 
 const MessageBox = ({ id, name, message }) => {
-    const authId = useContext(AuthContext);
+    const { authUserId } = useContext(AuthContext);
 
     return (
-        <View style={authId === id ? styles.messageBoxYou : styles.messageBoxOther}>
-            <Text>{authId === id ? "You" : name}</Text>
-            <Text style={authId === id ? styles.textYou : styles.textOther}>{message}</Text>
+        <View style={authUserId === id ? styles.messageBoxYou : styles.messageBoxOther}>
+            <Text>{authUserId === id ? "You" : name}</Text>
+            <Text style={authUserId === id ? styles.textYou : styles.textOther}>{message}</Text>
         </View>
     )
 }

@@ -1,5 +1,4 @@
-import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   KeyboardAvoidingView,
   Platform,
@@ -11,30 +10,40 @@ import {
   Pressable,
   Switch,
 } from "react-native";
-import authService from "../firebase/authService";
+import AuthContext from "../components/AuthContext";
+import { auth } from "../firebase/firebaseConfig";
+import firestoreService from "../firebase/firestoreService";
 import colorDefaults from "../theme/colorDefaults";
 import LoadingScreen from "./LoadingScreen";
 
 export default function SignUpScreen({ navigation }) {
-  const [first, setFirst] = useState("");
+  const [first, setFirst] = useState("Mike");
   const [middle, setMiddle] = useState("");
-  const [last, setLast] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [repeatPassword, setRepeatPassword] = useState("");
-  const [isStaff, setIsStaff] = useState(false);
+  const [last, setLast] = useState("Jordan");
+  const [email, setEmail] = useState("mike@email.nz");
+  const [password, setPassword] = useState("123456");
+  const [repeatPassword, setRepeatPassword] = useState("123456");
+  const [isStaff, setIsStaff] = useState(true);
   const [loading, setLoading] = useState(false);
 
-  const signUp = () => {
+  const signUp = async () => {
     if (password === repeatPassword) {
       setLoading(true);
-
-      authService
-        .signUp(email, password, first, middle, last, isStaff)
-        .then((msg) => {
+      const id = await auth
+        .createUserWithEmailAndPassword(email, password)
+        .then((authUser) => {
           setLoading(false);
-          alert(msg);
+          return authUser.user.uid
+        })
+        .catch((error) => {
+          setLoading(false);
+          alert(error.message)
         });
+
+      if (id) {
+        firestoreService.createUser(id, first, middle, last, isStaff)
+          .catch(error => alert(error));
+      }
     } else {
       alert("Passwords don't match");
     }

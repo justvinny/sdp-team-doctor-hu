@@ -10,7 +10,7 @@ import AboutTab from "./AboutTab";
 const Tab = createMaterialTopTabNavigator();
 
 export default function StaffProfile({ navigation }) {
-  const authId = useContext(AuthContext);
+  const { authUserId } = useContext(AuthContext);
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
 
@@ -21,7 +21,7 @@ export default function StaffProfile({ navigation }) {
   }, []);
 
   useEffect(() => {
-    firestoreService.getUserById(authId).then((data) => {
+    firestoreService.getUserById(authUserId).then((data) => {
       setUser(data);
       setLoading(false);
     });

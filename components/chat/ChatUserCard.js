@@ -5,7 +5,7 @@ import colorDefaults from "../../theme/colorDefaults";
 import AuthContext from "../AuthContext";
 
 const ChatUserCard = ({ user, messageUser }) => {
-    const authId = useContext(AuthContext);
+    const { authUserId } = useContext(AuthContext);
 
     return (
         <TouchableOpacity style={styles.userContainer} activeOpacity={0.5} onPress={messageUser(user)}>
@@ -13,10 +13,10 @@ const ChatUserCard = ({ user, messageUser }) => {
                 <FontAwesome name="user-circle" size={32} color={colorDefaults.primary} />
                 <View style={styles.middleContainer}>
                     <Text style={styles.name}>{user.getFullName()}</Text>
-                    <Text style={styles.subText} numberOfLines={1}>{user.getLatestMessage(authId)}</Text>
+                    <Text style={styles.subText} numberOfLines={1}>{user.getLatestMessage(authUserId)}</Text>
                 </View>
             </View>
-            <Text style={[styles.date, styles.subText]}>{user.getLatestDate(authId)}</Text>
+            <Text style={[styles.date, styles.subText]}>{user.getLatestDate(authUserId)}</Text>
         </TouchableOpacity>
     )
 }

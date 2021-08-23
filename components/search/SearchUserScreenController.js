@@ -10,7 +10,7 @@ const SearchUserScreenController = ({ navigation, route }) => {
     const [loading, setLoading] = useState(true);
 
     const type = (route.params) ? route.params.type : "none";
-    const authId = useContext(AuthContext);
+    const { authUserId } = useContext(AuthContext);
     useEffect(() => {
         firestoreService.getAllStaff()
             .then(data => setUsers(data))
@@ -18,7 +18,7 @@ const SearchUserScreenController = ({ navigation, route }) => {
     }, []);
 
     const getSortedUsers = () => users
-        .filter(user => authId !== user.id
+        .filter(user => authUserId !== user.id
             && Staff.getFullName(user.name).toLowerCase().includes(search.toLowerCase()))
         .sort((userA, userB) => Staff.getFullName(userA.name).localeCompare(Staff.getFullName(userB.name)));
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, View, TouchableHighlight, Pressable } from 'react-native';
 import { auth } from '../firebase/firebaseConfig';
 import colorDefaults from '../theme/colorDefaults';
@@ -9,18 +9,20 @@ export default function SignInScreen({ navigation }) {
   const [password, setPassword] = useState("123456");
   const [loading, setLoading] = useState(false);
 
-  const hi = () => {
-    alert("hi");
-  }
-
   // Sample account to login
   // email : test1@.co.nz
   // pass : 123456
-  const signIn = () => {
+  const signIn = async () => {
     setLoading(true);
     auth.signInWithEmailAndPassword(email, password)
-      .catch((error) => alert(error.message))
-      .finally(() => setLoading(false));
+      .then(() => {
+        setLoading(false);
+        navigation.goBack();
+      })
+      .catch((error) => {
+        setLoading(false);
+        alert(error.message)
+      });
   }
 
   return (
@@ -54,7 +56,7 @@ export default function SignInScreen({ navigation }) {
               </View>
             </TouchableHighlight>
 
-            <TouchableHighlight onPress={hi} style={styles.buttonForgot}>
+            <TouchableHighlight onPress={() => alert("Forgot password")} style={styles.buttonForgot}>
               <View>
                 <Text style={styles.buttonText}>Forgot Password</Text>
               </View>

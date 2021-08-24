@@ -1,18 +1,10 @@
 import React from "react";
-import {
-  KeyboardAvoidingView,
-  Platform,
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  ScrollView,
-} from "react-native";
+import { StyleSheet, Text, View, Image } from "react-native";
 import colorDefaults from "../../../theme/colorDefaults";
-import PatientAboutTab from "./PatientAboutTab";
 import PatientProfileTab from "./PatientProfileTab";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import PatientAddressTab from "./PatientAddressTab";
+import PatientMedicalTab from "./PatientMedicalTab";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 
 const Tab = createMaterialTopTabNavigator();
 

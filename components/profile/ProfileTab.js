@@ -7,6 +7,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   View,
+  Platform,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import colorDefaults from "../../theme/colorDefaults";
@@ -68,9 +69,13 @@ function ProfileTab({ user, setUser }) {
   );
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior={"padding"}>
-      <ScrollView>
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      keyboardVerticalOffset={425}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <ScrollView style={{ flex: 1 }} bounces={false}>
           <View style={styles.profiles}>
             <ProfileInformation
               label="First Name:"
@@ -97,8 +102,8 @@ function ProfileTab({ user, setUser }) {
               <Text>{enabled ? doneIcon : editIcon}</Text>
             </TouchableOpacity>
           </View>
-        </TouchableWithoutFeedback>
-      </ScrollView>
+        </ScrollView>
+      </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
   );
 }

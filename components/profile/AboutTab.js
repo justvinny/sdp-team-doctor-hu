@@ -9,6 +9,7 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
+  Platform,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import colorDefaults from "../../theme/colorDefaults";
@@ -62,8 +63,12 @@ function AboutTab({ user, setUser }) {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <ScrollView>
-        <KeyboardAvoidingView style={styles.container}>
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={425}
+      >
+        <ScrollView style={{ flex: 1 }} bounces={false}>
           <TextInput
             style={styles.input}
             multiline
@@ -76,8 +81,8 @@ function AboutTab({ user, setUser }) {
           <TouchableOpacity style={styles.button} onPress={editText}>
             <Text>{enabled ? doneIcon : editIcon}</Text>
           </TouchableOpacity>
-        </KeyboardAvoidingView>
-      </ScrollView>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );
 }

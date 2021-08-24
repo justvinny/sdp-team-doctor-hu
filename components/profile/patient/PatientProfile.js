@@ -1,5 +1,4 @@
 import React from "react";
-import { useState } from "react";
 import {
   KeyboardAvoidingView,
   Platform,
@@ -10,14 +9,9 @@ import {
   ScrollView,
 } from "react-native";
 import colorDefaults from "../../../theme/colorDefaults";
-import ProfileInformation from "../ProfileInformation";
 import PatientAboutTab from "./PatientAboutTab";
 
 const PatientProfile = () => {
-  const [firstName, setFirstName] = useState("John");
-  const [middleName, setMiddleName] = useState("");
-  const [lastName, setLastName] = useState("Doe");
-
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}

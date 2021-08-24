@@ -5,15 +5,15 @@ import {
   Platform,
   StyleSheet,
   Text,
-  TextInput,
   View,
   Image,
   ScrollView,
 } from "react-native";
 import colorDefaults from "../../../theme/colorDefaults";
 import ProfileInformation from "../ProfileInformation";
+import PatientAboutTab from "./PatientAboutTab";
 
-const PatientAbout = () => {
+const PatientProfile = () => {
   const [firstName, setFirstName] = useState("John");
   const [middleName, setMiddleName] = useState("");
   const [lastName, setLastName] = useState("Doe");
@@ -32,32 +32,14 @@ const PatientAbout = () => {
           />
           <Text style={styles.name}>John Doe</Text>
         </View>
-        <View style={styles.profiles}>
-          <ProfileInformation
-            label="First Name"
-            placeholder="First Name"
-            value={firstName}
-            onChangeText={setFirstName}
-          />
-          <ProfileInformation
-            label="Middle Name"
-            placeholder="Middle Name"
-            value={middleName}
-            onChangeText={setMiddleName}
-          />
-          <ProfileInformation
-            label="Last Name"
-            placeholder="Last Name"
-            value={lastName}
-            onChangeText={setLastName}
-          />
-        </View>
+
+        <PatientAboutTab />
       </ScrollView>
     </KeyboardAvoidingView>
   );
 };
 
-export default PatientAbout;
+export default PatientProfile;
 
 const styles = StyleSheet.create({
   container: {

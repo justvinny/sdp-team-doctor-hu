@@ -10,26 +10,35 @@ import {
 } from "react-native";
 import colorDefaults from "../../../theme/colorDefaults";
 import PatientAboutTab from "./PatientAboutTab";
+import PatientProfileTab from "./PatientProfileTab";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import PatientAddressTab from "./PatientAddressTab";
+
+const Tab = createMaterialTopTabNavigator();
 
 const PatientProfile = () => {
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={{ flex: 1 }}
-      keyboardVerticalOffset={100}
-    >
-      <ScrollView style={{ flex: 1 }} bounces={false}>
-        <View style={styles.container}>
-          <Image
-            style={styles.image}
-            source={require("../../../assets/icon.png")}
-          />
-          <Text style={styles.name}>John Doe</Text>
-        </View>
+    <>
+      <View style={styles.container}>
+        <Image
+          style={styles.image}
+          source={require("../../../assets/icon.png")}
+        />
+        <Text style={styles.name}>John Doe</Text>
+      </View>
 
-        <PatientAboutTab />
-      </ScrollView>
-    </KeyboardAvoidingView>
+      <Tab.Navigator
+        screenOptions={{
+          tabBarLabelStyle: { color: "white" },
+          tabBarStyle: { backgroundColor: colorDefaults.primary },
+          tabBarIndicatorStyle: { backgroundColor: "black" },
+        }}
+      >
+        <Tab.Screen name="Profile" component={PatientProfileTab} />
+        <Tab.Screen name="Address" component={PatientAddressTab} />
+        <Tab.Screen name="Medical" component={PatientAddressTab} />
+      </Tab.Navigator>
+    </>
   );
 };
 

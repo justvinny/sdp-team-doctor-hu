@@ -36,7 +36,7 @@ const PatientProfile = () => {
       >
         <Tab.Screen name="Profile" component={PatientProfileTab} />
         <Tab.Screen name="Address" component={PatientAddressTab} />
-        <Tab.Screen name="Medical" component={PatientAddressTab} />
+        <Tab.Screen name="Medical" component={PatientMedicalTab} />
       </Tab.Navigator>
     </>
   );

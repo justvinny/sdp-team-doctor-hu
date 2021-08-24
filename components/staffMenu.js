@@ -53,7 +53,6 @@ export default function StaffMenu(){
       >
         <Text> Mom, look, I am a circle! </Text>
       </TouchableOpacity> */}
-      
 
       <Square/>
 

@@ -72,7 +72,7 @@ function ProfileTab({ user, setUser }) {
     <KeyboardAvoidingView
       style={{ flex: 1 }}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      keyboardVerticalOffset={425}
+      keyboardVerticalOffset={370}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ScrollView style={{ flex: 1 }} bounces={false}>

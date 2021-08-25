@@ -7,6 +7,9 @@ import {
   View,
   Image,
   ScrollView,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import colorDefaults from "../../../theme/colorDefaults";
 import PatientAboutTab from "./PatientAboutTab";
@@ -16,11 +19,13 @@ const PatientProfileTab = () => {
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={{ flex: 1 }}
-      keyboardVerticalOffset={425}
+      keyboardVerticalOffset={370}
     >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <ScrollView style={{ flex: 1 }} bounces={false}>
         <PatientAboutTab />
       </ScrollView>
+      </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
   );
 };

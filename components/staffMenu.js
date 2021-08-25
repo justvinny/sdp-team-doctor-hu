@@ -1,26 +1,49 @@
 import React, { useState } from "react";
-import { Text, View, TouchableOpacity, Button, Dimensions, StyleSheet, StatusBar, TouchableHighlight } from 'react-native';
+import { Text, View, ScrollView, Button, Dimensions, StyleSheet, StatusBar, TouchableHighlight } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import Square from './square';
 import LogoutButton from './logoutButton'
 
 
-
 export default function StaffMenu(){
+
+  const [names, setName] = useState(["Profile", "Messages", "Settings", "Attachments", "Notifications", "Search User"]);
+
+   const textTest = [];
+   for (let index = 0; index < textTest.length; index++) {
+    console.log(textTest[index])
+
+    
+  }
+
     return(
+      
         <View style={styles.container}>
+          {
+        names.map((name, index) => {
+          return (
+            <View key={index} style={styles.taskContainer}>
+              <Square 
+                index={index + 1} 
+                name={name} 
+              />
+            </View>
+          );
+        })
+      }
 
-        <Square/>
 
+        {/* <Square
+          name={name}/>
         <Square/>
         <Square/>
         <Square/>
         <Square/>
-        <Square/>
+        <Square/> */}
         
         
         <View style={styles.bottomView} >
-        <LogoutButton/>     
+          <LogoutButton/>     
         </View>
         
 

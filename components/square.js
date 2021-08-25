@@ -8,14 +8,16 @@ import {
   import { MaterialIcons } from '@expo/vector-icons';
   
 
-  const Square = () => {
+  const Square = (props) => {
+
+
     return (
       <TouchableOpacity >
         <View style={{padding:10}}>
           <View style={styles.square}/>
           <View style={styles.circle} />
           <MaterialIcons style={styles.icon} name="mail" size={40} color='#fff' />
-          <Text style={styles.text} >Test Text</Text>
+          <Text style={styles.text} >{props.name}</Text>
         </View>
       </TouchableOpacity>
     );

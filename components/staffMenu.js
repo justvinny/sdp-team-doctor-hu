@@ -2,66 +2,27 @@ import React, { useState } from "react";
 import { Text, View, TouchableOpacity, Button, Dimensions, StyleSheet, StatusBar, TouchableHighlight } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import Square from './square';
+import LogoutButton from './logoutButton'
 
 
 
 export default function StaffMenu(){
     return(
         <View style={styles.container}>
-      
-        {/* <TouchableOpacity
-        style = {{
-          borderRadius: Math.round(Dimensions.get('window').width + Dimensions.get('window').height) / 2,
-          width: Dimensions.get('window').width * 0.4,
-          height: Dimensions.get('window').width * 0.4,
-          backgroundColor:'#f00',
-          justifyContent: 'center',
-          alignItems: 'center'
-        }}
-        underlayColor = '#ccc'
-        onPress = { () => alert('Yaay!') }
-      >
-        <Text> Mom, look, I am a circle! </Text>
-      </TouchableOpacity>
 
-      <TouchableOpacity
-        style = {{
-          borderRadius: Math.round(Dimensions.get('window').width + Dimensions.get('window').height) / 2,
-          width: Dimensions.get('window').width * 0.4,
-          height: Dimensions.get('window').width * 0.4,
-          backgroundColor:'#f00',
-          justifyContent: 'center',
-          alignItems: 'center'
-        }}
-        underlayColor = '#ccc'
-        onPress = { () => alert('Yaay!') }
-      >
-        <Text> Mom, look, I am a circle! </Text>
-      </TouchableOpacity>
+        <Square/>
 
-      <TouchableOpacity
-        style = {{
-          borderRadius: Math.round(Dimensions.get('window').width + Dimensions.get('window').height) / 2,
-          width: Dimensions.get('window').width * 0.4,
-          height: Dimensions.get('window').width * 0.4,
-          backgroundColor:'#f00',
-          justifyContent: 'center',
-          alignItems: 'center'
-        }}
-        underlayColor = '#ccc'
-        onPress = { () => alert('Yaay!') }
-      >
-        <Text> Mom, look, I am a circle! </Text>
-      </TouchableOpacity> */}
-
-      <Square/>
-
-      <Square/>
-      <Square/>
-      <Square/>
-      <Square/>
-      <Square/>
-      
+        <Square/>
+        <Square/>
+        <Square/>
+        <Square/>
+        <Square/>
+        
+        
+        <View style={styles.bottomView} >
+        <LogoutButton/>     
+        </View>
+        
 
       </View>
 
@@ -77,9 +38,24 @@ const styles = StyleSheet.create({
       alignItems: 'flex-start',
       justifyContent: 'space-evenly',
       flexWrap: "wrap",
-      padding: 20,
+      //padding: 20,
+      paddingTop: ( Platform.OS === 'ios' ) ? 20 : 0
     },
     item:{
       padding: 20,
-    }
+    },
+    button:{
+      flex: 1,
+      justifyContent: 'flex-end',
+    },
+    bottomView:{
+      width: '100%', 
+      height: 100, 
+      left: 0,
+      //backgroundColor: '#FF9800', 
+      justifyContent: 'center', 
+      alignItems: 'center',
+      position: 'absolute',
+      bottom: 0
+    },
   });

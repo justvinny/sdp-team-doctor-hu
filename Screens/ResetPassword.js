@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -7,6 +7,8 @@ import {
   KeyboardAvoidingView,
   TextInput,
   TouchableHighlight,
+  ScrollView,
+  Platform
 } from "react-native";
 import colorDefaults from "../theme/colorDefaults";
 import { auth } from "../firebase/firebaseConfig";
@@ -33,28 +35,36 @@ const ResetPassword = ({ navigation }) => {
       {
         loading
           ? <LoadingScreen />
-          : <KeyboardAvoidingView style={styles.container} behavior={"padding"}>
-            <Image
-              source={require("../assets/images/logo.png")}
-              style={styles.logo}
-              resizeMode={"contain"}
-            />
+          : <KeyboardAvoidingView
+            style={styles.container}
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            keyboardVerticalOffset={200}
+          >
+            <ScrollView style={{ flex: 1 }}>
+              <View style={[styles.container, { paddingTop: 50 }]}>
+                <Image
+                  source={require("../assets/images/logo.png")}
+                  style={styles.logo}
+                  resizeMode={"contain"}
+                />
 
-            <Text style={styles.headerText}>Forgot Your Password?</Text>
-            <Text style={styles.headerDescription}>
-              Enter your email below to reset your password!
-            </Text>
+                <Text style={styles.headerText}>Forgot Your Password?</Text>
+                <Text style={styles.headerDescription}>
+                  Enter your email below to reset your password!
+                </Text>
 
-            <TextInput
-              style={styles.input}
-              placeholder={"Email*"}
-              value={email}
-              onChangeText={setEmail}
-            />
+                <TextInput
+                  style={styles.input}
+                  placeholder={"Email*"}
+                  value={email}
+                  onChangeText={setEmail}
+                />
 
-            <TouchableHighlight onPress={resetPassword} style={styles.buttonReset}>
-              <Text style={styles.buttonText}>Reset Password</Text>
-            </TouchableHighlight>
+                <TouchableHighlight onPress={resetPassword} style={styles.buttonReset}>
+                  <Text style={styles.buttonText}>Reset Password</Text>
+                </TouchableHighlight>
+              </View>
+            </ScrollView>
           </KeyboardAvoidingView>
       }
     </>
@@ -68,8 +78,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colorDefaults.backDropColor,
-    alignItems: "center",
-    paddingTop: 50,
+    alignItems: "center"
   },
 
   input: {

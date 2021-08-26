@@ -7,24 +7,22 @@ const getFormattedDateNow = () => {
         + date.getMinutes()
 }
 
-const getFormattedDayNow = () => {
-    let date = new Date();
-
+const getFormattedDayNow = (date = new Date()) => {
     switch (date.getDay()) {
         case 0:
-            return "Sunday"
+            return "Sun"
         case 1:
-            return "Monday"
+            return "Mon"
         case 2:
-            return "Tuesday"
+            return "Tue"
         case 3:
-            return "Wednesday"
+            return "Wed"
         case 4:
-            return "Thursday"
+            return "Thur"
         case 5:
-            return "Friday"
+            return "Fri"
         case 6:
-            return "Saturday"
+            return "Sat"
     }
 }
 

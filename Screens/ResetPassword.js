@@ -9,34 +9,56 @@ import {
   TouchableHighlight,
 } from "react-native";
 import colorDefaults from "../theme/colorDefaults";
+import { auth } from "../firebase/firebaseConfig";
+import LoadingScreen from "./LoadingScreen";
 
 const ResetPassword = ({ navigation }) => {
   const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const resetPassword = () => {
+    setLoading(true);
+    auth
+      .sendPasswordResetEmail(email)
+      .then(() => {
+        setLoading(false);
+        alert("Successfully sent password reset email.")
+      })
+      .catch((error) => alert(error.message));
+  }
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior={"padding"}>
-      <Image
-        source={require("../assets/images/logo.png")}
-        style={styles.logo}
-        resizeMode={"contain"}
-      />
 
-      <Text style={styles.headerText}>Forgot Your Password?</Text>
-      <Text style={styles.headerDescription}>
-        Enter your email below to reset your password!
-      </Text>
+    <>
+      {
+        loading
+          ? <LoadingScreen />
+          : <KeyboardAvoidingView style={styles.container} behavior={"padding"}>
+            <Image
+              source={require("../assets/images/logo.png")}
+              style={styles.logo}
+              resizeMode={"contain"}
+            />
 
-      <TextInput
-        style={styles.input}
-        placeholder={"Email*"}
-        value={email}
-        onChangeText={setEmail}
-      />
+            <Text style={styles.headerText}>Forgot Your Password?</Text>
+            <Text style={styles.headerDescription}>
+              Enter your email below to reset your password!
+            </Text>
 
-      <TouchableHighlight onPress={alert("fu")} style={styles.buttonReset}>
-        <Text style={styles.buttonText}>Reset Password</Text>
-      </TouchableHighlight>
-    </KeyboardAvoidingView>
+            <TextInput
+              style={styles.input}
+              placeholder={"Email*"}
+              value={email}
+              onChangeText={setEmail}
+            />
+
+            <TouchableHighlight onPress={resetPassword} style={styles.buttonReset}>
+              <Text style={styles.buttonText}>Reset Password</Text>
+            </TouchableHighlight>
+          </KeyboardAvoidingView>
+      }
+    </>
+
   );
 };
 

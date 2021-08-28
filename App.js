@@ -11,6 +11,7 @@ import authService from './firebase/authService'
 import AuthContext from "./components/AuthContext";
 import { auth } from './firebase/firebaseConfig';
 import StaffProfile from './components/profile/StaffProfile';
+import StaffMenu from './components/mainmenu/staffMenu';
 
 const Stack = createNativeStackNavigator();
 
@@ -30,6 +31,7 @@ export default function App() {
             <Button color={colorDefaults.primary} onPress={() => navigation.navigate("Search")} title="Search Page" />
             <Button color={colorDefaults.primary} onPress={() => navigation.navigate("ChatHome")} title="Message Staff" />
             <Button color={colorDefaults.primary} onPress={() => navigation.navigate("StaffProfile")} title="View Staff Profile" />
+            <Button color={colorDefaults.primary} onPress={() => navigation.navigate("StaffMenu")} title="Menu" />
           </>
           : <></>
       }
@@ -97,6 +99,7 @@ export default function App() {
                   <Stack.Screen component={ChatHomeScreenController} name="ChatHome" />
                   <Stack.Screen component={DirectMessageScreenController} name="DirectMessage" />
                   <Stack.Screen component={StaffProfile} name="StaffProfile" />
+                  <Stack.Screen component={StaffMenu} name="StaffMenu" />
                 </>
                 : <></>
             }

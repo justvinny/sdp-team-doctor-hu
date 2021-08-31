@@ -1,11 +1,13 @@
 import firebase from 'firebase/app'
 import "firebase/auth";
 import "firebase/firestore";
-import { LogBox, Platform } from "react-native";
+import { Platform } from "react-native";
 
 // Ignore setting a timer warning on android.
-if (Platform.OS === "android") LogBox.ignoreLogs(['Setting a timer']);
-
+if (Platform.OS === "android") {
+      const LogBox = require('react-native').LogBox;
+      LogBox.ignoreLogs(['Setting a timer']);
+}
 
 // Initialize Firebase
 const firebaseConfig = {

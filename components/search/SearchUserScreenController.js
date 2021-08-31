@@ -1,54 +1,26 @@
-import React, { useEffect, useState } from "react";
-import UserCard from "./UserCard";
+import React, { useContext, useEffect, useState } from "react";
 import firestoreService from "../../firebase/firestoreService";
+import Staff from "../../models/Staff";
+import AuthContext from "../AuthContext";
 import SearchUserScreenView from "./SearchUserScreenView";
 
-const SearchUserScreenController = ({ navigation }) => {
+const SearchUserScreenController = ({ navigation, route }) => {
     const [users, setUsers] = useState([]);
     const [search, setSearch] = useState("");
+    const [loading, setLoading] = useState(true);
 
+    const type = (route.params) ? route.params.type : "none";
+    const authId = useContext(AuthContext);
     useEffect(() => {
         firestoreService.getAllStaff()
-            .then(data => setUsers(data));
+            .then(data => setUsers(data))
+            .then(() => setLoading(false));
     }, []);
 
-    const renderUser = ({ item }) => {
-        return (item.name) ? <UserCard name={item.name} /> : <></>;
-    }
-
-    const getSortedUsers = () => {
-        return users.filter(user => {
-            const fullName = getFullName(user);
-
-            return fullName.toLowerCase().includes(search.toLowerCase());
-        })
-            .sort((userA, userB) => {
-                const fullNameA = getFullName(userA);
-                const fullNameB = getFullName(userB);
-
-                return compareByName(fullNameA, fullNameB);
-            });
-    }
-
-    const getFullName = (user) => {
-        return (user.name.middle)
-            ? `${user.name.first} ${user.name.middle} ${user.name.last}`
-            : `${user.name.first} ${user.name.last}`;
-
-    }
-
-    const compareByName = (nameA, nameB) => {
-        nameA = nameA.toLowerCase();
-        nameB = nameB.toLowerCase();
-        if (nameA < nameB) {
-            return -1;
-        }
-        if (nameA > nameB) {
-            return 1;
-        }
-
-        return 0;
-    }
+    const getSortedUsers = () => users
+        .filter(user => authId !== user.id
+            && Staff.getFullName(user.name).toLowerCase().includes(search.toLowerCase()))
+        .sort((userA, userB) => Staff.getFullName(userA.name).localeCompare(Staff.getFullName(userB.name)));
 
     const clearSearch = () => {
         setSearch("");
@@ -56,11 +28,14 @@ const SearchUserScreenController = ({ navigation }) => {
 
     return (
         <SearchUserScreenView
+            navigation={navigation}
             search={search}
             setSearch={setSearch}
             clearSearch={clearSearch}
             getSortedUsers={getSortedUsers}
-            renderUser={renderUser}
+            loading={loading}
+            setLoading={setLoading}
+            type={type}
         />
     )
 }

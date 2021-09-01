@@ -1,13 +1,30 @@
 import React from "react";
 import { View, FlatList, StyleSheet, Text } from "react-native";
 import colorDefaults from "../../theme/colorDefaults";
-import SearchBox from "./SearchBox";
+import SearchAppBar from "./SearchAppBar";
 import { MaterialIcons } from '@expo/vector-icons';
 import SearchUserCard from "./SearchUserCard";
 import LoadingScreen from "../../Screens/LoadingScreen";
+import FilterModal from "./filter/FilterModal";
 
-const SearchUserScreenView = ({ navigation, search, setSearch, clearSearch, getSortedUsers, loading, type }) => {
-
+const SearchUserScreenView = ({
+    navigation,
+    search,
+    setSearch,
+    clearSearch,
+    getSortedUsers,
+    loading,
+    type,
+    modalFilterVisible,
+    closeModalFilter,
+    openModalFilter,
+    filterSelected,
+    setFilterSelected,
+    sortSelected,
+    setSortSelected,
+    sortAscending,
+    toggleAscending
+}) => {
     const renderPage = () => {
         if (loading) {
             return <LoadingScreen />
@@ -23,7 +40,7 @@ const SearchUserScreenView = ({ navigation, search, setSearch, clearSearch, getS
         return (
             <FlatList
                 data={getSortedUsers()}
-                renderItem={({item}) => <SearchUserCard navigation={navigation} user={item} type={type}/>}
+                renderItem={({ item }) => <SearchUserCard navigation={navigation} user={item} type={type} />}
                 keyExtractor={item => item.id.toString()}
                 style={styles.flatList}
             />
@@ -32,10 +49,24 @@ const SearchUserScreenView = ({ navigation, search, setSearch, clearSearch, getS
 
     return (
         < View style={styles.container} >
-            <SearchBox
+            <SearchAppBar
                 search={search}
                 setSearch={setSearch}
                 clearSearch={clearSearch}
+                sortAscending={sortAscending}
+                toggleAscending={toggleAscending}
+                openModalFilter={openModalFilter}
+                navigation={navigation}
+            />
+            <FilterModal
+                modalFilterVisible={modalFilterVisible}
+                closeModalFilter={closeModalFilter}
+                filterSelected={filterSelected}
+                setFilterSelected={setFilterSelected}
+                sortSelected={sortSelected}
+                setSortSelected={setSortSelected}
+                sortAscending={sortAscending}
+                toggleAscending={toggleAscending}
             />
             {renderPage()}
         </View >
@@ -63,5 +94,8 @@ const styles = StyleSheet.create({
         flex: 1,
         alignSelf: "stretch",
         backgroundColor: colorDefaults.backDropColor
+    },
+    ascendingButton: {
+        marginRight: 8
     }
 });

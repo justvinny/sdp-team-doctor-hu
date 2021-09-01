@@ -23,7 +23,8 @@ const SearchUserCard = ({ navigation, user, type }) => {
                 navigation.replace("DirectMessage", { user });1
                 break;
             default:
-                navigation.navigate("StaffProfile", { user });
+                if (user.isStaff) navigation.navigate("StaffProfile", { user });
+                else alert("Waiting on Patient Profile feature.");
         }
     }
 

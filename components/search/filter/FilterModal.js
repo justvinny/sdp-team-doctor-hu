@@ -7,7 +7,8 @@ const FilterModal = ({
     modalFilterVisible,
     closeModalFilter,
     setFilterSelected,
-    setSortSelected
+    setSortSelected,
+    type
 }) => {
     return (
         <Modal
@@ -23,13 +24,18 @@ const FilterModal = ({
             >
                 <TouchableWithoutFeedback>
                     <View style={styles.container}>
-                        <Text style={styles.title}>Filter</Text>
-                        <View style={styles.section}>
-                            <RadioButtonGroup
-                                radioData={["Staff Only", "Patient Only", "Both"]}
-                                setSelectedValue={setFilterSelected}
-                            />
-                        </View>
+                        {("chat".localeCompare(type) === 0)
+                            ? <></>
+                            : <>
+                                <Text style={styles.title}>Filter</Text>
+                                <View style={styles.section}>
+                                    <RadioButtonGroup
+                                        radioData={["Staff Only", "Patient Only", "Both"]}
+                                        setSelectedValue={setFilterSelected}
+                                    />
+                                </View>
+                            </>
+                        }
                         <Text style={styles.title}>Sort</Text>
                         <View style={styles.section}>
                             <RadioButtonGroup

@@ -15,7 +15,6 @@ const SearchUserScreenController = ({ navigation, route }) => {
     const type = (route.params) ? route.params.type : "none";
     const authId = useContext(AuthContext);
     useEffect(() => {
-        console.log("called");
         firestoreService.getAllUsers()
             .then(data => setUsers(data))
             .then(() => setLoading(false));

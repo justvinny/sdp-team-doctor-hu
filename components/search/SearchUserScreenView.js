@@ -67,6 +67,7 @@ const SearchUserScreenView = ({
                 setSortSelected={setSortSelected}
                 sortAscending={sortAscending}
                 toggleAscending={toggleAscending}
+                type={type}
             />
             {renderPage()}
         </View >

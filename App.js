@@ -93,7 +93,7 @@ export default function App() {
               (loggedIn)
                 ? <>
                   <Stack.Screen component={Page} name="Page" />
-                  <Stack.Screen component={SearchUserScreenController} name="Search" />
+                  <Stack.Screen component={SearchUserScreenController} name="Search" options={{ headerShown: false }} />
                   <Stack.Screen component={ChatHomeScreenController} name="ChatHome" />
                   <Stack.Screen component={DirectMessageScreenController} name="DirectMessage" />
                   <Stack.Screen component={StaffProfile} name="StaffProfile" />

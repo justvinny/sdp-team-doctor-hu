@@ -20,10 +20,11 @@ const SearchUserCard = ({ navigation, user, type }) => {
     const getAction = () => {
         switch (type) {
             case "chat":
-                navigation.replace("DirectMessage", { user })
+                navigation.replace("DirectMessage", { user });1
                 break;
             default:
-                console.log("View profile action." + staff.getFullName());
+                if (user.isStaff) navigation.navigate("StaffProfile", { user });
+                else alert("Waiting on Patient Profile feature.");
         }
     }
 

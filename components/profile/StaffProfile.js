@@ -9,10 +9,11 @@ import Staff from "../../models/Staff";
 import AboutTab from "./AboutTab";
 const Tab = createMaterialTopTabNavigator();
 
-export default function StaffProfile({ navigation }) {
+export default function StaffProfile({ navigation, route }) {
+  const passedUser = route.params?.user;
   const authId = useContext(AuthContext);
-  const [user, setUser] = useState({});
-  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(passedUser ? passedUser : {});
+  const [loading, setLoading] = useState(passedUser ? false : true);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -20,7 +21,7 @@ export default function StaffProfile({ navigation }) {
     });
   }, []);
 
-  useEffect(() => {
+  !passedUser && useEffect(() => {
     firestoreService.getUserById(authId).then((data) => {
       setUser(data);
       setLoading(false);

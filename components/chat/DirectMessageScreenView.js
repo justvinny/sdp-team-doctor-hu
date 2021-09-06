@@ -1,13 +1,13 @@
 import React from "react";
-import { View, StyleSheet, FlatList } from "react-native";
+import { View, StyleSheet, FlatList, KeyboardAvoidingView, Platform } from "react-native";
 import colorDefaults from "../../theme/colorDefaults";
 import MessageBox from "./MessageBox";
 import ChatInputBox from "./ChatInputBox";
 
 const DirectMessageScreenView = ({ userMessages, inputMessage, setInputMessage, clear, createMessage, name }) => {
 
-    return (
-        <View style={styles.container}>
+    const renderChildren = () => (
+        <>
             <View style={styles.messagesContainer}>
                 <FlatList
                     data={userMessages}
@@ -24,7 +24,22 @@ const DirectMessageScreenView = ({ userMessages, inputMessage, setInputMessage, 
                 clear={clear}
                 createMessage={createMessage}
             />
-        </View>
+        </>
+    )
+    return (
+        <>
+            {Platform.OS === "ios"
+                ? <KeyboardAvoidingView
+                    style={styles.container}
+                    behavior="padding"
+                    keyboardVerticalOffset={80}
+                >
+                    {renderChildren()}
+                </KeyboardAvoidingView>
+                : <View style={styles.container}>
+                    {renderChildren()}
+                </View>}
+        </>
     )
 }
 

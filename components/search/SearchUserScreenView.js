@@ -6,6 +6,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import SearchUserCard from "./SearchUserCard";
 import LoadingScreen from "../../Screens/LoadingScreen";
 import FilterModal from "./filter/FilterModal";
+import Staff from "../../models/Staff";
 
 const SearchUserScreenView = ({
     navigation,

@@ -1,34 +1,32 @@
 import React from "react";
 import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import DropDownPicker from "react-native-dropdown-picker";
+import ProfileInformation from "../ProfileInformation";
+import SelectDropdown from "react-native-select-dropdown";
 
 const PatientMedicalTab = () => {
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(null);
-  const [bloodType, setBloodType] = useState([
-    { label: "A+", value: "A+" },
-    { label: "O+", value: "O+" },
-    { label: "B+", value: "B+" },
-    { label: "AB+", value: "AB+" },
-    { label: "A-", value: "A-" },
-    { label: "O-", value: "O-" },
-    { label: "B-", value: "B-" },
-    { label: "AB-", value: "AB-" },
-  ]);
+  const bloodTypes = ["A+", "O+", "B+", "AB+", "A-", "O-", "B-", "AB-"];
 
   return (
     <View style={styles.container}>
-      <Text>Blood Type</Text>
-      <DropDownPicker
-        open={open}
-        value={value}
-        items={bloodType}
-        setOpen={setOpen}
-        setValue={setValue}
-        setItems={setBloodType}
-        containerStyle={{ width: 100 }}
-      />
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+        }}
+      >
+        <Text style={styles.label}>Blood Type</Text>
+        <SelectDropdown
+          data={bloodTypes}
+          onSelect={(selectedItem, index) => {
+            console.log(selectedItem, index);
+          }}
+        />
+      </View>
+      <ProfileInformation label="Birthdate" />
+      <ProfileInformation label="Weight" />
+      <ProfileInformation label="Height" />
+      <ProfileInformation label="Allergies" />
     </View>
   );
 };
@@ -40,5 +38,11 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     padding: 10,
+    alignContent: "center",
+    justifyContent: "flex-start",
+    alignItems: "center",
+  },
+  label: {
+    paddingRight: 15,
   },
 });

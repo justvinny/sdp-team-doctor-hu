@@ -9,10 +9,10 @@ import LogoutButton from "./LogoutButton";
 import AuthContext from "../AuthContext"; //to access firestore service, Auth athority
 import firestoreService from "../../firebase/firestoreService"; //where you grab information from
 import Staff from "../../models/Staff";
-
+import { auth } from "../../firebase/firebaseConfig";
 
 export default function Menu({ navigation }) {
-  const authId = useContext(AuthContext);
+  const { authUserId, setAuthUserId } = useContext(AuthContext);
   const [user, setUser] = useState({});
   //user.isStaff
   const [loading, setLoading] = useState(true);
@@ -29,13 +29,22 @@ export default function Menu({ navigation }) {
 
   ]);
 
-
   useEffect(() => {
-    firestoreService.getUserById(authId).then((data) => {
+    firestoreService.getUserById(authUserId).then((data) => {
       setUser(data);
       setLoading(false);
     });
   }, []);
+
+  const signOut = () => {
+    auth
+      .signOut()
+      .then(() => {
+        setAuthUserId(undefined);
+        navigation.replace("WelcomeScreen");
+      })
+      .catch((error) => alert(error));
+  };
 
   const renderPage = () => {
     if (loading) {
@@ -54,7 +63,7 @@ export default function Menu({ navigation }) {
         </View>
         {names.map((name, index) => <Square key={index + name.route} name={name.iconname} icon={name.icon} navigation={navigation} route={name.route} />)}
         <View style={styles.bottomView}>
-          <LogoutButton />
+          <LogoutButton signOut={signOut} />
         </View>
       </View>
     );

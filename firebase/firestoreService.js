@@ -27,6 +27,7 @@ const getAllPatients = async () => {
         const querySnapshot = await db.collection(COLLECTION_USERS)
             .where("isStaff", "==", false)
             .get();
+        console.log(querySnapshot);
         return querySnapshot.docs.map(doc => doc.data());
     } catch (error) {
         return "Error getting patients: " + error;

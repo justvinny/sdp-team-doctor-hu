@@ -11,7 +11,7 @@ const Tab = createMaterialTopTabNavigator();
 
 export default function StaffProfile({ navigation, route }) {
   const passedUser = route.params?.user;
-  const authId = useContext(AuthContext);
+  const { authUserId } = useContext(AuthContext);
   const [user, setUser] = useState(passedUser ? passedUser : {});
   const [loading, setLoading] = useState(passedUser ? false : true);
 
@@ -22,7 +22,7 @@ export default function StaffProfile({ navigation, route }) {
   }, []);
 
   !passedUser && useEffect(() => {
-    firestoreService.getUserById(authId).then((data) => {
+    firestoreService.getUserById(authUserId).then((data) => {
       setUser(data);
       setLoading(false);
     });

@@ -12,10 +12,9 @@ import { auth } from "./firebase/firebaseConfig";
 import WelcomeScreen from "./Screens/WelcomeScreen";
 import SignInScreen from "./Screens/SignInScreen";
 import SignUpScreen from "./Screens/SignUpScreen";
-import StaffProfile from "./components/profile/StaffProfile";
 import ResetPassword from "./Screens/ResetPassword";
 import StaffProfile from './components/profile/StaffProfile';
-import Menu from './components/mainmenu/menu';
+import Menu from './components/mainmenu/Menu';
 
 const Stack = createNativeStackNavigator();
 
@@ -86,10 +85,11 @@ export default function App() {
             <Stack.Screen component={SignInScreen} name="Sign In" />
             <Stack.Screen component={SignUpScreen} name="Sign Up" />
             <Stack.Screen component={ResetPassword} name="ResetPassword" />
-            <Stack.Screen component={Home} name="Home" />
+            <Stack.Screen component={Menu} name="Menu" />
             <Stack.Screen
               component={SearchUserScreenController}
               name="Search"
+              options={{headerShown: false}}
             />
             <Stack.Screen
               component={ChatHomeScreenController}

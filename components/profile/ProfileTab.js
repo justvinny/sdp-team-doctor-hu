@@ -16,7 +16,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import AuthContext from "../AuthContext";
 
 function ProfileTab({ user, setUser }) {
-  const authId = useContext(AuthContext);
+  const { authUserId } = useContext(AuthContext);
   const [firstName, setFirstName] = useState(user.name.first);
   const [middleName, setMiddleName] = useState(user.name.middle);
   const [lastName, setLastName] = useState(user.name.last);
@@ -96,7 +96,7 @@ function ProfileTab({ user, setUser }) {
               editable={enabled}
             />
             {
-              authId === user.id
+              authUserId === user.id
                 ? <TouchableOpacity style={styles.button} onPress={editText}>
                   <Text>{enabled ? doneIcon : editIcon}</Text>
                 </TouchableOpacity>

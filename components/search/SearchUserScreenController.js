@@ -22,7 +22,7 @@ const SearchUserScreenController = ({ navigation, route }) => {
 
     const getSortedUsers = () => {
         const sortedUsers = users
-            .filter(user => authId !== user.id)
+            .filter(user => authUserId !== user.id)
             .filter(user => Staff.getFullName(user.name).toLowerCase().includes(search.toLowerCase()))
             .filter(filterUserType)
             .sort(sortName);

@@ -14,7 +14,7 @@ export default function WelcomeScreen({ navigation, route }) {
       if (user) {
         setAuthUserId(user.uid);
         setLoading(false);
-        if (route.name === "WelcomeScreen") navigation.replace("Home");
+        if (route.name === "WelcomeScreen") navigation.replace("Menu");
       } else {
         setLoading(false);
       }

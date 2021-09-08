@@ -6,6 +6,8 @@ import {
     Text,
   } from 'react-native';
   import { MaterialIcons } from '@expo/vector-icons';
+
+
   
 
   const Square = (props) => {
@@ -16,8 +18,9 @@ import {
         <View style={{padding:10}}>
           <View style={styles.square}/>
           <View style={styles.circle} />
-          <MaterialIcons style={styles.icon} name="mail" size={40} color='#fff' />
-          <Text style={styles.text} >{props.name}</Text>
+          <MaterialIcons style={styles.icon} name={props.icon} size={40} color='#fff' />
+          <Text style={styles.text}>{props.name}</Text>
+          
         </View>
       </TouchableOpacity>
     );

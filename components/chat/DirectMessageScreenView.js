@@ -11,7 +11,7 @@ const DirectMessageScreenView = ({ userMessages, inputMessage, setInputMessage, 
             <View style={styles.messagesContainer}>
                 <FlatList
                     data={userMessages}
-                    renderItem={({ item }) => <MessageBox id={item.sentBy} name={name} message={item.message} />}
+                    renderItem={({ item }) => <MessageBox id={item.sentBy} name={name} message={item.message} timestamp={item.timestamp}/>}
                     keyExtractor={(item, index) => index.toString()}
                     extraData={userMessages}
                     inverted

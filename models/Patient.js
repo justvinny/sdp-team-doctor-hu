@@ -1,4 +1,6 @@
-class Patient {
+import User from "./User";
+
+class Patient extends User{
     constructor(
         id,
         first,
@@ -17,13 +19,7 @@ class Patient {
         staffNotes = [],
         medicalResults = []) {
 
-        this.id = id;
-        this.name = {
-            first,
-            middle,
-            last
-        };
-        this.isStaff = isStaff;
+        super(id, first, middle, last, isStaff);
         this.address = {
             street,
             suburb,

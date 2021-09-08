@@ -1,28 +1,32 @@
-import React from 'react';
+import React, { useEffect, useState }  from 'react';
 import {
     TouchableOpacity,
     View,
     StyleSheet,
     Text,
+    SafeAreaView
   } from 'react-native';
   import { MaterialIcons } from '@expo/vector-icons';
 
 
-  
-
   const Square = (props) => {
-
+    const navigateScreen = () => {
+      if(props.route) {
+        props.navigation.navigate(props.route)
+      }
+    }
 
     return (
-      <TouchableOpacity >
-        <View style={{padding:10}}>
-          <View style={styles.square}/>
-          <View style={styles.circle} />
-          <MaterialIcons style={styles.icon} name={props.icon} size={40} color='#fff' />
-          <Text style={styles.text}>{props.name}</Text>
-          
-        </View>
-      </TouchableOpacity>
+      <TouchableOpacity key={props.index} onPress={navigateScreen} >
+      <View style={{padding:10}}>
+        <View style={styles.square}/>
+        <View style={styles.circle} />
+        <MaterialIcons style={styles.icon} name={props.icon} size={40} color='#fff' />
+        <Text style={styles.text}>{props.name}</Text>
+        
+      </View>
+    </TouchableOpacity>
+   
     );
   };
 

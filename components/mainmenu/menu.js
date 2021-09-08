@@ -1,42 +1,33 @@
 import React, { useState, useContext, useEffect } from "react";
-
 import {
   Text,
   View,
-  ScrollView,
-  Button,
-  Dimensions,
   StyleSheet,
-  StatusBar,
-  TouchableHighlight,
+  SafeAreaView
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import Square from "./square";
-import LogoutButton from "./logoutButton";
+ import LogoutButton from "./logoutButton";
 import AuthContext from "../AuthContext"; //to access firestore service, Auth athority
 import firestoreService from "../../firebase/firestoreService"; //where you grab information from
 import Staff from "../../models/Staff";
 
 
-
-export default function Menu() {
+export default function Menu({navigation}) {
   const authId = useContext(AuthContext);
   const [user, setUser] = useState({});
+  //user.isStaff
   const [loading, setLoading] = useState(true);
-
-  ///from the App js class
-  const [authUserId, setAuthUserId] = useState("");
-  const [loggedIn, setLoggedIn] = useState(false);
 
   // if use is staff or patient renders correct menu items
 
   const [names, setName] = useState([
-    {iconname:"Profile", icon:"account-circle"},
-    {iconname:"Messages", icon:"message"},
-    {iconname:"Settings", icon:"settings"},
+    {iconname:"Profile", icon:"account-circle", route: "StaffProfile"},
+    {iconname:"Messages", icon:"message", route: "ChatHome"},
+    {iconname:"Settings", icon:"settings", route: ""},
     // {iconname:"Attachments", icon:"attachment"},
-    {iconname:"Notifications", icon:"notifications"},
-    {iconname:"Search User", icon:"search"}
+    {iconname:"Notifications", icon:"notifications", route: ""},
+    {iconname:"Search User", icon:"search", route: "Search"}
   
   ]);
 
@@ -62,20 +53,11 @@ export default function Menu() {
 
         <View style={styles.topView}>
           <Text style={styles.text}>Welcome back, {Staff.getFullName(user.name)}</Text>
-        </View>
-      
-      
-        {names.map((name, index) => {
-          return (
-            <View key={index} style={styles.taskContainer}>
-              <Square index={index + 1} name={name.iconname} icon={name.icon}/>
             </View>
-          );
-        })}
+          
+            {names.map((name, index) => <Square index={index + 1} name={name.iconname} icon={name.icon} navigation={navigation} route={name.route} /> )}
 
-      
-
-        <View style={styles.bottomView}>
+            <View style={styles.bottomView}>
           <LogoutButton />
         </View>
       </View>

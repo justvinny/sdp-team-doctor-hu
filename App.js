@@ -11,7 +11,7 @@ import authService from './firebase/authService'
 import AuthContext from "./components/AuthContext";
 import { auth } from './firebase/firebaseConfig';
 import StaffProfile from './components/profile/StaffProfile';
-import Menu from './components/mainmenu/menu';
+import Menu from './components/mainmenu/Menu';
 
 const Stack = createNativeStackNavigator();
 

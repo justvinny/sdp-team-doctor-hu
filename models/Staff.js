@@ -1,14 +1,9 @@
 import dateUtility from "../utilities/dateUtility";
+import User from "./User";
 
-class Staff {
+class Staff extends User {
     constructor(id, first, middle, last, isStaff, title = "", about = "", messages = []) {
-        this.id = id;
-        this.name = {
-            first,
-            middle,
-            last
-        };
-        this.isStaff = isStaff;
+        super(id, first, middle, last, isStaff);
         this.title = title;
         this.about = about;
         this.messages = messages;
@@ -21,7 +16,7 @@ class Staff {
                 .reverse()[0]
             : undefined;
     }
-    
+
     getLatestMessage(authId) {
         let latestMessage = this.getLatestMessageObject(authId);
         return (latestMessage)
@@ -29,17 +24,15 @@ class Staff {
             : "No message";
     }
 
-    getFullName() {
-        return (this.name.middle)
-            ? `${this.name.first} ${this.name.middle} ${this.name.last}`
-            : `${this.name.first} ${this.name.last}`;
-    }
-
     getLatestDate(authId) {
         let latestMessage = this.getLatestMessageObject(authId);
-        return (latestMessage)
-            ? dateUtility.getFormattedDayNow(new Date(latestMessage.timestamp))
-            : "-";
+        let latestMessageDate = new Date(latestMessage.timestamp);
+        let dateToday = new Date();
+        let dayDifference = dateUtility.getDateDifferenceInDays(dateToday, latestMessageDate);
+        if (!latestMessage) return "-";
+        else if (dayDifference < 1) return dateUtility.getFormattedTime(latestMessageDate);
+        else if (dayDifference < 7) return dateUtility.getFormattedDayNow(latestMessageDate);
+        else return dateUtility.getFormattedDateNoTime(latestMessageDate)
     }
 
     static getFullName(name) {

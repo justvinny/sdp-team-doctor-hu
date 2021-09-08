@@ -2,18 +2,16 @@ import React, { useState, useContext, useEffect } from "react";
 import {
   Text,
   View,
-  StyleSheet,
-  SafeAreaView
+  StyleSheet
 } from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
-import Square from "./square";
- import LogoutButton from "./logoutButton";
+import Square from "./Square";
+import LogoutButton from "./LogoutButton";
 import AuthContext from "../AuthContext"; //to access firestore service, Auth athority
 import firestoreService from "../../firebase/firestoreService"; //where you grab information from
 import Staff from "../../models/Staff";
 
 
-export default function Menu({navigation}) {
+export default function Menu({ navigation }) {
   const authId = useContext(AuthContext);
   const [user, setUser] = useState({});
   //user.isStaff
@@ -22,13 +20,13 @@ export default function Menu({navigation}) {
   // if use is staff or patient renders correct menu items
 
   const [names, setName] = useState([
-    {iconname:"Profile", icon:"account-circle", route: "StaffProfile"},
-    {iconname:"Messages", icon:"message", route: "ChatHome"},
-    {iconname:"Settings", icon:"settings", route: ""},
+    { iconname: "Profile", icon: "account-circle", route: "StaffProfile" },
+    { iconname: "Messages", icon: "message", route: "ChatHome" },
+    { iconname: "Settings", icon: "settings", route: "" },
     // {iconname:"Attachments", icon:"attachment"},
-    {iconname:"Notifications", icon:"notifications", route: ""},
-    {iconname:"Search User", icon:"search", route: "Search"}
-  
+    { iconname: "Notifications", icon: "notifications", route: "" },
+    { iconname: "Search User", icon: "search", route: "Search" }
+
   ]);
 
 
@@ -48,16 +46,14 @@ export default function Menu({navigation}) {
 
     return (
 
-      
+
       <View style={styles.container}>
 
         <View style={styles.topView}>
           <Text style={styles.text}>Welcome back, {Staff.getFullName(user.name)}</Text>
-            </View>
-          
-            {names.map((name, index) => <Square index={index + 1} name={name.iconname} icon={name.icon} navigation={navigation} route={name.route} /> )}
-
-            <View style={styles.bottomView}>
+        </View>
+        {names.map((name, index) => <Square key={index + name.route} name={name.iconname} icon={name.icon} navigation={navigation} route={name.route} />)}
+        <View style={styles.bottomView}>
           <LogoutButton />
         </View>
       </View>
@@ -101,7 +97,7 @@ const styles = StyleSheet.create({
     left: 0,
     marginBottom: 20,
     backgroundColor: '#FF9800',
-    
+
     justifyContent: "center",
     alignItems: "center",
     // position: "",

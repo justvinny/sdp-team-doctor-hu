@@ -14,6 +14,11 @@ const getAllStaff = async () => {
     }
 }
 
+const getAllUsers = () => db.collection(COLLECTION_USERS)
+    .get()
+    .then((querySnapshot) => querySnapshot.docs.map(doc => doc.data()))
+    .catch((error) => "Error getting users: " + error);
+
 const getAllStaffLive = (id) => db.collection(COLLECTION_USERS)
     .where("isStaff", "==", true)
 
@@ -365,6 +370,7 @@ const firestoreService = {
     getAllStaff,
     getAllStaffLive,
     getAllPatients,
+    getAllUsers,
     getUserById,
     getLiveMessages,
     createUser,

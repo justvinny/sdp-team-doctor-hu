@@ -14,6 +14,8 @@ import SignInScreen from "./Screens/SignInScreen";
 import SignUpScreen from "./Screens/SignUpScreen";
 import StaffProfile from "./components/profile/StaffProfile";
 import ResetPassword from "./Screens/ResetPassword";
+import StaffProfile from './components/profile/StaffProfile';
+import Menu from './components/mainmenu/menu';
 
 const Stack = createNativeStackNavigator();
 

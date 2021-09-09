@@ -5,13 +5,13 @@ import dateUtility from "../../utilities/dateUtility";
 import AuthContext from "../AuthContext";
 
 const MessageBox = ({ id, name, message, timestamp }) => {
-    const authId = useContext(AuthContext);
+    const { authUserId } = useContext(AuthContext);
 
     return (
-        <View style={authId === id ? styles.messageBoxYou : styles.messageBoxOther}>
-            <Text style={authId === id ? styles.textYou : styles.textOther}>{message}</Text>
-            <View style={authId === id ? styles.headerContainer : styles.headerContainerOther}>
-                <Text style={styles.name}>{authId === id ? "You" : name}</Text>
+        <View style={authUserId === id ? styles.messageBoxYou : styles.messageBoxOther}>
+            <Text style={authUserId === id ? styles.textYou : styles.textOther}>{message}</Text>
+            <View style={authUserId === id ? styles.headerContainer : styles.headerContainerOther}>
+                <Text style={styles.name}>{authUserId === id ? "You" : name}</Text>
                 <Text style={styles.date}>{dateUtility.getFormattedDateNow(new Date(timestamp))}</Text>
             </View>
         </View>

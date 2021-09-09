@@ -17,7 +17,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import AuthContext from "../AuthContext";
 
 function AboutTab({ user, setUser }) {
-  const authId = useContext(AuthContext);
+  const { authUserId } = useContext(AuthContext);
   const [enabled, setEnabled] = useState(false);
   const [aboutText, setAbout] = useState(user.about);
 
@@ -76,7 +76,7 @@ function AboutTab({ user, setUser }) {
             value={aboutText}
           ></TextInput>
           {
-            authId === user.id
+            authUserId === user.id
               ? <TouchableOpacity style={styles.button} onPress={editText}>
                 <Text>{enabled ? doneIcon : editIcon}</Text>
               </TouchableOpacity>

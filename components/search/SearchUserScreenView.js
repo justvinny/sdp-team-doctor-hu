@@ -5,8 +5,7 @@ import SearchAppBar from "./SearchAppBar";
 import { MaterialIcons } from '@expo/vector-icons';
 import SearchUserCard from "./SearchUserCard";
 import LoadingScreen from "../../Screens/LoadingScreen";
-import FilterModal from "./filter/FilterModal";
-import Staff from "../../models/Staff";
+import FilterModal from "./filter/FilterModal"
 
 const SearchUserScreenView = ({
     navigation,

@@ -6,21 +6,23 @@ import {
   } from 'react-native';
 
 
-export default logoutButton = () => {
+const logoutButton = () => {
 
-    return (
-        <View
-        style={styles.buttonStyle}>
-          <Button
-               title={"Log Out"}
-               color={"#F31801"}/>
-      </View>
+  return (
+      <View
+      style={styles.buttonStyle}>
+        <Button
+             title={"Log Out"}
+             color={"#F31801"}/>
+    </View>
 
-    );
+  );
 
-    
+  
 
 };
+
+export default logoutButton;
 
 const styles = StyleSheet.create({
     buttonStyle: {

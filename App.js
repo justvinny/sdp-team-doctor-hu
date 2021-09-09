@@ -12,6 +12,7 @@ import AuthContext from "./components/AuthContext";
 import { auth } from './firebase/firebaseConfig';
 import StaffProfile from './components/profile/StaffProfile';
 import Menu from './components/mainmenu/Menu';
+import * as DocumentPicker from 'expo-document-picker';
 
 const Stack = createNativeStackNavigator();
 
@@ -19,6 +20,13 @@ export default function App() {
   // Authentication states
   const [authUserId, setAuthUserId] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
+
+  const filePicker = () => {
+    DocumentPicker
+    .getDocumentAsync({type: "image/*", copyToCacheDirectory: false, multiple: false})
+    .then(data => alert(data.name))
+    .catch(error => console.log(error));
+  }
 
   // Temporary to test navigation
   const Home = ({ navigation }) => (
@@ -32,6 +40,7 @@ export default function App() {
             <Button color={colorDefaults.primary} onPress={() => navigation.navigate("ChatHome")} title="Message Staff" />
             <Button color={colorDefaults.primary} onPress={() => navigation.navigate("StaffProfile")} title="View Staff Profile" />
             <Button color={colorDefaults.primary} onPress={() => navigation.navigate("Menu")} title="Menu" />
+            <Button color={colorDefaults.primary} onPress={filePicker} title="File Picker" />
           </>
           : <></>
       }

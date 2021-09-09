@@ -14,8 +14,8 @@ import colorDefaults from "../theme/colorDefaults";
 import LoadingScreen from "./LoadingScreen";
 
 export default function SignInScreen({ navigation }) {
-  const [email, setEmail] = useState("test1@co.nz");
-  const [password, setPassword] = useState("123456");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
   // Sample account to login

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import {
   KeyboardAvoidingView,
   Platform,
@@ -10,20 +10,19 @@ import {
   Pressable,
   Switch,
 } from "react-native";
-import AuthContext from "../components/AuthContext";
 import { auth } from "../firebase/firebaseConfig";
 import firestoreService from "../firebase/firestoreService";
 import colorDefaults from "../theme/colorDefaults";
 import LoadingScreen from "./LoadingScreen";
 
 export default function SignUpScreen({ navigation }) {
-  const [first, setFirst] = useState("Mike");
+  const [first, setFirst] = useState("");
   const [middle, setMiddle] = useState("");
-  const [last, setLast] = useState("Jordan");
-  const [email, setEmail] = useState("mike@email.nz");
-  const [password, setPassword] = useState("123456");
-  const [repeatPassword, setRepeatPassword] = useState("123456");
-  const [isStaff, setIsStaff] = useState(true);
+  const [last, setLast] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [repeatPassword, setRepeatPassword] = useState("");
+  const [isStaff, setIsStaff] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const signUp = async () => {

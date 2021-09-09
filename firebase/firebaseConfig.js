@@ -1,6 +1,7 @@
 import firebase from 'firebase/app'
 import "firebase/auth";
 import "firebase/firestore";
+import "firebase/storage";
 import { Platform } from "react-native";
 
 // Ignore setting a timer warning on android.
@@ -25,9 +26,10 @@ if (!firebase.apps.length) {
 
 const db = firebase.firestore();
 const auth = firebase.auth();
-
+const storage = firebase.storage();
 export {
   db,
-  auth
+  auth,
+  storage
 }
 export default firebase;

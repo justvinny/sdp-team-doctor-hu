@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, Button, SafeAreaView, Image } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SearchUserScreenController from './components/search/SearchUserScreenController';
 import ChatHomeScreenController from './components/chat/ChatHomeScreenController';
@@ -9,10 +9,10 @@ import colorDefaults from './theme/colorDefaults';
 import DirectMessageScreenController from './components/chat/DirectMessageScreenController';
 import authService from './firebase/authService'
 import AuthContext from "./components/AuthContext";
-import { auth } from './firebase/firebaseConfig';
+import { auth, storage } from './firebase/firebaseConfig';
 import StaffProfile from './components/profile/StaffProfile';
 import Menu from './components/mainmenu/Menu';
-import * as DocumentPicker from 'expo-document-picker';
+import * as ImagePicker from 'expo-image-picker';
 
 const Stack = createNativeStackNavigator();
 
@@ -20,12 +20,39 @@ export default function App() {
   // Authentication states
   const [authUserId, setAuthUserId] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
+  const [image, setImage] = useState("");
 
-  const filePicker = () => {
-    DocumentPicker
-    .getDocumentAsync({type: "image/*", copyToCacheDirectory: false, multiple: false})
-    .then(data => alert(data.name))
-    .catch(error => console.log(error));
+  const imagePicker = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: false,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.cancelled) {
+      setImage(result.uri);
+    }
+  };
+
+  const upload = async () => {
+    if (image) {
+      try {
+        const childPath = `profile/${Math.random().toString(36)}`;
+        const response = await fetch(image);
+        const blob = await response.blob();
+        const task = await storage
+          .ref()
+          .child(childPath)
+          .put(blob);
+
+        task.ref.getDownloadURL().then(url => alert(url));
+      } catch (error) {
+        alert(error.message);
+      }
+    }
   }
 
   // Temporary to test navigation
@@ -40,7 +67,10 @@ export default function App() {
             <Button color={colorDefaults.primary} onPress={() => navigation.navigate("ChatHome")} title="Message Staff" />
             <Button color={colorDefaults.primary} onPress={() => navigation.navigate("StaffProfile")} title="View Staff Profile" />
             <Button color={colorDefaults.primary} onPress={() => navigation.navigate("Menu")} title="Menu" />
-            <Button color={colorDefaults.primary} onPress={filePicker} title="File Picker" />
+            <Button color={colorDefaults.primary} onPress={imagePicker} title="File Picker" />
+            <Button color={colorDefaults.primary} onPress={upload} title="Upload Image" />
+
+            {image ? <Image style={{ width: 200, height: 400 }} source={{ uri: image }} /> : <></>}
           </>
           : <></>
       }
@@ -80,6 +110,17 @@ export default function App() {
     })
 
     return unsubscribe;
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      if (Platform.OS !== 'web') {
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== 'granted') {
+          alert('Sorry, we need camera roll permissions to make this work!');
+        }
+      }
+    })();
   }, []);
 
   return (

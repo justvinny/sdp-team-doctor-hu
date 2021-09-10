@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   KeyboardAvoidingView,
   StyleSheet,
@@ -14,8 +14,10 @@ import colorDefaults from "../../theme/colorDefaults";
 import ProfileInformation from "./ProfileInformation";
 import firestoreService from "../../firebase/firestoreService";
 import { ScrollView } from "react-native-gesture-handler";
+import AuthContext from "../AuthContext";
 
 function ProfileTab({ user, setUser }) {
+  const { authUserId } = useContext(AuthContext);
   const [firstName, setFirstName] = useState(user.name.first);
   const [middleName, setMiddleName] = useState(user.name.middle);
   const [lastName, setLastName] = useState(user.name.last);
@@ -98,9 +100,13 @@ function ProfileTab({ user, setUser }) {
               onChangeText={setLastName}
               editable={enabled}
             />
-            <TouchableOpacity style={styles.button} onPress={editText}>
-              <Text>{enabled ? doneIcon : editIcon}</Text>
-            </TouchableOpacity>
+            {
+              authUserId === user.id
+                ? <TouchableOpacity style={styles.button} onPress={editText}>
+                  <Text>{enabled ? doneIcon : editIcon}</Text>
+                </TouchableOpacity>
+                : <></>
+            }
           </View>
         </ScrollView>
       </TouchableWithoutFeedback>

@@ -5,8 +5,8 @@ import { AntDesign } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import Staff from "../../models/Staff";
 
-const SearchUserCard = ({ navigation, user, type }) => {
-    const staff = Staff.staffFirestoreFactory(user);
+const SearchUserCard = ({ navigation, user, type, ...props }) => {
+    const fullName = Staff.getFullName(user.name);
 
     const getSearchType = () => {
         switch (type) {
@@ -20,16 +20,21 @@ const SearchUserCard = ({ navigation, user, type }) => {
     const getAction = () => {
         switch (type) {
             case "chat":
-                navigation.replace("DirectMessage", { user })
+                navigation.replace("DirectMessage", { user }); 1
                 break;
             default:
-                console.log("View profile action." + staff.getFullName());
+                if (user.isStaff) navigation.navigate("StaffProfile", { user });
+                else alert("Waiting on Patient Profile feature.");
         }
     }
 
     return (
-        <TouchableOpacity style={styles.container} activeOpacity={0.5} onPress={getAction}>
-            <Text>{staff.getFullName()}</Text>
+        <TouchableOpacity
+            testID={type === "chat" ? "SearchUserCard.ChatIcon" : "SearchUserCard.PersonIcon"}
+            style={styles.container}
+            activeOpacity={0.5}
+            onPress={getAction}>
+            <Text>{fullName}</Text>
             {getSearchType()}
         </TouchableOpacity>
     )

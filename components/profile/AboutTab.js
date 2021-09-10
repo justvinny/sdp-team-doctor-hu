@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useState } from "react";
 import {
   View,
@@ -9,14 +9,15 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
-  Platform,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import colorDefaults from "../../theme/colorDefaults";
 import firestoreService from "../../firebase/firestoreService";
 import { ScrollView } from "react-native-gesture-handler";
+import AuthContext from "../AuthContext";
 
 function AboutTab({ user, setUser }) {
+  const { authUserId } = useContext(AuthContext);
   const [enabled, setEnabled] = useState(false);
   const [aboutText, setAbout] = useState(user.about);
 
@@ -63,12 +64,8 @@ function AboutTab({ user, setUser }) {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <KeyboardAvoidingView
-        style={styles.container}
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        keyboardVerticalOffset={425}
-      >
-        <ScrollView style={{ flex: 1 }} bounces={false}>
+      <ScrollView>
+        <KeyboardAvoidingView style={styles.container}>
           <TextInput
             style={styles.input}
             multiline
@@ -78,11 +75,15 @@ function AboutTab({ user, setUser }) {
             onChangeText={setAbout}
             value={aboutText}
           ></TextInput>
-          <TouchableOpacity style={styles.button} onPress={editText}>
-            <Text>{enabled ? doneIcon : editIcon}</Text>
-          </TouchableOpacity>
-        </ScrollView>
-      </KeyboardAvoidingView>
+          {
+            authUserId === user.id
+              ? <TouchableOpacity style={styles.button} onPress={editText}>
+                <Text>{enabled ? doneIcon : editIcon}</Text>
+              </TouchableOpacity>
+              : <></>
+          }
+        </KeyboardAvoidingView>
+      </ScrollView>
     </TouchableWithoutFeedback>
   );
 }

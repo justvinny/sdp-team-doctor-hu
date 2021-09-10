@@ -8,7 +8,7 @@ const DirectMessageScreenController = ({ navigation, route }) => {
     // States
     const [inputMessage, setInputMessage] = useState("");
     const [userMessages, setUserMessages] = useState([]);
-    const authId = useContext(AuthContext);
+    const { authUserId } = useContext(AuthContext);
     const user = Staff.staffFirestoreFactory(route.params?.user);
     const name = user.name.first;
     const id = user.id
@@ -23,12 +23,12 @@ const DirectMessageScreenController = ({ navigation, route }) => {
     // Get message records for the person you're chatting with.
     useEffect(() => {
         const unsubscribe = firestoreService
-            .getLiveMessages(authId)
+            .getLiveMessages(authUserId)
             .onSnapshot(doc => {
                 if (doc.data()) {
                     const msgs = doc.data().messages
                         .filter(msg => msg.sentTo === id || msg.sentBy === id)
-                        .filter(msg => msg.sentTo === authId || msg.sentBy === authId)
+                        .filter(msg => msg.sentTo === authUserId || msg.sentBy === authUserId)
                         .reverse();
                     setUserMessages(msgs);
                 }
@@ -45,7 +45,7 @@ const DirectMessageScreenController = ({ navigation, route }) => {
     // Send the message and save it to the firestore server.
     const createMessage = () => {
         const newMessage = {
-            sentBy: authId,
+            sentBy: authUserId,
             sentTo: id,
             message: inputMessage,
             timestamp: Date.now()
@@ -55,7 +55,7 @@ const DirectMessageScreenController = ({ navigation, route }) => {
             clear();
 
             // Record messages on both accounts involved.
-            firestoreService.addMessage(authId, newMessage);
+            firestoreService.addMessage(authUserId, newMessage);
             firestoreService.addMessage(newMessage.sentTo, newMessage);
         }
     }

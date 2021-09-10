@@ -14,6 +14,11 @@ const getAllStaff = async () => {
     }
 }
 
+const getAllUsers = () => db.collection(COLLECTION_USERS)
+    .get()
+    .then((querySnapshot) => querySnapshot.docs.map(doc => doc.data()))
+    .catch((error) => "Error getting users: " + error);
+
 const getAllStaffLive = (id) => db.collection(COLLECTION_USERS)
     .where("isStaff", "==", true)
 
@@ -22,6 +27,7 @@ const getAllPatients = async () => {
         const querySnapshot = await db.collection(COLLECTION_USERS)
             .where("isStaff", "==", false)
             .get();
+        console.log(querySnapshot);
         return querySnapshot.docs.map(doc => doc.data());
     } catch (error) {
         return "Error getting patients: " + error;
@@ -42,7 +48,7 @@ const getUserById = async (id) => {
 const getLiveMessages = (id) => db.collection(COLLECTION_USERS).doc(id)
 
 // Create operations.
-const createPatient = async (id, first, middle, last, isStaff) => {
+const createPatient = (id, first, middle, last, isStaff) => {
     const newPatient = {
         id,
         name: {
@@ -66,10 +72,10 @@ const createPatient = async (id, first, middle, last, isStaff) => {
         medicalResults: []
     }
 
-    return await createUser(newPatient);
+    return newPatient;
 }
 
-const createStaff = async (id, first, middle, last, isStaff) => {
+const createStaff = (id, first, middle, last, isStaff) => {
     const newStaff = {
         id,
         name: {
@@ -83,22 +89,25 @@ const createStaff = async (id, first, middle, last, isStaff) => {
         messages: []
     }
 
-    return await createUser(newStaff);
+    return newStaff;
 }
 
 /* 
     addUser is a helper method only.
     Use createPatient or createStaff above for the actual account creation.
 */
-const createUser = async (newUser) => {
-    try {
-        const docRef = await db.collection(COLLECTION_USERS)
-            .doc(newUser.id)
-            .set(newUser);
-        return "User successfully added with " + docRef.id;
-    } catch (error) {
-        return "Error adding user: " + error;
+const createUser = (id, first, middle, last, isStaff) => {
+    let newUser;
+
+    if (isStaff) {
+        newUser = createStaff(id, first, middle, last, isStaff);
+    } else {
+        newUser = createPatient(id, first, middle, last, isStaff);
     }
+
+    return db.collection(COLLECTION_USERS)
+        .doc(newUser.id)
+        .set(newUser);
 }
 
 // Update operations.
@@ -362,6 +371,7 @@ const firestoreService = {
     getAllStaff,
     getAllStaffLive,
     getAllPatients,
+    getAllUsers,
     getUserById,
     getLiveMessages,
     createUser,

@@ -13,7 +13,7 @@ import WelcomeScreen from "./Screens/WelcomeScreen";
 import SignInScreen from "./Screens/SignInScreen";
 import SignUpScreen from "./Screens/SignUpScreen";
 import ResetPassword from "./Screens/ResetPassword";
-import StaffProfile from "./components/profile/StaffProfile";
+import StaffProfile from "./components/profile/staff/StaffProfile";
 import PatientProfile from "./components/profile/patient/PatientProfile";
 import Menu from "./components/mainmenu/Menu";
 

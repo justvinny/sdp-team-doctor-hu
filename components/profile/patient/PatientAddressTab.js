@@ -4,12 +4,9 @@ import {
   Platform,
   ScrollView,
   StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
 } from "react-native";
-import ProfileInformation from "../ProfileInformation";
-import EditEnableButton from "../button/EditEnableButton";
+import ProfileInformation from "../profilecomponents/ProfileInformation";
+import EditEnableButton from "../profilecomponents/EditEnableButton";
 
 const PatientAddressTab = () => {
   const [editable, setEditable] = useState(false);

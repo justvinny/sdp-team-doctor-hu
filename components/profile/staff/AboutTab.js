@@ -11,10 +11,10 @@ import {
   Keyboard,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
-import colorDefaults from "../../theme/colorDefaults";
-import firestoreService from "../../firebase/firestoreService";
+import colorDefaults from "../../../theme/colorDefaults";
+import firestoreService from "../../../firebase/firestoreService";
 import { ScrollView } from "react-native-gesture-handler";
-import AuthContext from "../AuthContext";
+import AuthContext from "../../AuthContext";
 
 function AboutTab({ user, setUser }) {
   const { authUserId } = useContext(AuthContext);

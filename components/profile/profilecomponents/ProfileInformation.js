@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, TextInput, View } from "react-native";
-import colorDefaults from "../../theme/colorDefaults";
+import colorDefaults from "../../../theme/colorDefaults";
 
 function ProfileInformation({
   label,

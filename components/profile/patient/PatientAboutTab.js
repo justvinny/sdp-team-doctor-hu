@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
-import ProfileInformation from "../ProfileInformation";
+import ProfileInformation from "../profilecomponents/ProfileInformation";
 import { MaterialIcons } from "@expo/vector-icons";
 import colorDefaults from "../../../theme/colorDefaults";
 
@@ -62,7 +62,7 @@ const PatientAboutTab = () => {
         editable={enabled}
       />
       <TouchableOpacity style={styles.button} onPress={editText}>
-              <Text>{enabled ? doneIcon : editIcon}</Text>
+        <Text>{enabled ? doneIcon : editIcon}</Text>
       </TouchableOpacity>
     </View>
   );

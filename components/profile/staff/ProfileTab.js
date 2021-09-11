@@ -10,11 +10,11 @@ import {
   Platform,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
-import colorDefaults from "../../theme/colorDefaults";
-import ProfileInformation from "./ProfileInformation";
-import firestoreService from "../../firebase/firestoreService";
+import colorDefaults from "../../../theme/colorDefaults";
+import ProfileInformation from "../profilecomponents/ProfileInformation";
+import firestoreService from "../../../firebase/firestoreService";
 import { ScrollView } from "react-native-gesture-handler";
-import AuthContext from "../AuthContext";
+import AuthContext from "../../AuthContext";
 
 function ProfileTab({ user, setUser }) {
   const { authUserId } = useContext(AuthContext);
@@ -100,13 +100,13 @@ function ProfileTab({ user, setUser }) {
               onChangeText={setLastName}
               editable={enabled}
             />
-            {
-              authUserId === user.id
-                ? <TouchableOpacity style={styles.button} onPress={editText}>
-                  <Text>{enabled ? doneIcon : editIcon}</Text>
-                </TouchableOpacity>
-                : <></>
-            }
+            {authUserId === user.id ? (
+              <TouchableOpacity style={styles.button} onPress={editText}>
+                <Text>{enabled ? doneIcon : editIcon}</Text>
+              </TouchableOpacity>
+            ) : (
+              <></>
+            )}
           </View>
         </ScrollView>
       </TouchableWithoutFeedback>

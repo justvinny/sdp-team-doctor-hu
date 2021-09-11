@@ -8,7 +8,7 @@ import {
   View,
   ScrollView,
 } from "react-native";
-import ProfileInformation from "../ProfileInformation";
+import ProfileInformation from "../profilecomponents/ProfileInformation";
 import SelectDropdown from "react-native-select-dropdown";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import colorDefaults from "../../../theme/colorDefaults";

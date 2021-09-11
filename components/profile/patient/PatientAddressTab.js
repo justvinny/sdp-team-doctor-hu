@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import ProfileInformation from "../ProfileInformation";
+import EditEnableButton from "../button/EditEnableButton";
 
 const PatientAddressTab = () => {
   return (
@@ -20,6 +21,7 @@ const PatientAddressTab = () => {
         <ProfileInformation label="City" />
         <ProfileInformation label="Postcode" />
       </ScrollView>
+      <EditEnableButton />
     </KeyboardAvoidingView>
   );
 };

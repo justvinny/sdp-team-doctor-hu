@@ -75,13 +75,13 @@ function AboutTab({ user, setUser }) {
             onChangeText={setAbout}
             value={aboutText}
           ></TextInput>
-          {
-            authUserId === user.id
-              ? <TouchableOpacity style={styles.button} onPress={editText}>
-                <Text>{enabled ? doneIcon : editIcon}</Text>
-              </TouchableOpacity>
-              : <></>
-          }
+          {authUserId === user.id ? (
+            <TouchableOpacity style={styles.button} onPress={editText}>
+              <Text>{enabled ? doneIcon : editIcon}</Text>
+            </TouchableOpacity>
+          ) : (
+            <></>
+          )}
         </KeyboardAvoidingView>
       </ScrollView>
     </TouchableWithoutFeedback>

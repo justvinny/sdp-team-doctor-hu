@@ -1,9 +1,15 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { StyleSheet, Text, TouchableHighlight, View, Image } from 'react-native';
-import colorDefaults from '../theme/colorDefaults';
-import LoadingScreen from './LoadingScreen';
-import AuthContext from '../components/AuthContext';
-import { auth } from '../firebase/firebaseConfig';
+import React, { useState, useEffect, useContext } from "react";
+import {
+  StyleSheet,
+  Text,
+  TouchableHighlight,
+  View,
+  Image,
+} from "react-native";
+import colorDefaults from "../theme/colorDefaults";
+import LoadingScreen from "./LoadingScreen";
+import AuthContext from "../components/AuthContext";
+import { auth } from "../firebase/firebaseConfig";
 
 export default function WelcomeScreen({ navigation, route }) {
   const [loading, setLoading] = useState(true);
@@ -18,34 +24,44 @@ export default function WelcomeScreen({ navigation, route }) {
       } else {
         setLoading(false);
       }
-    })
+    });
 
     return unsubscribe;
   }, []);
 
   return (
     <>
-      {
-        (loading)
-          ? <LoadingScreen />
-          : <View style={styles.container}>
-            <Image source={require('../assets/images/logo.png')} style={styles.logo} resizeMode={'contain'} />
+      {loading ? (
+        <LoadingScreen />
+      ) : (
+        <View style={styles.container}>
+          <Image
+            source={require("../assets/images/logo.png")}
+            style={styles.logo}
+            resizeMode={"contain"}
+          />
 
-            <TouchableHighlight onPress={() => navigation.navigate('Sign In')} style={styles.buttonSignIn}>
-              <View>
-                <Text style={styles.buttonText}>Sign In</Text>
-              </View>
-            </TouchableHighlight>
+          <TouchableHighlight
+            onPress={() => navigation.navigate("Sign In")}
+            style={styles.buttonSignIn}
+          >
+            <View>
+              <Text style={styles.buttonText}>Sign In</Text>
+            </View>
+          </TouchableHighlight>
 
-            <Text style={styles.or}>Or</Text>
+          <Text style={styles.or}>Or</Text>
 
-            <TouchableHighlight onPress={() => navigation.navigate('Sign Up')} style={styles.buttonSignUp}>
-              <View>
-                <Text style={styles.buttonText}>Sign Up</Text>
-              </View>
-            </TouchableHighlight>
-          </View>
-      }
+          <TouchableHighlight
+            onPress={() => navigation.navigate("Sign Up")}
+            style={styles.buttonSignUp}
+          >
+            <View>
+              <Text style={styles.buttonText}>Sign Up</Text>
+            </View>
+          </TouchableHighlight>
+        </View>
+      )}
     </>
   );
 }
@@ -54,7 +70,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colorDefaults.backDropColor,
-    alignItems: 'center',
+    alignItems: "center",
   },
 
   logo: {
@@ -68,7 +84,7 @@ const styles = StyleSheet.create({
     height: 43,
     padding: 10,
     top: 250,
-    alignItems: 'center',
+    alignItems: "center",
   },
 
   buttonSignUp: {
@@ -78,17 +94,17 @@ const styles = StyleSheet.create({
     height: 43,
     padding: 10,
     top: 270,
-    alignItems: 'center',
+    alignItems: "center",
   },
 
   buttonText: {
-    color: '#FFFFFF',
+    color: "#FFFFFF",
     fontSize: 14,
   },
 
   or: {
     fontSize: 14,
-    color: '#9F9F9F',
+    color: "#9F9F9F",
     top: 260,
-  }
+  },
 });

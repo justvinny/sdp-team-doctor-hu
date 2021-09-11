@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 
 
-export default logoutButton = ({ signOut }) => {
+const logoutButton = ({ signOut }) => {
 
   return (
     <View
@@ -20,9 +20,9 @@ export default logoutButton = ({ signOut }) => {
 
   );
 
-
-
 };
+
+export default logoutButton;
 
 const styles = StyleSheet.create({
   buttonStyle: {

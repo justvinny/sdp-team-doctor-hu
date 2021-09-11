@@ -1,11 +1,26 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import {
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+} from "react-native";
+import ProfileInformation from "../ProfileInformation";
 
 const PatientAddressTab = () => {
   return (
-    <View>
-      <Text>Address Tab</Text>
-    </View>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
+      <ScrollView>
+        <ProfileInformation label="Address" />
+        <ProfileInformation label="City" />
+        <ProfileInformation label="Postcode" />
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 

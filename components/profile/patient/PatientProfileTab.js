@@ -22,9 +22,9 @@ const PatientProfileTab = () => {
       keyboardVerticalOffset={370}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <ScrollView style={{ flex: 1 }} bounces={false}>
-        <PatientAboutTab />
-      </ScrollView>
+        <ScrollView style={{ flex: 1 }} bounces={false}>
+          <PatientAboutTab />
+        </ScrollView>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
   );

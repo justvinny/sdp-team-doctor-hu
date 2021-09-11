@@ -3,16 +3,14 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import colorDefaults from "../../../theme/colorDefaults";
 
-export default function EditEnableButton() {
-  let enabled = false;
-
+export default function EditEnableButton({ editable, setEditable }) {
   const doneIcon = (
     <View style={styles.icon}>
       <MaterialIcons
         name="done"
         size={24}
         color="black"
-        style={{ marginRight: 5 }}
+        style={styles.iconStyles}
       />
       <Text>Done</Text>
     </View>
@@ -24,7 +22,7 @@ export default function EditEnableButton() {
         name="edit"
         size={24}
         color="black"
-        style={{ marginRight: 5 }}
+        style={styles.iconStyles}
       />
       <Text>Edit</Text>
     </View>
@@ -32,8 +30,11 @@ export default function EditEnableButton() {
 
   return (
     <View>
-      <TouchableOpacity style={styles.button}>
-        <Text>{enabled ? doneIcon : editIcon}</Text>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => setEditable(!editable)}
+      >
+        <Text>{editable ? doneIcon : editIcon}</Text>
       </TouchableOpacity>
     </View>
   );
@@ -51,5 +52,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
+  },
+  iconStyles: {
+    marginRight: 5,
   },
 });

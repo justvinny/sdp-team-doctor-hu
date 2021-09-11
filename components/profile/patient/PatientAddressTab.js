@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   KeyboardAvoidingView,
   Platform,
@@ -12,16 +12,18 @@ import ProfileInformation from "../ProfileInformation";
 import EditEnableButton from "../button/EditEnableButton";
 
 const PatientAddressTab = () => {
+  const [editable, setEditable] = useState(false);
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       <ScrollView>
-        <ProfileInformation label="Address" />
-        <ProfileInformation label="City" />
-        <ProfileInformation label="Postcode" />
+        <ProfileInformation label="Address" editable={editable} />
+        <ProfileInformation label="City" editable={editable} />
+        <ProfileInformation label="Postcode" editable={editable} />
       </ScrollView>
-      <EditEnableButton />
+      <EditEnableButton editable={editable} setEditable={setEditable} />
     </KeyboardAvoidingView>
   );
 };

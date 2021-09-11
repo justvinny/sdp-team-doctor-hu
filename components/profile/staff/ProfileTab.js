@@ -2,19 +2,16 @@ import React, { useContext, useState } from "react";
 import {
   KeyboardAvoidingView,
   StyleSheet,
-  Text,
-  TouchableOpacity,
   TouchableWithoutFeedback,
   Keyboard,
   View,
   Platform,
 } from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
-import colorDefaults from "../../../theme/colorDefaults";
 import ProfileInformation from "../profilecomponents/ProfileInformation";
 import firestoreService from "../../../firebase/firestoreService";
 import { ScrollView } from "react-native-gesture-handler";
 import AuthContext from "../../AuthContext";
+import EditEnableButton from "../profilecomponents/EditEnableButton";
 
 function ProfileTab({ user, setUser }) {
   const { authUserId } = useContext(AuthContext);
@@ -42,33 +39,7 @@ function ProfileTab({ user, setUser }) {
       };
       setUser(updatedUser);
     }
-
-    enabled ? setEnabled(false) : setEnabled(true);
   }
-
-  const doneIcon = (
-    <View style={styles.icon}>
-      <MaterialIcons
-        name="done"
-        size={24}
-        color="black"
-        style={{ marginRight: 5 }}
-      />
-      <Text>Done</Text>
-    </View>
-  );
-
-  const editIcon = (
-    <View style={styles.icon}>
-      <MaterialIcons
-        name="edit"
-        size={24}
-        color="black"
-        style={{ marginRight: 5 }}
-      />
-      <Text>Edit</Text>
-    </View>
-  );
 
   return (
     <KeyboardAvoidingView
@@ -101,9 +72,11 @@ function ProfileTab({ user, setUser }) {
               editable={enabled}
             />
             {authUserId === user.id ? (
-              <TouchableOpacity style={styles.button} onPress={editText}>
-                <Text>{enabled ? doneIcon : editIcon}</Text>
-              </TouchableOpacity>
+              <EditEnableButton
+                editable={enabled}
+                setEditable={setEnabled}
+                saveChanges={editText}
+              />
             ) : (
               <></>
             )}
@@ -117,34 +90,10 @@ function ProfileTab({ user, setUser }) {
 export default ProfileTab;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: "column",
-    backgroundColor: colorDefaults.backDropColor,
-    alignItems: "center",
-    justifyContent: "flex-start",
-    padding: 10,
-  },
-  icon: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-  },
   profiles: {
     display: "flex",
     flexDirection: "column",
     justifyContent: "flex-start",
     borderRadius: 10,
-  },
-  button: {
-    backgroundColor: colorDefaults.bottomBorderColor,
-    padding: 10,
-    borderRadius: 10,
-    marginBottom: 10,
-    alignSelf: "center",
-  },
-  name: {
-    fontSize: 18,
-    fontWeight: "bold",
   },
 });

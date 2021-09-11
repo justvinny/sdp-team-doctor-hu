@@ -1,9 +1,9 @@
 import React from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 import colorDefaults from "../../../theme/colorDefaults";
-import PatientProfileTab from "./PatientProfileTab";
-import PatientAddressTab from "./PatientAddressTab";
-import PatientMedicalTab from "./PatientMedicalTab";
+import ProfileTab from "./ProfileTab";
+import AddressTab from "./AddressTab";
+import MedicalTab from "./MedicalTab";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 
 const Tab = createMaterialTopTabNavigator();
@@ -26,9 +26,9 @@ const PatientProfile = () => {
           tabBarIndicatorStyle: { backgroundColor: "black" },
         }}
       >
-        <Tab.Screen name="Profile" component={PatientProfileTab} />
-        <Tab.Screen name="Address" component={PatientAddressTab} />
-        <Tab.Screen name="Medical" component={PatientMedicalTab} />
+        <Tab.Screen name="Profile" component={ProfileTab} />
+        <Tab.Screen name="Address" component={AddressTab} />
+        <Tab.Screen name="Medical" component={MedicalTab} />
       </Tab.Navigator>
     </>
   );

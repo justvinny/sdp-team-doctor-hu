@@ -12,7 +12,7 @@ import {
   Keyboard,
 } from "react-native";
 import colorDefaults from "../../../theme/colorDefaults";
-import PatientAboutTab from "./PatientAboutTab";
+import AboutTab from "./AboutTab";
 
 const PatientProfileTab = () => {
   return (
@@ -23,7 +23,7 @@ const PatientProfileTab = () => {
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ScrollView style={{ flex: 1 }} bounces={false}>
-          <PatientAboutTab />
+          <AboutTab />
         </ScrollView>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>

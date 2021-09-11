@@ -1,20 +1,17 @@
 import React, { useContext } from "react";
 import { useState } from "react";
 import {
-  View,
-  Text,
   StyleSheet,
   TextInput,
-  TouchableOpacity,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
 import colorDefaults from "../../../theme/colorDefaults";
 import firestoreService from "../../../firebase/firestoreService";
 import { ScrollView } from "react-native-gesture-handler";
 import AuthContext from "../../AuthContext";
+import EditEnableButton from "../profilecomponents/EditEnableButton";
 
 function AboutTab({ user, setUser }) {
   const { authUserId } = useContext(AuthContext);
@@ -34,33 +31,7 @@ function AboutTab({ user, setUser }) {
       };
       setUser(updatedUser);
     }
-
-    enabled ? setEnabled(false) : setEnabled(true);
   }
-
-  const doneIcon = (
-    <View style={styles.icon}>
-      <MaterialIcons
-        name="done"
-        size={24}
-        color="black"
-        style={{ marginRight: 5 }}
-      />
-      <Text>Done</Text>
-    </View>
-  );
-
-  const editIcon = (
-    <View style={styles.icon}>
-      <MaterialIcons
-        name="edit"
-        size={24}
-        color="black"
-        style={{ marginRight: 5 }}
-      />
-      <Text>Edit</Text>
-    </View>
-  );
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -76,9 +47,11 @@ function AboutTab({ user, setUser }) {
             value={aboutText}
           ></TextInput>
           {authUserId === user.id ? (
-            <TouchableOpacity style={styles.button} onPress={editText}>
-              <Text>{enabled ? doneIcon : editIcon}</Text>
-            </TouchableOpacity>
+            <EditEnableButton
+              editable={enabled}
+              setEditable={setEnabled}
+              saveChanges={editText}
+            />
           ) : (
             <></>
           )}
@@ -102,17 +75,5 @@ const styles = StyleSheet.create({
     padding: 5,
     backgroundColor: colorDefaults.bottomBorderColor,
     marginBottom: 20,
-  },
-  button: {
-    backgroundColor: colorDefaults.bottomBorderColor,
-    padding: 10,
-    borderRadius: 10,
-    marginBottom: 10,
-    alignSelf: "center",
-  },
-  icon: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
   },
 });

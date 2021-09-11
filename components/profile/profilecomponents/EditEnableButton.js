@@ -3,7 +3,11 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import colorDefaults from "../../../theme/colorDefaults";
 
-export default function EditEnableButton({ editable, setEditable }) {
+export default function EditEnableButton({
+  editable,
+  setEditable,
+  saveChanges,
+}) {
   const doneIcon = (
     <View style={styles.icon}>
       <MaterialIcons
@@ -28,12 +32,14 @@ export default function EditEnableButton({ editable, setEditable }) {
     </View>
   );
 
+  const buttonEditClick = () => {
+    setEditable(!editable);
+    saveChanges();
+  };
+
   return (
     <View>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => setEditable(!editable)}
-      >
+      <TouchableOpacity style={styles.button} onPress={buttonEditClick}>
         <Text>{editable ? doneIcon : editIcon}</Text>
       </TouchableOpacity>
     </View>

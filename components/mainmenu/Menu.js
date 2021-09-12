@@ -16,9 +16,9 @@ export default function Menu({ navigation }) {
   // if use is staff or patient renders correct menu items
 
   const [names, setName] = useState([
-    { iconname: "Profile", icon: "account-circle", route: "StaffProfile" },
+    { iconname: "Profile", icon: "account-circle", route: "ProfileSelection" },
     { iconname: "Messages", icon: "message", route: "ChatHome" },
-    { iconname: "Settings", icon: "settings", route: "PatientProfile" },
+    { iconname: "Settings", icon: "settings", route: "" },
     // {iconname:"Attachments", icon:"attachment"},
     { iconname: "Notifications", icon: "notifications", route: "" },
     { iconname: "Search User", icon: "search", route: "Search" },

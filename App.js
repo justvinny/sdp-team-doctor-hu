@@ -16,6 +16,7 @@ import ResetPassword from "./Screens/ResetPassword";
 import StaffProfile from "./components/profile/staff/StaffProfile";
 import PatientProfile from "./components/profile/patient/PatientProfile";
 import Menu from "./components/mainmenu/Menu";
+import ProfileSelection from "./components/profile/ProfileSelection";
 
 const Stack = createNativeStackNavigator();
 
@@ -102,6 +103,10 @@ export default function App() {
             />
             <Stack.Screen component={StaffProfile} name="StaffProfile" />
             <Stack.Screen component={PatientProfile} name="PatientProfile" />
+            <Stack.Screen
+              component={ProfileSelection}
+              name="ProfileSelection"
+            />
           </Stack.Navigator>
           <StatusBar style="light" />
         </NavigationContainer>

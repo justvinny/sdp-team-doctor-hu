@@ -56,7 +56,11 @@ const PatientProfile = ({ navigation }) => {
               component={ProfileTab}
               initialParams={{ user }}
             />
-            <Tab.Screen name="Address" component={AddressTab} />
+            <Tab.Screen
+              name="Address"
+              component={AddressTab}
+              initialParams={{ user }}
+            />
             <Tab.Screen
               name="Medical"
               component={MedicalTab}

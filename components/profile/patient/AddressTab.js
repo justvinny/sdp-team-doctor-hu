@@ -9,15 +9,22 @@ import {
 } from "react-native";
 import ProfileInformation from "../profilecomponents/ProfileInformation";
 import EditEnableButton from "../profilecomponents/EditEnableButton";
+import firestoreService from "../../../firebase/firestoreService";
 
-const PatientAddressTab = () => {
+const PatientAddressTab = ({ route }) => {
+  const user = route?.params.user;
   const [editable, setEditable] = useState(false);
-  const [address, setAddress] = useState("");
-  const [suburb, setSuburb] = useState("");
-  const [city, setCity] = useState("");
-  const [postcode, setPostcode] = useState("");
+  const [address, setAddress] = useState(user.address.street);
+  const [suburb, setSuburb] = useState(user.address.suburb);
+  const [city, setCity] = useState(user.address.city);
+  const [postcode, setPostcode] = useState(user.address.post);
 
-  function editText(params) {}
+  function updateFirebase() {
+    firestoreService.updateStreet(user.id, address);
+    firestoreService.updateSuburb(user.id, suburb);
+    firestoreService.updateCity(user.id, city);
+    firestoreService.updatePost(user.id, postcode);
+  }
 
   return (
     <KeyboardAvoidingView
@@ -53,11 +60,12 @@ const PatientAddressTab = () => {
             editable={editable}
             placeholder="Postcode"
             onChangeText={setPostcode}
+            keyboardType="number-pad"
           />
           <EditEnableButton
             editable={editable}
             setEditable={setEditable}
-            saveChanges={editText}
+            saveChanges={updateFirebase}
           />
         </ScrollView>
       </TouchableWithoutFeedback>

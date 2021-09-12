@@ -13,22 +13,31 @@ import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import colorDefaults from "../../../theme/colorDefaults";
 import EditEnableButton from "../profilecomponents/EditEnableButton";
 import { useState } from "react/cjs/react.development";
+import firestoreService from "../../../firebase/firestoreService";
 
-const PatientMedicalTab = () => {
+const PatientMedicalTab = ({ navigation, route }) => {
+  const user = route?.params.user;
   const bloodTypes = ["A+", "O+", "B+", "AB+", "A-", "O-", "B-", "AB-"];
-  const [birthdate, setBirthdate] = useState("");
-  const [weight, setWeight] = useState("");
-  const [height, setHeight] = useState("");
-  const [allergies, setAllergies] = useState("");
+  const [bloodType, setBloodyType] = useState(user.bloodType);
+  const [birthdate, setBirthdate] = useState(user.birthDate);
+  const [weight, setWeight] = useState(user.weight.toString());
+  const [height, setHeight] = useState(user.height.toString());
+  const [allergies, setAllergies] = useState(user ? user.getAllergies() : "");
   const [editable, setEditable] = useState(false);
 
-  function editText(params) {}
+  function updateFirebase() {
+    firestoreService.updateBloodtype(user.id, bloodType);
+    firestoreService.updateBirthDate(user.id, birthdate);
+    firestoreService.updateWeight(user.id, weight);
+    firestoreService.updateHeight(user.id, height);
+    firestoreService.updateAllergies(user.id, allergies.split(", "));
+  }
 
   return (
     <KeyboardAvoidingView
       style={styles.container}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      keyboardVerticalOffset={360}
+      keyboardVerticalOffset={380}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ScrollView bounces={false} style={{ flex: 1 }}>
@@ -36,11 +45,11 @@ const PatientMedicalTab = () => {
             <Text style={styles.label}>Blood Type</Text>
             <SelectDropdown
               data={bloodTypes}
-              onSelect={(selectedItem, index) => {
-                console.log(selectedItem, index);
+              onSelect={(selectedItem) => {
+                setBloodyType(selectedItem);
               }}
               buttonStyle={styles.dropdownButton}
-              defaultButtonText="None Selected"
+              defaultButtonText={user.bloodType}
               disabled={!editable}
             />
           </View>
@@ -58,6 +67,7 @@ const PatientMedicalTab = () => {
             onChangeText={setWeight}
             placeholder="Weight"
             editable={editable}
+            keyboardType="numeric"
           />
           <ProfileInformation
             label="Height"
@@ -65,6 +75,7 @@ const PatientMedicalTab = () => {
             onChangeText={setHeight}
             placeholder="Height"
             editable={editable}
+            keyboardType="numeric"
           />
           <ProfileInformation
             label="Allergies"
@@ -76,7 +87,7 @@ const PatientMedicalTab = () => {
           <EditEnableButton
             editable={editable}
             setEditable={setEditable}
-            saveChanges={editText}
+            saveChanges={updateFirebase}
           />
         </ScrollView>
       </TouchableWithoutFeedback>

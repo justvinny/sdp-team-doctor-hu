@@ -1,35 +1,66 @@
-import React from "react";
+import React, { useEffect, useLayoutEffect, useContext, useState } from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 import colorDefaults from "../../../theme/colorDefaults";
 import ProfileTab from "./ProfileTab";
 import AddressTab from "./AddressTab";
 import MedicalTab from "./MedicalTab";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import firestoreService from "../../../firebase/firestoreService";
+import AuthContext from "../../AuthContext";
+import LoadingScreen from "../../../Screens/LoadingScreen";
+import Patient from "../../../models/Patient";
 
 const Tab = createMaterialTopTabNavigator();
 
-const PatientProfile = () => {
+const PatientProfile = ({ navigation }) => {
+  const { authUserId } = useContext(AuthContext);
+  const [user, setUser] = useState({});
+  const [loading, setLoading] = useState(true);
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: "Patient Profile",
+    });
+  }, []);
+
+  useEffect(() => {
+    firestoreService.getUserById(authUserId).then((data) => {
+      setUser(Patient.patientFirestoreFactory(data));
+      setLoading(false);
+    });
+  }, []);
+
   return (
     <>
-      <View style={styles.container}>
-        <Image
-          style={styles.image}
-          source={require("../../../assets/icon.png")}
-        />
-        <Text style={styles.name}>John Doe</Text>
-      </View>
+      {loading ? (
+        <LoadingScreen />
+      ) : (
+        <>
+          <View style={styles.container}>
+            <Image
+              style={styles.image}
+              source={require("../../../assets/icon.png")}
+            />
+            <Text style={styles.name}>{user.getFullName()}</Text>
+          </View>
 
-      <Tab.Navigator
-        screenOptions={{
-          tabBarLabelStyle: { color: "white" },
-          tabBarStyle: { backgroundColor: colorDefaults.primary },
-          tabBarIndicatorStyle: { backgroundColor: "black" },
-        }}
-      >
-        <Tab.Screen name="Profile" component={ProfileTab} />
-        <Tab.Screen name="Address" component={AddressTab} />
-        <Tab.Screen name="Medical" component={MedicalTab} />
-      </Tab.Navigator>
+          <Tab.Navigator
+            screenOptions={{
+              tabBarLabelStyle: { color: "white" },
+              tabBarStyle: { backgroundColor: colorDefaults.primary },
+              tabBarIndicatorStyle: { backgroundColor: "black" },
+            }}
+          >
+            <Tab.Screen name="Profile" component={ProfileTab} />
+            <Tab.Screen name="Address" component={AddressTab} />
+            <Tab.Screen
+              name="Medical"
+              component={MedicalTab}
+              initialParams={{ user }}
+            />
+          </Tab.Navigator>
+        </>
+      )}
     </>
   );
 };

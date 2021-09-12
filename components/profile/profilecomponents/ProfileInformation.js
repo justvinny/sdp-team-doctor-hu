@@ -8,6 +8,7 @@ function ProfileInformation({
   value,
   onChangeText,
   editable,
+  keyboardType,
 }) {
   return (
     <View style={styles.inputView}>
@@ -18,6 +19,7 @@ function ProfileInformation({
         onChangeText={onChangeText}
         editable={editable}
         style={styles.input}
+        keyboardType={keyboardType}
       />
     </View>
   );

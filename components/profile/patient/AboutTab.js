@@ -11,7 +11,7 @@ const PatientAboutTab = () => {
   const [lastName, setLastName] = useState("Doe");
   const [editable, setEditable] = useState(false);
 
-  function editText(params) {}
+  function editText() {}
 
   return (
     <View style={styles.profiles}>

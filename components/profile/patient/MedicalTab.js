@@ -15,7 +15,7 @@ import EditEnableButton from "../profilecomponents/EditEnableButton";
 import { useState } from "react/cjs/react.development";
 import firestoreService from "../../../firebase/firestoreService";
 
-const PatientMedicalTab = ({ navigation, route }) => {
+const PatientMedicalTab = ({ route }) => {
   const user = route?.params.user;
   const bloodTypes = ["A+", "O+", "B+", "AB+", "A-", "O-", "B-", "AB-"];
   const [bloodType, setBloodyType] = useState(user.bloodType);

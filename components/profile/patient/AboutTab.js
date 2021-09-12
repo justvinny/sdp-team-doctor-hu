@@ -4,14 +4,20 @@ import { StyleSheet, View } from "react-native";
 import ProfileInformation from "../profilecomponents/ProfileInformation";
 import colorDefaults from "../../../theme/colorDefaults";
 import EditEnableButton from "../profilecomponents/EditEnableButton";
+import firestoreService from "../../../firebase/firestoreService";
 
-const PatientAboutTab = () => {
-  const [firstName, setFirstName] = useState("John");
-  const [middleName, setMiddleName] = useState("");
-  const [lastName, setLastName] = useState("Doe");
+const PatientAboutTab = ({ route }) => {
+  const user = route?.params.user;
+  const [firstName, setFirstName] = useState(user.name.first);
+  const [middleName, setMiddleName] = useState(user.name.middle);
+  const [lastName, setLastName] = useState(user.name.last);
   const [editable, setEditable] = useState(false);
 
-  function editText() {}
+  function updateFirebase() {
+    firestoreService.updateFirstName(user.id, firstName);
+    firestoreService.updateMiddleName(user.id, middleName);
+    firestoreService.updateLastName(user.id, lastName);
+  }
 
   return (
     <View style={styles.profiles}>
@@ -40,7 +46,7 @@ const PatientAboutTab = () => {
       <EditEnableButton
         editable={editable}
         setEditable={setEditable}
-        saveChanges={editText}
+        saveChanges={updateFirebase}
       />
     </View>
   );

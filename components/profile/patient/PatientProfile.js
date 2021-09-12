@@ -51,7 +51,11 @@ const PatientProfile = ({ navigation }) => {
               tabBarIndicatorStyle: { backgroundColor: "black" },
             }}
           >
-            <Tab.Screen name="Profile" component={ProfileTab} />
+            <Tab.Screen
+              name="Profile"
+              component={ProfileTab}
+              initialParams={{ user }}
+            />
             <Tab.Screen name="Address" component={AddressTab} />
             <Tab.Screen
               name="Medical"

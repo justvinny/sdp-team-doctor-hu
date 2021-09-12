@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import AboutTab from "./AboutTab";
 
-const PatientProfileTab = () => {
+const PatientProfileTab = ({ route }) => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -17,7 +17,7 @@ const PatientProfileTab = () => {
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ScrollView style={{ flex: 1 }} bounces={false}>
-          <AboutTab />
+          <AboutTab route={route} />
         </ScrollView>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>

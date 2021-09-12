@@ -41,13 +41,38 @@ const PatientMedicalTab = () => {
               }}
               buttonStyle={styles.dropdownButton}
               defaultButtonText="None Selected"
+              disabled={!editable}
             />
           </View>
 
-          <ProfileInformation label="Birthdate" editable={editable} />
-          <ProfileInformation label="Weight" editable={editable} />
-          <ProfileInformation label="Height" editable={editable} />
-          <ProfileInformation label="Allergies" editable={editable} />
+          <ProfileInformation
+            label="Birthdate"
+            value={birthdate}
+            onChangeText={setBirthdate}
+            placeholder="Birthdate"
+            editable={editable}
+          />
+          <ProfileInformation
+            label="Weight"
+            value={weight}
+            onChangeText={setWeight}
+            placeholder="Weight"
+            editable={editable}
+          />
+          <ProfileInformation
+            label="Height"
+            value={height}
+            onChangeText={setHeight}
+            placeholder="Height"
+            editable={editable}
+          />
+          <ProfileInformation
+            label="Allergies"
+            value={allergies}
+            onChangeText={setAllergies}
+            placeholder="Allergies"
+            editable={editable}
+          />
           <EditEnableButton
             editable={editable}
             setEditable={setEditable}

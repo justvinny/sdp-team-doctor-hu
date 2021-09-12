@@ -12,6 +12,10 @@ import EditEnableButton from "../profilecomponents/EditEnableButton";
 
 const PatientAddressTab = () => {
   const [editable, setEditable] = useState(false);
+  const [address, setAddress] = useState("");
+  const [suburb, setSuburb] = useState("");
+  const [city, setCity] = useState("");
+  const [postcode, setPostcode] = useState("");
 
   function editText(params) {}
 
@@ -22,10 +26,34 @@ const PatientAddressTab = () => {
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ScrollView>
-          <ProfileInformation label="Address" editable={editable} />
-          <ProfileInformation label="Suburb" editable={editable} />
-          <ProfileInformation label="City" editable={editable} />
-          <ProfileInformation label="Postcode" editable={editable} />
+          <ProfileInformation
+            label="Address"
+            value={address}
+            editable={editable}
+            placeholder="Address"
+            onChangeText={setAddress}
+          />
+          <ProfileInformation
+            label="Suburb"
+            value={suburb}
+            editable={editable}
+            placeholder="Suburb"
+            onChangeText={setSuburb}
+          />
+          <ProfileInformation
+            label="City"
+            value={city}
+            editable={editable}
+            placeholder="City"
+            onChangeText={setCity}
+          />
+          <ProfileInformation
+            label="Postcode"
+            value={postcode}
+            editable={editable}
+            placeholder="Postcode"
+            onChangeText={setPostcode}
+          />
           <EditEnableButton
             editable={editable}
             setEditable={setEditable}

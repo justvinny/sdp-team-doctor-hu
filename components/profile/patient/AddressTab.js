@@ -23,6 +23,7 @@ const PatientAddressTab = () => {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ScrollView>
           <ProfileInformation label="Address" editable={editable} />
+          <ProfileInformation label="Suburb" editable={editable} />
           <ProfileInformation label="City" editable={editable} />
           <ProfileInformation label="Postcode" editable={editable} />
           <EditEnableButton

@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, View } from "react-native";
 import ProfileInformation from "../profilecomponents/ProfileInformation";
 import colorDefaults from "../../../theme/colorDefaults";
 import EditEnableButton from "../profilecomponents/EditEnableButton";
@@ -10,6 +10,8 @@ const PatientAboutTab = () => {
   const [middleName, setMiddleName] = useState("");
   const [lastName, setLastName] = useState("Doe");
   const [editable, setEditable] = useState(false);
+
+  function editText(params) {}
 
   return (
     <View style={styles.profiles}>
@@ -35,7 +37,11 @@ const PatientAboutTab = () => {
         editable={editable}
       />
 
-      <EditEnableButton editable={editable} setEditable={setEditable} />
+      <EditEnableButton
+        editable={editable}
+        setEditable={setEditable}
+        saveChanges={editText}
+      />
     </View>
   );
 };

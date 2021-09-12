@@ -11,9 +11,18 @@ import ProfileInformation from "../profilecomponents/ProfileInformation";
 import SelectDropdown from "react-native-select-dropdown";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import colorDefaults from "../../../theme/colorDefaults";
+import EditEnableButton from "../profilecomponents/EditEnableButton";
+import { useState } from "react/cjs/react.development";
 
 const PatientMedicalTab = () => {
   const bloodTypes = ["A+", "O+", "B+", "AB+", "A-", "O-", "B-", "AB-"];
+  const [birthdate, setBirthdate] = useState("");
+  const [weight, setWeight] = useState("");
+  const [height, setHeight] = useState("");
+  const [allergies, setAllergies] = useState("");
+  const [editable, setEditable] = useState(false);
+
+  function editText(params) {}
 
   return (
     <KeyboardAvoidingView
@@ -35,10 +44,15 @@ const PatientMedicalTab = () => {
             />
           </View>
 
-          <ProfileInformation label="Birthdate" />
-          <ProfileInformation label="Weight" />
-          <ProfileInformation label="Height" />
-          <ProfileInformation label="Allergies" />
+          <ProfileInformation label="Birthdate" editable={editable} />
+          <ProfileInformation label="Weight" editable={editable} />
+          <ProfileInformation label="Height" editable={editable} />
+          <ProfileInformation label="Allergies" editable={editable} />
+          <EditEnableButton
+            editable={editable}
+            setEditable={setEditable}
+            saveChanges={editText}
+          />
         </ScrollView>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>

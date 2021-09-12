@@ -55,10 +55,4 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
   },
-  profiles: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "flex-start",
-    borderRadius: 10,
-  },
 });

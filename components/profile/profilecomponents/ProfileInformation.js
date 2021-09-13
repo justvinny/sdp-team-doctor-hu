@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, TextInput, View } from "react-native";
-import colorDefaults from "../../theme/colorDefaults";
+import colorDefaults from "../../../theme/colorDefaults";
 
 function ProfileInformation({
   label,
@@ -8,6 +8,7 @@ function ProfileInformation({
   value,
   onChangeText,
   editable,
+  keyboardType,
 }) {
   return (
     <View style={styles.inputView}>
@@ -18,6 +19,7 @@ function ProfileInformation({
         onChangeText={onChangeText}
         editable={editable}
         style={styles.input}
+        keyboardType={keyboardType}
       />
     </View>
   );

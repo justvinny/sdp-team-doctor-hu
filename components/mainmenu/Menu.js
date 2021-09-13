@@ -14,6 +14,7 @@ export default function Menu({ navigation }) {
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
 
+
   const [menuStaff, setMenuItemsStaff] = useState([
     { iconname: "Profile", icon: "account-circle", route: "StaffProfile" },
     { iconname: "Messages", icon: "message", route: "ChatHome" },
@@ -36,8 +37,6 @@ export default function Menu({ navigation }) {
       setLoading(false);
     });
   }, []);
-
-
 
   const signOut = () => {
     auth

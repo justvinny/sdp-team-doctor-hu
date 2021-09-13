@@ -5,9 +5,9 @@ import ProfileInformation from "../profilecomponents/ProfileInformation";
 import colorDefaults from "../../../theme/colorDefaults";
 import EditEnableButton from "../profilecomponents/EditEnableButton";
 import firestoreService from "../../../firebase/firestoreService";
+import Patient from "../../../models/Patient";
 
-const PatientAboutTab = ({ route }) => {
-  const user = route?.params.user;
+const PatientAboutTab = ({ user, setUser }) => {
   const [firstName, setFirstName] = useState(user.name.first);
   const [middleName, setMiddleName] = useState(user.name.middle);
   const [lastName, setLastName] = useState(user.name.last);
@@ -17,6 +17,17 @@ const PatientAboutTab = ({ route }) => {
     firestoreService.updateFirstName(user.id, firstName);
     firestoreService.updateMiddleName(user.id, middleName);
     firestoreService.updateLastName(user.id, lastName);
+    
+    const updatedUser =
+    {
+      ...user,
+      name: {
+        first: firstName,
+        middle: middleName,
+        last: lastName
+      }
+    }
+    setUser(Patient.patientFirestoreFactory(updatedUser));
   }
 
   return (

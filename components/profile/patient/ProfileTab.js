@@ -1,26 +1,39 @@
 import React from "react";
 import {
+  View,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
-import AboutTab from "./AboutTab";
+import PatientAboutTab from "./AboutTab";
 
-const PatientProfileTab = ({ route }) => {
+const PatientProfileTab = ({ user, setUser }) => {
+  const renderView = () => (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <ScrollView style={{ flex: 1 }} bounces={false}>
+        <PatientAboutTab user={user} setUser={setUser} />
+      </ScrollView>
+    </TouchableWithoutFeedback>
+  )
+
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={{ flex: 1 }}
-      keyboardVerticalOffset={370}
-    >
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <ScrollView style={{ flex: 1 }} bounces={false}>
-          <AboutTab route={route} />
-        </ScrollView>
-      </TouchableWithoutFeedback>
-    </KeyboardAvoidingView>
+    <>
+      {
+        Platform.OS === "ios"
+          ? <KeyboardAvoidingView
+            behavior="padding"
+            style={{ flex: 1 }}
+            keyboardVerticalOffset={370}
+          >
+            {renderView()}
+          </KeyboardAvoidingView>
+          : <View style={{ flex: 1 }}>
+            {renderView()}
+          </View>
+      }
+    </>
   );
 };
 

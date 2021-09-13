@@ -33,8 +33,11 @@ export default function EditEnableButton({
   );
 
   const buttonEditClick = () => {
+    if (editable) {
+      saveChanges();
+    }
+    
     setEditable(!editable);
-    saveChanges();
   };
 
   return (

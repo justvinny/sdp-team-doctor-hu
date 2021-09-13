@@ -6,6 +6,7 @@ import {
   Text,
   View,
   ScrollView,
+  Platform,
 } from "react-native";
 import ProfileInformation from "../profilecomponents/ProfileInformation";
 import SelectDropdown from "react-native-select-dropdown";
@@ -25,7 +26,7 @@ const PatientMedicalTab = ({ route }) => {
   const [allergies, setAllergies] = useState(user ? user.getAllergies() : "");
   const [editable, setEditable] = useState(false);
 
-  function updateFirebase() {
+  const updateFirebase = () => {
     firestoreService.updateBloodtype(user.id, bloodType);
     firestoreService.updateBirthDate(user.id, birthdate);
     firestoreService.updateWeight(user.id, weight);
@@ -33,65 +34,76 @@ const PatientMedicalTab = ({ route }) => {
     firestoreService.updateAllergies(user.id, allergies.split(", "));
   }
 
-  return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      keyboardVerticalOffset={380}
-    >
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <ScrollView bounces={false} style={{ flex: 1 }}>
-          <View style={styles.dropdownContainer}>
-            <Text style={styles.label}>Blood Type</Text>
-            <SelectDropdown
-              data={bloodTypes}
-              onSelect={(selectedItem) => {
-                setBloodyType(selectedItem);
-              }}
-              buttonStyle={styles.dropdownButton}
-              defaultButtonText={user.bloodType}
-              disabled={!editable}
-            />
-          </View>
+  const renderView = () => (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <ScrollView bounces={false} style={{ flex: 1 }}>
+        <View style={styles.dropdownContainer}>
+          <Text style={styles.label}>Blood Type</Text>
+          <SelectDropdown
+            data={bloodTypes}
+            onSelect={(selectedItem) => {
+              setBloodyType(selectedItem);
+            }}
+            buttonStyle={styles.dropdownButton}
+            defaultButtonText={user.bloodType}
+            disabled={!editable}
+          />
+        </View>
 
-          <ProfileInformation
-            label="Birthdate"
-            value={birthdate}
-            onChangeText={setBirthdate}
-            placeholder="Birthdate"
-            editable={editable}
-          />
-          <ProfileInformation
-            label="Weight"
-            value={weight}
-            onChangeText={setWeight}
-            placeholder="Weight"
-            editable={editable}
-            keyboardType="numeric"
-          />
-          <ProfileInformation
-            label="Height"
-            value={height}
-            onChangeText={setHeight}
-            placeholder="Height"
-            editable={editable}
-            keyboardType="numeric"
-          />
-          <ProfileInformation
-            label="Allergies"
-            value={allergies}
-            onChangeText={setAllergies}
-            placeholder="Allergies"
-            editable={editable}
-          />
-          <EditEnableButton
-            editable={editable}
-            setEditable={setEditable}
-            saveChanges={updateFirebase}
-          />
-        </ScrollView>
-      </TouchableWithoutFeedback>
-    </KeyboardAvoidingView>
+        <ProfileInformation
+          label="Birthdate"
+          value={birthdate}
+          onChangeText={setBirthdate}
+          placeholder="Birthdate"
+          editable={editable}
+        />
+        <ProfileInformation
+          label="Weight"
+          value={weight}
+          onChangeText={setWeight}
+          placeholder="Weight"
+          editable={editable}
+          keyboardType="numeric"
+        />
+        <ProfileInformation
+          label="Height"
+          value={height}
+          onChangeText={setHeight}
+          placeholder="Height"
+          editable={editable}
+          keyboardType="numeric"
+        />
+        <ProfileInformation
+          label="Allergies"
+          value={allergies}
+          onChangeText={setAllergies}
+          placeholder="Allergies"
+          editable={editable}
+        />
+        <EditEnableButton
+          editable={editable}
+          setEditable={setEditable}
+          saveChanges={updateFirebase}
+        />
+      </ScrollView>
+    </TouchableWithoutFeedback>
+  )
+  return (
+    <>
+      {
+        Platform.OS === "ios"
+          ? <KeyboardAvoidingView
+            style={styles.container}
+            behavior="padding"
+            keyboardVerticalOffset={380}
+          >
+            {renderView()}
+          </KeyboardAvoidingView>
+          : <View style={styles.container}>
+            {renderView()}
+          </View>
+      }
+    </>
   );
 };
 

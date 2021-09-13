@@ -11,10 +11,8 @@ import LoadingScreen from "../.././Screens/LoadingScreen";
 export default function Menu({ navigation }) {
   const { authUserId, setAuthUserId } = useContext(AuthContext);
   const [user, setUser] = useState({});
-  //user.isStaff
   const [loading, setLoading] = useState(true);
 
-  //const [names, setName] = useState([]);
   const [menuStaff, setMenuItemsStaff] = useState([
     { iconname: "Profile", icon: "account-circle", route: "StaffProfile" },
     { iconname: "Messages", icon: "message", route: "ChatHome" },
@@ -30,28 +28,15 @@ export default function Menu({ navigation }) {
     { iconname: "Search User", icon: "search", route: "Search" },
   ]);
 
+
   useEffect(() => {
     firestoreService.getUserById(authUserId).then((data) => {
       setUser(data);
-      //setMenuItemsStaff(menuItems());
       setLoading(false);
     });
   }, []);
 
-  // function menuItems() {
 
-  //   if (user.isStaff) {
-  //     return [ { iconname: "Profile", icon: "account-circle", route: "StaffProfile" },
-  //     { iconname: "Messages", icon: "message", route: "ChatHome" },
-  //     { iconname: "Settings", icon: "settings", route: "" },
-  //     { iconname: "Notifications", icon: "notifications", route: "" },
-  //     { iconname: "Search User", icon: "search", route: "Search" }]
-  //   }
-  //   else{
-  //     return [ { iconname: "Profile", icon: "account-circle", route: "StaffProfile" },
-  //     { iconname: "Search User", icon: "search", route: "Search" } ]
-  //   }
-  // }
 
   const signOut = () => {
     auth
@@ -69,12 +54,9 @@ export default function Menu({ navigation }) {
       //only acts if page isnt rendering
       return <LoadingScreen />;
     }
-    // else if (!loading && typeof user.isStaff === 'undefined') {
-    //   return <LoadingScreen />;
-    // }
+   
 
     //Right now this is the best way to render the screen correctly on the first try
-    //Scroll view needs work, there is a way to make it work but i deleted the code and need to figure it out again
     return (
       <>
         {user.isStaff ? (
@@ -123,20 +105,6 @@ export default function Menu({ navigation }) {
           </ScrollView>
         )}
       </>
-
-      //   <ScrollView>
-      //   <View style={styles.container}>
-
-      //   <View style={styles.topView}>
-      //     <Text style={styles.text}>Welcome back, {Staff.getFullName(user.name)} </Text>
-      //   </View>
-
-      //   {menuStaff.map((menuIt, index) => <Square key={index + menuIt.route} name={menuIt.iconname} icon={menuIt.icon} navigation={navigation} route={menuIt.route} />)}
-      //   <View style={styles.bottomView}>
-      //     <LogoutButton signOut={signOut} />
-      //   </View>
-      // </View>
-      // </ScrollView>
     );
   };
 
@@ -151,7 +119,6 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     justifyContent: "center",
     flexWrap: "wrap",
-    //padding: 20,
     //paddingTop: Platform.OS === "ios" ? 20 : 0,
   },
   item: {
@@ -166,7 +133,6 @@ const styles = StyleSheet.create({
     height: 100,
     justifyContent: "center",
     alignItems: "center",
-    //position: "absolute",
     paddingTop: 40,
   },
   topView: {
@@ -176,8 +142,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     justifyContent: "center",
     alignItems: "center",
-    // position: "",
-    // bottom: 0,
   },
   text: {
     fontWeight: "bold",

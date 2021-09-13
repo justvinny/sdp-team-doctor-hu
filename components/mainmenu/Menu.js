@@ -1,10 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import {
-  Text,
-  View,
-  StyleSheet,
-  ScrollView
-} from "react-native";
+import { Text, View, StyleSheet, ScrollView } from "react-native";
 import Square from "./Square";
 import LogoutButton from "./LogoutButton";
 import AuthContext from "../AuthContext"; //to access firestore service, Auth athority
@@ -13,41 +8,38 @@ import Staff from "../../models/Staff";
 import { auth } from "../../firebase/firebaseConfig";
 import LoadingScreen from "../.././Screens/LoadingScreen";
 
-export default function Menu ({ navigation }){
+export default function Menu({ navigation }) {
   const { authUserId, setAuthUserId } = useContext(AuthContext);
   const [user, setUser] = useState({});
   //user.isStaff
   const [loading, setLoading] = useState(true);
-  
-  //const [names, setName] = useState([]);
-  const [menuStaff, setMenuItemsStaff] = useState(
-    [ { iconname: "Profile", icon: "account-circle", route: "StaffProfile" },
-      { iconname: "Messages", icon: "message", route: "ChatHome" },
-      { iconname: "Settings", icon: "settings", route: "" },
-      { iconname: "Notifications", icon: "notifications", route: "" },
-      { iconname: "Search User", icon: "search", route: "Search" }]
-  );
 
+  //const [names, setName] = useState([]);
+  const [menuStaff, setMenuItemsStaff] = useState([
+    { iconname: "Profile", icon: "account-circle", route: "StaffProfile" },
+    { iconname: "Messages", icon: "message", route: "ChatHome" },
+    { iconname: "Settings", icon: "settings", route: "" },
+    { iconname: "Notifications", icon: "notifications", route: "" },
+    { iconname: "Search User", icon: "search", route: "Search" },
+  ]);
 
   const [menuPatient, setMenuItemsPatient] = useState([
-  { iconname: "Profile", icon: "account-circle", route: "StaffProfile" },
-  { iconname: "Settings", icon: "settings", route: "" },
-  { iconname: "Notifications", icon: "notifications", route: "" },
-  { iconname: "Search User", icon: "search", route: "Search" }]);
- 
+    { iconname: "Profile", icon: "account-circle", route: "StaffProfile" },
+    { iconname: "Settings", icon: "settings", route: "" },
+    { iconname: "Notifications", icon: "notifications", route: "" },
+    { iconname: "Search User", icon: "search", route: "Search" },
+  ]);
 
   useEffect(() => {
     firestoreService.getUserById(authUserId).then((data) => {
       setUser(data);
       //setMenuItemsStaff(menuItems());
       setLoading(false);
-     
     });
   }, []);
 
- 
   // function menuItems() {
-    
+
   //   if (user.isStaff) {
   //     return [ { iconname: "Profile", icon: "account-circle", route: "StaffProfile" },
   //     { iconname: "Messages", icon: "message", route: "ChatHome" },
@@ -61,7 +53,6 @@ export default function Menu ({ navigation }){
   //   }
   // }
 
-
   const signOut = () => {
     auth
       .signOut()
@@ -71,7 +62,6 @@ export default function Menu ({ navigation }){
       })
       .catch((error) => alert(error));
   };
-
 
   const renderPage = () => {
     if (loading) {
@@ -83,36 +73,55 @@ export default function Menu ({ navigation }){
     //   return <LoadingScreen />;
     // }
 
-
     //Right now this is the best way to render the screen correctly on the first try
     //Scroll view needs work, there is a way to make it work but i deleted the code and need to figure it out again
     return (
       <>
-      {
-        (user.isStaff) 
-        ?       
-              <View style={styles.container}>
-
-              <View style={[styles.topView, {backgroundColor: '#FF9800'}]}>
-                <Text style={styles.text}>Welcome back, {Staff.getFullName(user.name)} </Text>
+        {user.isStaff ? (
+          <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
+            <View style={styles.container}>
+              <View style={[styles.topView, { backgroundColor: "#FF9800" }]}>
+                <Text style={styles.text}>
+                  Welcome back, {Staff.getFullName(user.name)}{" "}
+                </Text>
               </View>
-              {menuStaff.map((menuIt, index) => <Square key={index + menuIt.route} name={menuIt.iconname} icon={menuIt.icon} navigation={navigation} route={menuIt.route} />)}
+              {menuStaff.map((menuIt, index) => (
+                <Square
+                  key={index + menuIt.route}
+                  name={menuIt.iconname}
+                  icon={menuIt.icon}
+                  navigation={navigation}
+                  route={menuIt.route}
+                />
+              ))}
               <View style={styles.bottomView}>
                 <LogoutButton signOut={signOut} />
               </View>
             </View>
-        : 
+          </ScrollView>
+        ) : (
+          <ScrollView bounces={false}>
             <View style={styles.container}>
-
-            <View style={[styles.topView, {backgroundColor: '#687089'}]}>
-              <Text style={styles.text}>Welcome back, {Staff.getFullName(user.name)} </Text>
+              <View style={[styles.topView, { backgroundColor: "#687089" }]}>
+                <Text style={styles.text}>
+                  Welcome back, {Staff.getFullName(user.name)}{" "}
+                </Text>
+              </View>
+              {menuPatient.map((menuIt, index) => (
+                <Square
+                  key={index + menuIt.route}
+                  name={menuIt.iconname}
+                  icon={menuIt.icon}
+                  navigation={navigation}
+                  route={menuIt.route}
+                />
+              ))}
+              <View style={styles.bottomView}>
+                <LogoutButton signOut={signOut} />
+              </View>
             </View>
-            {menuPatient.map((menuIt, index) => <Square key={index + menuIt.route} name={menuIt.iconname} icon={menuIt.icon} navigation={navigation} route={menuIt.route} />)}
-            <View style={styles.bottomView}>
-              <LogoutButton signOut={signOut} />
-            </View>
-            </View>
-      }
+          </ScrollView>
+        )}
       </>
 
       //   <ScrollView>
@@ -121,21 +130,18 @@ export default function Menu ({ navigation }){
       //   <View style={styles.topView}>
       //     <Text style={styles.text}>Welcome back, {Staff.getFullName(user.name)} </Text>
       //   </View>
-      
+
       //   {menuStaff.map((menuIt, index) => <Square key={index + menuIt.route} name={menuIt.iconname} icon={menuIt.icon} navigation={navigation} route={menuIt.route} />)}
       //   <View style={styles.bottomView}>
       //     <LogoutButton signOut={signOut} />
       //   </View>
       // </View>
       // </ScrollView>
-     
-
     );
   };
 
   return renderPage();
 }
-
 
 const styles = StyleSheet.create({
   container: {
@@ -171,11 +177,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     // position: "",
-   // bottom: 0,
+    // bottom: 0,
   },
   text: {
-    fontWeight: 'bold',
-    color: 'white',
+    fontWeight: "bold",
+    color: "white",
     fontSize: 18,
-  }
+  },
 });

@@ -24,7 +24,7 @@ const SearchUserCard = ({ navigation, user, type, ...props }) => {
                 break;
             default:
                 if (user.isStaff) navigation.navigate("StaffProfile", { user });
-                else alert("Waiting on Patient Profile feature.");
+                else navigation.navigate("PatientProfile", { user });
         }
     }
 

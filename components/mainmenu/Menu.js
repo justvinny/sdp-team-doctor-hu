@@ -7,16 +7,16 @@ import firestoreService from "../../firebase/firestoreService"; //where you grab
 import Staff from "../../models/Staff";
 import { auth } from "../../firebase/firebaseConfig";
 import LoadingScreen from "../.././Screens/LoadingScreen";
-import colorDefaults from '../../theme/colorDefaults';
+import colorDefaults from "../../theme/colorDefaults";
 
 export default function Menu({ navigation }) {
   const { authUserId, setAuthUserId } = useContext(AuthContext);
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
-
+  const [isStaff, setIsStaff] = useState(false);
 
   const [menuStaff, setMenuItemsStaff] = useState([
-    { iconname: "Profile", icon: "account-circle", route: "StaffProfile" },
+    { iconname: "Profile", icon: "account-circle", route: "ProfileSelection" },
     { iconname: "Messages", icon: "message", route: "ChatHome" },
     { iconname: "Settings", icon: "settings", route: "" },
     { iconname: "Notifications", icon: "notifications", route: "" },
@@ -24,16 +24,16 @@ export default function Menu({ navigation }) {
   ]);
 
   const [menuPatient, setMenuItemsPatient] = useState([
-    { iconname: "Profile", icon: "account-circle", route: "StaffProfile" },
+    { iconname: "Profile", icon: "account-circle", route: "ProfileSelection" },
     { iconname: "Settings", icon: "settings", route: "" },
     { iconname: "Notifications", icon: "notifications", route: "" },
     { iconname: "Search User", icon: "search", route: "Search" },
   ]);
 
-
   useEffect(() => {
     firestoreService.getUserById(authUserId).then((data) => {
       setUser(data);
+      setIsStaff(data.isStaff);
       setLoading(false);
     });
   }, []);
@@ -54,7 +54,6 @@ export default function Menu({ navigation }) {
       //only acts if page isnt rendering
       return <LoadingScreen />;
     }
-   
 
     //Right now this is the best way to render the screen correctly on the first try
     return (
@@ -62,7 +61,12 @@ export default function Menu({ navigation }) {
         {user.isStaff ? (
           <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
             <View style={styles.container}>
-              <View style={[styles.topView, { backgroundColor: colorDefaults.staffTopContainer}]}>
+              <View
+                style={[
+                  styles.topView,
+                  { backgroundColor: colorDefaults.staffTopContainer },
+                ]}
+              >
                 <Text style={styles.text}>
                   Welcome back, {Staff.getFullName(user.name)}{" "}
                 </Text>
@@ -84,7 +88,12 @@ export default function Menu({ navigation }) {
         ) : (
           <ScrollView bounces={false}>
             <View style={styles.container}>
-              <View style={[styles.topView, { backgroundColor: colorDefaults.primary }]}>
+              <View
+                style={[
+                  styles.topView,
+                  { backgroundColor: colorDefaults.primary },
+                ]}
+              >
                 <Text style={styles.text}>
                   Welcome back, {Staff.getFullName(user.name)}{" "}
                 </Text>
@@ -96,6 +105,7 @@ export default function Menu({ navigation }) {
                   icon={menuIt.icon}
                   navigation={navigation}
                   route={menuIt.route}
+                  isStaff={isStaff}
                 />
               ))}
               <View style={styles.bottomView}>

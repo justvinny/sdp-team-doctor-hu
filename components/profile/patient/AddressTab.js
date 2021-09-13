@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Keyboard,
   KeyboardAvoidingView,
@@ -11,15 +11,17 @@ import {
 import ProfileInformation from "../profilecomponents/ProfileInformation";
 import EditEnableButton from "../profilecomponents/EditEnableButton";
 import firestoreService from "../../../firebase/firestoreService";
+import AuthContext from "../../AuthContext";
 
-const PatientAddressTab = ({ route }) => {
-  const user = route?.params.user;
+const PatientAddressTab = ({ user }) => {
   const [editable, setEditable] = useState(false);
   const [address, setAddress] = useState(user.address.street);
   const [suburb, setSuburb] = useState(user.address.suburb);
   const [city, setCity] = useState(user.address.city);
   const [postcode, setPostcode] = useState(user.address.post);
 
+  const { authUserId } = useContext(AuthContext);
+  
   const updateFirebase = () => {
     firestoreService.updateStreet(user.id, address);
     firestoreService.updateSuburb(user.id, suburb);
@@ -59,11 +61,14 @@ const PatientAddressTab = ({ route }) => {
           onChangeText={setPostcode}
           keyboardType="number-pad"
         />
-        <EditEnableButton
-          editable={editable}
-          setEditable={setEditable}
-          saveChanges={updateFirebase}
-        />
+        {
+          user.id === authUserId
+            ? <EditEnableButton
+              editable={editable}
+              setEditable={setEditable}
+              saveChanges={updateFirebase}
+            /> : <></>
+        }
       </ScrollView>
     </TouchableWithoutFeedback>
   )

@@ -12,10 +12,11 @@ import Patient from "../../../models/Patient";
 
 const Tab = createMaterialTopTabNavigator();
 
-const PatientProfile = ({ navigation }) => {
+const PatientProfile = ({ navigation, route }) => {
+  const passedUser = route?.params?.user;
   const { authUserId } = useContext(AuthContext);
-  const [user, setUser] = useState({});
-  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(passedUser ? Patient.patientFirestoreFactory(passedUser) : {});
+  const [loading, setLoading] = useState(passedUser ? false : true);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -23,7 +24,7 @@ const PatientProfile = ({ navigation }) => {
     });
   }, []);
 
-  useEffect(() => {
+  !passedUser && useEffect(() => {
     firestoreService.getUserById(authUserId).then((data) => {
       setUser(Patient.patientFirestoreFactory(data));
       setLoading(false);
@@ -54,18 +55,18 @@ const PatientProfile = ({ navigation }) => {
             <Tab.Screen
               name="Profile"
             >
-              {props => <ProfileTab {...props} user={user} setUser={setUser} />}
+              {props => <ProfileTab {...props} user={user} setUser={setUser} passedUser={passedUser} />}
             </Tab.Screen>
             <Tab.Screen
               name="Address"
-              component={AddressTab}
-              initialParams={{ user }}
-            />
+            >
+              {props => <AddressTab {...props} user={user} setUser={setUser} passedUser={passedUser} />}
+            </Tab.Screen>
             <Tab.Screen
               name="Medical"
-              component={MedicalTab}
-              initialParams={{ user }}
-            />
+            >
+              {props => <MedicalTab {...props} user={user} setUser={setUser} passedUser={passedUser} />}
+            </Tab.Screen>
           </Tab.Navigator>
         </>
       )}

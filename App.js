@@ -13,8 +13,9 @@ import WelcomeScreen from "./Screens/WelcomeScreen";
 import SignInScreen from "./Screens/SignInScreen";
 import SignUpScreen from "./Screens/SignUpScreen";
 import ResetPassword from "./Screens/ResetPassword";
-import StaffProfile from './components/profile/StaffProfile';
-import Menu from './components/mainmenu/Menu';
+import ChangePasswordScreen from "./Screens/ChangePasswordScreen";
+import StaffProfile from "./components/profile/StaffProfile";
+import Menu from "./components/mainmenu/Menu";
 
 const Stack = createNativeStackNavigator();
 
@@ -89,7 +90,7 @@ export default function App() {
             <Stack.Screen
               component={SearchUserScreenController}
               name="Search"
-              options={{headerShown: false}}
+              options={{ headerShown: false }}
             />
             <Stack.Screen
               component={ChatHomeScreenController}

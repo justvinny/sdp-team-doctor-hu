@@ -4,6 +4,7 @@ import {
   StyleSheet,
   Button
 } from 'react-native';
+import colorDefaults from '../../theme/colorDefaults';
 
 
 const logoutButton = ({ signOut }) => {
@@ -13,7 +14,7 @@ const logoutButton = ({ signOut }) => {
       style={styles.buttonStyle}>
       <Button
         title={"Log Out"}
-        color={"#F31801"}
+        color={colorDefaults.logOutButton}
         onPress={signOut}
       />
     </View>
@@ -28,7 +29,7 @@ const styles = StyleSheet.create({
   buttonStyle: {
     borderWidth: 2,
     borderRadius: 8,
-    borderColor: '#F31801',
+    borderColor: colorDefaults.logOutButton,
     overflow: "hidden",
     marginBottom: 10
   }

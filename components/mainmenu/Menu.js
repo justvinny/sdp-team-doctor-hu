@@ -7,6 +7,7 @@ import firestoreService from "../../firebase/firestoreService"; //where you grab
 import Staff from "../../models/Staff";
 import { auth } from "../../firebase/firebaseConfig";
 import LoadingScreen from "../.././Screens/LoadingScreen";
+import colorDefaults from '../../theme/colorDefaults';
 
 export default function Menu({ navigation }) {
   const { authUserId, setAuthUserId } = useContext(AuthContext);
@@ -62,7 +63,7 @@ export default function Menu({ navigation }) {
         {user.isStaff ? (
           <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
             <View style={styles.container}>
-              <View style={[styles.topView, { backgroundColor: "#FF9800" }]}>
+              <View style={[styles.topView, { backgroundColor: colorDefaults.staffTopContainer}]}>
                 <Text style={styles.text}>
                   Welcome back, {Staff.getFullName(user.name)}{" "}
                 </Text>
@@ -84,7 +85,7 @@ export default function Menu({ navigation }) {
         ) : (
           <ScrollView bounces={false}>
             <View style={styles.container}>
-              <View style={[styles.topView, { backgroundColor: "#687089" }]}>
+              <View style={[styles.topView, { backgroundColor: colorDefaults.primary }]}>
                 <Text style={styles.text}>
                   Welcome back, {Staff.getFullName(user.name)}{" "}
                 </Text>
@@ -114,7 +115,7 @@ export default function Menu({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#eef1fa",
+    backgroundColor: colorDefaults.backDropColor,
     flexDirection: "row",
     alignItems: "flex-start",
     justifyContent: "center",
@@ -145,7 +146,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontWeight: "bold",
-    color: "white",
+    color: colorDefaults.iconColor,
     fontSize: 18,
   },
 });

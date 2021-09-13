@@ -23,7 +23,8 @@ const SearchUserScreenView = ({
     sortSelected,
     setSortSelected,
     sortAscending,
-    toggleAscending
+    toggleAscending,
+    isStaff
 }) => {
     const renderPage = () => {
         if (loading) {
@@ -68,6 +69,7 @@ const SearchUserScreenView = ({
                 sortAscending={sortAscending}
                 toggleAscending={toggleAscending}
                 type={type}
+                isStaff={isStaff}
             />
             {renderPage()}
         </View >

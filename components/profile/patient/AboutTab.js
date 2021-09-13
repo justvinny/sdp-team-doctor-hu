@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import ProfileInformation from "../profilecomponents/ProfileInformation";
@@ -6,18 +6,20 @@ import colorDefaults from "../../../theme/colorDefaults";
 import EditEnableButton from "../profilecomponents/EditEnableButton";
 import firestoreService from "../../../firebase/firestoreService";
 import Patient from "../../../models/Patient";
+import AuthContext from "../../AuthContext";
 
 const PatientAboutTab = ({ user, setUser }) => {
   const [firstName, setFirstName] = useState(user.name.first);
   const [middleName, setMiddleName] = useState(user.name.middle);
   const [lastName, setLastName] = useState(user.name.last);
   const [editable, setEditable] = useState(false);
+  const {authUserId} = useContext(AuthContext);
 
   function updateFirebase() {
     firestoreService.updateFirstName(user.id, firstName);
     firestoreService.updateMiddleName(user.id, middleName);
     firestoreService.updateLastName(user.id, lastName);
-    
+
     const updatedUser =
     {
       ...user,
@@ -54,11 +56,14 @@ const PatientAboutTab = ({ user, setUser }) => {
         editable={editable}
       />
 
-      <EditEnableButton
-        editable={editable}
-        setEditable={setEditable}
-        saveChanges={updateFirebase}
-      />
+      {
+        user.id === authUserId
+          ? <EditEnableButton
+            editable={editable}
+            setEditable={setEditable}
+            saveChanges={updateFirebase}
+          /> : <></>
+      }
     </View>
   );
 };

@@ -11,7 +11,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 const Square = (props) => {
   const navigateScreen = () => {
     if (props.route) {
-      props.navigation.navigate(props.route);
+      props.navigation.navigate(props.route, { isStaff: props.isStaff });
     }
   };
 

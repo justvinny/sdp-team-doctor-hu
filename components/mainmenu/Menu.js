@@ -13,6 +13,7 @@ export default function Menu({ navigation }) {
   const { authUserId, setAuthUserId } = useContext(AuthContext);
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
+  const [isStaff, setIsStaff] = useState(false);
 
   const [menuStaff, setMenuItemsStaff] = useState([
     { iconname: "Profile", icon: "account-circle", route: "ProfileSelection" },
@@ -32,6 +33,7 @@ export default function Menu({ navigation }) {
   useEffect(() => {
     firestoreService.getUserById(authUserId).then((data) => {
       setUser(data);
+      setIsStaff(data.isStaff);
       setLoading(false);
     });
   }, []);
@@ -103,6 +105,7 @@ export default function Menu({ navigation }) {
                   icon={menuIt.icon}
                   navigation={navigation}
                   route={menuIt.route}
+                  isStaff={isStaff}
                 />
               ))}
               <View style={styles.bottomView}>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Keyboard,
   KeyboardAvoidingView,
@@ -15,11 +15,12 @@ import colorDefaults from "../../../theme/colorDefaults";
 import EditEnableButton from "../profilecomponents/EditEnableButton";
 import { useState } from "react/cjs/react.development";
 import firestoreService from "../../../firebase/firestoreService";
+import AuthContext from "../../AuthContext";
 
-const PatientMedicalTab = ({ route }) => {
-  const user = route?.params.user;
+const PatientMedicalTab = ({ user }) => {
+  const { authUserId } = useContext(AuthContext);
   const bloodTypes = ["A+", "O+", "B+", "AB+", "A-", "O-", "B-", "AB-"];
-  const [bloodType, setBloodyType] = useState(user.bloodType);
+  const [bloodType, setBloodType] = useState(user.bloodType);
   const [birthdate, setBirthdate] = useState(user.birthDate);
   const [weight, setWeight] = useState(user.weight.toString());
   const [height, setHeight] = useState(user.height.toString());
@@ -37,18 +38,27 @@ const PatientMedicalTab = ({ route }) => {
   const renderView = () => (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <ScrollView bounces={false} style={{ flex: 1 }}>
-        <View style={styles.dropdownContainer}>
-          <Text style={styles.label}>Blood Type</Text>
-          <SelectDropdown
-            data={bloodTypes}
-            onSelect={(selectedItem) => {
-              setBloodyType(selectedItem);
-            }}
-            buttonStyle={styles.dropdownButton}
-            defaultButtonText={user.bloodType}
-            disabled={!editable}
+        {authUserId === user.id
+          ? <View style={styles.dropdownContainer}>
+            <Text style={styles.label}>Blood Type</Text>
+            <SelectDropdown
+              data={bloodTypes}
+              onSelect={(selectedItem) => {
+                setBloodType(selectedItem);
+              }}
+              buttonStyle={styles.dropdownButton}
+              defaultButtonText={user.bloodType}
+              disabled={!editable}
+            />
+          </View>
+          : <ProfileInformation
+            label="Blood Type"
+            value={bloodType}
+            onChangeText={setBloodType}
+            placeholder="Blood type"
+            editable={editable}
           />
-        </View>
+        }
 
         <ProfileInformation
           label="Birthdate"
@@ -80,11 +90,14 @@ const PatientMedicalTab = ({ route }) => {
           placeholder="Allergies"
           editable={editable}
         />
-        <EditEnableButton
-          editable={editable}
-          setEditable={setEditable}
-          saveChanges={updateFirebase}
-        />
+        {
+          user.id === authUserId
+            ? <EditEnableButton
+              editable={editable}
+              setEditable={setEditable}
+              saveChanges={updateFirebase}
+            /> : <></>
+        }
       </ScrollView>
     </TouchableWithoutFeedback>
   )

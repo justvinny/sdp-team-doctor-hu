@@ -7,16 +7,44 @@ import {
   TouchableHighlight,
 } from "react-native";
 import colorDefaults from "../theme/colorDefaults";
-import { auth } from "../firebase/firebaseConfig";
 import LoadingScreen from "./LoadingScreen";
+import firebase from "firebase/app";
+import { auth } from "../firebase/firebaseConfig";
 
 const ChangePasswordScreen = ({ navigation }) => {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setnewPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
 
+  const reauthenticate = (currentPassword) => {
+    const user = auth.currentUser;
+    const cred = firebase.auth.EmailAuthProvider.credential(
+      user.email,
+      currentPassword
+    );
+    return user.reauthenticateWithCredential(cred);
+  };
+
   const changePassword = () => {
-    alert("hi");
+    if (newPassword === passwordConfirmation) {
+      reauthenticate(currentPassword)
+        .then(() => {
+          const user = auth.currentUser;
+          user
+            .updatePassword(newPassword)
+            .then(() => {
+              alert("Password changed!");
+            })
+            .catch((error) => {
+              alert(error.message);
+            });
+        })
+        .catch((error) => {
+          alert("Incorrect Password!");
+        });
+    } else {
+      alert("Passwords do not match!");
+    }
   };
 
   return (

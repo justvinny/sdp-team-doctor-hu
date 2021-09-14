@@ -7,7 +7,7 @@ Patient Management System on Mobile using React Native and Firebase for our Soft
 3. Once you have Expo all setup on both your local machine and testing device, clone this repository to your local machine. First, open your terminal and navigate to your chosen directory. Then enter the command `git clone https://github.com/justvinny/sdp-team-doctor-hu.git` to download the project.
 4. Enter `npm install` in the terminal located at your project directory.
 5. Enter `expo start` to run the project for testing.
-6. In the expo CLI, scan the QR code shown in your mobile's Expo Go app to run the project. Wait for project to finish building. You should see a welcome screen with our application logo below once the build is successful. If you don't see an image, please reload the application on your Expo CLI.
+6. In the expo CLI, scan the QR code shown on the CLI using your mobile's Expo Go app scanner to run the project. Wait for project to finish building. You should see a welcome screen with our application logo as show in the screenshot below once the build is successful. If you don't see an image, please reload the application on your Expo CLI.
 
 Note: Sometimes Expo is finnicky on first start and will force close your application. Just scan the QR code again if this happens and it should work fine.
 

@@ -1,9 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import {
-  Text,
-  View,
-  StyleSheet
-} from "react-native";
+import { Text, View, StyleSheet } from "react-native";
 import Square from "./Square";
 import LogoutButton from "./LogoutButton";
 import AuthContext from "../AuthContext"; //to access firestore service, Auth athority
@@ -22,11 +18,10 @@ export default function Menu({ navigation }) {
   const [names, setName] = useState([
     { iconname: "Profile", icon: "account-circle", route: "StaffProfile" },
     { iconname: "Messages", icon: "message", route: "ChatHome" },
-    { iconname: "Settings", icon: "settings", route: "" },
+    { iconname: "Settings", icon: "settings", route: "ChangePassword" },
     // {iconname:"Attachments", icon:"attachment"},
     { iconname: "Notifications", icon: "notifications", route: "" },
-    { iconname: "Search User", icon: "search", route: "Search" }
-
+    { iconname: "Search User", icon: "search", route: "Search" },
   ]);
 
   useEffect(() => {
@@ -54,14 +49,21 @@ export default function Menu({ navigation }) {
     }
 
     return (
-
-
       <View style={styles.container}>
-
         <View style={styles.topView}>
-          <Text style={styles.text}>Welcome back, {Staff.getFullName(user.name)}</Text>
+          <Text style={styles.text}>
+            Welcome back, {Staff.getFullName(user.name)}
+          </Text>
         </View>
-        {names.map((name, index) => <Square key={index + name.route} name={name.iconname} icon={name.icon} navigation={navigation} route={name.route} />)}
+        {names.map((name, index) => (
+          <Square
+            key={index + name.route}
+            name={name.iconname}
+            icon={name.icon}
+            navigation={navigation}
+            route={name.route}
+          />
+        ))}
         <View style={styles.bottomView}>
           <LogoutButton signOut={signOut} />
         </View>
@@ -84,7 +86,6 @@ const styles = StyleSheet.create({
     //paddingTop: Platform.OS === "ios" ? 20 : 0,
   },
   item: {
-
     padding: 20,
   },
   button: {
@@ -105,7 +106,7 @@ const styles = StyleSheet.create({
     height: 75,
     left: 0,
     marginBottom: 20,
-    backgroundColor: '#FF9800',
+    backgroundColor: "#FF9800",
 
     justifyContent: "center",
     alignItems: "center",
@@ -113,8 +114,8 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
   text: {
-    fontWeight: 'bold',
-    color: 'white',
+    fontWeight: "bold",
+    color: "white",
     fontSize: 18,
-  }
+  },
 });

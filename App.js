@@ -101,6 +101,10 @@ export default function App() {
               name="DirectMessage"
             />
             <Stack.Screen component={StaffProfile} name="StaffProfile" />
+            <Stack.Screen
+              component={ChangePasswordScreen}
+              name="ChangePassword"
+            />
           </Stack.Navigator>
           <StatusBar style="light" />
         </NavigationContainer>

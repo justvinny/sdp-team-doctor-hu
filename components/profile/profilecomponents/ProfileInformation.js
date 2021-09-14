@@ -1,6 +1,7 @@
 import React from "react";
-import { StyleSheet, Text, TextInput, View } from "react-native";
-import colorDefaults from "../../../theme/colorDefaults";
+import { View } from "react-native";
+import { Input } from "react-native-elements";
+import TextInputStyles from "./TextInputStyles";
 
 function ProfileInformation({
   label,
@@ -11,41 +12,19 @@ function ProfileInformation({
   keyboardType,
 }) {
   return (
-    <View style={styles.inputView}>
-      <Text style={styles.text}>{label}</Text>
-      <TextInput
+    <View style={TextInputStyles.inputView}>
+      <Input
         value={value}
         placeholder={placeholder}
         onChangeText={onChangeText}
         editable={editable}
-        style={styles.input}
+        containerStyle={TextInputStyles.input}
         keyboardType={keyboardType}
+        label={label}
+        labelStyle={TextInputStyles.labelStyle}
       />
     </View>
   );
 }
 
 export default ProfileInformation;
-
-const styles = StyleSheet.create({
-  input: {
-    borderColor: "black",
-    borderWidth: 0.5,
-    padding: 5,
-    width: 200,
-    height: 40,
-  },
-  text: {
-    marginRight: 10,
-    textAlign: "right",
-    width: 120,
-  },
-  inputView: {
-    padding: 10,
-    flexDirection: "row",
-    alignItems: "center",
-    margin: 5,
-    backgroundColor: colorDefaults.bottomBorderColor,
-    borderRadius: 10,
-  },
-});

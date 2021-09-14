@@ -15,7 +15,9 @@ const Tab = createMaterialTopTabNavigator();
 const PatientProfile = ({ navigation, route }) => {
   const passedUser = route?.params?.user;
   const { authUserId } = useContext(AuthContext);
-  const [user, setUser] = useState(passedUser ? Patient.patientFirestoreFactory(passedUser) : {});
+  const [user, setUser] = useState(
+    passedUser ? Patient.patientFirestoreFactory(passedUser) : {}
+  );
   const [loading, setLoading] = useState(passedUser ? false : true);
 
   useLayoutEffect(() => {
@@ -24,12 +26,13 @@ const PatientProfile = ({ navigation, route }) => {
     });
   }, []);
 
-  !passedUser && useEffect(() => {
-    firestoreService.getUserById(authUserId).then((data) => {
-      setUser(Patient.patientFirestoreFactory(data));
-      setLoading(false);
-    });
-  }, []);
+  !passedUser &&
+    useEffect(() => {
+      firestoreService.getUserById(authUserId).then((data) => {
+        setUser(Patient.patientFirestoreFactory(data));
+        setLoading(false);
+      });
+    }, []);
 
   return (
     <>
@@ -52,20 +55,35 @@ const PatientProfile = ({ navigation, route }) => {
               tabBarIndicatorStyle: { backgroundColor: "black" },
             }}
           >
-            <Tab.Screen
-              name="Profile"
-            >
-              {props => <ProfileTab {...props} user={user} setUser={setUser} passedUser={passedUser} />}
+            <Tab.Screen name="Profile">
+              {(props) => (
+                <ProfileTab
+                  {...props}
+                  user={user}
+                  setUser={setUser}
+                  passedUser={passedUser}
+                />
+              )}
             </Tab.Screen>
-            <Tab.Screen
-              name="Address"
-            >
-              {props => <AddressTab {...props} user={user} setUser={setUser} passedUser={passedUser} />}
+            <Tab.Screen name="Address">
+              {(props) => (
+                <AddressTab
+                  {...props}
+                  user={user}
+                  setUser={setUser}
+                  passedUser={passedUser}
+                />
+              )}
             </Tab.Screen>
-            <Tab.Screen
-              name="Medical"
-            >
-              {props => <MedicalTab {...props} user={user} setUser={setUser} passedUser={passedUser} />}
+            <Tab.Screen name="Medical">
+              {(props) => (
+                <MedicalTab
+                  {...props}
+                  user={user}
+                  setUser={setUser}
+                  passedUser={passedUser}
+                />
+              )}
             </Tab.Screen>
           </Tab.Navigator>
         </>

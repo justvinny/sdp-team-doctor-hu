@@ -36,7 +36,7 @@ export default function EditEnableButton({
     if (editable) {
       saveChanges();
     }
-    
+
     setEditable(!editable);
   };
 
@@ -54,7 +54,8 @@ const styles = StyleSheet.create({
     backgroundColor: colorDefaults.bottomBorderColor,
     padding: 10,
     borderRadius: 10,
-    marginBottom: 10,
+    marginBottom: 20,
+    marginTop: 20,
     alignSelf: "center",
   },
   icon: {

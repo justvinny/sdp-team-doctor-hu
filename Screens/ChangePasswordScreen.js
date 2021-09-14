@@ -5,7 +5,8 @@ import {
   View,
   TextInput,
   TouchableHighlight,
-  ScrollView
+  ScrollView,
+  KeyboardAvoidingView,
 } from "react-native";
 import colorDefaults from "../theme/colorDefaults";
 import LoadingScreen from "./LoadingScreen";
@@ -52,59 +53,67 @@ const ChangePasswordScreen = ({ navigation }) => {
     }
   };
 
+  const renderView = () => {
+    return (
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <Text style={styles.headerText}>Forgot Your Password?</Text>
+        <Text style={styles.headerDescription}>Change your password here!</Text>
+        <View style={{ marginTop: 10 }}></View>
+
+        <TextInput
+          style={styles.input}
+          secureTextEntry={true}
+          placeholder={"Enter current password*"}
+          onChangeText={setCurrentPassword}
+        />
+
+        <Text style={styles.conditionHeader}>
+          Please ensure your new password:
+        </Text>
+        <Text style={styles.passwordCondition}>
+          - Contains at least 6 characters
+        </Text>
+        <Text style={styles.passwordCondition}>
+          - Contains at least 1 number
+        </Text>
+
+        <View style={{ marginTop: 10 }}></View>
+
+        <TextInput
+          style={styles.input}
+          secureTextEntry={true}
+          placeholder={"Enter new password*"}
+          onChangeText={setnewPassword}
+        />
+
+        <TextInput
+          style={styles.input}
+          secureTextEntry={true}
+          placeholder={"Confirm new password*"}
+          onChangeText={setPasswordConfirmation}
+        />
+
+        <TouchableHighlight onPress={changePassword} style={styles.buttonReset}>
+          <Text style={styles.buttonText}>Change Password</Text>
+        </TouchableHighlight>
+      </ScrollView>
+    );
+  };
   return (
     <>
-      {
-        loading
-          ? <LoadingScreen />
-          : <View style={styles.container}>
-            <ScrollView contentContainerStyle={styles.scrollContainer}>
-
-              <Text style={styles.headerText}>Forgot Your Password?</Text>
-              <Text style={styles.headerDescription}>Change your password here!</Text>
-              <View style={{ marginTop: 10 }}></View>
-
-              <TextInput
-                style={styles.input}
-                secureTextEntry={true}
-                placeholder={"Enter current password*"}
-                onChangeText={setCurrentPassword}
-              />
-
-              <Text style={styles.conditionHeader}>
-                Please ensure your new password:
-              </Text>
-              <Text style={styles.passwordCondition}>
-                {" "}
-                - Contains at least 6 characters
-              </Text>
-              <Text style={styles.passwordCondition}>
-                {" "}
-                - Contains at least 1 number
-              </Text>
-
-              <View style={{ marginTop: 10 }}></View>
-
-              <TextInput
-                style={styles.input}
-                secureTextEntry={true}
-                placeholder={"Enter new password*"}
-                onChangeText={setnewPassword}
-              />
-
-              <TextInput
-                style={styles.input}
-                secureTextEntry={true}
-                placeholder={"Confirm new password*"}
-                onChangeText={setPasswordConfirmation}
-              />
-
-              <TouchableHighlight onPress={changePassword} style={styles.buttonReset}>
-                <Text style={styles.buttonText}>Change Password</Text>
-              </TouchableHighlight>
-            </ScrollView>
-          </View>
-      }
+      {loading ? (
+        <LoadingScreen />
+      ) : Platform.OS === "ios" ? (
+        <KeyboardAvoidingView
+          style={styles.container}
+          behavior="padding"
+          keyboardVerticalOffset={80}
+        >
+          {renderView()}
+        </KeyboardAvoidingView>
+      ) : (
+        <View style={styles.container}>{renderView()}</View>
+      )}
     </>
   );
 };
@@ -116,7 +125,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colorDefaults.backDropColor,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
 
   scrollContainer: {

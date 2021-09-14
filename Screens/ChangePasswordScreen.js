@@ -5,6 +5,7 @@ import {
   View,
   TextInput,
   TouchableHighlight,
+  ScrollView
 } from "react-native";
 import colorDefaults from "../theme/colorDefaults";
 import LoadingScreen from "./LoadingScreen";
@@ -15,6 +16,7 @@ const ChangePasswordScreen = ({ navigation }) => {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setnewPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const reauthenticate = (currentPassword) => {
     const user = auth.currentUser;
@@ -27,6 +29,7 @@ const ChangePasswordScreen = ({ navigation }) => {
 
   const changePassword = () => {
     if (newPassword === passwordConfirmation) {
+      setLoading(true);
       reauthenticate(currentPassword)
         .then(() => {
           const user = auth.currentUser;
@@ -37,10 +40,12 @@ const ChangePasswordScreen = ({ navigation }) => {
             })
             .catch((error) => {
               alert(error.message);
-            });
+            })
+            .finally(() => setLoading(false));
         })
         .catch((error) => {
           alert("Incorrect Password!");
+          setLoading(false);
         });
     } else {
       alert("Passwords do not match!");
@@ -48,50 +53,59 @@ const ChangePasswordScreen = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.headerText}>Forgot Your Password?</Text>
-      <Text style={styles.headerDescription}>Change your password here!</Text>
-      <View style={{ marginTop: 10 }}></View>
+    <>
+      {
+        loading
+          ? <LoadingScreen />
+          : <View style={styles.container}>
+            <ScrollView contentContainerStyle={styles.scrollContainer}>
 
-      <TextInput
-        style={styles.input}
-        secureTextEntry={true}
-        placeholder={"Enter current password*"}
-        onChangeText={setCurrentPassword}
-      />
+              <Text style={styles.headerText}>Forgot Your Password?</Text>
+              <Text style={styles.headerDescription}>Change your password here!</Text>
+              <View style={{ marginTop: 10 }}></View>
 
-      <Text style={styles.conditionHeader}>
-        Please ensure your new password:
-      </Text>
-      <Text style={styles.passwordCondition}>
-        {" "}
-        - Contains at least 6 characters
-      </Text>
-      <Text style={styles.passwordCondition}>
-        {" "}
-        - Contains at least 1 number
-      </Text>
+              <TextInput
+                style={styles.input}
+                secureTextEntry={true}
+                placeholder={"Enter current password*"}
+                onChangeText={setCurrentPassword}
+              />
 
-      <View style={{ marginTop: 10 }}></View>
+              <Text style={styles.conditionHeader}>
+                Please ensure your new password:
+              </Text>
+              <Text style={styles.passwordCondition}>
+                {" "}
+                - Contains at least 6 characters
+              </Text>
+              <Text style={styles.passwordCondition}>
+                {" "}
+                - Contains at least 1 number
+              </Text>
 
-      <TextInput
-        style={styles.input}
-        secureTextEntry={true}
-        placeholder={"Enter new password*"}
-        onChangeText={setnewPassword}
-      />
+              <View style={{ marginTop: 10 }}></View>
 
-      <TextInput
-        style={styles.input}
-        secureTextEntry={true}
-        placeholder={"Confirm new password*"}
-        onChangeText={setPasswordConfirmation}
-      />
+              <TextInput
+                style={styles.input}
+                secureTextEntry={true}
+                placeholder={"Enter new password*"}
+                onChangeText={setnewPassword}
+              />
 
-      <TouchableHighlight onPress={changePassword} style={styles.buttonReset}>
-        <Text style={styles.buttonText}>Change Password</Text>
-      </TouchableHighlight>
-    </View>
+              <TextInput
+                style={styles.input}
+                secureTextEntry={true}
+                placeholder={"Confirm new password*"}
+                onChangeText={setPasswordConfirmation}
+              />
+
+              <TouchableHighlight onPress={changePassword} style={styles.buttonReset}>
+                <Text style={styles.buttonText}>Change Password</Text>
+              </TouchableHighlight>
+            </ScrollView>
+          </View>
+      }
+    </>
   );
 };
 
@@ -101,11 +115,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colorDefaults.backDropColor,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+
+  scrollContainer: {
+    flexGrow: 1,
     alignItems: "center",
+    justifyContent: "center",
   },
 
   headerText: {
-    marginTop: 100,
     fontSize: 22,
     color: "black",
     marginBottom: 10,

@@ -13,6 +13,7 @@ import WelcomeScreen from "./Screens/WelcomeScreen";
 import SignInScreen from "./Screens/SignInScreen";
 import SignUpScreen from "./Screens/SignUpScreen";
 import ResetPassword from "./Screens/ResetPassword";
+import ChangePasswordScreen from "./Screens/ChangePasswordScreen";
 import StaffProfile from "./components/profile/staff/StaffProfile";
 import PatientProfile from "./components/profile/patient/PatientProfile";
 import Menu from "./components/mainmenu/Menu";
@@ -102,6 +103,10 @@ export default function App() {
               name="DirectMessage"
             />
             <Stack.Screen component={StaffProfile} name="StaffProfile" />
+            <Stack.Screen
+              component={ChangePasswordScreen}
+              name="ChangePassword"
+            />
             <Stack.Screen component={PatientProfile} name="PatientProfile" />
             <Stack.Screen
               component={ProfileSelection}

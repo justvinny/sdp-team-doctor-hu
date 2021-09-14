@@ -18,14 +18,14 @@ export default function Menu({ navigation }) {
   const [menuStaff, setMenuItemsStaff] = useState([
     { iconname: "Profile", icon: "account-circle", route: "ProfileSelection" },
     { iconname: "Messages", icon: "message", route: "ChatHome" },
-    { iconname: "Settings", icon: "settings", route: "" },
+    { iconname: "Settings", icon: "settings", route: "ChangePassword" },
     { iconname: "Notifications", icon: "notifications", route: "" },
     { iconname: "Search User", icon: "search", route: "Search" },
   ]);
 
   const [menuPatient, setMenuItemsPatient] = useState([
     { iconname: "Profile", icon: "account-circle", route: "ProfileSelection" },
-    { iconname: "Settings", icon: "settings", route: "" },
+    { iconname: "Settings", icon: "settings", route: "ChangePassword" },
     { iconname: "Notifications", icon: "notifications", route: "" },
     { iconname: "Search User", icon: "search", route: "Search" },
   ]);

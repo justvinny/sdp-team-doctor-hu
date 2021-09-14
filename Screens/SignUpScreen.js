@@ -32,16 +32,17 @@ export default function SignUpScreen({ navigation }) {
         .createUserWithEmailAndPassword(email, password)
         .then((authUser) => {
           setLoading(false);
-          return authUser.user.uid
+          return authUser.user.uid;
         })
         .catch((error) => {
           setLoading(false);
-          alert(error.message)
+          alert(error.message);
         });
 
       if (id) {
-        firestoreService.createUser(id, first, middle, last, isStaff)
-          .catch(error => alert(error));
+        firestoreService
+          .createUser(id, first, middle, last, isStaff)
+          .catch((error) => alert(error));
       }
     } else {
       alert("Passwords don't match");
@@ -99,7 +100,7 @@ export default function SignUpScreen({ navigation }) {
 
           <View style={styles.passCheckContainer}>
             <Text style={styles.passwordCheckCharacter}>
-              Has at least 8 characters
+              Has at least 6 characters
             </Text>
             <Text style={styles.passwordCheckNumber}>
               Has at least 1 number

@@ -8,7 +8,8 @@ const FilterModal = ({
     closeModalFilter,
     setFilterSelected,
     setSortSelected,
-    type
+    type,
+    isStaff
 }) => {
     return (
         <Modal
@@ -24,7 +25,7 @@ const FilterModal = ({
             >
                 <TouchableWithoutFeedback>
                     <View style={styles.container}>
-                        {("chat".localeCompare(type) === 0)
+                        {("chat".localeCompare(type) === 0 || (typeof isStaff == "boolean" && !isStaff))
                             ? <></>
                             : <>
                                 <Text style={styles.title}>Filter</Text>

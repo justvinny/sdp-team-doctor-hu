@@ -13,6 +13,7 @@ const SearchUserScreenController = ({ navigation, route }) => {
     const [sortAscending, setAscending] = useState(true);
 
     const type = (route.params) ? route.params.type : "none";
+    const isStaff = (route.params) ? route.params.isStaff : "undefined";
     const { authUserId } = useContext(AuthContext);
     useEffect(() => {
         firestoreService.getAllUsers()
@@ -88,6 +89,7 @@ const SearchUserScreenController = ({ navigation, route }) => {
             setSortSelected={setSortSelected}
             sortAscending={sortAscending}
             toggleAscending={toggleAscending}
+            isStaff={isStaff}
         />
     )
 }

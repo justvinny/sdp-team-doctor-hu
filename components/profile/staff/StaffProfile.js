@@ -1,11 +1,11 @@
 import React, { useState, useContext, useEffect, useLayoutEffect } from "react";
 import { StyleSheet, Image, Text, View } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import colorDefaults from "../../theme/colorDefaults";
+import colorDefaults from "../../../theme/colorDefaults";
 import ProfileTab from "./ProfileTab";
-import AuthContext from "../AuthContext";
-import firestoreService from "../../firebase/firestoreService";
-import Staff from "../../models/Staff";
+import AuthContext from "../../AuthContext";
+import firestoreService from "../../../firebase/firestoreService";
+import Staff from "../../../models/Staff";
 import AboutTab from "./AboutTab";
 const Tab = createMaterialTopTabNavigator();
 
@@ -21,12 +21,13 @@ export default function StaffProfile({ navigation, route }) {
     });
   }, []);
 
-  !passedUser && useEffect(() => {
-    firestoreService.getUserById(authUserId).then((data) => {
-      setUser(data);
-      setLoading(false);
-    });
-  }, []);
+  !passedUser &&
+    useEffect(() => {
+      firestoreService.getUserById(authUserId).then((data) => {
+        setUser(data);
+        setLoading(false);
+      });
+    }, []);
 
   const renderPage = () => {
     if (loading) {
@@ -38,7 +39,7 @@ export default function StaffProfile({ navigation, route }) {
         <View style={styles.container}>
           <Image
             style={styles.image}
-            source={require("../../assets/icon.png")}
+            source={require("../../../assets/icon.png")}
           />
           <Text style={styles.name}>{Staff.getFullName(user.name)}</Text>
         </View>
@@ -75,8 +76,8 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   image: {
-    width: 200,
-    height: 200,
+    width: 150,
+    height: 150,
     marginBottom: 20,
     marginTop: 20,
     borderRadius: 100,

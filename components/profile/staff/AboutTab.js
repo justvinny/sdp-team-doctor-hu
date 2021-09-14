@@ -12,6 +12,9 @@ import firestoreService from "../../../firebase/firestoreService";
 import { ScrollView } from "react-native-gesture-handler";
 import AuthContext from "../../AuthContext";
 import EditEnableButton from "../profilecomponents/EditEnableButton";
+import ProfileInformation from "../profilecomponents/ProfileInformation";
+import { Input } from "react-native-elements/dist/input/Input";
+import TextInputStyles from "../profilecomponents/TextInputStyles";
 
 function AboutTab({ user, setUser }) {
   const { authUserId } = useContext(AuthContext);
@@ -37,15 +40,16 @@ function AboutTab({ user, setUser }) {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <ScrollView>
         <KeyboardAvoidingView style={styles.container}>
-          <TextInput
-            style={styles.input}
+          <Input
+            style={TextInputStyles.multiline}
+            labelStyle={TextInputStyles.labelStyle}
+            containerStyle={TextInputStyles.inputView}
             multiline
-            numberOfLines={3}
             editable={enabled}
             placeholder="Tell us a little bit about yourself."
             onChangeText={setAbout}
             value={aboutText}
-          ></TextInput>
+          />
           {authUserId === user.id ? (
             <EditEnableButton
               editable={enabled}

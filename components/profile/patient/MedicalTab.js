@@ -16,6 +16,8 @@ import EditEnableButton from "../profilecomponents/EditEnableButton";
 import { useState } from "react/cjs/react.development";
 import firestoreService from "../../../firebase/firestoreService";
 import AuthContext from "../../AuthContext";
+import { Input } from "react-native-elements";
+import TextInputStyles from "../profilecomponents/TextInputStyles";
 
 const PatientMedicalTab = ({ user }) => {
   const { authUserId } = useContext(AuthContext);
@@ -33,14 +35,18 @@ const PatientMedicalTab = ({ user }) => {
     firestoreService.updateWeight(user.id, weight);
     firestoreService.updateHeight(user.id, height);
     firestoreService.updateAllergies(user.id, allergies.split(", "));
-  }
+  };
 
   const renderView = () => (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <ScrollView bounces={false} style={{ flex: 1 }}>
-        {authUserId === user.id
-          ? <View style={styles.dropdownContainer}>
-            <Text style={styles.label}>Blood Type</Text>
+      <ScrollView
+        bounces={false}
+        style={{ flex: 1 }}
+        showsVerticalScrollIndicator={false}
+      >
+        {authUserId === user.id ? (
+          <View style={styles.dropdownContainer}>
+            <Text style={TextInputStyles.labelStyle}>Blood Type</Text>
             <SelectDropdown
               data={bloodTypes}
               onSelect={(selectedItem) => {
@@ -51,14 +57,15 @@ const PatientMedicalTab = ({ user }) => {
               disabled={!editable}
             />
           </View>
-          : <ProfileInformation
+        ) : (
+          <ProfileInformation
             label="Blood Type"
             value={bloodType}
             onChangeText={setBloodType}
             placeholder="Blood type"
             editable={editable}
           />
-        }
+        )}
 
         <ProfileInformation
           label="Birthdate"
@@ -68,7 +75,7 @@ const PatientMedicalTab = ({ user }) => {
           editable={editable}
         />
         <ProfileInformation
-          label="Weight"
+          label="Weight (kgs)"
           value={weight}
           onChangeText={setWeight}
           placeholder="Weight"
@@ -76,46 +83,49 @@ const PatientMedicalTab = ({ user }) => {
           keyboardType="numeric"
         />
         <ProfileInformation
-          label="Height"
+          label="Height (cms)"
           value={height}
           onChangeText={setHeight}
           placeholder="Height"
           editable={editable}
           keyboardType="numeric"
         />
-        <ProfileInformation
+        <Input
           label="Allergies"
           value={allergies}
           onChangeText={setAllergies}
           placeholder="Allergies"
           editable={editable}
+          multiline={true}
+          style={TextInputStyles.multiline}
+          labelStyle={TextInputStyles.labelStyle}
+          containerStyle={TextInputStyles.inputView}
         />
-        {
-          user.id === authUserId
-            ? <EditEnableButton
-              editable={editable}
-              setEditable={setEditable}
-              saveChanges={updateFirebase}
-            /> : <></>
-        }
+        {user.id === authUserId ? (
+          <EditEnableButton
+            editable={editable}
+            setEditable={setEditable}
+            saveChanges={updateFirebase}
+          />
+        ) : (
+          <></>
+        )}
       </ScrollView>
     </TouchableWithoutFeedback>
-  )
+  );
   return (
     <>
-      {
-        Platform.OS === "ios"
-          ? <KeyboardAvoidingView
-            style={styles.container}
-            behavior="padding"
-            keyboardVerticalOffset={380}
-          >
-            {renderView()}
-          </KeyboardAvoidingView>
-          : <View style={styles.container}>
-            {renderView()}
-          </View>
-      }
+      {Platform.OS === "ios" ? (
+        <KeyboardAvoidingView
+          style={styles.container}
+          behavior="padding"
+          keyboardVerticalOffset={380}
+        >
+          {renderView()}
+        </KeyboardAvoidingView>
+      ) : (
+        <View style={styles.container}>{renderView()}</View>
+      )}
     </>
   );
 };
@@ -127,29 +137,18 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     padding: 10,
-    alignContent: "center",
-    justifyContent: "flex-start",
     alignItems: "center",
-  },
-  label: {
-    marginRight: 10,
-    textAlign: "right",
-    width: 120,
   },
   dropdownContainer: {
     padding: 10,
-    flexDirection: "row",
+    flexDirection: "column",
     alignItems: "center",
-    margin: 5,
-    backgroundColor: colorDefaults.bottomBorderColor,
-    borderRadius: 10,
   },
   dropdownButton: {
-    width: 200,
+    width: 300,
     height: 40,
-    borderWidth: 0.5,
-    borderColor: "black",
-    padding: 5,
-    backgroundColor: colorDefaults.bottomBorderColor,
+    borderBottomWidth: 0.5,
+    padding: 10,
+    backgroundColor: "#f2f2f2",
   },
 });

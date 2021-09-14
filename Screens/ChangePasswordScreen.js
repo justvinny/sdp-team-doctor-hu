@@ -37,7 +37,7 @@ const ChangePasswordScreen = ({ navigation }) => {
           user
             .updatePassword(newPassword)
             .then(() => {
-              alert("Password changed!");
+              alert("Password successfully changed!");
             })
             .catch((error) => {
               alert(error.message);

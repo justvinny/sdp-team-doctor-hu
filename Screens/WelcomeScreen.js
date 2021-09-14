@@ -75,6 +75,8 @@ const styles = StyleSheet.create({
 
   logo: {
     top: 100,
+    minWidth: 100,
+    minHeight: 100,
   },
 
   buttonSignIn: {

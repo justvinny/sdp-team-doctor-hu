@@ -21,17 +21,17 @@ const PatientAddressTab = ({ user }) => {
   const [postcode, setPostcode] = useState(user.address.post);
 
   const { authUserId } = useContext(AuthContext);
-  
+
   const updateFirebase = () => {
     firestoreService.updateStreet(user.id, address);
     firestoreService.updateSuburb(user.id, suburb);
     firestoreService.updateCity(user.id, city);
     firestoreService.updatePost(user.id, postcode);
-  }
+  };
 
   const renderView = () => (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <ScrollView>
+      <ScrollView bounces={false} showsHorizontalScrollIndicator={false}>
         <ProfileInformation
           label="Address"
           value={address}
@@ -61,33 +61,28 @@ const PatientAddressTab = ({ user }) => {
           onChangeText={setPostcode}
           keyboardType="number-pad"
         />
-        {
-          user.id === authUserId
-            ? <EditEnableButton
-              editable={editable}
-              setEditable={setEditable}
-              saveChanges={updateFirebase}
-            /> : <></>
-        }
+        {user.id === authUserId ? (
+          <EditEnableButton
+            editable={editable}
+            setEditable={setEditable}
+            saveChanges={updateFirebase}
+          />
+        ) : (
+          <></>
+        )}
       </ScrollView>
     </TouchableWithoutFeedback>
-  )
+  );
   return (
     <>
-      {
-        Platform.OS === "ios"
-          ? <KeyboardAvoidingView
-            behavior="padding"
-            keyboardVerticalOffset={450}
-          >
-            {renderView()}
-          </KeyboardAvoidingView>
-          : <View>
-            {renderView()}
-          </View>
-      }
+      {Platform.OS === "ios" ? (
+        <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={450}>
+          {renderView()}
+        </KeyboardAvoidingView>
+      ) : (
+        <View>{renderView()}</View>
+      )}
     </>
-
   );
 };
 

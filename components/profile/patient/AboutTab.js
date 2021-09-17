@@ -6,7 +6,7 @@ import colorDefaults from "../../../theme/colorDefaults";
 import EditEnableButton from "../profilecomponents/EditEnableButton";
 import firestoreService from "../../../firebase/firestoreService";
 import Patient from "../../../models/Patient";
-import AuthContext from "../../AuthContext";
+import AuthContext from "../../../context/AuthContext";
 
 const PatientAboutTab = ({ user, setUser }) => {
   const [firstName, setFirstName] = useState(user.name.first);

@@ -10,10 +10,10 @@ import {
   Pressable,
   Switch,
 } from "react-native";
-import { auth } from "../firebase/firebaseConfig";
-import firestoreService from "../firebase/firestoreService";
-import colorDefaults from "../theme/colorDefaults";
-import LoadingScreen from "./LoadingScreen";
+import { auth } from "../../firebase/firebaseConfig";
+import firestoreService from "../../firebase/firestoreService";
+import colorDefaults from "../../theme/colorDefaults";
+import LoadingScreen from "../LoadingScreen";
 
 export default function SignUpScreen({ navigation }) {
   const [first, setFirst] = useState("");

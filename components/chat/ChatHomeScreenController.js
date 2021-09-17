@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import firestoreService from "../../firebase/firestoreService";
 import Staff from "../../models/Staff";
-import AuthContext from "../AuthContext";
+import AuthContext from "../../context/AuthContext";
 import ChatHomeScreenView from "./ChatHomeScreenView";
 
 const ChatHomeScreenController = ({ navigation }) => {

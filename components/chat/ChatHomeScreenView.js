@@ -4,7 +4,7 @@ import { MaterialIcons, AntDesign } from '@expo/vector-icons';
 import ChatUserCard from "./ChatUserCard";
 import { FlatList } from "react-native-gesture-handler";
 import colorDefaults from "../../theme/colorDefaults";
-import LoadingScreen from "../../Screens/LoadingScreen";
+import LoadingScreen from "../../components/LoadingScreen";
 
 const ChatHomeScreenView = ({ navigation, loading, staff, openSearch, messageUser }) => {
 

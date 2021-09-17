@@ -1,11 +1,11 @@
 import React, { useLayoutEffect } from "react";
 import { useContext, useEffect, useState } from "react";
-import AuthContext from "../AuthContext";
+import AuthContext from "../../context/AuthContext";
 import PatientProfile from "./patient/PatientProfile";
 import StaffProfile from "./staff/StaffProfile";
 import firestoreService from "../../firebase/firestoreService";
 import Staff from "../../models/Staff";
-import LoadingScreen from "../../Screens/LoadingScreen";
+import LoadingScreen from "../../components/LoadingScreen";
 
 const ProfileSelection = ({ navigation, route }) => {
   const { authUserId } = useContext(AuthContext);

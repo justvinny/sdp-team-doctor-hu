@@ -8,10 +8,10 @@ import {
   ScrollView,
   KeyboardAvoidingView,
 } from "react-native";
-import colorDefaults from "../theme/colorDefaults";
-import LoadingScreen from "./LoadingScreen";
+import colorDefaults from "../../theme/colorDefaults";
+import LoadingScreen from "../LoadingScreen";
 import firebase from "firebase/app";
-import { auth } from "../firebase/firebaseConfig";
+import { auth } from "../../firebase/firebaseConfig";
 
 const ChangePasswordScreen = ({ navigation }) => {
   const [currentPassword, setCurrentPassword] = useState("");

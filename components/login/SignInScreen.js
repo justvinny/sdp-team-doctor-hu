@@ -9,9 +9,9 @@ import {
   TouchableHighlight,
   Pressable,
 } from "react-native";
-import { auth } from "../firebase/firebaseConfig";
-import colorDefaults from "../theme/colorDefaults";
-import LoadingScreen from "./LoadingScreen";
+import { auth } from "../../firebase/firebaseConfig";
+import colorDefaults from "../../theme/colorDefaults";
+import LoadingScreen from "../LoadingScreen";
 
 export default function SignInScreen({ navigation }) {
   const [email, setEmail] = useState("");

@@ -4,7 +4,7 @@ import colorDefaults from "../../theme/colorDefaults";
 import SearchAppBar from "./SearchAppBar";
 import { MaterialIcons } from '@expo/vector-icons';
 import SearchUserCard from "./SearchUserCard";
-import LoadingScreen from "../../Screens/LoadingScreen";
+import LoadingScreen from "../../components/LoadingScreen";
 import FilterModal from "./filter/FilterModal"
 
 const SearchUserScreenView = ({

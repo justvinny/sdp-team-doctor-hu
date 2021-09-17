@@ -6,10 +6,10 @@ import {
   View,
   Image,
 } from "react-native";
-import colorDefaults from "../theme/colorDefaults";
-import LoadingScreen from "./LoadingScreen";
-import AuthContext from "../components/AuthContext";
-import { auth } from "../firebase/firebaseConfig";
+import colorDefaults from "../../theme/colorDefaults";
+import LoadingScreen from "../LoadingScreen";
+import AuthContext from "../../context/AuthContext";
+import { auth } from "../../firebase/firebaseConfig";
 
 export default function WelcomeScreen({ navigation, route }) {
   const [loading, setLoading] = useState(true);
@@ -36,7 +36,7 @@ export default function WelcomeScreen({ navigation, route }) {
       ) : (
         <View style={styles.container}>
           <Image
-            source={require("../assets/images/logo.png")}
+            source={require("../../assets/images/logo.png")}
             style={styles.logo}
             resizeMode={"contain"}
           />

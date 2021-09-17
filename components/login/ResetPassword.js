@@ -10,9 +10,9 @@ import {
   ScrollView,
   Platform
 } from "react-native";
-import colorDefaults from "../theme/colorDefaults";
-import { auth } from "../firebase/firebaseConfig";
-import LoadingScreen from "./LoadingScreen";
+import colorDefaults from "../../theme/colorDefaults";
+import { auth } from "../../firebase/firebaseConfig";
+import LoadingScreen from "../LoadingScreen";
 
 const ResetPassword = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -43,7 +43,7 @@ const ResetPassword = ({ navigation }) => {
             <ScrollView style={{ flex: 1 }}>
               <View style={[styles.container, { paddingTop: 50 }]}>
                 <Image
-                  source={require("../assets/images/logo.png")}
+                  source={require("../../assets/images/logo.png")}
                   style={styles.logo}
                   resizeMode={"contain"}
                 />

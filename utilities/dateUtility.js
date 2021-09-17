@@ -1,3 +1,4 @@
+// Various date manipulation functions for cleaner formatting.
 const getFormattedDateNow = (date = new Date()) => `${getFormattedDateNoTime(date)} - ${getFormattedTime(date)}`;
 const getFormattedDateNoTime = (date) =>  `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
 const getFormattedTime = (date) => {

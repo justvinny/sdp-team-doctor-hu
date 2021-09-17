@@ -3,7 +3,7 @@ import { StyleSheet, Image, Text, View } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import colorDefaults from "../../../theme/colorDefaults";
 import ProfileTab from "./ProfileTab";
-import AuthContext from "../../AuthContext";
+import AuthContext from "../../../context/AuthContext";
 import firestoreService from "../../../firebase/firestoreService";
 import Staff from "../../../models/Staff";
 import AboutTab from "./AboutTab";

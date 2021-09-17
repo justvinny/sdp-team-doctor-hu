@@ -15,7 +15,7 @@ import colorDefaults from "../../../theme/colorDefaults";
 import EditEnableButton from "../profilecomponents/EditEnableButton";
 import { useState } from "react/cjs/react.development";
 import firestoreService from "../../../firebase/firestoreService";
-import AuthContext from "../../AuthContext";
+import AuthContext from "../../../context/AuthContext";
 import { Input } from "react-native-elements";
 import TextInputStyles from "../profilecomponents/TextInputStyles";
 

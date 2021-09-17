@@ -6,8 +6,8 @@ import AddressTab from "./AddressTab";
 import MedicalTab from "./MedicalTab";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import firestoreService from "../../../firebase/firestoreService";
-import AuthContext from "../../AuthContext";
-import LoadingScreen from "../../../Screens/LoadingScreen";
+import AuthContext from "../../../context/AuthContext";
+import LoadingScreen from "../../../components/LoadingScreen";
 import Patient from "../../../models/Patient";
 
 const Tab = createMaterialTopTabNavigator();

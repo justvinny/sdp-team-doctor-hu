@@ -10,7 +10,7 @@ import {
 import colorDefaults from "../../../theme/colorDefaults";
 import firestoreService from "../../../firebase/firestoreService";
 import { ScrollView } from "react-native-gesture-handler";
-import AuthContext from "../../AuthContext";
+import AuthContext from "../../../context/AuthContext";
 import EditEnableButton from "../profilecomponents/EditEnableButton";
 import ProfileInformation from "../profilecomponents/ProfileInformation";
 import { Input } from "react-native-elements/dist/input/Input";

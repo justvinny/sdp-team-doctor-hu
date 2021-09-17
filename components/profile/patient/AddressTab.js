@@ -11,7 +11,7 @@ import {
 import ProfileInformation from "../profilecomponents/ProfileInformation";
 import EditEnableButton from "../profilecomponents/EditEnableButton";
 import firestoreService from "../../../firebase/firestoreService";
-import AuthContext from "../../AuthContext";
+import AuthContext from "../../../context/AuthContext";
 
 const PatientAddressTab = ({ user }) => {
   const [editable, setEditable] = useState(false);

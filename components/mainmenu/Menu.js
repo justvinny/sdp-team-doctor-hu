@@ -2,11 +2,11 @@ import React, { useState, useContext, useEffect } from "react";
 import { Text, View, StyleSheet, ScrollView } from "react-native";
 import Square from "./Square";
 import LogoutButton from "./LogoutButton";
-import AuthContext from "../AuthContext"; //to access firestore service, Auth athority
+import AuthContext from "../../context/AuthContext"; //to access firestore service, Auth athority
 import firestoreService from "../../firebase/firestoreService"; //where you grab information from
 import Staff from "../../models/Staff";
 import { auth } from "../../firebase/firebaseConfig";
-import LoadingScreen from "../.././Screens/LoadingScreen";
+import LoadingScreen from "../.././components/LoadingScreen";
 import colorDefaults from "../../theme/colorDefaults";
 
 export default function Menu({ navigation }) {
@@ -130,6 +130,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flexWrap: "wrap",
     //paddingTop: Platform.OS === "ios" ? 20 : 0,
+    
   },
   item: {
     padding: 20,

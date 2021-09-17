@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { FontAwesome } from '@expo/vector-icons';
 import colorDefaults from "../../theme/colorDefaults";
-import AuthContext from "../AuthContext";
+import AuthContext from "../../context/AuthContext";
 
 const ChatUserCard = ({ user, messageUser }) => {
     const { authUserId } = useContext(AuthContext);

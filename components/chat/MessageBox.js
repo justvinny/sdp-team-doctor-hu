@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { View, Text, StyleSheet } from "react-native"
 import colorDefaults from "../../theme/colorDefaults"
 import dateUtility from "../../utilities/dateUtility";
-import AuthContext from "../AuthContext";
+import AuthContext from "../../context/AuthContext";
 
 const MessageBox = ({ id, name, message, timestamp }) => {
     const { authUserId } = useContext(AuthContext);

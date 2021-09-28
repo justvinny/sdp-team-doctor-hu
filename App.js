@@ -18,6 +18,7 @@ import StaffProfile from "./components/profile/staff/StaffProfile";
 import PatientProfile from "./components/profile/patient/PatientProfile";
 import Menu from "./components/mainmenu/Menu";
 import ProfileSelection from "./components/profile/ProfileSelection";
+import NotificationScreen from "./components/notifications/NotificationScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -111,6 +112,10 @@ export default function App() {
             <Stack.Screen
               component={ProfileSelection}
               name="ProfileSelection"
+            />
+            <Stack.Screen
+              component={NotificationScreen}
+              name="NotificationScreen"
             />
           </Stack.Navigator>
           <StatusBar style="light" />

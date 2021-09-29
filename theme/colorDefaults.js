@@ -7,7 +7,7 @@ const semiOpaqueBlackBackground = "rgba(0,0,0,0.5)";
 const staffTopContainer = "#FF9800";
 const logOutButton = "#F31801";
 const iconColor = '#fff';
-
+const readBackgroundColor = "rgba(211,211,211,0.5)";
 
 const colorDefaults = {
     primary,
@@ -18,7 +18,8 @@ const colorDefaults = {
     semiOpaqueBlackBackground,
     staffTopContainer,
     logOutButton,
-    iconColor
+    iconColor,
+    readBackgroundColor
 }
 
 export default colorDefaults;

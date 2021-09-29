@@ -1,8 +1,12 @@
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
+import { View, StyleSheet } from "react-native";
+import colorDefaults from "../../theme/colorDefaults";
 import NotificationListItem from "./NotificationListItem";
+import firestoreService from "../../firebase/firestoreService";
+import AuthContext from "../../context/AuthContext";
+import LoadingScreen from "../LoadingScreen";
 
-const NotificationScreen = ({ user }) => {
+const NotificationScreen = ({ navigation, route }) => {
   const mockData = [
     {
       type: "message",
@@ -19,22 +23,63 @@ const NotificationScreen = ({ user }) => {
     },
   ];
 
-  const notificationClick = () => {
-    window.alert("Clicked!");
+  // States
+  const [notifications, setNotifications] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const { authUserId } = useContext(AuthContext);
+
+  // Header bar title
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: "Notifications",
+    });
+  }, [navigation, route]);
+
+  // Get notifications
+  useEffect(() => {
+    const unsubscribe = firestoreService
+      .getAllUsersLive(authUserId)
+      .onSnapshot((doc) => {
+        if (doc.data() && doc.data()?.notifications) {
+          const _notifications = doc.data().notifications.reverse();
+          setNotifications(_notifications);
+        }
+        setLoading(false);
+      });
+
+    return unsubscribe;
+  }, []);
+
+  const notificationClick = (notification, index) => {
+    if (notification.type.localeCompare("message") === 0) {
+      const copyNotifications = [...notifications];
+      copyNotifications[index].isRead = true;
+      firestoreService.updateNotifications(authUserId, copyNotifications.reverse());
+      navigation.navigate("ChatHome");
+    } else {
+      window.alert("Non-message notification");
+    }
   };
 
   return (
-    <View style={styles.container}>
-      {mockData.map((notification, index) => {
-        return (
-          <NotificationListItem
-            key={index}
-            notification={notification}
-            notificationClick={notificationClick}
-          />
-        );
-      })}
-    </View>
+    <>
+      {loading ? (
+        <LoadingScreen />
+      ) : (
+        <View style={styles.container}>
+          {notifications.map((notification, index) => {
+            return (
+              <NotificationListItem
+                key={index}
+                index={index}
+                notification={notification}
+                notificationClick={notificationClick}
+              />
+            );
+          })}
+        </View>
+      )}
+    </>
   );
 };
 
@@ -45,5 +90,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "stretch",
     justifyContent: "flex-start",
+    backgroundColor: colorDefaults.backDropColor,
   },
 });

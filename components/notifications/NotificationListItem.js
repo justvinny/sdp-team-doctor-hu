@@ -3,9 +3,9 @@ import { StyleSheet, Text, TouchableOpacity } from 'react-native'
 import colorDefaults from '../../theme/colorDefaults'
 import dateUtility from '../../utilities/dateUtility'
 
-const NotificationListItem = ({notification, notificationClick}) => {
+const NotificationListItem = ({index, notification, notificationClick}) => {
     return (
-        <TouchableOpacity style={[styles.container, notification.isRead && styles.read]} onPress={notificationClick}>
+        <TouchableOpacity style={[styles.container, notification.isRead && styles.read]} onPress={() => notificationClick(notification, index)}>
             <Text style={styles.title}>New message</Text>
             <Text style={styles.subText} numberOfLines={1}>{notification.content}</Text>
             <Text style={[styles.date, styles.subText]}>{dateUtility.getFormattedDateNow(new Date(notification.timestamp))}</Text>
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
         borderColor: colorDefaults.bottomBorderColor    
     },
     read: {
-        backgroundColor: "lightgrey"
+        backgroundColor: colorDefaults.readBackgroundColor
     }, 
     title: {
         fontWeight: "bold",

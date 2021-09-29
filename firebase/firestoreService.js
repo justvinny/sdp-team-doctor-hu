@@ -45,7 +45,7 @@ const getUserById = async (id) => {
     }
 }
 
-const getLiveMessages = (id) => db.collection(COLLECTION_USERS).doc(id)
+const getAllUsersLive = (id) => db.collection(COLLECTION_USERS).doc(id)
 
 // Create operations.
 const createPatient = (id, first, middle, last, isStaff) => {
@@ -310,6 +310,17 @@ const updateTitle = async (id, title) => {
     }
 }
 
+const updateNotifications = async (id, notifications) => {
+    try {
+        await db.collection(COLLECTION_USERS)
+            .doc(id)
+            .update({ notifications });
+        return "Sucessfully updated!";
+    } catch (error) {
+        return "Failed to update: " + error;
+    }
+}
+
 const addStaffNote = async (id, note) => {
     try {
         await db.collection(COLLECTION_USERS)
@@ -354,6 +365,16 @@ const addMessage = async (id, message) => {
     }
 }
 
+const addNotification = async (id, notification) => {
+    try {
+        await db.collection(COLLECTION_USERS)
+            .doc(id)
+            .update({ notifications: firebase.firestore.FieldValue.arrayUnion(notification) });
+        return "Sucessfully updated!";
+    } catch (error) {
+        return "Failed to update: " + error;
+    }
+}
 
 // Delete operations.
 const deleteUser = async (userId) => {
@@ -373,7 +394,7 @@ const firestoreService = {
     getAllPatients,
     getAllUsers,
     getUserById,
-    getLiveMessages,
+    getAllUsersLive,
     createUser,
     createPatient,
     createStaff,
@@ -394,11 +415,13 @@ const firestoreService = {
     updateLastName,
     updateStaffNotes,
     updateTitle,
+    updateNotifications,
     updateWeight,
     addStaffNote,
     addAllergy,
     addMedicalResult,
     addMessage,
+    addNotification,
     deleteUser
 }
 

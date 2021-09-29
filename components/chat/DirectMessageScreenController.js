@@ -23,7 +23,7 @@ const DirectMessageScreenController = ({ navigation, route }) => {
     // Get message records for the person you're chatting with.
     useEffect(() => {
         const unsubscribe = firestoreService
-            .getLiveMessages(authUserId)
+            .getAllUsersLive(authUserId)
             .onSnapshot(doc => {
                 if (doc.data()) {
                     const msgs = doc.data().messages
@@ -51,12 +51,22 @@ const DirectMessageScreenController = ({ navigation, route }) => {
             timestamp: Date.now()
         }
 
+        const newNotification = {
+            type: "message",
+            content: inputMessage,
+            isRead: false,
+            timestamp: newMessage.timestamp
+        }
+
         if (inputMessage) {
             clear();
 
             // Record messages on both accounts involved.
             firestoreService.addMessage(authUserId, newMessage);
             firestoreService.addMessage(newMessage.sentTo, newMessage);
+
+            // Add notification
+            firestoreService.addNotification(newMessage.sentTo, newNotification);
         }
     }
 

@@ -18,6 +18,8 @@ import StaffProfile from "./components/profile/staff/StaffProfile";
 import PatientProfile from "./components/profile/patient/PatientProfile";
 import Menu from "./components/mainmenu/Menu";
 import ProfileSelection from "./components/profile/ProfileSelection";
+import UploadFileScreen from "./components/upload/UploadfileScreen";
+//import * as ImagePicker from 'expo-image-picker';
 
 const Stack = createNativeStackNavigator();
 
@@ -62,6 +64,9 @@ export default function App() {
           onPress={signOut}
           title="Sign Out"
         />
+        <Button color={colorDefaults.primary}
+          onPress={() => navigation.navigate("UploadFileScreen")}
+          title="UploadFileScreen" />
       </View>
     );
   };
@@ -111,6 +116,10 @@ export default function App() {
             <Stack.Screen
               component={ProfileSelection}
               name="ProfileSelection"
+            />
+            <Stack.Screen
+              component={UploadFileScreen}
+              name="UploadFileScreen"
             />
           </Stack.Navigator>
           <StatusBar style="light" />

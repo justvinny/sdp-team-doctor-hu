@@ -22,6 +22,7 @@ const Square = (props) => {
         <View style={styles.circle} />
         <MaterialIcons style={styles.icon} name={props.icon} size={40} color={colorDefaults.iconColor} />
         <Text style={styles.text}>{props.name}</Text>
+        
       </View>
     </TouchableOpacity>
   );

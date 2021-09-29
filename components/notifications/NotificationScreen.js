@@ -1,28 +1,13 @@
 import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import colorDefaults from "../../theme/colorDefaults";
 import NotificationListItem from "./NotificationListItem";
 import firestoreService from "../../firebase/firestoreService";
 import AuthContext from "../../context/AuthContext";
 import LoadingScreen from "../LoadingScreen";
+import DeleteFab from "./DeleteFab";
 
 const NotificationScreen = ({ navigation, route }) => {
-  const mockData = [
-    {
-      type: "message",
-      isRead: false,
-      content:
-        "Realllyyyyyyyyyyyyyy long messageeeeeeeeeeeeeeeeeeee. hahahaahhaha. Please click!!!!!!!!!!!",
-      timestamp: 1631615638522,
-    },
-    {
-      type: "message",
-      isRead: true,
-      content: "Read message.",
-      timestamp: 1631622022767,
-    },
-  ];
-
   // States
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -50,14 +35,44 @@ const NotificationScreen = ({ navigation, route }) => {
     return unsubscribe;
   }, []);
 
+  // Clicking notification navigates it to the appropriate screen. It also marks it as read.
+  // For example, clicking a new message notification will send you to the chat home screen.
   const notificationClick = (notification, index) => {
     if (notification.type.localeCompare("message") === 0) {
       const copyNotifications = [...notifications];
       copyNotifications[index].isRead = true;
-      firestoreService.updateNotifications(authUserId, copyNotifications.reverse());
+      firestoreService.updateNotifications(
+        authUserId,
+        copyNotifications.reverse()
+      );
       navigation.navigate("ChatHome");
     } else {
       window.alert("Non-message notification");
+    }
+  };
+
+  // Clear all notifications
+  // Prompts the user for confirmation to account for user error.
+  const deleteAllNotifications = () => {
+    if (notifications.length != 0) {
+      Alert.alert(
+        "Confirm Delete",
+        "Are you sure you want do delete all notifications?",
+        [
+          {
+            text: "Cancel",
+            style: "cancel",
+          },
+          {
+            text: "Ok",
+            onPress: () => {
+              firestoreService.updateNotifications(authUserId, []);
+            },
+          },
+        ]
+      );
+    } else {
+      window.alert("Nothing to delete.");
     }
   };
 
@@ -77,6 +92,7 @@ const NotificationScreen = ({ navigation, route }) => {
               />
             );
           })}
+          <DeleteFab deleteAllNotifications={deleteAllNotifications} />
         </View>
       )}
     </>

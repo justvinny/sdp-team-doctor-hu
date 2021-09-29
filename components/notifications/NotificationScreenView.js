@@ -3,26 +3,34 @@ import { View, StyleSheet } from "react-native";
 import colorDefaults from "../../theme/colorDefaults";
 import NotificationListItem from "./NotificationListItem";
 import DeleteFab from "./DeleteFab";
+import LoadingScreen from "../LoadingScreen";
 
 const NotificationScreenView = ({
+  loading,
   notifications,
   notificationClick,
   deleteAllNotifications,
 }) => {
   return (
-    <View style={styles.container}>
-      {notifications.map((notification, index) => {
-        return (
-          <NotificationListItem
-            key={index}
-            index={index}
-            notification={notification}
-            notificationClick={notificationClick}
-          />
-        );
-      })}
-      <DeleteFab deleteAllNotifications={deleteAllNotifications} />
-    </View>
+    <>
+      {loading ? (
+        <LoadingScreen />
+      ) : (
+        <View style={styles.container}>
+          {notifications.map((notification, index) => {
+            return (
+              <NotificationListItem
+                key={index}
+                index={index}
+                notification={notification}
+                notificationClick={notificationClick}
+              />
+            );
+          })}
+          <DeleteFab deleteAllNotifications={deleteAllNotifications} />
+        </View>
+      )}
+    </>
   );
 };
 

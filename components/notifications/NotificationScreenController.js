@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 import { Alert } from "react-native";
 import firestoreService from "../../firebase/firestoreService";
 import AuthContext from "../../context/AuthContext";
-import LoadingScreen from "../LoadingScreen";
 import NotificationScreenView from "./NotificationScreenView";
 
 const NotificationScreenController = ({ navigation, route }) => {
@@ -75,17 +74,12 @@ const NotificationScreenController = ({ navigation, route }) => {
   };
 
   return (
-    <>
-      {loading ? (
-        <LoadingScreen />
-      ) : (
-        <NotificationScreenView
-          notifications={notifications}
-          notificationClick={notificationClick}
-          deleteAllNotifications={deleteAllNotifications}
-        />
-      )}
-    </>
+    <NotificationScreenView
+      loading={loading}
+      notifications={notifications}
+      notificationClick={notificationClick}
+      deleteAllNotifications={deleteAllNotifications}
+    />
   );
 };
 

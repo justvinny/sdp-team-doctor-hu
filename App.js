@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, Button, SafeAreaView } from "react-native";
@@ -18,7 +18,7 @@ import StaffProfile from "./components/profile/staff/StaffProfile";
 import PatientProfile from "./components/profile/patient/PatientProfile";
 import Menu from "./components/mainmenu/Menu";
 import ProfileSelection from "./components/profile/ProfileSelection";
-import NotificationScreen from "./components/notifications/NotificationScreen";
+import NotificationScreenController from "./components/notifications/NotificationScreenController";
 
 const Stack = createNativeStackNavigator();
 
@@ -114,7 +114,7 @@ export default function App() {
               name="ProfileSelection"
             />
             <Stack.Screen
-              component={NotificationScreen}
+              component={NotificationScreenController}
               name="NotificationScreen"
             />
           </Stack.Navigator>

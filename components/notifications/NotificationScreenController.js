@@ -1,13 +1,11 @@
 import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
-import { View, StyleSheet, TouchableOpacity, Alert } from "react-native";
-import colorDefaults from "../../theme/colorDefaults";
-import NotificationListItem from "./NotificationListItem";
+import { Alert } from "react-native";
 import firestoreService from "../../firebase/firestoreService";
 import AuthContext from "../../context/AuthContext";
 import LoadingScreen from "../LoadingScreen";
-import DeleteFab from "./DeleteFab";
+import NotificationScreenView from "./NotificationScreenView";
 
-const NotificationScreen = ({ navigation, route }) => {
+const NotificationScreenController = ({ navigation, route }) => {
   // States
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -81,31 +79,14 @@ const NotificationScreen = ({ navigation, route }) => {
       {loading ? (
         <LoadingScreen />
       ) : (
-        <View style={styles.container}>
-          {notifications.map((notification, index) => {
-            return (
-              <NotificationListItem
-                key={index}
-                index={index}
-                notification={notification}
-                notificationClick={notificationClick}
-              />
-            );
-          })}
-          <DeleteFab deleteAllNotifications={deleteAllNotifications} />
-        </View>
+        <NotificationScreenView
+          notifications={notifications}
+          notificationClick={notificationClick}
+          deleteAllNotifications={deleteAllNotifications}
+        />
       )}
     </>
   );
 };
 
-export default NotificationScreen;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "stretch",
-    justifyContent: "flex-start",
-    backgroundColor: colorDefaults.backDropColor,
-  },
-});
+export default NotificationScreenController;

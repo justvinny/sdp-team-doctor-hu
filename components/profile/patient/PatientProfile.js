@@ -1,18 +1,27 @@
 import React, { useEffect, useLayoutEffect, useContext, useState } from "react";
-import { StyleSheet, Text, View, Image } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  KeyboardAvoidingView,
+  Keyboard,
+  TouchableWithoutFeedback,
+  ScrollView,
+} from "react-native";
 import colorDefaults from "../../../theme/colorDefaults";
-import ProfileTab from "./ProfileTab";
 import AddressTab from "./AddressTab";
 import MedicalTab from "./MedicalTab";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import firestoreService from "../../../firebase/firestoreService";
 import AuthContext from "../../../context/AuthContext";
 import LoadingScreen from "../../../components/LoadingScreen";
 import Patient from "../../../models/Patient";
-
-const Tab = createMaterialTopTabNavigator();
+import TabStyles from "../profilecomponents/TabStyles";
+import { Tab, TabView } from "react-native-elements";
+import GlobalProfileTab from "../profilecomponents/GlobalProfileTab";
 
 const PatientProfile = ({ navigation, route }) => {
+  const [index, setIndex] = useState(0);
   const passedUser = route?.params?.user;
   const { authUserId } = useContext(AuthContext);
   const [user, setUser] = useState(
@@ -34,62 +43,72 @@ const PatientProfile = ({ navigation, route }) => {
       });
     }, []);
 
-  return (
-    <>
-      {loading ? (
-        <LoadingScreen />
-      ) : (
-        <>
-          <View style={styles.container}>
-            <Image
-              style={styles.image}
-              source={require("../../../assets/icon.png")}
-            />
-            <Text style={styles.name}>{user.getFullName()}</Text>
-          </View>
+  const renderPage = () => {
+    if (loading) {
+      return <LoadingScreen />;
+    }
 
-          <Tab.Navigator
-            screenOptions={{
-              tabBarLabelStyle: { color: "white" },
-              tabBarStyle: { backgroundColor: colorDefaults.primary },
-              tabBarIndicatorStyle: { backgroundColor: "black" },
-            }}
-          >
-            <Tab.Screen name="Profile">
-              {(props) => (
-                <ProfileTab
-                  {...props}
-                  user={user}
-                  setUser={setUser}
-                  passedUser={passedUser}
-                />
-              )}
-            </Tab.Screen>
-            <Tab.Screen name="Address">
-              {(props) => (
-                <AddressTab
-                  {...props}
-                  user={user}
-                  setUser={setUser}
-                  passedUser={passedUser}
-                />
-              )}
-            </Tab.Screen>
-            <Tab.Screen name="Medical">
-              {(props) => (
-                <MedicalTab
-                  {...props}
-                  user={user}
-                  setUser={setUser}
-                  passedUser={passedUser}
-                />
-              )}
-            </Tab.Screen>
-          </Tab.Navigator>
-        </>
-      )}
-    </>
-  );
+    return (
+      <KeyboardAvoidingView
+        behavior="padding"
+        style={{ flex: 1, backgroundColor: colorDefaults.backDropColor }}
+      >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <ScrollView bounces="false" style={{ flex: 1 }}>
+            <View style={styles.container}>
+              <Image
+                style={styles.image}
+                source={require("../../../assets/icon.png")}
+              />
+              <Text style={styles.name}>{user.getFullName()}</Text>
+            </View>
+
+            <Tab
+              value={index}
+              onChange={setIndex}
+              indicatorStyle={TabStyles.tabIndicatorStyle}
+            >
+              <Tab.Item
+                title="profile"
+                titleStyle={TabStyles.tabText}
+                style={[
+                  index == 0 ? TabStyles.activeTab : TabStyles.inactiveTab,
+                ]}
+              />
+              <Tab.Item
+                title="address"
+                titleStyle={TabStyles.tabText}
+                style={[
+                  index == 1 ? TabStyles.activeTab : TabStyles.inactiveTab,
+                ]}
+              />
+              <Tab.Item
+                title="medical"
+                titleStyle={TabStyles.tabText}
+                style={[
+                  index == 1 ? TabStyles.activeTab : TabStyles.inactiveTab,
+                ]}
+              />
+            </Tab>
+
+            <TabView value={index} onChange={setIndex} animationType="timing">
+              <TabView.Item style={{ width: "100%" }}>
+                <GlobalProfileTab user={user} setUser={setUser} />
+              </TabView.Item>
+              <TabView.Item style={{ width: "100%" }} animationType="timing">
+                <AddressTab user={user} setUser={setUser} />
+              </TabView.Item>
+              <TabView.Item style={{ width: "100%" }} animationType="timing">
+                <MedicalTab user={user} setUser={setUser} />
+              </TabView.Item>
+            </TabView>
+          </ScrollView>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
+    );
+  };
+
+  return renderPage();
 };
 
 export default PatientProfile;
@@ -97,7 +116,6 @@ export default PatientProfile;
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
-    backgroundColor: colorDefaults.backDropColor,
     marginBottom: 20,
   },
   image: {

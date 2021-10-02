@@ -17,6 +17,7 @@ import AboutTab from "./AboutTab";
 import { Tab, TabView } from "react-native-elements";
 import TabStyles from "../profilecomponents/TabStyles";
 import GlobalProfileTab from "../profilecomponents/GlobalProfileTab";
+import LoadingScreen from "../../LoadingScreen";
 
 export default function StaffProfile({ navigation, route }) {
   const [index, setIndex] = useState(0);
@@ -41,11 +42,14 @@ export default function StaffProfile({ navigation, route }) {
 
   const renderPage = () => {
     if (loading) {
-      return <></>;
+      return <LoadingScreen />;
     }
 
     return (
-      <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
+      <KeyboardAvoidingView
+        behavior="padding"
+        style={{ flex: 1, backgroundColor: colorDefaults.backDropColor }}
+      >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <ScrollView bounces="false" style={{ flex: 1 }}>
             <View style={styles.container}>
@@ -99,7 +103,6 @@ export default function StaffProfile({ navigation, route }) {
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
-    backgroundColor: colorDefaults.backDropColor,
     marginBottom: 20,
   },
   image: {

@@ -20,7 +20,7 @@ import TabStyles from "../profilecomponents/TabStyles";
 import { Tab, TabView } from "react-native-elements";
 import GlobalProfileTab from "../profilecomponents/GlobalProfileTab";
 
-const PatientProfile = ({ navigation, route }) => {
+export default function PatientProfile({ navigation, route }) {
   const [index, setIndex] = useState(0);
   const passedUser = route?.params?.user;
   const { authUserId } = useContext(AuthContext);
@@ -54,7 +54,13 @@ const PatientProfile = ({ navigation, route }) => {
         style={{ flex: 1, backgroundColor: colorDefaults.backDropColor }}
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <ScrollView bounces="false" style={{ flex: 1 }}>
+          <ScrollView
+            bounces="false"
+            style={{ flex: 1 }}
+            height={"100%"}
+            showsVerticalScrollIndicator={false}
+            nestedScrollEnabled={true}
+          >
             <View style={styles.container}>
               <Image
                 style={styles.image}
@@ -75,6 +81,7 @@ const PatientProfile = ({ navigation, route }) => {
                   index == 0 ? TabStyles.activeTab : TabStyles.inactiveTab,
                 ]}
               />
+
               <Tab.Item
                 title="address"
                 titleStyle={TabStyles.tabText}
@@ -82,11 +89,12 @@ const PatientProfile = ({ navigation, route }) => {
                   index == 1 ? TabStyles.activeTab : TabStyles.inactiveTab,
                 ]}
               />
+
               <Tab.Item
                 title="medical"
                 titleStyle={TabStyles.tabText}
                 style={[
-                  index == 1 ? TabStyles.activeTab : TabStyles.inactiveTab,
+                  index == 2 ? TabStyles.activeTab : TabStyles.inactiveTab,
                 ]}
               />
             </Tab>
@@ -95,23 +103,25 @@ const PatientProfile = ({ navigation, route }) => {
               <TabView.Item style={{ width: "100%" }}>
                 <GlobalProfileTab user={user} setUser={setUser} />
               </TabView.Item>
+
               <TabView.Item style={{ width: "100%" }} animationType="timing">
                 <AddressTab user={user} setUser={setUser} />
               </TabView.Item>
+
               <TabView.Item style={{ width: "100%" }} animationType="timing">
                 <MedicalTab user={user} setUser={setUser} />
               </TabView.Item>
             </TabView>
           </ScrollView>
         </TouchableWithoutFeedback>
+        {/* This helps Keyboard Avoiding View function properly by moving the whole display up */}
+        <View style={{ height: 100 }} />
       </KeyboardAvoidingView>
     );
   };
 
   return renderPage();
-};
-
-export default PatientProfile;
+}
 
 const styles = StyleSheet.create({
   container: {

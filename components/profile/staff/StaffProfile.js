@@ -72,6 +72,7 @@ export default function StaffProfile({ navigation, route }) {
                   index == 0 ? TabStyles.activeTab : TabStyles.inactiveTab,
                 ]}
               />
+
               <Tab.Item
                 title="about"
                 titleStyle={TabStyles.tabText}
@@ -85,6 +86,7 @@ export default function StaffProfile({ navigation, route }) {
               <TabView.Item style={{ width: "100%" }}>
                 <GlobalProfileTab user={user} setUser={setUser} />
               </TabView.Item>
+
               <TabView.Item style={{ width: "100%" }} animationType="timing">
                 <AboutTab user={user} setUser={setUser} />
               </TabView.Item>

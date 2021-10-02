@@ -55,6 +55,7 @@ export default function SignInScreen({ navigation }) {
               placeholder={"Email*"}
               value={email}
               onChangeText={setEmail}
+              keyboardType="email-address"
             />
             <TextInput
               style={styles.input}

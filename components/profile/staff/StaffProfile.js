@@ -7,6 +7,8 @@ import AuthContext from "../../../context/AuthContext";
 import firestoreService from "../../../firebase/firestoreService";
 import Staff from "../../../models/Staff";
 import AboutTab from "./AboutTab";
+import { Button } from "react-native-elements";
+import UploadProfilePicture from "../profilecomponents/UploadProfilePicture";
 const Tab = createMaterialTopTabNavigator();
 
 export default function StaffProfile({ navigation, route }) {
@@ -42,6 +44,10 @@ export default function StaffProfile({ navigation, route }) {
             source={require("../../../assets/icon.png")}
           />
           <Text style={styles.name}>{Staff.getFullName(user.name)}</Text>
+          <Button
+            title="Change Profile Picture"
+            onPress={() => navigation.navigate("UploadProfilePicture")}
+          />
         </View>
 
         <Tab.Navigator

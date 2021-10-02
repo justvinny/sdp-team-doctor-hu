@@ -7,7 +7,7 @@ import AuthContext from "../../../context/AuthContext";
 import Patient from "../../../models/Patient";
 import Staff from "../../../models/Staff";
 
-const PatientAboutTab = ({ user, setUser }) => {
+const GlobalProfileTab = ({ user, setUser }) => {
   const [firstName, setFirstName] = useState(user.name.first);
   const [middleName, setMiddleName] = useState(user.name.middle);
   const [lastName, setLastName] = useState(user.name.last);
@@ -27,7 +27,6 @@ const PatientAboutTab = ({ user, setUser }) => {
         last: lastName,
       },
     };
-    console.log(user.isStaff);
     if (!user.isStaff) {
       setUser(Patient.patientFirestoreFactory(updatedUser));
     } else {
@@ -72,7 +71,7 @@ const PatientAboutTab = ({ user, setUser }) => {
   );
 };
 
-export default PatientAboutTab;
+export default GlobalProfileTab;
 
 const styles = StyleSheet.create({
   profiles: {

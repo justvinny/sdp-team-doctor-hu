@@ -10,13 +10,13 @@ import {
   ScrollView,
 } from "react-native";
 import colorDefaults from "../../../theme/colorDefaults";
-import ProfileTab from "./ProfileTab";
 import AuthContext from "../../../context/AuthContext";
 import firestoreService from "../../../firebase/firestoreService";
 import Staff from "../../../models/Staff";
 import AboutTab from "./AboutTab";
 import { Tab, TabView } from "react-native-elements";
 import TabStyles from "../profilecomponents/TabStyles";
+import GlobalProfileTab from "../profilecomponents/GlobalProfileTab";
 
 export default function StaffProfile({ navigation, route }) {
   const [index, setIndex] = useState(0);
@@ -79,7 +79,7 @@ export default function StaffProfile({ navigation, route }) {
 
             <TabView value={index} onChange={setIndex} animationType="timing">
               <TabView.Item style={{ width: "100%" }}>
-                <ProfileTab user={user} setUser={setUser} />
+                <GlobalProfileTab user={user} setUser={setUser} />
               </TabView.Item>
               <TabView.Item style={{ width: "100%" }} animationType="timing">
                 <AboutTab user={user} setUser={setUser} />

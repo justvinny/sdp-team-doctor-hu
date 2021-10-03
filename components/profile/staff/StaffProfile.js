@@ -1,17 +1,27 @@
 import React, { useState, useContext, useEffect, useLayoutEffect } from "react";
-import { StyleSheet, Image, Text, View } from "react-native";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import {
+  StyleSheet,
+  Image,
+  Text,
+  View,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard,
+  ScrollView,
+  Platform,
+} from "react-native";
 import colorDefaults from "../../../theme/colorDefaults";
-import ProfileTab from "./ProfileTab";
 import AuthContext from "../../../context/AuthContext";
 import firestoreService from "../../../firebase/firestoreService";
 import Staff from "../../../models/Staff";
 import AboutTab from "./AboutTab";
-import { Button } from "react-native-elements";
-import UploadProfilePicture from "../profilecomponents/UploadProfilePicture";
-const Tab = createMaterialTopTabNavigator();
+import { Tab, TabView } from "react-native-elements";
+import TabStyles from "../profilecomponents/TabStyles";
+import GlobalProfileTab from "../profilecomponents/GlobalProfileTab";
+import LoadingScreen from "../../LoadingScreen";
 
 export default function StaffProfile({ navigation, route }) {
+  const [index, setIndex] = useState(0);
   const passedUser = route.params?.user;
   const { authUserId } = useContext(AuthContext);
   const [user, setUser] = useState(passedUser ? passedUser : {});
@@ -33,42 +43,60 @@ export default function StaffProfile({ navigation, route }) {
 
   const renderPage = () => {
     if (loading) {
-      return <></>;
+      return <LoadingScreen />;
     }
 
     return (
-      <>
-        <View style={styles.container}>
-          <Image
-            style={styles.image}
-            source={require("../../../assets/icon.png")}
-          />
-          <Text style={styles.name}>{Staff.getFullName(user.name)}</Text>
-          <Button
-            title="Change Profile Picture"
-            onPress={() => navigation.navigate("UploadProfilePicture")}
-          />
-        </View>
+      <KeyboardAvoidingView
+        behavior={Platform.OS == "ios" ? "padding" : "height"}
+        style={{ flex: 1, backgroundColor: colorDefaults.backDropColor }}
+      >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <ScrollView bounces="false" style={{ flex: 1 }}>
+            <View style={styles.container}>
+              <Image
+                style={styles.image}
+                source={require("../../../assets/icon.png")}
+              />
+              <Text style={styles.name}>{Staff.getFullName(user.name)}</Text>
+            </View>
 
-        <Tab.Navigator
-          screenOptions={{
-            tabBarLabelStyle: { color: "white" },
-            tabBarStyle: { backgroundColor: colorDefaults.primary },
-            tabBarIndicatorStyle: { backgroundColor: "black" },
-          }}
-        >
-          <Tab.Screen name="Profile">
-            {({ props }) => (
-              <ProfileTab {...props} user={user} setUser={setUser} />
-            )}
-          </Tab.Screen>
-          <Tab.Screen name="About">
-            {({ props }) => (
-              <AboutTab {...props} user={user} setUser={setUser} />
-            )}
-          </Tab.Screen>
-        </Tab.Navigator>
-      </>
+            <Tab
+              value={index}
+              onChange={setIndex}
+              indicatorStyle={TabStyles.tabIndicatorStyle}
+            >
+              <Tab.Item
+                title="profile"
+                titleStyle={TabStyles.tabText}
+                style={[
+                  index == 0 ? TabStyles.activeTab : TabStyles.inactiveTab,
+                ]}
+              />
+
+              <Tab.Item
+                title="about"
+                titleStyle={TabStyles.tabText}
+                style={[
+                  index == 1 ? TabStyles.activeTab : TabStyles.inactiveTab,
+                ]}
+              />
+            </Tab>
+
+            <TabView value={index} onChange={setIndex} animationType="timing">
+              <TabView.Item style={{ width: "100%" }}>
+                <GlobalProfileTab user={user} setUser={setUser} />
+              </TabView.Item>
+
+              <TabView.Item style={{ width: "100%" }} animationType="timing">
+                <AboutTab user={user} setUser={setUser} />
+              </TabView.Item>
+            </TabView>
+          </ScrollView>
+        </TouchableWithoutFeedback>
+        {/* This helps Keyboard Avoiding View function properly by moving the whole display up */}
+        <View style={{ height: 100 }} />
+      </KeyboardAvoidingView>
     );
   };
 
@@ -78,7 +106,6 @@ export default function StaffProfile({ navigation, route }) {
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
-    backgroundColor: colorDefaults.backDropColor,
     marginBottom: 20,
   },
   image: {

@@ -34,8 +34,9 @@ const ProfileSelection = ({ navigation, route }) => {
     } else if (user.isStaff) {
       return <StaffProfile navigation={navigation} route={route} />;
     }
-    return <PatientProfile navigation={navigation} />;
+    return <PatientProfile navigation={navigation} route={route} />;
   };
+
   return renderProfile();
 };
 

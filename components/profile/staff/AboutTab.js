@@ -1,18 +1,10 @@
 import React, { useContext } from "react";
 import { useState } from "react";
-import {
-  StyleSheet,
-  TextInput,
-  KeyboardAvoidingView,
-  TouchableWithoutFeedback,
-  Keyboard,
-} from "react-native";
+import { StyleSheet, View } from "react-native";
 import colorDefaults from "../../../theme/colorDefaults";
 import firestoreService from "../../../firebase/firestoreService";
-import { ScrollView } from "react-native-gesture-handler";
 import AuthContext from "../../../context/AuthContext";
 import EditEnableButton from "../profilecomponents/EditEnableButton";
-import ProfileInformation from "../profilecomponents/ProfileInformation";
 import { Input } from "react-native-elements/dist/input/Input";
 import TextInputStyles from "../profilecomponents/TextInputStyles";
 
@@ -37,31 +29,27 @@ function AboutTab({ user, setUser }) {
   }
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <ScrollView>
-        <KeyboardAvoidingView style={styles.container}>
-          <Input
-            style={TextInputStyles.multiline}
-            labelStyle={TextInputStyles.labelStyle}
-            containerStyle={TextInputStyles.inputView}
-            multiline
-            editable={enabled}
-            placeholder="Tell us a little bit about yourself."
-            onChangeText={setAbout}
-            value={aboutText}
-          />
-          {authUserId === user.id ? (
-            <EditEnableButton
-              editable={enabled}
-              setEditable={setEnabled}
-              saveChanges={editText}
-            />
-          ) : (
-            <></>
-          )}
-        </KeyboardAvoidingView>
-      </ScrollView>
-    </TouchableWithoutFeedback>
+    <View>
+      <Input
+        style={TextInputStyles.multiline}
+        labelStyle={TextInputStyles.labelStyle}
+        containerStyle={TextInputStyles.inputView}
+        multiline
+        editable={enabled}
+        placeholder="Tell us a little bit about yourself."
+        onChangeText={setAbout}
+        value={aboutText}
+      />
+      {authUserId === user.id ? (
+        <EditEnableButton
+          editable={enabled}
+          setEditable={setEnabled}
+          saveChanges={editText}
+        />
+      ) : (
+        <></>
+      )}
+    </View>
   );
 }
 

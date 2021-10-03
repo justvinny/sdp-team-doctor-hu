@@ -50,31 +50,6 @@ const UploadProfilePicture = () => {
     }
   };
 
-  //   const uploadImage = async ({ uri }) => {
-  //     console.log("URI: " + uri);
-  //     const blob = await new Promise((resolve, reject) => {
-  //       const xhr = new XMLHttpRequest();
-  //       xhr.onload = function () {
-  //         resolve(xhr.response);
-  //       };
-  //       xhr.onerror = function (e) {
-  //         console.log("ON ERROR: " + e);
-  //         reject(new TypeError("Network request failed"));
-  //       };
-  //       xhr.responseType = "blob";
-  //       xhr.open("GET", uri, true);
-  //       xhr.send(null);
-  //     });
-
-  //     const ref = firebase.storage().ref().child(uuid.v4());
-  //     const snapshot = await ref.put(blob);
-  //     console.log(blob);
-
-  //     blob.close();
-
-  //     return await snapshot.ref.getDownloadURL();
-  //   };
-
   return (
     <View>
       <Text>Upload Profile Picture</Text>

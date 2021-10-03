@@ -15,12 +15,31 @@ import AuthContext from "../../../context/AuthContext";
 import firestoreService from "../../../firebase/firestoreService";
 import Staff from "../../../models/Staff";
 import AboutTab from "./AboutTab";
-import { Tab, TabView } from "react-native-elements";
+import { BottomSheet, Tab, TabView, ListItem } from "react-native-elements";
 import TabStyles from "../profilecomponents/TabStyles";
 import GlobalProfileTab from "../profilecomponents/GlobalProfileTab";
 import LoadingScreen from "../../LoadingScreen";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 export default function StaffProfile({ navigation, route }) {
+  const [sheetVisible, setSheetVisible] = useState(false);
+  const list = [
+    {
+      title: "Change Profile Picture",
+      onPress: () => {
+        navigation.navigate("UploadProfilePicture");
+        setSheetVisible(false);
+      },
+    },
+    {
+      title: "Cancel",
+      containerStyle: { backgroundColor: "red" },
+      titleStyle: { color: "white" },
+      onPress: () => setSheetVisible(false),
+    },
+  ];
+
   const [index, setIndex] = useState(0);
   const passedUser = route.params?.user;
   const { authUserId } = useContext(AuthContext);
@@ -47,56 +66,82 @@ export default function StaffProfile({ navigation, route }) {
     }
 
     return (
-      <KeyboardAvoidingView
-        behavior={Platform.OS == "ios" ? "padding" : "height"}
-        style={{ flex: 1, backgroundColor: colorDefaults.backDropColor }}
-      >
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <ScrollView bounces="false" style={{ flex: 1 }}>
-            <View style={styles.container}>
-              <Image
-                style={styles.image}
-                source={require("../../../assets/icon.png")}
-              />
-              <Text style={styles.name}>{Staff.getFullName(user.name)}</Text>
-            </View>
+      <SafeAreaProvider>
+        <KeyboardAvoidingView
+          behavior={Platform.OS == "ios" ? "padding" : "height"}
+          style={{ flex: 1, backgroundColor: colorDefaults.backDropColor }}
+        >
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <ScrollView bounces="false" style={{ flex: 1 }}>
+              <View style={styles.container}>
+                <TouchableOpacity onPress={() => setSheetVisible(true)}>
+                  <Image
+                    style={styles.image}
+                    source={require("../../../assets/icon.png")}
+                  />
+                </TouchableOpacity>
+                <Text style={styles.name}>{Staff.getFullName(user.name)}</Text>
+              </View>
 
-            <Tab
-              value={index}
-              onChange={setIndex}
-              indicatorStyle={TabStyles.tabIndicatorStyle}
-            >
-              <Tab.Item
-                title="profile"
-                titleStyle={TabStyles.tabText}
-                style={[
-                  index == 0 ? TabStyles.activeTab : TabStyles.inactiveTab,
-                ]}
-              />
+              <BottomSheet
+                isVisible={sheetVisible}
+                containerStyle={{
+                  backgroundColor: "rgba(0.5, 0.25, 0, 0.2",
+                  marginBottom: 50,
+                }}
+              >
+                {list.map((l, i) => (
+                  <ListItem
+                    key={i}
+                    containerStyle={l.containerStyle}
+                    onPress={l.onPress}
+                  >
+                    <ListItem.Content>
+                      <ListItem.Title style={l.titleStyle}>
+                        {l.title}
+                      </ListItem.Title>
+                    </ListItem.Content>
+                  </ListItem>
+                ))}
+              </BottomSheet>
 
-              <Tab.Item
-                title="about"
-                titleStyle={TabStyles.tabText}
-                style={[
-                  index == 1 ? TabStyles.activeTab : TabStyles.inactiveTab,
-                ]}
-              />
-            </Tab>
+              <Tab
+                value={index}
+                onChange={setIndex}
+                indicatorStyle={TabStyles.tabIndicatorStyle}
+              >
+                <Tab.Item
+                  title="profile"
+                  titleStyle={TabStyles.tabText}
+                  style={[
+                    index == 0 ? TabStyles.activeTab : TabStyles.inactiveTab,
+                  ]}
+                />
 
-            <TabView value={index} onChange={setIndex} animationType="timing">
-              <TabView.Item style={{ width: "100%" }}>
-                <GlobalProfileTab user={user} setUser={setUser} />
-              </TabView.Item>
+                <Tab.Item
+                  title="about"
+                  titleStyle={TabStyles.tabText}
+                  style={[
+                    index == 1 ? TabStyles.activeTab : TabStyles.inactiveTab,
+                  ]}
+                />
+              </Tab>
 
-              <TabView.Item style={{ width: "100%" }} animationType="timing">
-                <AboutTab user={user} setUser={setUser} />
-              </TabView.Item>
-            </TabView>
-          </ScrollView>
-        </TouchableWithoutFeedback>
-        {/* This helps Keyboard Avoiding View function properly by moving the whole display up */}
-        <View style={{ height: 100 }} />
-      </KeyboardAvoidingView>
+              <TabView value={index} onChange={setIndex} animationType="timing">
+                <TabView.Item style={{ width: "100%" }}>
+                  <GlobalProfileTab user={user} setUser={setUser} />
+                </TabView.Item>
+
+                <TabView.Item style={{ width: "100%" }} animationType="timing">
+                  <AboutTab user={user} setUser={setUser} />
+                </TabView.Item>
+              </TabView>
+            </ScrollView>
+          </TouchableWithoutFeedback>
+          {/* This helps Keyboard Avoiding View function properly by moving the whole display up */}
+          <View style={{ height: 100 }} />
+        </KeyboardAvoidingView>
+      </SafeAreaProvider>
     );
   };
 

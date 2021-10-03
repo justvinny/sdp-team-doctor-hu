@@ -18,13 +18,10 @@ import AuthContext from "../../../context/AuthContext";
 import firestoreService from "../../../firebase/firestoreService";
 import LoadingScreen from "../../LoadingScreen";
 
-
-
 function UploadProfilePicture({ navigation }) {
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
   const { authUserId } = useContext(AuthContext);
-
 
   useEffect(() => {
     firestoreService.getUserById(authUserId).then((data) => {
@@ -64,7 +61,10 @@ function UploadProfilePicture({ navigation }) {
         task.ref
           .getDownloadURL()
           .then(() =>
-            Alert.alert("Looking Great " + user.name.first + "!", "Profile Picture updated successfully.")
+            Alert.alert(
+              "Looking Great " + user.name.first + "!",
+              "Profile Picture updated successfully."
+            )
           );
 
         navigation.goBack();
@@ -109,7 +109,7 @@ function UploadProfilePicture({ navigation }) {
         <Button title="Upload" onPress={upload} />
       </View>
     );
-  }
+  };
 
   return renderPage();
 }

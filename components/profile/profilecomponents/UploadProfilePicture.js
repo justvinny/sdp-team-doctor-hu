@@ -1,5 +1,5 @@
 // import React in our code
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useLayoutEffect, useContext } from "react";
 
 // import all the components we are going to use
 import {
@@ -14,11 +14,24 @@ import {
 
 import * as ImagePicker from "expo-image-picker";
 import { storage } from "../../../firebase/firebaseConfig";
-import { NavigationContainer } from "@react-navigation/native";
+import AuthContext from "../../../context/AuthContext";
+import firestoreService from "../../../firebase/firestoreService";
+import LoadingScreen from "../../LoadingScreen";
 
-const UploadProfilePicture = ({ navigation }) => {
-  //remove warning `useNativeDriver` was not specified
+
+
+function UploadProfilePicture({ navigation }) {
+  const [user, setUser] = useState({});
+  const [loading, setLoading] = useState(true);
+  const { authUserId } = useContext(AuthContext);
+
+
   useEffect(() => {
+    firestoreService.getUserById(authUserId).then((data) => {
+      setUser(data);
+      setLoading(false);
+    });
+
     LogBox.ignoreLogs(["Animated: `useNativeDriver`"]);
   }, []);
 
@@ -42,7 +55,7 @@ const UploadProfilePicture = ({ navigation }) => {
   const upload = async () => {
     if (image) {
       try {
-        const childPath = `profile/${Math.random().toString(36)}`;
+        const childPath = `profile/${authUserId}`;
         const response = await fetch(image);
         const blob = await response.blob();
         const task = await storage.ref().child(childPath).put(blob);
@@ -51,7 +64,7 @@ const UploadProfilePicture = ({ navigation }) => {
         task.ref
           .getDownloadURL()
           .then(() =>
-            Alert.alert("Success!", "Profile Picture updated successfully.")
+            Alert.alert("Looking Great " + user.name.first + "!", "Profile Picture updated successfully.")
           );
 
         navigation.goBack();
@@ -73,19 +86,33 @@ const UploadProfilePicture = ({ navigation }) => {
     })();
   }, []);
 
-  return (
-    <View style={{ alignItems: "center" }}>
-      <Text>Upload Profile Picture</Text>
-      <Button title="Pick a photo" onPress={imagePicker} />
-      {image ? (
-        <Image style={{ width: 200, height: 400 }} source={{ uri: image }} />
-      ) : (
-        <></>
-      )}
-      <Button title="Upload" onPress={upload} />
-    </View>
-  );
-};
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: "Upload Profile Picture",
+    });
+  }, []);
+
+  const renderPage = () => {
+    if (loading) {
+      return <LoadingScreen />;
+    }
+
+    return (
+      <View style={{ alignItems: "center" }}>
+        <Text>Upload Profile Picture</Text>
+        <Button title="Pick a photo" onPress={imagePicker} />
+        {image ? (
+          <Image style={{ width: 200, height: 400 }} source={{ uri: image }} />
+        ) : (
+          <></>
+        )}
+        <Button title="Upload" onPress={upload} />
+      </View>
+    );
+  }
+
+  return renderPage();
+}
 
 export default UploadProfilePicture;
 

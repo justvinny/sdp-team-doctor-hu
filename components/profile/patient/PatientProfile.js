@@ -22,7 +22,6 @@ import { Tab, TabView } from "react-native-elements";
 import GlobalProfileTab from "../profilecomponents/GlobalProfileTab";
 
 export default function PatientProfile({ navigation, route }) {
-  const [enabled, setEnabled] = useState(false);
   const [index, setIndex] = useState(0);
   const passedUser = route?.params?.user;
   const { authUserId } = useContext(AuthContext);

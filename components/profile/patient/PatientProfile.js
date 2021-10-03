@@ -8,6 +8,7 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
   ScrollView,
+  Platform,
 } from "react-native";
 import colorDefaults from "../../../theme/colorDefaults";
 import AddressTab from "./AddressTab";
@@ -50,7 +51,7 @@ export default function PatientProfile({ navigation, route }) {
 
     return (
       <KeyboardAvoidingView
-        behavior="padding"
+        behavior={Platform.OS == "ios" ? "padding" : "height"}
         style={{ flex: 1, backgroundColor: colorDefaults.backDropColor }}
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

@@ -8,6 +8,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   ScrollView,
+  Platform,
 } from "react-native";
 import colorDefaults from "../../../theme/colorDefaults";
 import AuthContext from "../../../context/AuthContext";
@@ -47,7 +48,7 @@ export default function StaffProfile({ navigation, route }) {
 
     return (
       <KeyboardAvoidingView
-        behavior="padding"
+        behavior={Platform.OS == "ios" ? "padding" : "height"}
         style={{ flex: 1, backgroundColor: colorDefaults.backDropColor }}
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

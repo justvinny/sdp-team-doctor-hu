@@ -22,7 +22,7 @@ const PatientAddressTab = ({ user }) => {
   };
 
   const renderView = () => (
-    <ScrollView style={{ flex: 1 }}>
+    <View>
       <ProfileInformation
         label="Address"
         value={address}
@@ -61,7 +61,7 @@ const PatientAddressTab = ({ user }) => {
       ) : (
         <></>
       )}
-    </ScrollView>
+    </View>
   );
 
   return renderView();

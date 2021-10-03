@@ -18,10 +18,8 @@ import AuthContext from "../../../context/AuthContext";
 import LoadingScreen from "../../../components/LoadingScreen";
 import Patient from "../../../models/Patient";
 import TabStyles from "../profilecomponents/TabStyles";
-import { Tab, TabView, FAB } from "react-native-elements";
+import { Tab, TabView } from "react-native-elements";
 import GlobalProfileTab from "../profilecomponents/GlobalProfileTab";
-import { MaterialIcons } from "@expo/vector-icons";
-import FloatingActionButton from "../profilecomponents/FloatingActionButton";
 
 export default function PatientProfile({ navigation, route }) {
   const [enabled, setEnabled] = useState(false);
@@ -61,7 +59,7 @@ export default function PatientProfile({ navigation, route }) {
           <ScrollView
             bounces="false"
             style={{ flex: 1 }}
-            // height={"100%"}
+            height={"100%"}
             showsVerticalScrollIndicator={false}
             nestedScrollEnabled={true}
           >
@@ -123,14 +121,6 @@ export default function PatientProfile({ navigation, route }) {
       </KeyboardAvoidingView>
     );
   };
-
-  function updateButton() {
-    if (enabled) {
-      setEnabled(false);
-    } else {
-      setEnabled(true);
-    }
-  }
 
   return renderPage();
 }

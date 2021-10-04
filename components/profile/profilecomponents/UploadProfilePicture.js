@@ -35,7 +35,7 @@ function UploadProfilePicture({ navigation }) {
       quality: 1,
     });
 
-    console.log(result);
+    //console.log(result);
 
     if (!result.cancelled) {
       setImage(result.uri);
@@ -115,7 +115,9 @@ function UploadProfilePicture({ navigation }) {
 
     return (
       <View style={styles.container}>
-        <Text h3>Looking Good!</Text>
+        <Text h3 style={{ textAlign: "center", marginBottom: 20 }}>
+          Upload Profile Picture
+        </Text>
         <Button
           title="Choose Photo"
           onPress={imagePicker}
@@ -154,6 +156,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     alignContent: "center",
     justifyContent: "center",
+    padding: 15,
   },
   image: {
     width: 200,

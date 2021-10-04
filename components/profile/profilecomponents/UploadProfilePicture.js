@@ -57,15 +57,14 @@ function UploadProfilePicture({ navigation }) {
         const blob = await response.blob();
         const task = await storage.ref().child(childPath).put(blob);
 
-        //task.ref.getDownloadURL().then((url) => alert(url));
-        task.ref
-          .getDownloadURL()
-          .then(() =>
-            Alert.alert(
-              "Looking Great " + user.name.first + "!",
-              "Profile Picture updated successfully."
-            )
+        task.ref.getDownloadURL().then((url) => {
+          Alert.alert(
+            "Looking Great " + user.name.first + "!",
+            "Profile Picture updated successfully."
           );
+          console.log(url);
+          firestoreService.updatePicture(authUserId, url);
+        });
 
         navigation.goBack();
       } catch (error) {

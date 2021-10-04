@@ -21,27 +21,16 @@ import GlobalProfileTab from "../profilecomponents/GlobalProfileTab";
 import LoadingScreen from "../../LoadingScreen";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import BottomSheetNav from "../profilecomponents/BottomSheetNav";
 
 export default function StaffProfile({ navigation, route }) {
+  // Bottom Navigation Sheet for profile picture
   const [sheetVisible, setSheetVisible] = useState(false);
-  const list = [
-    {
-      title: "Change Profile Picture",
-      onPress: () => {
-        navigation.navigate("UploadProfilePicture");
-        setSheetVisible(false);
-      },
-    },
-    {
-      title: "Cancel",
-      containerStyle: { backgroundColor: "red" },
-      titleStyle: { color: "white" },
-      onPress: () => setSheetVisible(false),
-    },
-  ];
-
+  // Tab Index
   const [index, setIndex] = useState(0);
+  // Passed User for search function
   const passedUser = route.params?.user;
+  // Auth User
   const { authUserId } = useContext(AuthContext);
   const [user, setUser] = useState(passedUser ? passedUser : {});
   const [loading, setLoading] = useState(passedUser ? false : true);
@@ -86,27 +75,11 @@ export default function StaffProfile({ navigation, route }) {
                 <Text style={styles.name}>{Staff.getFullName(user.name)}</Text>
               </View>
 
-              <BottomSheet
-                isVisible={sheetVisible}
-                containerStyle={{
-                  backgroundColor: "rgba(0.5, 0.25, 0, 0.2",
-                  marginBottom: 50,
-                }}
-              >
-                {list.map((l, i) => (
-                  <ListItem
-                    key={i}
-                    containerStyle={l.containerStyle}
-                    onPress={l.onPress}
-                  >
-                    <ListItem.Content>
-                      <ListItem.Title style={l.titleStyle}>
-                        {l.title}
-                      </ListItem.Title>
-                    </ListItem.Content>
-                  </ListItem>
-                ))}
-              </BottomSheet>
+              <BottomSheetNav
+                visible={sheetVisible}
+                setVisible={setSheetVisible}
+                navigation={navigation}
+              />
 
               <Tab
                 value={index}

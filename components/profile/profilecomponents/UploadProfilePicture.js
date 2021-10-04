@@ -64,9 +64,9 @@ function UploadProfilePicture({ navigation }) {
           );
           console.log(url);
           firestoreService.updatePicture(authUserId, url);
-        });
 
-        navigation.goBack();
+          navigation.goBack();
+        });
       } catch (error) {
         alert(error.message);
       }

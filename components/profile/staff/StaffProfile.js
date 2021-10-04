@@ -45,10 +45,7 @@ export default function StaffProfile({ navigation, route }) {
   const { authUserId } = useContext(AuthContext);
   const [user, setUser] = useState(passedUser ? passedUser : {});
   const [loading, setLoading] = useState(passedUser ? false : true);
-  let profilePicture =
-    "https://firebasestorage.googleapis.com/v0/b/sdp-team-doctor-hu.appspot.com/o/profile%2FFaleiBmv1VPDbdvokrLVkroa5Em1?alt=media&token=614166b5-ea76-450d-903c-1895e0d574fd";
-
-  let picture = user.picture;
+  let profilePicture = user.picture;
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -82,7 +79,7 @@ export default function StaffProfile({ navigation, route }) {
                   <Image
                     style={styles.image}
                     source={{
-                      uri: picture,
+                      uri: profilePicture,
                     }}
                   />
                 </TouchableOpacity>

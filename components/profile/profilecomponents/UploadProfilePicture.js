@@ -100,11 +100,7 @@ function UploadProfilePicture({ navigation }) {
       <View style={{ alignItems: "center" }}>
         <Text>Upload Profile Picture</Text>
         <Button title="Pick a photo" onPress={imagePicker} />
-        {image ? (
-          <Image style={{ width: 200, height: 400 }} source={{ uri: image }} />
-        ) : (
-          <></>
-        )}
+        {image ? <Image style={styles.image} source={{ uri: image }} /> : <></>}
         <Button title="Upload" onPress={upload} />
       </View>
     );
@@ -115,4 +111,14 @@ function UploadProfilePicture({ navigation }) {
 
 export default UploadProfilePicture;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  image: {
+    width: 200,
+    height: 200,
+    marginBottom: 20,
+    marginTop: 20,
+    borderRadius: 100,
+    borderColor: "black",
+    borderWidth: 2,
+  },
+});

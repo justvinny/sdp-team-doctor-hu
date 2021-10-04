@@ -2,15 +2,9 @@
 import React, { useEffect, useState, useLayoutEffect, useContext } from "react";
 
 // import all the components we are going to use
-import {
-  StyleSheet,
-  View,
-  Text,
-  LogBox,
-  Button,
-  Image,
-  Alert,
-} from "react-native";
+import { StyleSheet, View, LogBox, Image, Alert } from "react-native";
+
+import { Text, Button } from "react-native-elements";
 
 import * as ImagePicker from "expo-image-picker";
 import { storage } from "../../../firebase/firebaseConfig";
@@ -22,6 +16,7 @@ function UploadProfilePicture({ navigation }) {
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
   const { authUserId } = useContext(AuthContext);
+  const [image, setImage] = useState("");
 
   useEffect(() => {
     firestoreService.getUserById(authUserId).then((data) => {
@@ -31,8 +26,6 @@ function UploadProfilePicture({ navigation }) {
 
     LogBox.ignoreLogs(["Animated: `useNativeDriver`"]);
   }, []);
-
-  const [image, setImage] = useState("");
 
   const imagePicker = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -73,6 +66,30 @@ function UploadProfilePicture({ navigation }) {
     }
   };
 
+  const removePicture = () => {
+    Alert.alert(
+      "Remove Picture",
+      "Are you sure you want to remove your profile picture?",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Yes",
+          onPress: () => {
+            setImage(
+              "https://firebasestorage.googleapis.com/v0/b/sdp-team-doctor-hu.appspot.com/o/profile%2Ficon.png?alt=media&token=b4ee677b-3ed3-41ab-9689-1ba237967830"
+            );
+            firestoreService.updatePicture(authUserId, image);
+            upload();
+          },
+          style: "destructive",
+        },
+      ]
+    );
+  };
+
   useEffect(() => {
     (async () => {
       if (Platform.OS !== "web") {
@@ -97,11 +114,31 @@ function UploadProfilePicture({ navigation }) {
     }
 
     return (
-      <View style={{ alignItems: "center" }}>
-        <Text>Upload Profile Picture</Text>
-        <Button title="Pick a photo" onPress={imagePicker} />
-        {image ? <Image style={styles.image} source={{ uri: image }} /> : <></>}
-        <Button title="Upload" onPress={upload} />
+      <View style={styles.container}>
+        <Text h3>Looking Good!</Text>
+        <Button
+          title="Choose Photo"
+          onPress={imagePicker}
+          buttonStyle={styles.globalButton}
+        />
+        {image ? (
+          <Image style={styles.image} source={{ uri: image }} />
+        ) : (
+          <Image
+            style={styles.image}
+            source={require("../../../assets/icon.png")}
+          ></Image>
+        )}
+        <Button
+          title="Upload Profile Picture"
+          onPress={upload}
+          buttonStyle={styles.globalButton}
+        />
+        <Button
+          title="Remove Profile Picture"
+          onPress={removePicture}
+          buttonStyle={[styles.globalButton, styles.removeButton]}
+        />
       </View>
     );
   };
@@ -112,6 +149,12 @@ function UploadProfilePicture({ navigation }) {
 export default UploadProfilePicture;
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    alignContent: "center",
+    justifyContent: "center",
+  },
   image: {
     width: 200,
     height: 200,
@@ -120,5 +163,12 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     borderColor: "black",
     borderWidth: 2,
+  },
+  globalButton: {
+    borderRadius: 10,
+    marginTop: 20,
+  },
+  removeButton: {
+    backgroundColor: "red",
   },
 });

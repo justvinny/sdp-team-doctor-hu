@@ -20,15 +20,22 @@ import Patient from "../../../models/Patient";
 import TabStyles from "../profilecomponents/TabStyles";
 import { Tab, TabView } from "react-native-elements";
 import GlobalProfileTab from "../profilecomponents/GlobalProfileTab";
+import BottomSheetNav from "../profilecomponents/BottomSheetNav";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 export default function PatientProfile({ navigation, route }) {
+  // Bottom navigation sheet for profile picture
+  const [sheetVisible, setSheetVisible] = useState(false);
+  // Tab Index
   const [index, setIndex] = useState(0);
+  // Passed User
   const passedUser = route?.params?.user;
   const { authUserId } = useContext(AuthContext);
   const [user, setUser] = useState(
     passedUser ? Patient.patientFirestoreFactory(passedUser) : {}
   );
   const [loading, setLoading] = useState(passedUser ? false : true);
+  let profilePicture = user.picture;
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -63,12 +70,17 @@ export default function PatientProfile({ navigation, route }) {
             nestedScrollEnabled={true}
           >
             <View style={styles.container}>
-              <Image
-                style={styles.image}
-                source={require("../../../assets/icon.png")}
-              />
+              <TouchableOpacity onPress={() => setSheetVisible(true)}>
+                <Image style={styles.image} source={{ uri: profilePicture }} />
+              </TouchableOpacity>
               <Text style={styles.name}>{user.getFullName()}</Text>
             </View>
+
+            <BottomSheetNav
+              visible={sheetVisible}
+              setVisible={setSheetVisible}
+              navigation={navigation}
+            />
 
             <Tab
               value={index}

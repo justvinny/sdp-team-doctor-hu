@@ -16,7 +16,7 @@ import colorDefaults from "../../theme/colorDefaults";
 import LoadingScreen from "../LoadingScreen";
 import PhoneInput from "react-native-phone-number-input";
 import firebase from "firebase/app";
-import { firebase as fb } from "../../firebase/firebaseConfig";
+import * as fb from "../../firebase/firebaseConfig";
 
 const SignInPhone = (navigation) => {
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -34,7 +34,7 @@ const SignInPhone = (navigation) => {
         alert("captcha solved");
       },
     },
-    auth
+    firebase.app()
   );
 
   const signIn = () => {};

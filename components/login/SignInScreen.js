@@ -40,16 +40,16 @@ export default function SignInScreen({ navigation }) {
       {loading ? (
         <LoadingScreen />
       ) : (
-        <View style={styles.container}>
+        <KeyboardAvoidingView
+          style={styles.container}
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+        >
           <Text style={styles.headerText}>Sign In</Text>
           <Text style={styles.headerDescription}>
             Please enter your login details.
           </Text>
 
-          <KeyboardAvoidingView
-            style={styles.inputContainer}
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
-          >
+          <View style={styles.inputContainer}>
             <TextInput
               style={styles.input}
               placeholder={"Email*"}
@@ -63,7 +63,7 @@ export default function SignInScreen({ navigation }) {
               value={password}
               onChangeText={setPassword}
             />
-          </KeyboardAvoidingView>
+          </View>
 
           <TouchableHighlight onPress={signIn} style={styles.buttonSignIn}>
             <View>
@@ -86,7 +86,7 @@ export default function SignInScreen({ navigation }) {
           >
             <Text style={styles.signUpNavigatorText}>New? Sign up here.</Text>
           </Pressable>
-        </View>
+        </KeyboardAvoidingView>
       )}
     </>
   );

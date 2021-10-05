@@ -18,6 +18,7 @@ import StaffProfile from "./components/profile/staff/StaffProfile";
 import PatientProfile from "./components/profile/patient/PatientProfile";
 import Menu from "./components/mainmenu/Menu";
 import ProfileSelection from "./components/profile/ProfileSelection";
+import SignInPhone from "./components/login/SignInPhone";
 
 const Stack = createNativeStackNavigator();
 
@@ -86,6 +87,7 @@ export default function App() {
           >
             <Stack.Screen component={WelcomeScreen} name="WelcomeScreen" />
             <Stack.Screen component={SignInScreen} name="Sign In" />
+            <Stack.Screen component={SignInPhone} name="Sign In Phone" />
             <Stack.Screen component={SignUpScreen} name="Sign Up" />
             <Stack.Screen component={ResetPassword} name="ResetPassword" />
             <Stack.Screen component={Menu} name="Menu" />

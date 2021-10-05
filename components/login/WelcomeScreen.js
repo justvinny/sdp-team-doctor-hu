@@ -50,6 +50,15 @@ export default function WelcomeScreen({ navigation, route }) {
             </View>
           </TouchableHighlight>
 
+          <TouchableHighlight
+            onPress={() => navigation.navigate("Sign In Phone")}
+            style={styles.buttonSignInPhone}
+          >
+            <View>
+              <Text style={styles.buttonText}>Sign In With Phone</Text>
+            </View>
+          </TouchableHighlight>
+
           <Text style={styles.or}>Or</Text>
 
           <TouchableHighlight
@@ -108,5 +117,16 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#9F9F9F",
     top: 260,
+  },
+
+  buttonSignInPhone: {
+    borderRadius: 20,
+    backgroundColor: colorDefaults.primary,
+    width: 380,
+    height: 43,
+    marginTop: 15,
+    padding: 10,
+    top: 250,
+    alignItems: "center",
   },
 });

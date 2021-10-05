@@ -54,10 +54,11 @@ export default function SignUpScreen({ navigation }) {
       {loading ? (
         <LoadingScreen />
       ) : (
-        <View style={styles.container}>
-          <KeyboardAvoidingView
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
-          >
+        <KeyboardAvoidingView
+          style={styles.container}
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+        >
+          <View>
             <TextInput
               style={styles.input}
               placeholder={"First Name*"}
@@ -96,7 +97,7 @@ export default function SignUpScreen({ navigation }) {
               value={repeatPassword}
               onChangeText={setRepeatPassword}
             />
-          </KeyboardAvoidingView>
+          </View>
 
           <View style={styles.passCheckContainer}>
             <Text style={styles.passwordCheckCharacter}>
@@ -130,7 +131,7 @@ export default function SignUpScreen({ navigation }) {
               Already have an account? Sign in
             </Text>
           </Pressable>
-        </View>
+        </KeyboardAvoidingView>
       )}
     </>
   );

@@ -64,7 +64,8 @@ class Staff extends User {
       staff.isStaff,
       staff.title,
       staff.about,
-      staff.messages
+      staff.messages,
+      staff.picture
     );
   }
 }

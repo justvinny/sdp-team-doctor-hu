@@ -18,10 +18,11 @@ import AuthContext from "../../../context/AuthContext";
 import LoadingScreen from "../../../components/LoadingScreen";
 import Patient from "../../../models/Patient";
 import TabStyles from "../profilecomponents/TabStyles";
-import { Tab, TabView, Image } from "react-native-elements";
+import { Tab, TabView, Image, Overlay } from "react-native-elements";
 import GlobalProfileTab from "../profilecomponents/GlobalProfileTab";
 import BottomSheetNav from "../profilecomponents/BottomSheetNav";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import UploadProfilePicture from "../profilecomponents/UploadProfilePicture";
+import { StatusBar } from "expo-status-bar";
 
 export default function PatientProfile({ navigation, route }) {
   // Bottom navigation sheet for profile picture
@@ -35,7 +36,13 @@ export default function PatientProfile({ navigation, route }) {
     passedUser ? Patient.patientFirestoreFactory(passedUser) : {}
   );
   const [loading, setLoading] = useState(passedUser ? false : true);
-  let profilePicture = user.picture;
+  const [profilePicture, setProfilePicture] = useState(user.picture);
+
+  // Overlay Controls for Uploading Profile Picture
+  const [overlayVisible, setOverlayVisible] = useState(false);
+  const toggleOverlay = () => {
+    setOverlayVisible(!overlayVisible);
+  };
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -47,6 +54,7 @@ export default function PatientProfile({ navigation, route }) {
     useEffect(() => {
       firestoreService.getUserById(authUserId).then((data) => {
         setUser(Patient.patientFirestoreFactory(data));
+        setProfilePicture(data.picture);
         setLoading(false);
       });
     }, []);
@@ -70,20 +78,36 @@ export default function PatientProfile({ navigation, route }) {
             nestedScrollEnabled={true}
           >
             <View style={styles.container}>
-              <TouchableOpacity onPress={() => setSheetVisible(true)}>
-                <Image
-                  style={styles.image}
-                  source={{ uri: profilePicture }}
-                  PlaceholderContent={<ActivityIndicator />}
-                />
-              </TouchableOpacity>
+              <Image
+                style={styles.image}
+                source={{ uri: profilePicture }}
+                PlaceholderContent={<ActivityIndicator />}
+                onPress={() => setSheetVisible(true)}
+              />
               <Text style={styles.name}>{user.getFullName()}</Text>
             </View>
 
+            {/* Overlay For Uploading & Profile Picture */}
+            <Overlay
+              isVisible={overlayVisible}
+              onBackdropPress={toggleOverlay}
+              overlayStyle={{ backgroundColor: colorDefaults.backDropColor }}
+              animationType="slide"
+              transparent
+            >
+              <UploadProfilePicture
+                navigation={navigation}
+                setProfilePicture={setProfilePicture}
+                toggleOverlay={toggleOverlay}
+                user={user}
+              />
+            </Overlay>
+
+            {/* Bottom Sheet Navigation */}
             <BottomSheetNav
               visible={sheetVisible}
               setVisible={setSheetVisible}
-              navigation={navigation}
+              toggleOverlay={toggleOverlay}
             />
 
             <Tab

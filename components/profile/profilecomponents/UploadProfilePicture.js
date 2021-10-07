@@ -8,29 +8,23 @@ import { Text, Button } from "react-native-elements";
 
 import * as ImagePicker from "expo-image-picker";
 import { storage } from "../../../firebase/firebaseConfig";
-import AuthContext from "../../../context/AuthContext";
 import firestoreService from "../../../firebase/firestoreService";
 import LoadingScreen from "../../LoadingScreen";
 
-function UploadProfilePicture({ navigation }) {
-  const [user, setUser] = useState({});
-  const [loading, setLoading] = useState(true);
-  const { authUserId } = useContext(AuthContext);
+function UploadProfilePicture({ setProfilePicture, toggleOverlay, user }) {
+  const [loading, setLoading] = useState(false);
   const [image, setImage] = useState("");
+  const defaultImage =
+    "https://firebasestorage.googleapis.com/v0/b/sdp-team-doctor-hu.appspot.com/o/profile%2Ficon.png?alt=media&token=b4ee677b-3ed3-41ab-9689-1ba237967830";
 
   useEffect(() => {
-    firestoreService.getUserById(authUserId).then((data) => {
-      setUser(data);
-      setLoading(false);
-    });
-
     LogBox.ignoreLogs(["Animated: `useNativeDriver`"]);
   }, []);
 
   const imagePicker = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: false,
+      allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     });
@@ -43,7 +37,7 @@ function UploadProfilePicture({ navigation }) {
   const upload = async () => {
     if (image) {
       try {
-        const childPath = `profile/${authUserId}`;
+        const childPath = `profile/${user.id}`;
         const response = await fetch(image);
         const blob = await response.blob();
         const task = await storage.ref().child(childPath).put(blob);
@@ -51,12 +45,16 @@ function UploadProfilePicture({ navigation }) {
         task.ref.getDownloadURL().then((url) => {
           Alert.alert(
             "Looking Great " + user.name.first + "!",
-            "Profile Picture updated successfully."
+            "Profile Picture updated successfully.",
+            [
+              {
+                text: "Thanks!",
+                onPress: () => toggleOverlay(),
+              },
+            ]
           );
-          console.log("Update Profile Screen: " + url);
-          firestoreService.updatePicture(authUserId, url);
-
-          navigation.goBack();
+          firestoreService.updatePicture(user.id, url);
+          setProfilePicture(url);
         });
       } catch (error) {
         alert(error.message);
@@ -65,6 +63,21 @@ function UploadProfilePicture({ navigation }) {
   };
 
   const removePicture = () => {
+    setProfilePicture(defaultImage);
+    firestoreService.updatePicture(user.id, defaultImage);
+    Alert.alert(
+      "Aww Man!",
+      "Hope to see your beautiful face again soon " + user.name.first + ".",
+      [
+        {
+          text: "Close",
+          onPress: () => toggleOverlay(),
+        },
+      ]
+    );
+  };
+
+  const removePictureAlert = () => {
     Alert.alert(
       "Remove Picture",
       "Are you sure you want to remove your profile picture?",
@@ -76,11 +89,7 @@ function UploadProfilePicture({ navigation }) {
         {
           text: "Yes",
           onPress: () => {
-            setImage(
-              "https://firebasestorage.googleapis.com/v0/b/sdp-team-doctor-hu.appspot.com/o/profile%2Ficon.png?alt=media&token=b4ee677b-3ed3-41ab-9689-1ba237967830"
-            );
-            firestoreService.updatePicture(authUserId, image);
-            upload();
+            removePicture();
           },
           style: "destructive",
         },
@@ -98,12 +107,6 @@ function UploadProfilePicture({ navigation }) {
         }
       }
     })();
-  }, []);
-
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      title: "Upload Profile Picture",
-    });
   }, []);
 
   const renderPage = () => {
@@ -136,8 +139,13 @@ function UploadProfilePicture({ navigation }) {
         />
         <Button
           title="Remove Profile Picture"
-          onPress={removePicture}
+          onPress={removePictureAlert}
           buttonStyle={[styles.globalButton, styles.removeButton]}
+        />
+        <Button
+          title="Cancel"
+          onPress={toggleOverlay}
+          buttonStyle={styles.globalButton}
         />
       </View>
     );
@@ -150,10 +158,10 @@ export default UploadProfilePicture;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    // flex: 1,
     alignItems: "center",
-    alignContent: "center",
-    justifyContent: "center",
+    // alignContent: "center",
+    // justifyContent: "center",
     padding: 15,
   },
   image: {

@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import { BottomSheet, ListItem } from "react-native-elements";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
-export default function BottomSheetNav({ visible, setVisible, navigation }) {
+export default function BottomSheetNav({ visible, setVisible, toggleOverlay }) {
   const list = [
     {
       title: "Change Profile Picture",
       onPress: () => {
-        navigation.navigate("UploadProfilePicture");
+        toggleOverlay();
         setVisible(false);
       },
     },

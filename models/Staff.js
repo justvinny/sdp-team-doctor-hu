@@ -2,12 +2,18 @@ import dateUtility from "../utilities/dateUtility";
 import User from "./User";
 
 class Staff extends User {
-    constructor(id, first, middle, last, isStaff, title = "", about = "", messages = []) {
+    constructor(id, first, middle, last, isStaff, title = "", about = "", messages = [], documents = []) {
         super(id, first, middle, last, isStaff);
         this.title = title;
         this.about = about;
         this.messages = messages;
+        this.documents = documents;
     }
+
+    getAllergies() {
+        const document = this.documents.join(", ");
+        return document;
+      }
 
     getLatestMessageObject(authId) {
         return (this.messages.length > 0)
@@ -50,7 +56,8 @@ class Staff extends User {
             staff.isStaff,
             staff.title,
             staff.about,
-            staff.messages
+            staff.messages,
+            staff.documents,
         );
     }
 }

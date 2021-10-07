@@ -332,6 +332,7 @@ const addAllergy = async (id, allergy) => {
     }
 }
 
+//patients
 const addMedicalResult = async (id, medicalResult) => {
     try {
         await db.collection(COLLECTION_USERS)
@@ -353,6 +354,20 @@ const addMessage = async (id, message) => {
         return "Failed to update: " + error;
     }
 }
+
+//staff
+const addStaffDoc = async (id, document) => {
+
+    try {
+        await db.collection(COLLECTION_USERS)
+            .doc(id)
+            .update({ documents: firebase.firestore.FieldValue.arrayUnion(document) });
+        return "Sucessfully updated!";
+    } catch (error) {
+        return "Failed to update: " + error;
+    }
+
+  };
 
 
 // Delete operations.
@@ -399,7 +414,8 @@ const firestoreService = {
     addAllergy,
     addMedicalResult,
     addMessage,
-    deleteUser
+    deleteUser,
+    addStaffDoc
 }
 
 export default firestoreService;

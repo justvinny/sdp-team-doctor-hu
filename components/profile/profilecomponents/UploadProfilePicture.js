@@ -35,8 +35,6 @@ function UploadProfilePicture({ navigation }) {
       quality: 1,
     });
 
-    //console.log(result);
-
     if (!result.cancelled) {
       setImage(result.uri);
     }
@@ -55,7 +53,7 @@ function UploadProfilePicture({ navigation }) {
             "Looking Great " + user.name.first + "!",
             "Profile Picture updated successfully."
           );
-          console.log(url);
+          console.log("Update Profile Screen: " + url);
           firestoreService.updatePicture(authUserId, url);
 
           navigation.goBack();

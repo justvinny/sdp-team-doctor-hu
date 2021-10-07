@@ -1,7 +1,6 @@
 import React, { useState, useContext, useEffect, useLayoutEffect } from "react";
 import {
   StyleSheet,
-  Image,
   Text,
   View,
   KeyboardAvoidingView,
@@ -9,13 +8,14 @@ import {
   Keyboard,
   ScrollView,
   Platform,
+  ActivityIndicator,
 } from "react-native";
 import colorDefaults from "../../../theme/colorDefaults";
 import AuthContext from "../../../context/AuthContext";
 import firestoreService from "../../../firebase/firestoreService";
 import Staff from "../../../models/Staff";
 import AboutTab from "./AboutTab";
-import { Tab, TabView } from "react-native-elements";
+import { Tab, TabView, Image } from "react-native-elements";
 import TabStyles from "../profilecomponents/TabStyles";
 import GlobalProfileTab from "../profilecomponents/GlobalProfileTab";
 import LoadingScreen from "../../LoadingScreen";
@@ -33,7 +33,7 @@ export default function StaffProfile({ navigation, route }) {
   const { authUserId } = useContext(AuthContext);
   const [user, setUser] = useState(passedUser ? passedUser : {});
   const [loading, setLoading] = useState(passedUser ? false : true);
-  let profilePicture = user.picture;
+  const [profilePicture, setProfilePicture] = useState();
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -45,6 +45,7 @@ export default function StaffProfile({ navigation, route }) {
     useEffect(() => {
       firestoreService.getUserById(authUserId).then((data) => {
         setUser(data);
+        setProfilePicture(data.picture);
         setLoading(false);
       });
     }, []);
@@ -62,12 +63,17 @@ export default function StaffProfile({ navigation, route }) {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <ScrollView bounces="false" style={{ flex: 1 }}>
             <View style={styles.container}>
-              <TouchableOpacity onPress={() => setSheetVisible(true)}>
+              <TouchableOpacity
+                onPress={() => {
+                  setSheetVisible(true);
+                }}
+              >
                 <Image
                   style={styles.image}
                   source={{
                     uri: profilePicture,
                   }}
+                  PlaceholderContent={<ActivityIndicator />}
                 />
               </TouchableOpacity>
               <Text style={styles.name}>{Staff.getFullName(user.name)}</Text>

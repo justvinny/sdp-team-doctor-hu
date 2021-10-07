@@ -3,12 +3,12 @@ import {
   StyleSheet,
   Text,
   View,
-  Image,
   KeyboardAvoidingView,
   Keyboard,
   TouchableWithoutFeedback,
   ScrollView,
   Platform,
+  ActivityIndicator,
 } from "react-native";
 import colorDefaults from "../../../theme/colorDefaults";
 import AddressTab from "./AddressTab";
@@ -18,7 +18,7 @@ import AuthContext from "../../../context/AuthContext";
 import LoadingScreen from "../../../components/LoadingScreen";
 import Patient from "../../../models/Patient";
 import TabStyles from "../profilecomponents/TabStyles";
-import { Tab, TabView } from "react-native-elements";
+import { Tab, TabView, Image } from "react-native-elements";
 import GlobalProfileTab from "../profilecomponents/GlobalProfileTab";
 import BottomSheetNav from "../profilecomponents/BottomSheetNav";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -71,7 +71,11 @@ export default function PatientProfile({ navigation, route }) {
           >
             <View style={styles.container}>
               <TouchableOpacity onPress={() => setSheetVisible(true)}>
-                <Image style={styles.image} source={{ uri: profilePicture }} />
+                <Image
+                  style={styles.image}
+                  source={{ uri: profilePicture }}
+                  PlaceholderContent={<ActivityIndicator />}
+                />
               </TouchableOpacity>
               <Text style={styles.name}>{user.getFullName()}</Text>
             </View>

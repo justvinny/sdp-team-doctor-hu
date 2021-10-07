@@ -8,36 +8,52 @@ import {
   Text,
   TextInput,
   View,
-  TouchableHighlight,
-  Pressable,
 } from "react-native";
-import { auth, signInWithPhoneNumber } from "../../firebase/firebaseConfig";
 import colorDefaults from "../../theme/colorDefaults";
 import LoadingScreen from "../LoadingScreen";
 import PhoneInput from "react-native-phone-number-input";
-import firebase from "firebase/app";
-import * as fb from "../../firebase/firebaseConfig";
+import auth from "@react-native-firebase/auth";
+import { Button } from "react-native";
 
 const SignInPhone = (navigation) => {
   const [phoneNumber, setPhoneNumber] = useState("");
 
-  const formatPhoneNumber = () => {
-    alert(phoneNumber);
-  };
+  function PhoneSignIn() {
+    // If null, no SMS has been sent
+    const [confirm, setConfirm] = useState("");
 
-  recaptcha = new firebase.auth.RecaptchaVerifier(
-    "1",
-    {
-      size: "invisible",
-      callback: (response) => {
-        // reCAPTCHA solved, allow signInWithPhoneNumber.
-        alert("captcha solved");
-      },
-    },
-    firebase.app()
-  );
+    const [code, setCode] = useState("");
 
-  const signIn = () => {};
+    // Handle the button press
+    async function signInWithPhoneNumber(phoneNumber) {
+      const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
+      setConfirm(confirmation);
+    }
+
+    async function confirmCode() {
+      try {
+        await confirm.confirm(code);
+      } catch (error) {
+        alert("Invalid code.");
+      }
+    }
+
+    if (!confirm) {
+      return (
+        <Buttonn
+          title="Phone Number Sign In"
+          onPress={() => signInWithPhoneNumber(phoneNumber)}
+        />
+      );
+    }
+
+    return (
+      <>
+        <TextInput value={code} onChangeText={(text) => setCode(text)} />
+        <Button title="Confirm Code" onPress={() => confirmCode()} />
+      </>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -53,14 +69,14 @@ const SignInPhone = (navigation) => {
         value={phoneNumber}
         onChangeText={setPhoneNumber}
       />
-
+      <PhoneSignIn />
       <TouchableOpacity
         id="1"
         onPress={() => {
           formatPhoneNumber();
         }}
       >
-        <Text>show</Text>
+        <Text>send sms verification</Text>
       </TouchableOpacity>
     </View>
   );

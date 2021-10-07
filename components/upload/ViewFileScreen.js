@@ -1,56 +1,64 @@
-import { auth, storage } from '../../firebase/firebaseConfig';
-import React, { useEffect, useState, useContext } from 'react';
-import {
-  View,
-  StyleSheet,
-  Button,
-  Image,
-} from 'react-native';
-import colorDefaults from '../../theme/colorDefaults';
+import React, { useState, useEffect, useContext, useCallback } from "react";
+import { View, StyleSheet, Image, Text, Button } from "react-native";
 import AuthContext from "../../context/AuthContext";
-import { Text } from 'react-native';
+import firestoreService from "../../firebase/firestoreService";
+import LoadingScreen from "../LoadingScreen";
 
-
-const viewFileScreen = ({ }) => {
-
-  // const {imageName} = this.state;
-  // let imageRef = storage().ref('/' + imageName);
-  // imageRef
-  // .getDownloadURL()
-  // .then((url) => {
-  //   //from url you can fetched the uploaded image easily
-  //   this.setState({profileImageUrl: url});
-  // })
-  // .catch((e) => console.log('getting downloadURL of image error => ', e));
-  
-  const [user, setUser] = useState({});
+export default function viewFileScreen() {
+  // Collects the user's ID.
   const { authUserId } = useContext(AuthContext);
-  const profilePicture = user.documents;
-  
+  // I set the user but don't use the data from user this as I get an error undefined is not an object.
+  // Not sure how to fix this yet.
+  const [user, setUser] = useState({});
+  // Just used loading as was copying from other classes on what I had done.
+  const [loading, setLoading] = useState(true);
 
-  return (
-    <View>
-      <Text>{user.id}</Text>
-      {/* <Image style={styles.image} source={{uri: profilePicture}}/> */}
-    </View>
+  // Can use either const or let for the storing of variable.
+  // Have found both work perfectly fine.
+  const [profilePicture, setProfilePicture] = useState();
+  //let profile = user.documents[0];
 
-  );
+  // Grab the current user & set them,
+  // Also set the user
+  useEffect(() => {
+    firestoreService.getUserById(authUserId).then((data) => {
+      setUser(data);
+      setLoading(false);
+      // Set the index'ed document in the array as the picture.
+      // Make sure to change this if you upload a new document without deleting the old one.
+      // As in file upload you are overwriting the document.
+      setProfilePicture(data.documents[1]);
+    });
+  }, []);
 
-};
+  const renderPage = () => {
+    if (loading) {
+      return <LoadingScreen />;
+    }
+    return (
+      <View style={styles.container}>
+        <Text>{profilePicture}</Text>
+        <Image style={styles.image} source={{ uri: profilePicture }} />
+        {console.log(profilePicture)}
+        {/* <Text>{user.documents}</Text> */}
+      </View>
+    );
+  };
 
-export default viewFileScreen;
+  return renderPage();
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     padding: 10,
+    alignItems: "center",
+    alignContent: "center",
   },
   image: {
     margin: 10,
-    width: 200,
-    height: 200,
-    
+    width: 400,
+    height: 400,
   },
-
 });

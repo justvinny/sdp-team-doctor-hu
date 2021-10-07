@@ -28,6 +28,8 @@ const PatientMedicalTab = ({ user }) => {
   const [height, setHeight] = useState(user.height.toString());
   const [allergies, setAllergies] = useState(user ? user.getAllergies() : "");
   const [editable, setEditable] = useState(false);
+  const [measurmentWeight, setMeasurmentWeight] = useState("(kgs)");
+  const [measurmentHeight, setMeasurmentHeight] = useState("(cms)");
 
   const updateFirebase = () => {
     firestoreService.updateBloodtype(user.id, bloodType);
@@ -36,6 +38,10 @@ const PatientMedicalTab = ({ user }) => {
     firestoreService.updateHeight(user.id, height);
     firestoreService.updateAllergies(user.id, allergies.split(", "));
   };
+
+  const convertWeight = () => {};
+
+  const convertHeight = () => {};
 
   const renderView = () => (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -75,7 +81,7 @@ const PatientMedicalTab = ({ user }) => {
           editable={editable}
         />
         <ProfileInformation
-          label="Weight (kgs)"
+          label="Weight "
           value={weight}
           onChangeText={setWeight}
           placeholder="Weight"

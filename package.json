@@ -15,6 +15,8 @@
     ]
   },
   "dependencies": {
+    "@react-native-firebase/app": "^12.8.0",
+    "@react-native-firebase/storage": "^12.8.0",
     "@react-navigation/bottom-tabs": "^6.0.5",
     "@react-navigation/material-top-tabs": "^6.0.2",
     "@react-navigation/native": "^6.0.2",
@@ -23,6 +25,7 @@
     "@types/jest": "^27.0.1",
     "expo": "~42.0.1",
     "expo-constants": "~11.0.1",
+    "expo-image-picker": "~10.2.2",
     "expo-status-bar": "~1.0.4",
     "firebase": "8.2.3",
     "react": "16.13.1",
@@ -35,7 +38,8 @@
     "react-native-screens": "^3.4.0",
     "react-native-select-dropdown": "^1.1.0",
     "react-native-tab-view": "^3.1.1",
-    "react-native-web": "^0.17.1"
+    "react-native-web": "^0.17.1",
+    "expo-image-picker": "~10.2.2"
   },
   "resolutions": {
     "@babel/plugin-transform-react-display-name": "7.14.5"

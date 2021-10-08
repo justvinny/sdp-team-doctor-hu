@@ -1,19 +1,14 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import {
-  Keyboard,
-  KeyboardAvoidingView,
   StyleSheet,
   Text,
   View,
   ScrollView,
-  Platform,
+  KeyboardAvoidingView,
 } from "react-native";
 import ProfileInformation from "../profilecomponents/ProfileInformation";
 import SelectDropdown from "react-native-select-dropdown";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
-import colorDefaults from "../../../theme/colorDefaults";
 import EditEnableButton from "../profilecomponents/EditEnableButton";
-import { useState } from "react/cjs/react.development";
 import firestoreService from "../../../firebase/firestoreService";
 import AuthContext from "../../../context/AuthContext";
 import { Input } from "react-native-elements";
@@ -38,12 +33,8 @@ const PatientMedicalTab = ({ user }) => {
   };
 
   const renderView = () => (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <ScrollView
-        bounces={false}
-        style={{ flex: 1 }}
-        showsVerticalScrollIndicator={false}
-      >
+    <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
+      <ScrollView height={400} width={"100%"} bounces={false}>
         {authUserId === user.id ? (
           <View style={styles.dropdownContainer}>
             <Text style={TextInputStyles.labelStyle}>Blood Type</Text>
@@ -111,23 +102,10 @@ const PatientMedicalTab = ({ user }) => {
           <></>
         )}
       </ScrollView>
-    </TouchableWithoutFeedback>
+      {/* <View style={{ height: 100 }} /> */}
+    </KeyboardAvoidingView>
   );
-  return (
-    <>
-      {Platform.OS === "ios" ? (
-        <KeyboardAvoidingView
-          style={styles.container}
-          behavior="padding"
-          keyboardVerticalOffset={380}
-        >
-          {renderView()}
-        </KeyboardAvoidingView>
-      ) : (
-        <View style={styles.container}>{renderView()}</View>
-      )}
-    </>
-  );
+  return renderView();
 };
 
 export default PatientMedicalTab;

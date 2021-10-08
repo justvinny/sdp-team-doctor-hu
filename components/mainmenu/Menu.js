@@ -8,6 +8,7 @@ import Staff from "../../models/Staff";
 import { auth } from "../../firebase/firebaseConfig";
 import LoadingScreen from "../.././components/LoadingScreen";
 import colorDefaults from "../../theme/colorDefaults";
+import { StatusBar } from "expo-status-bar";
 
 export default function Menu({ navigation }) {
   const { authUserId, setAuthUserId } = useContext(AuthContext);
@@ -60,6 +61,7 @@ export default function Menu({ navigation }) {
       <>
         {user.isStaff ? (
           <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
+            <StatusBar style="auto" />
             <View style={styles.container}>
               <View
                 style={[
@@ -87,6 +89,7 @@ export default function Menu({ navigation }) {
           </ScrollView>
         ) : (
           <ScrollView bounces={false}>
+            <StatusBar style="auto" />
             <View style={styles.container}>
               <View
                 style={[
@@ -130,7 +133,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flexWrap: "wrap",
     //paddingTop: Platform.OS === "ios" ? 20 : 0,
-    
   },
   item: {
     padding: 20,

@@ -7,6 +7,7 @@ class Patient extends User {
     middle,
     last,
     isStaff,
+    picture,
     street = "",
     suburb = "",
     city = "",
@@ -19,7 +20,7 @@ class Patient extends User {
     staffNotes = [],
     medicalResults = []
   ) {
-    super(id, first, middle, last, isStaff);
+    super(id, first, middle, last, isStaff, picture);
     this.address = {
       street,
       suburb,
@@ -46,6 +47,7 @@ class Patient extends User {
       patient.name.middle,
       patient.name.last,
       patient.isStaff,
+      patient.picture,
       patient.address.street,
       patient.address.suburb,
       patient.address.city,

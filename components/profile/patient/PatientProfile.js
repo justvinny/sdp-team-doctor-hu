@@ -114,11 +114,12 @@ export default function PatientProfile({ navigation, route }) {
               value={index}
               onChange={setIndex}
               indicatorStyle={TabStyles.tabIndicatorStyle}
+              variant="primary"
             >
               <Tab.Item
                 title="profile"
                 titleStyle={TabStyles.tabText}
-                style={[
+                buttonStyle={[
                   index == 0 ? TabStyles.activeTab : TabStyles.inactiveTab,
                 ]}
               />
@@ -126,7 +127,7 @@ export default function PatientProfile({ navigation, route }) {
               <Tab.Item
                 title="address"
                 titleStyle={TabStyles.tabText}
-                style={[
+                buttonStyle={[
                   index == 1 ? TabStyles.activeTab : TabStyles.inactiveTab,
                 ]}
               />
@@ -134,7 +135,7 @@ export default function PatientProfile({ navigation, route }) {
               <Tab.Item
                 title="medical"
                 titleStyle={TabStyles.tabText}
-                style={[
+                buttonStyle={[
                   index == 2 ? TabStyles.activeTab : TabStyles.inactiveTab,
                 ]}
               />

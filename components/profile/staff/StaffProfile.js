@@ -108,19 +108,21 @@ export default function StaffProfile({ navigation, route }) {
               value={index}
               onChange={setIndex}
               indicatorStyle={TabStyles.tabIndicatorStyle}
+              style={TabStyles.activeTab}
             >
               <Tab.Item
                 title="profile"
                 titleStyle={TabStyles.tabText}
-                style={[
+                buttonStyle={[
                   index == 0 ? TabStyles.activeTab : TabStyles.inactiveTab,
                 ]}
+                //buttonStyle={TabStyles.activeTab}
               />
 
               <Tab.Item
                 title="about"
                 titleStyle={TabStyles.tabText}
-                style={[
+                buttonStyle={[
                   index == 1 ? TabStyles.activeTab : TabStyles.inactiveTab,
                 ]}
               />

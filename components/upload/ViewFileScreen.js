@@ -27,7 +27,7 @@ export default function viewFileScreen() {
       // Set the index'ed document in the array as the picture.
       // Make sure to change this if you upload a new document without deleting the old one.
       // As in file upload you are overwriting the document.
-      setProfilePicture(data.documents[1]);
+      setProfilePicture(data.documents[0]);
     });
   }, []);
 

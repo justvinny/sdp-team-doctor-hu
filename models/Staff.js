@@ -11,12 +11,14 @@ class Staff extends User {
     title = "",
     about = "",
     messages = [],
-    picture
+    picture,
+    documents = [],
   ) {
     super(id, first, middle, last, isStaff, picture);
     this.title = title;
     this.about = about;
     this.messages = messages;
+    this.documents = documents;
   }
 
   getLatestMessageObject(authId) {
@@ -65,7 +67,8 @@ class Staff extends User {
       staff.title,
       staff.about,
       staff.messages,
-      staff.picture
+      staff.picture,
+      staff.documents,
     );
   }
 }

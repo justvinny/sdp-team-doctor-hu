@@ -18,6 +18,8 @@ import colorDefaults from "../../theme/colorDefaults";
 import { storage } from "../../firebase/firebaseConfig";
 import AuthContext from "../../context/AuthContext";
 import firestoreService from "../../firebase/firestoreService";
+import { FAB } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const App = () => {
   const { authUserId } = useContext(AuthContext);
@@ -47,7 +49,7 @@ const App = () => {
   const upload = async () => {
     if (image) {
       try {
-        const childPath = `profile/${authUserId}`;
+        const childPath = `document/${authUserId}/${authUserId}`;
         const response = await fetch(image);
         const blob = await response.blob();
         const task = await storage.ref().child(childPath).put(blob);
@@ -100,6 +102,14 @@ const App = () => {
             <></>
           )}
         </Text>
+        <FAB  placement="right" size="large" 
+        icon={{
+            name: "file-upload",
+            size: 25,
+            color: "white"
+            }}
+          onPress={() => console.log("hello")} 
+          />
       </View>
     </SafeAreaView>
   );
@@ -124,9 +134,9 @@ const styles = StyleSheet.create({
     textAlign: "center",
     padding: 10,
   },
-  actionButtonIcon: {
-    fontSize: 20,
-    height: 22,
-    color: "white",
+  icon: {
+    position: "absolute",
+    alignSelf: "center",
+    marginTop: 50,
   },
 });

@@ -399,6 +399,7 @@ const firestoreService = {
     updateFullAddress,
     updateStreet,
     updateSuburb,
+    updatePicture,
     updateCity,
     updatePost,
     updateAllergies,

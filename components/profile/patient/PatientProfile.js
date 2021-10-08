@@ -22,6 +22,7 @@ import { Tab, TabView, Image, Overlay } from "react-native-elements";
 import GlobalProfileTab from "../profilecomponents/GlobalProfileTab";
 import BottomSheetNav from "../profilecomponents/BottomSheetNav";
 import UploadProfilePicture from "../profilecomponents/UploadProfilePicture";
+import { FAB } from 'react-native-elements';
 
 export default function PatientProfile({ navigation, route }) {
   // Bottom navigation sheet for profile picture
@@ -154,10 +155,13 @@ export default function PatientProfile({ navigation, route }) {
                 <MedicalTab user={user} setUser={setUser} />
               </TabView.Item>
             </TabView>
+            
           </ScrollView>
         </TouchableWithoutFeedback>
         {/* This helps Keyboard Avoiding View function properly by moving the whole display up */}
         <View style={{ height: 100 }} />
+        <FAB  placement="right" size="large" icon={{ name: "file-upload", size: 25, color: "white" }} 
+        onPress={() => console.log(passedUser.id +" "+ authUserId)} />
       </KeyboardAvoidingView>
     );
   };

@@ -18,6 +18,7 @@ import firestoreService from "../../../firebase/firestoreService";
 import AuthContext from "../../../context/AuthContext";
 import { Input } from "react-native-elements";
 import TextInputStyles from "../profilecomponents/TextInputStyles";
+import { Switch } from "react-native";
 
 const PatientMedicalTab = ({ user }) => {
   const { authUserId } = useContext(AuthContext);
@@ -28,8 +29,11 @@ const PatientMedicalTab = ({ user }) => {
   const [height, setHeight] = useState(user.height.toString());
   const [allergies, setAllergies] = useState(user ? user.getAllergies() : "");
   const [editable, setEditable] = useState(false);
-  const [measurmentWeight, setMeasurmentWeight] = useState("(kgs)");
-  const [measurmentHeight, setMeasurmentHeight] = useState("(cms)");
+  const [imperial, setImperial] = useState(false);
+  const [measurementSystem, setMeasurementSystem] = useState("Metric");
+  const [weightTitle, setWeightTitle] = useState("Weight (kgs)");
+  const [heightTitle, setHeightTitle] = useState("Height (cms)");
+  const [heightcm, setHeightCM] = useState("");
 
   const updateFirebase = () => {
     firestoreService.updateBloodtype(user.id, bloodType);
@@ -39,9 +43,35 @@ const PatientMedicalTab = ({ user }) => {
     firestoreService.updateAllergies(user.id, allergies.split(", "));
   };
 
-  const convertWeight = () => {};
+  const convertWeight = () => {
+    if (!imperial) {
+      // imperial
+      let lbs = parseFloat(weight);
+      lbs = lbs * 2.205;
+      setWeight(lbs.toString());
+    } else if (imperial) {
+      //metric
+      let kgs = parseFloat(weight);
+      kgs = kgs / 2.205;
+      setWeight(kgs.toString());
+    }
+  };
 
-  const convertHeight = () => {};
+  const convertHeight = () => {
+    if (!imperial) {
+      //imperial
+      setHeightCM(height);
+      let cms = parseFloat(height);
+      let totalInches = cms / 2.54;
+      let feet = Math.floor(totalInches / 12);
+      let inches = totalInches - 12 * feet;
+      let impheight = `${feet}"${inches}`;
+      setHeight(impheight);
+    } else if (imperial) {
+      //metric
+      setHeight(heightcm);
+    }
+  };
 
   const renderView = () => (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -81,7 +111,7 @@ const PatientMedicalTab = ({ user }) => {
           editable={editable}
         />
         <ProfileInformation
-          label="Weight "
+          label={weightTitle}
           value={weight}
           onChangeText={setWeight}
           placeholder="Weight"
@@ -89,7 +119,7 @@ const PatientMedicalTab = ({ user }) => {
           keyboardType="numeric"
         />
         <ProfileInformation
-          label="Height (cms)"
+          label={heightTitle}
           value={height}
           onChangeText={setHeight}
           placeholder="Height"
@@ -107,6 +137,29 @@ const PatientMedicalTab = ({ user }) => {
           labelStyle={TextInputStyles.labelStyle}
           containerStyle={TextInputStyles.inputView}
         />
+        <View>
+          <Text>{measurementSystem}</Text>
+          <Switch
+            trackColor={{ false: "grey", true: colorDefaults.primary }}
+            value={imperial}
+            onValueChange={() => {
+              if (imperial) {
+                setImperial(false);
+                setMeasurementSystem("Metric");
+                setWeightTitle("Weight (kgs)");
+                setHeightTitle("Height (cms)");
+              } else {
+                setImperial(true);
+                setMeasurementSystem("Imperial");
+                setWeightTitle("Weight (lbs)");
+                setHeightTitle("Height (ft)");
+              }
+              convertWeight();
+              convertHeight();
+            }}
+          />
+        </View>
+
         {user.id === authUserId ? (
           <EditEnableButton
             editable={editable}

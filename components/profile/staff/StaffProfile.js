@@ -34,7 +34,7 @@ export default function StaffProfile({ navigation, route }) {
   const { authUserId } = useContext(AuthContext);
   const [user, setUser] = useState(passedUser ? passedUser : {});
   const [loading, setLoading] = useState(passedUser ? false : true);
-  const [profilePicture, setProfilePicture] = useState();
+  const [profilePicture, setProfilePicture] = useState(user.picture);
   // Overlay Controls for Uploading Profile Picture
   const [overlayVisible, setOverlayVisible] = useState(false);
   const toggleOverlay = () => {
@@ -51,7 +51,7 @@ export default function StaffProfile({ navigation, route }) {
     useEffect(() => {
       firestoreService.getUserById(authUserId).then((data) => {
         setUser(data);
-        data.picture ? setProfilePicture(data.picture) : setProfilePicture("");
+        setProfilePicture(data.picture);
         setLoading(false);
       });
     }, []);
@@ -75,7 +75,9 @@ export default function StaffProfile({ navigation, route }) {
                   uri: profilePicture,
                 }}
                 PlaceholderContent={<ActivityIndicator />}
-                onPress={() => setSheetVisible(true)}
+                onPress={() => {
+                  !passedUser ? setSheetVisible(true) : {};
+                }}
               />
               <Text style={styles.name}>{Staff.getFullName(user.name)}</Text>
             </View>
@@ -89,7 +91,6 @@ export default function StaffProfile({ navigation, route }) {
               transparent
             >
               <UploadProfilePicture
-                navigation={navigation}
                 setProfilePicture={setProfilePicture}
                 toggleOverlay={toggleOverlay}
                 user={user}

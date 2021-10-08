@@ -22,7 +22,6 @@ import { Tab, TabView, Image, Overlay } from "react-native-elements";
 import GlobalProfileTab from "../profilecomponents/GlobalProfileTab";
 import BottomSheetNav from "../profilecomponents/BottomSheetNav";
 import UploadProfilePicture from "../profilecomponents/UploadProfilePicture";
-import { StatusBar } from "expo-status-bar";
 
 export default function PatientProfile({ navigation, route }) {
   // Bottom navigation sheet for profile picture
@@ -82,7 +81,9 @@ export default function PatientProfile({ navigation, route }) {
                 style={styles.image}
                 source={{ uri: profilePicture }}
                 PlaceholderContent={<ActivityIndicator />}
-                onPress={() => setSheetVisible(true)}
+                onPress={() => {
+                  !passedUser ? setSheetVisible(true) : {};
+                }}
               />
               <Text style={styles.name}>{user.getFullName()}</Text>
             </View>
@@ -96,7 +97,6 @@ export default function PatientProfile({ navigation, route }) {
               transparent
             >
               <UploadProfilePicture
-                navigation={navigation}
                 setProfilePicture={setProfilePicture}
                 toggleOverlay={toggleOverlay}
                 user={user}

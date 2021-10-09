@@ -23,6 +23,8 @@ import GlobalProfileTab from "../profilecomponents/GlobalProfileTab";
 import BottomSheetNav from "../profilecomponents/BottomSheetNav";
 import UploadProfilePicture from "../profilecomponents/UploadProfilePicture";
 import { FAB } from 'react-native-elements';
+import UploadDocumentButton from '../../documentUpload/UploadDocumentButton'
+import UploadDocument from '../../documentUpload/UploadDocument';
 
 export default function PatientProfile({ navigation, route }) {
   // Bottom navigation sheet for profile picture
@@ -43,6 +45,14 @@ export default function PatientProfile({ navigation, route }) {
   const toggleOverlay = () => {
     setOverlayVisible(!overlayVisible);
   };
+
+  // Overlay Controls for Uploading Document
+  const [documentVisible, setDocumentVisible] = useState(false);
+  const [overlayDocumentVisible, setOverlayDocumentVisible] = useState(false);
+  const toggleDocumentOverlay = () => {
+    setOverlayDocumentVisible(!overlayDocumentVisible);
+  };
+  
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -111,6 +121,21 @@ export default function PatientProfile({ navigation, route }) {
               toggleOverlay={toggleOverlay}
             />
 
+          {/* document upload */}
+            <Overlay
+                  isVisible={overlayDocumentVisible}
+                  onBackdropPress={toggleDocumentOverlay}
+                  overlayStyle={{ backgroundColor: colorDefaults.backDropColor }}
+                  animationType="slide"
+                  transparent
+                >
+                  <UploadDocument
+                    //setProfilePicture={setProfilePicture}
+                    toggleDocumentOverlay={toggleDocumentOverlay}
+                    //user={user}
+                  />
+            </Overlay>
+
             <Tab
               value={index}
               onChange={setIndex}
@@ -160,8 +185,15 @@ export default function PatientProfile({ navigation, route }) {
         </TouchableWithoutFeedback>
         {/* This helps Keyboard Avoiding View function properly by moving the whole display up */}
         <View style={{ height: 100 }} />
-        <FAB  placement="right" size="large" icon={{ name: "file-upload", size: 25, color: "white" }} 
-        onPress={() => console.log(passedUser.id +" "+ authUserId)} />
+        
+        <UploadDocumentButton 
+          visible={documentVisible}
+          setDocumentVisible={setDocumentVisible}
+          toggleDocumentOverlay={toggleDocumentOverlay}
+        // staff={authUserId} patient={passedUser.id}
+         />
+        {/* <FAB  placement="right" size="large" icon={{ name: "file-upload", size: 25, color: "white" }} 
+        onPress={() => console.log(passedUser.id +" "+ authUserId)} /> */}
       </KeyboardAvoidingView>
     );
   };

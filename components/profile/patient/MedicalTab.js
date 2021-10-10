@@ -45,12 +45,12 @@ const PatientMedicalTab = ({ user }) => {
 
   const convertWeight = () => {
     if (!imperial) {
-      // imperial
+      // covnert weight to imperial system
       let lbs = parseFloat(weight);
       lbs = lbs * 2.205;
       setWeight(lbs.toString());
     } else if (imperial) {
-      //metric
+      //convert weight to metric system
       let kgs = parseFloat(weight);
       kgs = kgs / 2.205;
       setWeight(kgs.toString());
@@ -59,17 +59,23 @@ const PatientMedicalTab = ({ user }) => {
 
   const convertHeight = () => {
     if (!imperial) {
-      //imperial
+      // convert hieght to imperial system
       setHeightCM(height);
       let cms = parseFloat(height);
       let totalInches = cms / 2.54;
       let feet = Math.floor(totalInches / 12);
       let inches = totalInches - 12 * feet;
-      let impheight = `${feet}"${inches}`;
+      let impheight = `${feet}"${Math.round(inches)}`;
       setHeight(impheight);
     } else if (imperial) {
-      //metric
-      setHeight(heightcm);
+      //convert weight to metric system
+      let feet = parseFloat(height);
+      let inch = parseFloat(height.substr(2));
+      let totalFeet = inch / 12 + feet;
+      let totalInches = totalFeet * 12;
+      let cms = totalInches * 2.54;
+      let cmHeight = `${Math.round(cms)}`;
+      setHeight(cmHeight);
     }
   };
 

@@ -10,6 +10,7 @@ import colorDefaults from "../../theme/colorDefaults";
 import LoadingScreen from "../LoadingScreen";
 import AuthContext from "../../context/AuthContext";
 import { auth } from "../../firebase/firebaseConfig";
+import { StatusBar } from "expo-status-bar";
 
 export default function WelcomeScreen({ navigation, route }) {
   const [loading, setLoading] = useState(true);
@@ -35,6 +36,7 @@ export default function WelcomeScreen({ navigation, route }) {
         <LoadingScreen />
       ) : (
         <View style={styles.container}>
+          <StatusBar style="auto" />
           <Image
             source={require("../../assets/images/logo.png")}
             style={styles.logo}

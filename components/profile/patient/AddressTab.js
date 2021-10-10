@@ -1,13 +1,5 @@
 import React, { useContext, useState } from "react";
-import {
-  Keyboard,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  TouchableWithoutFeedback,
-  View,
-} from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import ProfileInformation from "../profilecomponents/ProfileInformation";
 import EditEnableButton from "../profilecomponents/EditEnableButton";
 import firestoreService from "../../../firebase/firestoreService";
@@ -30,60 +22,49 @@ const PatientAddressTab = ({ user }) => {
   };
 
   const renderView = () => (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <ScrollView bounces={false} showsHorizontalScrollIndicator={false}>
-        <ProfileInformation
-          label="Address"
-          value={address}
+    <View>
+      <ProfileInformation
+        label="Address"
+        value={address}
+        editable={editable}
+        placeholder="Address"
+        onChangeText={setAddress}
+      />
+      <ProfileInformation
+        label="Suburb"
+        value={suburb}
+        editable={editable}
+        placeholder="Suburb"
+        onChangeText={setSuburb}
+      />
+      <ProfileInformation
+        label="City"
+        value={city}
+        editable={editable}
+        placeholder="City"
+        onChangeText={setCity}
+      />
+      <ProfileInformation
+        label="Postcode"
+        value={postcode}
+        editable={editable}
+        placeholder="Postcode"
+        onChangeText={setPostcode}
+        keyboardType="number-pad"
+      />
+      {user.id === authUserId ? (
+        <EditEnableButton
           editable={editable}
-          placeholder="Address"
-          onChangeText={setAddress}
+          setEditable={setEditable}
+          saveChanges={updateFirebase}
         />
-        <ProfileInformation
-          label="Suburb"
-          value={suburb}
-          editable={editable}
-          placeholder="Suburb"
-          onChangeText={setSuburb}
-        />
-        <ProfileInformation
-          label="City"
-          value={city}
-          editable={editable}
-          placeholder="City"
-          onChangeText={setCity}
-        />
-        <ProfileInformation
-          label="Postcode"
-          value={postcode}
-          editable={editable}
-          placeholder="Postcode"
-          onChangeText={setPostcode}
-          keyboardType="number-pad"
-        />
-        {user.id === authUserId ? (
-          <EditEnableButton
-            editable={editable}
-            setEditable={setEditable}
-            saveChanges={updateFirebase}
-          />
-        ) : (
-          <></>
-        )}
-      </ScrollView>
-    </TouchableWithoutFeedback>
-  );
-  return (
-    <>
-      {Platform.OS === "ios" ? (
-        <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={450}>
-          {renderView()}
-        </KeyboardAvoidingView>
       ) : (
-        <View>{renderView()}</View>
+        <></>
       )}
-    </>
+    </View>
   );
+
+  return renderView();
 };
 
 export default PatientAddressTab;

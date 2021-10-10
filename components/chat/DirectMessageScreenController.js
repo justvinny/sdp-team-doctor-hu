@@ -8,6 +8,7 @@ const DirectMessageScreenController = ({ navigation, route }) => {
     // States
     const [inputMessage, setInputMessage] = useState("");
     const [userMessages, setUserMessages] = useState([]);
+    const [authUser, setAuthUser] = useState({});
     const { authUserId } = useContext(AuthContext);
     const user = Staff.staffFirestoreFactory(route.params?.user);
     const name = user.name.first;
@@ -26,7 +27,10 @@ const DirectMessageScreenController = ({ navigation, route }) => {
             .getUserLive(authUserId)
             .onSnapshot(doc => {
                 if (doc.data()) {
-                    const msgs = doc.data().messages
+                    const currentUser = Staff.staffFirestoreFactory(doc.data());
+                    setAuthUser(currentUser);
+
+                    const msgs = currentUser.messages
                         .filter(msg => msg.sentTo === id || msg.sentBy === id)
                         .filter(msg => msg.sentTo === authUserId || msg.sentBy === authUserId)
                         .reverse();
@@ -55,7 +59,8 @@ const DirectMessageScreenController = ({ navigation, route }) => {
             type: "message",
             content: inputMessage,
             isRead: false,
-            timestamp: newMessage.timestamp
+            timestamp: newMessage.timestamp,
+            from: authUser.getFullName()
         }
 
         if (inputMessage) {

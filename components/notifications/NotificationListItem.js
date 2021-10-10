@@ -8,9 +8,26 @@ import dateUtility from '../../utilities/dateUtility'
     Can be notifications for new messages, results, comments, etc.
 */
 const NotificationListItem = ({index, notification, notificationClick}) => {
+
+    /*
+        Dynamically get title depending on notification type.
+        Types:
+            - Message
+            - Medical Result
+            - Staff comments to patient
+            - Patient reply to comments
+     */
+    const getTitleDynamically = () => {
+        if (notification.type.localeCompare("message") == 0) {
+            return `New message${notification.from ? ` from ${notification.from}` : ""}`;
+        } 
+
+        return "Not Implemented.";
+    }
+
     return (
         <TouchableOpacity style={[styles.container, notification.isRead && styles.read]} onPress={() => notificationClick(notification, index)}>
-            <Text style={styles.title}>New message</Text>
+            <Text style={styles.title}>{getTitleDynamically()}</Text>
             <Text style={styles.subText} numberOfLines={1}>{notification.content}</Text>
             <Text style={[styles.date, styles.subText]}>{dateUtility.getFormattedDateNow(new Date(notification.timestamp))}</Text>
         </TouchableOpacity>

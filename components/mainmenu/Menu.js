@@ -14,19 +14,20 @@ export default function Menu({ navigation }) {
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
   const [isStaff, setIsStaff] = useState(false);
+  const [notificationsBadge, setNotificationsBadge] = useState(0);
 
   const [menuStaff, setMenuItemsStaff] = useState([
     { iconname: "Profile", icon: "account-circle", route: "ProfileSelection" },
     { iconname: "Messages", icon: "message", route: "ChatHome" },
     { iconname: "Settings", icon: "settings", route: "ChangePassword" },
-    { iconname: "Notifications", icon: "notifications", route: "NotificationScreen" },
+    { iconname: "Notifications", icon: "notifications", route: "NotificationScreen"},
     { iconname: "Search User", icon: "search", route: "Search" },
   ]);
 
   const [menuPatient, setMenuItemsPatient] = useState([
     { iconname: "Profile", icon: "account-circle", route: "ProfileSelection" },
     { iconname: "Settings", icon: "settings", route: "ChangePassword" },
-    { iconname: "Notifications", icon: "notifications", route: "NotificationScreen" },
+    { iconname: "Notifications", icon: "notifications", route: "NotificationScreen"},
     { iconname: "Search User", icon: "search", route: "Search" },
   ]);
 

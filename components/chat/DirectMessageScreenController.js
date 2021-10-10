@@ -23,7 +23,7 @@ const DirectMessageScreenController = ({ navigation, route }) => {
     // Get message records for the person you're chatting with.
     useEffect(() => {
         const unsubscribe = firestoreService
-            .getAllUsersLive(authUserId)
+            .getUserLive(authUserId)
             .onSnapshot(doc => {
                 if (doc.data()) {
                     const msgs = doc.data().messages

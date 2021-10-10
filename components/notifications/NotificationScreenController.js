@@ -4,6 +4,10 @@ import firestoreService from "../../firebase/firestoreService";
 import AuthContext from "../../context/AuthContext";
 import NotificationScreenView from "./NotificationScreenView";
 
+/*
+  Contains all the functionality about the notifications screen.
+  
+*/
 const NotificationScreenController = ({ navigation, route }) => {
   // States
   const [notifications, setNotifications] = useState([]);
@@ -20,7 +24,7 @@ const NotificationScreenController = ({ navigation, route }) => {
   // Get notifications
   useEffect(() => {
     const unsubscribe = firestoreService
-      .getAllUsersLive(authUserId)
+      .getUserLive(authUserId)
       .onSnapshot((doc) => {
         if (doc.data() && doc.data()?.notifications) {
           const _notifications = doc.data().notifications.reverse();

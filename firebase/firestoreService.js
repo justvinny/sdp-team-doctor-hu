@@ -19,7 +19,7 @@ const getAllUsers = () => db.collection(COLLECTION_USERS)
     .then((querySnapshot) => querySnapshot.docs.map(doc => doc.data()))
     .catch((error) => "Error getting users: " + error);
 
-const getAllStaffLive = (id) => db.collection(COLLECTION_USERS)
+const getAllStaffLive = () => db.collection(COLLECTION_USERS)
     .where("isStaff", "==", true)
 
 const getAllPatients = async () => {
@@ -45,7 +45,7 @@ const getUserById = async (id) => {
     }
 }
 
-const getAllUsersLive = (id) => db.collection(COLLECTION_USERS).doc(id)
+const getUserLive = (id) => db.collection(COLLECTION_USERS).doc(id)
 
 // Create operations.
 const createPatient = (id, first, middle, last, isStaff) => {
@@ -394,7 +394,7 @@ const firestoreService = {
     getAllPatients,
     getAllUsers,
     getUserById,
-    getAllUsersLive,
+    getUserLive,
     createUser,
     createPatient,
     createStaff,

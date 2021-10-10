@@ -49,15 +49,8 @@ const getUserById = async (id) => {
     }
 }
 
-const getUserLive = async (id) => {
-  db.collection(COLLECTION_USERS).doc(id) 
-  try {
-    const doc = await db.collection(COLLECTION_USERS).doc(id).get();
-    return doc.data();
-  } catch (error) {
-    return "Error getting user: " + error;
-  }
-};
+const getUserLive = (id) => db.collection(COLLECTION_USERS).doc(id) ;
+
 
 
 // Create operations.

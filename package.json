@@ -39,7 +39,8 @@
     "react-native-select-dropdown": "^1.1.0",
     "react-native-tab-view": "^3.1.1",
     "react-native-web": "^0.17.1",
-    "expo-document-picker": "~9.2.4"
+    "expo-document-picker": "~9.2.4",
+    "react-native-webview": "11.6.2"
   },
   "resolutions": {
     "@babel/plugin-transform-react-display-name": "7.14.5"

@@ -1,9 +1,10 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import colorDefaults from "../../theme/colorDefaults";
 import NotificationListItem from "./NotificationListItem";
 import DeleteFab from "./DeleteFab";
 import LoadingScreen from "../LoadingScreen";
+import { MaterialIcons } from "@expo/vector-icons";
 
 const NotificationScreenView = ({
   loading,
@@ -11,25 +12,42 @@ const NotificationScreenView = ({
   notificationClick,
   deleteAllNotifications,
 }) => {
+  const renderView = () => {
+    if (loading) {
+      return <LoadingScreen />;
+    } else if (!loading && notifications.length == 0) {
+      return (
+        <View style={styles.emptyContainer}>
+          <MaterialIcons
+            name="notifications-none"
+            size={50}
+            color={colorDefaults.primary}
+          />
+          <Text style={styles.noNotificationsTxt}>No Notifications</Text>
+        </View>
+      );
+    }
+
+    return (
+      <View style={styles.container}>
+        {notifications.map((notification, index) => {
+          return (
+            <NotificationListItem
+              key={index}
+              index={index}
+              notification={notification}
+              notificationClick={notificationClick}
+            />
+          );
+        })}
+        <DeleteFab deleteAllNotifications={deleteAllNotifications} />
+      </View>
+    );
+  };
+
   return (
     <>
-      {loading ? (
-        <LoadingScreen />
-      ) : (
-        <View style={styles.container}>
-          {notifications.map((notification, index) => {
-            return (
-              <NotificationListItem
-                key={index}
-                index={index}
-                notification={notification}
-                notificationClick={notificationClick}
-              />
-            );
-          })}
-          <DeleteFab deleteAllNotifications={deleteAllNotifications} />
-        </View>
-      )}
+      {renderView()}
     </>
   );
 };
@@ -43,4 +61,15 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     backgroundColor: colorDefaults.backDropColor,
   },
+  emptyContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: colorDefaults.backDropColor,
+  },    
+  noNotificationsTxt: {
+    fontWeight: "bold",
+    fontSize: 20,
+    color: colorDefaults.primary
+},
 });

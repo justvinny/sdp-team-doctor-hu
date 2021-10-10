@@ -11,7 +11,9 @@ import { storage } from "../../firebase/firebaseConfig";
 import firestoreService from "../../firebase/firestoreService";
 import LoadingScreen from "../LoadingScreen";
 
-function UploadDocument({toggleDocumentOverlay}){
+
+
+function UploadDocument({toggleDocumentOverlay, patient, staff, patientName}){
   const [image, setImage] = useState("");
   const [title, setTitle] = useState('');
   const [note, setNote] = useState('');
@@ -36,10 +38,12 @@ function UploadDocument({toggleDocumentOverlay}){
     }
   };
 
+ 
+
   const upload = async () => {
     if (image) {
       try {
-        const childPath = `document/${authUserId}/${authUserId}`;
+        const childPath = `document/${patient}/${Math.random().toString(36)}`;
         const response = await fetch(image);
         const blob = await response.blob();
         const task = await storage.ref().child(childPath).put(blob);
@@ -56,8 +60,9 @@ function UploadDocument({toggleDocumentOverlay}){
             ]
           );
           
-          //firestoreService.addStaffDoc(authUserId, url);
-          //firestoreService.addMedicalResult(patientID, url);
+
+          firestoreService.addStaffDoc(staff, url);
+          firestoreService.addMedicalResult(patient, url);
 
           //firestoreService.updatePicture(user.id, url);
           //setProfilePicture(url);
@@ -135,9 +140,12 @@ function UploadDocument({toggleDocumentOverlay}){
     return (
       <View style={styles.container}>
         <Text h3 style={{ textAlign: "center", marginBottom: 20 }}>
-          Upload Patient Document
+          Upload Document for:
         </Text>
 
+        <Text h4 style={{ textAlign: "center", marginBottom: 20 }}>
+          {patientName} {staff} {patient}
+        </Text>
         {/* Document title */}
         <Input
           placeholder="Document Title"

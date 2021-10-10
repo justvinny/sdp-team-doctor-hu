@@ -132,7 +132,9 @@ export default function PatientProfile({ navigation, route }) {
                   <UploadDocument
                     //setProfilePicture={setProfilePicture}
                     toggleDocumentOverlay={toggleDocumentOverlay}
-                    //user={user}
+                    patient= {user.id}
+                    staff = {authUserId}
+                    patientName = {user.getFullName()}
                   />
             </Overlay>
 
@@ -185,15 +187,15 @@ export default function PatientProfile({ navigation, route }) {
         </TouchableWithoutFeedback>
         {/* This helps Keyboard Avoiding View function properly by moving the whole display up */}
         <View style={{ height: 100 }} />
-        
+
         <UploadDocumentButton 
           visible={documentVisible}
           setDocumentVisible={setDocumentVisible}
           toggleDocumentOverlay={toggleDocumentOverlay}
         // staff={authUserId} patient={passedUser.id}
          />
-        {/* <FAB  placement="right" size="large" icon={{ name: "file-upload", size: 25, color: "white" }} 
-        onPress={() => console.log(passedUser.id +" "+ authUserId)} /> */}
+        <FAB  placement="left" size="large" icon={{ name: "file-upload", size: 25, color: "white" }} 
+        onPress={() => console.log(user.id +" "+ authUserId)} />
       </KeyboardAvoidingView>
     );
   };

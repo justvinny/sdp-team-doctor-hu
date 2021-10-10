@@ -38,9 +38,13 @@ export default function viewFileScreen() {
     return (
       <View style={styles.container}>
         <Text>{profilePicture}</Text>
-        <Image style={styles.image} source={{ uri: profilePicture }} />
-        {console.log(profilePicture)}
+        <Image style={styles.image} source={{ uri: "https://firebasestorage.googleapis.com/v0/b/sdp-team-doctor-hu.appspot.com/o/document%2FouCHIlPhr3N9Qv7aaqcK8Oie6C42%2F0.8av4relhzgw?alt=media&token=035af25a-f4eb-4844-899b-a3fb96d1f08b" }} />
+        {/* {console.log(profilePicture)} */}
         {/* <Text>{user.documents}</Text> */}
+
+        <Object data="https://firebasestorage.googleapis.com/v0/b/sdp-team-doctor-hu.appspot.com/o/document%2FouCHIlPhr3N9Qv7aaqcK8Oie6C42%2F0.8av4relhzgw?alt=media&token=035af25a-f4eb-4844-899b-a3fb96d1f08b" type="application/pdf" width="100%" height="100%">
+        {/* <p>Alternative text - include a link <a href="http://africau.edu/images/default/sample.pdf">to the PDF!</a></p> */}
+        </Object>
       </View>
     );
   };

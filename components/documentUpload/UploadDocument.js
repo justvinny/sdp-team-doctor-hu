@@ -10,6 +10,7 @@ import * as ImagePicker from "expo-image-picker";
 import { storage } from "../../firebase/firebaseConfig";
 import firestoreService from "../../firebase/firestoreService";
 import LoadingScreen from "../LoadingScreen";
+import * as DocumentPicker from "expo-document-picker";
 
 
 
@@ -38,15 +39,31 @@ function UploadDocument({toggleDocumentOverlay, patient, staff, patientName}){
     }
   };
 
+
+   //document picker
+   const pickDocument = async () => {
+    let result = await DocumentPicker.getDocumentAsync({});
+
+    if (!result.cancelled) {
+      setImage(result.uri);
+    }
+    
+    };
  
 
   const upload = async () => {
     if (image) {
       try {
+        const metadata = {
+            customMetadata: {
+               'documentTitle': title,
+              // 'note': 'Hiking'
+            }
+          };
         const childPath = `document/${patient}/${Math.random().toString(36)}`;
         const response = await fetch(image);
         const blob = await response.blob();
-        const task = await storage.ref().child(childPath).put(blob);
+        const task = await storage.ref().child(childPath).put(blob, metadata);
 
         task.ref.getDownloadURL().then((url) => {
           Alert.alert(
@@ -171,8 +188,14 @@ function UploadDocument({toggleDocumentOverlay, patient, staff, patientName}){
               {note}
             </Text> 
         <Button
-          title="Choose Document"
+          title="Choose Image"
           onPress={imagePicker}
+          buttonStyle={styles.globalButton}
+        />
+
+       <Button
+          title="Choose Document"
+          onPress={pickDocument}
           buttonStyle={styles.globalButton}
         />
         

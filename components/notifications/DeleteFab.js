@@ -3,6 +3,9 @@ import { StyleSheet, TouchableOpacity } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import colorDefaults from "../../theme/colorDefaults";
 
+/*
+  Floating action button for deleting notifications.
+*/
 const DeleteFab = ({ deleteAllNotifications }) => {
   return (
     <TouchableOpacity style={styles.fab} onPress={deleteAllNotifications}>

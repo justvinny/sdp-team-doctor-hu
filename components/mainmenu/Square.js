@@ -16,6 +16,9 @@ const Square = (props) => {
     }
   };
 
+  /*
+    Conditionally renders a badge to the menu screen icons.
+  */
   const renderBadge = () => {
     if (props.notificationsBadge == undefined || props.notificationsBadge == 0) {
       return <></>
@@ -54,8 +57,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     alignSelf: 'center',
     marginTop: 20,
-    // left: 75,
-    // top:40
   },
   text: {
     position: "absolute",

@@ -3,6 +3,10 @@ import { StyleSheet, Text, TouchableOpacity } from 'react-native'
 import colorDefaults from '../../theme/colorDefaults'
 import dateUtility from '../../utilities/dateUtility'
 
+/*
+    Card item that contains information for a single notification. 
+    Can be notifications for new messages, results, comments, etc.
+*/
 const NotificationListItem = ({index, notification, notificationClick}) => {
     return (
         <TouchableOpacity style={[styles.container, notification.isRead && styles.read]} onPress={() => notificationClick(notification, index)}>

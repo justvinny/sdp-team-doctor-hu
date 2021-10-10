@@ -6,6 +6,10 @@ import DeleteFab from "./DeleteFab";
 import LoadingScreen from "../LoadingScreen";
 import { MaterialIcons } from "@expo/vector-icons";
 
+/*
+  View for the notification screen that contains all the UI elements such as
+  notifications, delete floating action button, etc.
+*/
 const NotificationScreenView = ({
   loading,
   notifications,

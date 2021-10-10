@@ -6,7 +6,7 @@ import { StyleSheet, View, LogBox, Image, Alert } from "react-native";
 
 import { Text, Button, Input } from "react-native-elements";
 
-import * as ImagePicker from "expo-image-picker";
+//import * as ImagePicker from "expo-image-picker";
 import { storage } from "../../firebase/firebaseConfig";
 import firestoreService from "../../firebase/firestoreService";
 import LoadingScreen from "../LoadingScreen";
@@ -77,9 +77,16 @@ function UploadDocument({toggleDocumentOverlay, patient, staff, patientName}){
             ]
           );
           
+          const newDocument = {
+            staffId: staff,
+            patientId: patient,
+            url: url,
+            timestamp: Date.now(),
+            title: title
+        }
 
-          firestoreService.addStaffDoc(staff, url);
-          firestoreService.addMedicalResult(patient, url);
+          firestoreService.addStaffDoc(staff, newDocument);
+          //firestoreService.addMedicalResult(patient, url);
 
           //firestoreService.updatePicture(user.id, url);
           //setProfilePicture(url);
@@ -176,7 +183,7 @@ function UploadDocument({toggleDocumentOverlay, patient, staff, patientName}){
             </Text> 
 
            {/* Document note */}    
-          <Input
+          {/* <Input
           placeholder="Any notes"
           leftIcon={{ type: 'document', name: 'comment' }}
           value={note}
@@ -186,7 +193,7 @@ function UploadDocument({toggleDocumentOverlay, patient, staff, patientName}){
           />
             <Text h3 style={{ textAlign: "center", marginBottom: 20 }}>
               {note}
-            </Text> 
+            </Text>  */}
         <Button
           title="Choose Image"
           onPress={imagePicker}

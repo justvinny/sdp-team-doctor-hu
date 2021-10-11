@@ -25,7 +25,6 @@ export default function BottomSheetNav({ visible, setVisible, toggleOverlay }) {
         isVisible={visible}
         containerStyle={{
           backgroundColor: "rgba(0.5, 0.25, 0, 0.2",
-          marginBottom: 50,
         }}
       >
         {list.map((l, i) => (

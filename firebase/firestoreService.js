@@ -421,7 +421,8 @@ const firestoreService = {
     addMedicalResult,
     addMessage,
     deleteUser,
-    addStaffDoc
+    addStaffDoc,
+    getStaffDocs
 }
 
 export default firestoreService;

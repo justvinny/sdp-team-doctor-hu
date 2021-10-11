@@ -5,11 +5,11 @@ import firestoreService from "../../firebase/firestoreService";
 import LoadingScreen from "../LoadingScreen";
 import { WebView} from "react-native-webview";
 import dateUtility from "../../utilities/dateUtility";
-import UploadDocsHomeScreen from "../../components/documentUpload/UploadedDocsHomeScreen";
+import UploadDocsHomeScreen from "./assets/UploadedDocsHomeScreen.js";
 import colorDefaults from "../../theme/colorDefaults";
 import { ListItem, Icon, Overlay } from 'react-native-elements';
 import { MaterialIcons, AntDesign } from '@expo/vector-icons';
-import DocumentCard from '../documentUpload/DocumentCard';
+import DocumentCard from './assets/DocumentCard';
 import ViewDocument from "../documentUpload/ViewDocument";
 
 

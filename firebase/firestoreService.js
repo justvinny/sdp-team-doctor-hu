@@ -22,8 +22,8 @@ const getAllUsers = () =>
     .then((querySnapshot) => querySnapshot.docs.map((doc) => doc.data()))
     .catch((error) => "Error getting users: " + error);
 
-const getAllStaffLive = (id) =>
-  db.collection(COLLECTION_USERS).where("isStaff", "==", true);
+const getAllStaffLive = () => db.collection(COLLECTION_USERS)
+    .where("isStaff", "==", true)
 
 const getAllPatients = async () => {
   try {
@@ -39,15 +39,19 @@ const getAllPatients = async () => {
 };
 
 const getUserById = async (id) => {
-  try {
-    const doc = await db.collection(COLLECTION_USERS).doc(id).get();
-    return doc.data();
-  } catch (error) {
-    return "Error getting user: " + error;
-  }
-};
+    try {
+        const doc = await db.collection(COLLECTION_USERS)
+            .doc(id)
+            .get();
+        return doc.data();
+    } catch (error) {
+        return "Error getting user: " + error;
+    }
+}
 
-const getLiveMessages = (id) => db.collection(COLLECTION_USERS).doc(id);
+const getUserLive = (id) => db.collection(COLLECTION_USERS).doc(id) ;
+
+
 
 // Create operations.
 const createPatient = (id, first, middle, last, isStaff) => {
@@ -300,6 +304,17 @@ const updateTitle = async (id, title) => {
   }
 };
 
+const updateNotifications = async (id, notifications) => {
+    try {
+        await db.collection(COLLECTION_USERS)
+            .doc(id)
+            .update({ notifications });
+        return "Sucessfully updated!";
+    } catch (error) {
+        return "Failed to update: " + error;
+    }
+}
+
 const addStaffNote = async (id, note) => {
   try {
     await db
@@ -339,16 +354,26 @@ const addMedicalResult = async (id, medicalResult) => {
 };
 
 const addMessage = async (id, message) => {
-  try {
-    await db
-      .collection(COLLECTION_USERS)
-      .doc(id)
-      .update({ messages: firebase.firestore.FieldValue.arrayUnion(message) });
-    return "Sucessfully updated!";
-  } catch (error) {
-    return "Failed to update: " + error;
-  }
-};
+    try {
+        await db.collection(COLLECTION_USERS)
+            .doc(id)
+            .update({ messages: firebase.firestore.FieldValue.arrayUnion(message) });
+        return "Sucessfully updated!";
+    } catch (error) {
+        return "Failed to update: " + error;
+    }
+}
+
+const addNotification = async (id, notification) => {
+    try {
+        await db.collection(COLLECTION_USERS)
+            .doc(id)
+            .update({ notifications: firebase.firestore.FieldValue.arrayUnion(notification) });
+        return "Sucessfully updated!";
+    } catch (error) {
+        return "Failed to update: " + error;
+    }
+}
 
 // Delete operations.
 const deleteUser = async (userId) => {
@@ -361,39 +386,40 @@ const deleteUser = async (userId) => {
 };
 
 const firestoreService = {
-  getAllStaff,
-  getAllStaffLive,
-  getAllPatients,
-  getAllUsers,
-  getUserById,
-  getLiveMessages,
-  createUser,
-  createPatient,
-  createStaff,
-  updateAbout,
-  updateFullAddress,
-  updateStreet,
-  updateSuburb,
-  updateCity,
-  updatePost,
-  updateAllergies,
-  updateBirthDate,
-  updateBloodtype,
-  updateHeight,
-  updateMedicalResults,
-  updateFullName,
-  updateFirstName,
-  updateMiddleName,
-  updateLastName,
-  updateStaffNotes,
-  updateTitle,
-  updatePicture,
-  updateWeight,
-  addStaffNote,
-  addAllergy,
-  addMedicalResult,
-  addMessage,
-  deleteUser,
-};
+    getAllStaff,
+    getAllStaffLive,
+    getAllPatients,
+    getAllUsers,
+    getUserById,
+    getUserLive,
+    createUser,
+    createPatient,
+    createStaff,
+    updateAbout,
+    updateFullAddress,
+    updateStreet,
+    updateSuburb,
+    updateCity,
+    updatePost,
+    updateAllergies,
+    updateBirthDate,
+    updateBloodtype,
+    updateHeight,
+    updateMedicalResults,
+    updateFullName,
+    updateFirstName,
+    updateMiddleName,
+    updateLastName,
+    updateStaffNotes,
+    updateTitle,
+    updateNotifications,
+    updateWeight,
+    addStaffNote,
+    addAllergy,
+    addMedicalResult,
+    addMessage,
+    addNotification,
+    deleteUser
+}
 
 export default firestoreService;

@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import colorDefaults from '../../theme/colorDefaults';
 import { MaterialIcons } from '@expo/vector-icons';
+import Badge from './Badge';
 
 const Square = (props) => {
   const navigateScreen = () => {
@@ -15,6 +16,15 @@ const Square = (props) => {
     }
   };
 
+  /*
+    Conditionally renders a badge to the menu screen icons.
+  */
+  const renderBadge = () => {
+    if (props.notificationsBadge == undefined || props.notificationsBadge == 0) {
+      return <></>
+    }
+    return <Badge number={props.notificationsBadge} />
+  }
   return (
     <TouchableOpacity onPress={navigateScreen}>
       <View style={{ padding: 10 }}>
@@ -22,6 +32,7 @@ const Square = (props) => {
         <View style={styles.circle} />
         <MaterialIcons style={styles.icon} name={props.icon} size={40} color={colorDefaults.iconColor} />
         <Text style={styles.text}>{props.name}</Text>
+        {renderBadge()}
       </View>
     </TouchableOpacity>
   );
@@ -46,8 +57,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     alignSelf: 'center',
     marginTop: 20,
-    // left: 75,
-    // top:40
   },
   text: {
     position: "absolute",

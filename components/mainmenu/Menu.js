@@ -8,25 +8,37 @@ import Staff from "../../models/Staff";
 import { auth } from "../../firebase/firebaseConfig";
 import LoadingScreen from "../.././components/LoadingScreen";
 import colorDefaults from "../../theme/colorDefaults";
+import { StatusBar } from "expo-status-bar";
 
 export default function Menu({ navigation }) {
   const { authUserId, setAuthUserId } = useContext(AuthContext);
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
   const [isStaff, setIsStaff] = useState(false);
+  const [notificationsBadge, setNotificationsBadge] = useState(0);
 
   const [menuStaff, setMenuItemsStaff] = useState([
     { iconname: "Profile", icon: "account-circle", route: "ProfileSelection" },
     { iconname: "Messages", icon: "message", route: "ChatHome" },
     { iconname: "Settings", icon: "settings", route: "ChangePassword" },
-    { iconname: "Notifications", icon: "notifications", route: "" },
+    {
+      iconname: "Notifications",
+      icon: "notifications",
+      route: "NotificationScreen",
+      hasBadge: true,
+    },
     { iconname: "Search User", icon: "search", route: "Search" },
   ]);
 
   const [menuPatient, setMenuItemsPatient] = useState([
     { iconname: "Profile", icon: "account-circle", route: "ProfileSelection" },
     { iconname: "Settings", icon: "settings", route: "ChangePassword" },
-    { iconname: "Notifications", icon: "notifications", route: "" },
+    {
+      iconname: "Notifications",
+      icon: "notifications",
+      route: "NotificationScreen",
+      hasBadge: true,
+    },
     { iconname: "Search User", icon: "search", route: "Search" },
   ]);
 
@@ -36,6 +48,22 @@ export default function Menu({ navigation }) {
       setIsStaff(data.isStaff);
       setLoading(false);
     });
+  }, []);
+
+  useEffect(() => {
+    const unsubscribe = firestoreService
+      .getUserLive(authUserId)
+      .onSnapshot((doc) => {
+        if (doc.data() && doc.data()?.notifications) {
+          const nNotifications = doc
+            .data()
+            .notifications.filter((notifcation) => !notifcation.isRead).length;
+          setNotificationsBadge(nNotifications);
+        }
+        setLoading(false);
+      });
+
+    return unsubscribe;
   }, []);
 
   const signOut = () => {
@@ -60,6 +88,7 @@ export default function Menu({ navigation }) {
       <>
         {user.isStaff ? (
           <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
+            <StatusBar style="auto" />
             <View style={styles.container}>
               <View
                 style={[
@@ -72,13 +101,24 @@ export default function Menu({ navigation }) {
                 </Text>
               </View>
               {menuStaff.map((menuIt, index) => (
-                <Square
-                  key={index + menuIt.route}
-                  name={menuIt.iconname}
-                  icon={menuIt.icon}
-                  navigation={navigation}
-                  route={menuIt.route}
-                />
+                <React.Fragment key={index + menuIt.route}>
+                  {menuIt.hasBadge ? (
+                    <Square
+                      name={menuIt.iconname}
+                      icon={menuIt.icon}
+                      navigation={navigation}
+                      route={menuIt.route}
+                      notificationsBadge={notificationsBadge}
+                    />
+                  ) : (
+                    <Square
+                      name={menuIt.iconname}
+                      icon={menuIt.icon}
+                      navigation={navigation}
+                      route={menuIt.route}
+                    />
+                  )}
+                </React.Fragment>
               ))}
               <View style={styles.bottomView}>
                 <LogoutButton signOut={signOut} />
@@ -87,6 +127,7 @@ export default function Menu({ navigation }) {
           </ScrollView>
         ) : (
           <ScrollView bounces={false}>
+            <StatusBar style="auto" />
             <View style={styles.container}>
               <View
                 style={[
@@ -99,14 +140,24 @@ export default function Menu({ navigation }) {
                 </Text>
               </View>
               {menuPatient.map((menuIt, index) => (
-                <Square
-                  key={index + menuIt.route}
-                  name={menuIt.iconname}
-                  icon={menuIt.icon}
-                  navigation={navigation}
-                  route={menuIt.route}
-                  isStaff={isStaff}
-                />
+                <React.Fragment key={index + menuIt.route}>
+                  {menuIt.hasBadge ? (
+                    <Square
+                      name={menuIt.iconname}
+                      icon={menuIt.icon}
+                      navigation={navigation}
+                      route={menuIt.route}
+                      notificationsBadge={notificationsBadge}
+                    />
+                  ) : (
+                    <Square
+                      name={menuIt.iconname}
+                      icon={menuIt.icon}
+                      navigation={navigation}
+                      route={menuIt.route}
+                    />
+                  )}
+                </React.Fragment>
               ))}
               <View style={styles.bottomView}>
                 <LogoutButton signOut={signOut} />
@@ -130,7 +181,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flexWrap: "wrap",
     //paddingTop: Platform.OS === "ios" ? 20 : 0,
-    
   },
   item: {
     padding: 20,

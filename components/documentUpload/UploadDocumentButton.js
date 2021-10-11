@@ -6,8 +6,6 @@ import colorDefaults from "../../theme/colorDefaults";
 
 function UploadActionButton({visible, setDocumentVisible, toggleDocumentOverlay}){
 
-
-
     return (
             <FAB  placement="right" size="large" color="blue"
             icon={{

@@ -65,9 +65,7 @@ export default function App() {
           onPress={signOut}
           title="Sign Out"
         />
-        <Button color={colorDefaults.primary}
-          onPress={() => navigation.navigate("UploadFileScreen")}
-          title="UploadFileScreen" />
+          
         <Button color={colorDefaults.primary}
           onPress={() => navigation.navigate("ViewFileScreen")}
           title="ViewFileScreen" />
@@ -121,10 +119,7 @@ export default function App() {
               component={ProfileSelection}
               name="ProfileSelection"
             />
-            <Stack.Screen
-              component={UploadFileScreen}
-              name="UploadFileScreen"
-            />
+          
            <Stack.Screen
               component={ViewFileScreen}
               name="ViewFileScreen"

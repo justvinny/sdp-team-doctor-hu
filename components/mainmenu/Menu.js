@@ -22,7 +22,6 @@ export default function Menu({ navigation }) {
     { iconname: "Settings", icon: "settings", route: "ChangePassword" },
     { iconname: "Notifications", icon: "notifications", route: "" },
     { iconname: "Search User", icon: "search", route: "Search" },
-    { iconname: "Upload File", icon: "file-upload", route: "UploadFileScreen" },
     { iconname: "View File", icon: "attach-file", route: "ViewFileScreen" },
   ]);
 

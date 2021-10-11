@@ -49,6 +49,8 @@ const getUserById = async (id) => {
 
 const getLiveMessages = (id) => db.collection(COLLECTION_USERS).doc(id);
 
+const getUserLive = (id) => db.collection(COLLECTION_USERS).doc(id);
+
 // Create operations.
 const createPatient = (id, first, middle, last, isStaff) => {
   const newPatient = {
@@ -394,6 +396,7 @@ const firestoreService = {
     getAllUsers,
     getUserById,
     getLiveMessages,
+    getUserLive,
     createUser,
     createPatient,
     createStaff,

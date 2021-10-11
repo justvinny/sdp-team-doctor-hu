@@ -192,10 +192,8 @@ export default function PatientProfile({ navigation, route }) {
           visible={documentVisible}
           setDocumentVisible={setDocumentVisible}
           toggleDocumentOverlay={toggleDocumentOverlay}
-        // staff={authUserId} patient={passedUser.id}
          />
-        <FAB  placement="left" size="large" icon={{ name: "file-upload", size: 25, color: "white" }} 
-        onPress={() => console.log(user.id +" "+ authUserId)} />
+        
       </KeyboardAvoidingView>
     );
   };

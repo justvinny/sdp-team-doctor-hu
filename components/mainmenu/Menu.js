@@ -20,26 +20,26 @@ export default function Menu({ navigation }) {
   const [menuStaff, setMenuItemsStaff] = useState([
     { iconname: "Profile", icon: "account-circle", route: "ProfileSelection" },
     { iconname: "Messages", icon: "message", route: "ChatHome" },
-    { iconname: "Settings", icon: "settings", route: "ChangePassword" },
+    { iconname: "Search User", icon: "search", route: "Search" },
     {
       iconname: "Notifications",
       icon: "notifications",
       route: "NotificationScreen",
       hasBadge: true,
     },
-    { iconname: "Search User", icon: "search", route: "Search" },
+    { iconname: "Settings", icon: "settings", route: "ChangePassword" },
   ]);
 
   const [menuPatient, setMenuItemsPatient] = useState([
     { iconname: "Profile", icon: "account-circle", route: "ProfileSelection" },
-    { iconname: "Settings", icon: "settings", route: "ChangePassword" },
+    { iconname: "Search User", icon: "search", route: "Search" },
     {
       iconname: "Notifications",
       icon: "notifications",
       route: "NotificationScreen",
       hasBadge: true,
     },
-    { iconname: "Search User", icon: "search", route: "Search" },
+    { iconname: "Settings", icon: "settings", route: "ChangePassword" },
   ]);
 
   useEffect(() => {

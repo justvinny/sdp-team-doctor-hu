@@ -22,6 +22,7 @@ import { Tab, TabView, Image, Overlay } from "react-native-elements";
 import GlobalProfileTab from "../profilecomponents/GlobalProfileTab";
 import BottomSheetNav from "../profilecomponents/BottomSheetNav";
 import UploadProfilePicture from "../profilecomponents/UploadProfilePicture";
+import FloatingMenu from "./FloatingMenu";
 
 export default function PatientProfile({ navigation, route }) {
   // Bottom navigation sheet for profile picture
@@ -42,6 +43,9 @@ export default function PatientProfile({ navigation, route }) {
   const toggleOverlay = () => {
     setOverlayVisible(!overlayVisible);
   };
+
+  // Speed dial states
+  const [open, setOpen] = useState(false);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -158,6 +162,12 @@ export default function PatientProfile({ navigation, route }) {
         </TouchableWithoutFeedback>
         {/* This helps Keyboard Avoiding View function properly by moving the whole display up */}
         <View style={{ height: 100 }} />
+
+        {/* Floating action button for menu which contains add comment and result upload. */}
+        <FloatingMenu
+          open={open}
+          setOpen={setOpen}
+        />
       </KeyboardAvoidingView>
     );
   };
@@ -182,5 +192,10 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 18,
     fontWeight: "bold",
+  },
+  tabContainer: {
+    display: "flex",
+    flexDirection: "row",
+    alignSelf: "stretch",
   },
 });

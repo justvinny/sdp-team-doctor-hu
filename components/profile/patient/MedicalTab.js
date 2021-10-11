@@ -14,6 +14,7 @@ import AuthContext from "../../../context/AuthContext";
 import { Input } from "react-native-elements";
 import TextInputStyles from "../profilecomponents/TextInputStyles";
 import { Switch } from "react-native";
+import colorDefaults from "../../../theme/colorDefaults";
 
 const PatientMedicalTab = ({ user }) => {
   const { authUserId } = useContext(AuthContext);
@@ -28,7 +29,6 @@ const PatientMedicalTab = ({ user }) => {
   const [measurementSystem, setMeasurementSystem] = useState("Metric");
   const [weightTitle, setWeightTitle] = useState("Weight (kgs)");
   const [heightTitle, setHeightTitle] = useState("Height (cms)");
-  const [heightcm, setHeightCM] = useState("");
 
   const updateFirebase = () => {
     firestoreService.updateBloodtype(user.id, bloodType);
@@ -55,7 +55,6 @@ const PatientMedicalTab = ({ user }) => {
   const convertHeight = () => {
     if (!imperial) {
       // convert hieght to imperial system
-      setHeightCM(height);
       let cms = parseFloat(height);
       let totalInches = cms / 2.54;
       let feet = Math.floor(totalInches / 12);
@@ -134,7 +133,7 @@ const PatientMedicalTab = ({ user }) => {
           labelStyle={TextInputStyles.labelStyle}
           containerStyle={TextInputStyles.inputView}
         />
-        <View>
+        <View style={{ alignItems: "center" }}>
           <Text>{measurementSystem}</Text>
           <Switch
             trackColor={{ false: "grey", true: colorDefaults.primary }}

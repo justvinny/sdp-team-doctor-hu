@@ -6,7 +6,7 @@ import { StyleSheet, View, LogBox, Image, Alert } from "react-native";
 
 import { Text, Button, Input } from "react-native-elements";
 
-//import * as ImagePicker from "expo-image-picker";
+import * as ImagePicker from "expo-image-picker";
 import { storage } from "../../firebase/firebaseConfig";
 import firestoreService from "../../firebase/firestoreService";
 import LoadingScreen from "../LoadingScreen";
@@ -56,7 +56,7 @@ function UploadDocument({toggleDocumentOverlay, patient, staff, patientName}){
       try {
         const metadata = {
             customMetadata: {
-               'documentTitle': title,
+              //contentType: 'application/pdf',
               // 'note': 'Hiking'
             }
           };
@@ -86,7 +86,7 @@ function UploadDocument({toggleDocumentOverlay, patient, staff, patientName}){
         }
 
           firestoreService.addStaffDoc(staff, newDocument);
-          //firestoreService.addMedicalResult(patient, url);
+          firestoreService.addMedicalResult(patient, newDocument);
 
           //firestoreService.updatePicture(user.id, url);
           //setProfilePicture(url);

@@ -4,6 +4,7 @@ import AuthContext from "../../context/AuthContext";
 import firestoreService from "../../firebase/firestoreService";
 import LoadingScreen from "../LoadingScreen";
 import { WebView } from "react-native-webview";
+import dateUtility from "../../utilities/dateUtility";
 
 export default function viewFileScreen() {
   // Collects the user's ID.
@@ -13,16 +14,17 @@ export default function viewFileScreen() {
   const [user, setUser] = useState({});
   // Just used loading as was copying from other classes on what I had done.
   const [loading, setLoading] = useState(true);
+  const [title, setTitle] = useState();
+  const [time, setTime] = useState();
+  const [url, setUrl] = useState("");
 
-  
-
-  const url = "https://firebasestorage.googleapis.com/v0/b/sdp-team-doctor-hu.appspot.com/o/document%2FouCHIlPhr3N9Qv7aaqcK8Oie6C42%2F0.cpo883cudef?alt=media&token=acffe9c0-a8bb-4706-99b9-34cddbd8c9c1";
+  // const url = "https://firebasestorage.googleapis.com/v0/b/sdp-team-doctor-hu.appspot.com/o/document%2FouCHIlPhr3N9Qv7aaqcK8Oie6C42%2F0.u0x6gjh61c?alt=media&token=ce8cff58-d567-43c9-afeb-61f56f403c23";
 
 
   //const forestRef = ref(storage, url);
   // Can use either const or let for the storing of variable.
   // Have found both work perfectly fine.
-  const [profilePicture, setProfilePicture] = useState();
+  const [documentToView, setDocumentToView] = useState();
   //let profile = user.documents[0];
 
   // Grab the current user & set them,
@@ -31,22 +33,30 @@ export default function viewFileScreen() {
     firestoreService.getUserById(authUserId).then((data) => {
       setUser(data);
       setLoading(false);
+      setTitle(data.documents[12].title);
+      setTime(data.documents[12].timestamp);
+      setUrl(data.documents[12].url);
+      console.log("1 "+url);
+      console.log("2 "+data.documents[12].url);
+     
+      //console.log(dateUtility.getFormattedDateNow(new Date(time)));
+     
       // Set the index'ed document in the array as the picture.
       // Make sure to change this if you upload a new document without deleting the old one.
       // As in file upload you are overwriting the document.
-      //setProfilePicture(data.documents[0]);
+      //setDocumentToView(user.documents[11]);
     });
   }, []);
 
-  const getMeta = () => {
-    getMetadata(url)
-  .then((metadata) => {
-    console.log(metadata);
-  })
-  .catch((error) => {
-    console.log("error");
-  });
-  };
+  // const getMeta = () => {
+  //   getMetadata(url)
+  // .then((metadata) => {
+  //   console.log(metadata);
+  // })
+  // .catch((error) => {
+  //   console.log("error");
+  // });
+  // };
 
   const renderPage = () => {
     if (loading) {
@@ -58,17 +68,12 @@ export default function viewFileScreen() {
         <Image style={styles.image} source={{ uri: "https://firebasestorage.googleapis.com/v0/b/sdp-team-doctor-hu.appspot.com/o/document%2FouCHIlPhr3N9Qv7aaqcK8Oie6C42%2F0.8av4relhzgw?alt=media&token=035af25a-f4eb-4844-899b-a3fb96d1f08b" }} />
         {/* {console.log(profilePicture)} */}
         {/* <Text>{user.documents}</Text> */} 
-        {/* <WebView  style={styles.image}
-                source = {{ uri: url }}  
-                
-            />   */}
-      <Button
-          title="Test"
-          onPress={getMeta}
-          buttonStyle={styles.globalButton}
-        />
-
-
+        <Text>{title}</Text>
+        <Text>{dateUtility.getFormattedDateNow(new Date(time))}</Text>
+        <WebView  
+            style={styles.image}
+            source = {{ uri: "https://firebasestorage.googleapis.com/v0/b/sdp-team-doctor-hu.appspot.com/o/document%2FouCHIlPhr3N9Qv7aaqcK8Oie6C42%2F0.u0x6gjh61c?alt=media&token=ce8cff58-d567-43c9-afeb-61f56f403c23" }}  
+            />  
       </View>
     );
   };

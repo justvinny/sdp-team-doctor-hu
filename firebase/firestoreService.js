@@ -364,6 +364,8 @@ const addStaffDoc = async (id, document) => {
 
   };
 
+  const getStaffDocs = (id) => db.collection(COLLECTION_USERS).doc(id);
+
   // try {
   //   await db
   //     .collection(COLLECTION_USERS)

@@ -47,6 +47,11 @@ export default function PatientProfile({ navigation, route }) {
   // Speed dial states
   const [open, setOpen] = useState(false);
 
+  // Function to navigate to patient profile comments
+  const openComments = () => {
+    navigation.navigate("Comment", { user });
+  };
+
   useLayoutEffect(() => {
     navigation.setOptions({
       title: "Patient Profile",
@@ -167,6 +172,7 @@ export default function PatientProfile({ navigation, route }) {
         <FloatingMenu
           open={open}
           setOpen={setOpen}
+          openComments={openComments}
         />
       </KeyboardAvoidingView>
     );

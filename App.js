@@ -20,6 +20,7 @@ import Menu from "./components/mainmenu/Menu";
 import ProfileSelection from "./components/profile/ProfileSelection";
 import NotificationScreenController from "./components/notifications/NotificationScreenController";
 import UploadProfilePicture from "./components/profile/profilecomponents/UploadProfilePicture";
+import CommentController from "./components/profile/comments/CommentController";
 
 const Stack = createNativeStackNavigator();
 
@@ -121,6 +122,10 @@ export default function App() {
             <Stack.Screen
               component={UploadProfilePicture}
               name="UploadProfilePicture"
+            />
+            <Stack.Screen
+              component={CommentController}
+              name="Comment"
             />
           </Stack.Navigator>
           <StatusBar style="light" />

@@ -2,7 +2,7 @@ import React from "react";
 import colorDefaults from "../../../theme/colorDefaults";
 import { SpeedDial } from "react-native-elements";
 
-const FloatingMenu = ({ open, setOpen }) => {
+const FloatingMenu = ({ open, setOpen, openComments }) => {
   return (
     <SpeedDial
       isOpen={open}
@@ -16,7 +16,7 @@ const FloatingMenu = ({ open, setOpen }) => {
       <SpeedDial.Action
         icon={{ name: "add-comment", color: "#fff" }}
         title="Add Comment"
-        onPress={() => console.log("Add Something")}
+        onPress={openComments}
         color={colorDefaults.primary}
       />
       <SpeedDial.Action

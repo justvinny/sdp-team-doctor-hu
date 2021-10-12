@@ -11,10 +11,10 @@ const CommentBox = ({ comment }) => {
           <Avatar
             size="small"
             rounded
-            title="VB"
+            title={`${comment.from.first.charAt(0)}${comment.from.last.charAt(0)}`}
             containerStyle={{ backgroundColor: colorDefaults.primary }}
           />
-          <Text style={styles.name}>{comment.from}</Text>
+          <Text style={styles.name}>{comment.from.first}</Text>
         </View>
         <Text>{comment.comment}</Text>
       </View>

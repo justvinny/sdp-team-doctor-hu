@@ -6,22 +6,22 @@ import CommentTabNavigation from "./CommentTabNavigation";
 
 const mockData = [
   {
-    from: "John",
+    from: {first: "John", middle: "", last: "Doe"},
     comment: "Hello this is a comment from John",
     replies: [],
   },
   {
-    from: "Mark",
+    from: {first: "Mark", middle: "", last: "Rip"},
     comment: "Hello this is a comment from Mark",
     replies: [],
   },
   {
-    from: "Luke",
+    from: {first: "Luke", middle: "", last: "Schmuke"},
     comment: "Hello this is a comment from Luke",
     replies: [],
   },
   {
-    from: "Steff",
+    from: {first: "Steff", middle: "", last: "Hoops"},
     comment: "Hello this is a comment from Steff",
     replies: [],
   },

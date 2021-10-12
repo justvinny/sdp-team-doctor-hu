@@ -66,59 +66,56 @@ export default function PatientProfile({ navigation, route }) {
 
     return (
       <>
+        <View style={styles.container}>
+          <Image
+            style={styles.image}
+            source={{ uri: profilePicture }}
+            PlaceholderContent={<ActivityIndicator />}
+            onPress={() => {
+              !passedUser ? setSheetVisible(true) : {};
+            }}
+          />
+          <Text style={styles.name}>{user.getFullName()}</Text>
+        </View>
+        <Tab
+          value={index}
+          onChange={setIndex}
+          indicatorStyle={TabStyles.tabIndicatorStyle}
+          variant="primary"
+        >
+          <Tab.Item
+            title="profile"
+            titleStyle={TabStyles.tabText}
+            buttonStyle={[
+              index == 0 ? TabStyles.activeTab : TabStyles.inactiveTab,
+            ]}
+          />
+
+          <Tab.Item
+            title="address"
+            titleStyle={TabStyles.tabText}
+            buttonStyle={[
+              index == 1 ? TabStyles.activeTab : TabStyles.inactiveTab,
+            ]}
+          />
+
+          <Tab.Item
+            title="medical"
+            titleStyle={TabStyles.tabText}
+            buttonStyle={[
+              index == 2 ? TabStyles.activeTab : TabStyles.inactiveTab,
+            ]}
+          />
+        </Tab>
         {/* <KeyboardAvoidingView
           behavior={Platform.OS == "ios" ? "padding" : "height"}
           enabled
           style={{ flex: 1, backgroundColor: colorDefaults.backDropColor }}
           keyboardVerticalOffset={Platform.select({android: 80, ios: 100})}
         > */}
-        <KeyboardAwareScrollView>
-          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            {/* <ScrollView bounces={false}> */}
-            <View>
-            <View style={styles.container}>
-              <Image
-                style={styles.image}
-                source={{ uri: profilePicture }}
-                PlaceholderContent={<ActivityIndicator />}
-                onPress={() => {
-                  !passedUser ? setSheetVisible(true) : {};
-                }}
-              />
-              <Text style={styles.name}>{user.getFullName()}</Text>
-            </View>
-
-            <Tab
-              value={index}
-              onChange={setIndex}
-              indicatorStyle={TabStyles.tabIndicatorStyle}
-              variant="primary"
-            >
-              <Tab.Item
-                title="profile"
-                titleStyle={TabStyles.tabText}
-                buttonStyle={[
-                  index == 0 ? TabStyles.activeTab : TabStyles.inactiveTab,
-                ]}
-              />
-
-              <Tab.Item
-                title="address"
-                titleStyle={TabStyles.tabText}
-                buttonStyle={[
-                  index == 1 ? TabStyles.activeTab : TabStyles.inactiveTab,
-                ]}
-              />
-
-              <Tab.Item
-                title="medical"
-                titleStyle={TabStyles.tabText}
-                buttonStyle={[
-                  index == 2 ? TabStyles.activeTab : TabStyles.inactiveTab,
-                ]}
-              />
-            </Tab>
-
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          {/* <ScrollView bounces={false}> */}
+          <KeyboardAwareScrollView>
             <TabView value={index} onChange={setIndex} animationType="timing">
               <TabView.Item style={{ width: "100%" }}>
                 <GlobalProfileTab user={user} setUser={setUser} />
@@ -156,9 +153,8 @@ export default function PatientProfile({ navigation, route }) {
               toggleOverlay={toggleOverlay}
             />
             {/* </ScrollView> */}
-            </View>
-          </TouchableWithoutFeedback>
-        </KeyboardAwareScrollView>
+          </KeyboardAwareScrollView>
+        </TouchableWithoutFeedback>
         {/* This helps Keyboard Avoiding View function properly by moving the whole display up */}
         {/* <View style={{ height: 100 }} /> */}
         {/* Commented out as it makes the UI ugly by hadding 100 of empty space at bottom

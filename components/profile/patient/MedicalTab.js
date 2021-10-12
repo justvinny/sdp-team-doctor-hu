@@ -16,6 +16,7 @@ import { Input } from "react-native-elements";
 import TextInputStyles from "../profilecomponents/TextInputStyles";
 import { Switch } from "react-native";
 import colorDefaults from "../../../theme/colorDefaults";
+import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view"
 
 const PatientMedicalTab = ({ user }) => {
   const { authUserId } = useContext(AuthContext);

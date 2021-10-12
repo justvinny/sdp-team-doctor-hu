@@ -5,6 +5,7 @@ import {
   View,
   ScrollView,
   KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import ProfileInformation from "../profilecomponents/ProfileInformation";
 import SelectDropdown from "react-native-select-dropdown";
@@ -74,100 +75,97 @@ const PatientMedicalTab = ({ user }) => {
   };
 
   const renderView = () => (
-    <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
-      <ScrollView height={400} width={"100%"} bounces={false}>
-        {authUserId === user.id ? (
-          <View style={styles.dropdownContainer}>
-            <Text style={TextInputStyles.labelStyle}>Blood Type</Text>
-            <SelectDropdown
-              data={bloodTypes}
-              onSelect={(selectedItem) => {
-                setBloodType(selectedItem);
-              }}
-              buttonStyle={styles.dropdownButton}
-              defaultButtonText={user.bloodType}
-              disabled={!editable}
-            />
-          </View>
-        ) : (
-          <ProfileInformation
-            label="Blood Type"
-            value={bloodType}
-            onChangeText={setBloodType}
-            placeholder="Blood type"
-            editable={editable}
-          />
-        )}
-
-        <ProfileInformation
-          label="Birthdate"
-          value={birthdate}
-          onChangeText={setBirthdate}
-          placeholder="Birthdate"
-          editable={editable}
-        />
-        <ProfileInformation
-          label={weightTitle}
-          value={weight}
-          onChangeText={setWeight}
-          placeholder="Weight"
-          editable={editable}
-          keyboardType="numeric"
-        />
-        <ProfileInformation
-          label={heightTitle}
-          value={height}
-          onChangeText={setHeight}
-          placeholder="Height"
-          editable={editable}
-          keyboardType="numeric"
-        />
-        <Input
-          label="Allergies"
-          value={allergies}
-          onChangeText={setAllergies}
-          placeholder="Allergies"
-          editable={editable}
-          multiline={true}
-          style={TextInputStyles.multiline}
-          labelStyle={TextInputStyles.labelStyle}
-          containerStyle={TextInputStyles.inputView}
-        />
-        <View style={{ alignItems: "center" }}>
-          <Text>{measurementSystem}</Text>
-          <Switch
-            trackColor={{ false: "grey", true: colorDefaults.primary }}
-            value={imperial}
-            onValueChange={() => {
-              if (imperial) {
-                setImperial(false);
-                setMeasurementSystem("Metric");
-                setWeightTitle("Weight (kgs)");
-                setHeightTitle("Height (cms)");
-              } else {
-                setImperial(true);
-                setMeasurementSystem("Imperial");
-                setWeightTitle("Weight (lbs)");
-                setHeightTitle("Height (ft)");
-              }
-              convertWeight();
-              convertHeight();
+    <>
+      {authUserId === user.id ? (
+        <View style={styles.dropdownContainer}>
+          <Text style={TextInputStyles.labelStyle}>Blood Type</Text>
+          <SelectDropdown
+            data={bloodTypes}
+            onSelect={(selectedItem) => {
+              setBloodType(selectedItem);
             }}
+            buttonStyle={styles.dropdownButton}
+            defaultButtonText={user.bloodType}
+            disabled={!editable}
           />
         </View>
+      ) : (
+        <ProfileInformation
+          label="Blood Type"
+          value={bloodType}
+          onChangeText={setBloodType}
+          placeholder="Blood type"
+          editable={editable}
+        />
+      )}
 
-        {user.id === authUserId ? (
-          <EditEnableButton
-            editable={editable}
-            setEditable={setEditable}
-            saveChanges={updateFirebase}
-          />
-        ) : (
-          <></>
-        )}
-      </ScrollView>
-      {/* <View style={{ height: 100 }} /> */}
-    </KeyboardAvoidingView>
+      <ProfileInformation
+        label="Birthdate"
+        value={birthdate}
+        onChangeText={setBirthdate}
+        placeholder="Birthdate"
+        editable={editable}
+      />
+      <ProfileInformation
+        label={weightTitle}
+        value={weight}
+        onChangeText={setWeight}
+        placeholder="Weight"
+        editable={editable}
+        keyboardType="numeric"
+      />
+      <ProfileInformation
+        label={heightTitle}
+        value={height}
+        onChangeText={setHeight}
+        placeholder="Height"
+        editable={editable}
+        keyboardType="numeric"
+      />
+      <Input
+        label="Allergies"
+        value={allergies}
+        onChangeText={setAllergies}
+        placeholder="Allergies"
+        editable={editable}
+        multiline={true}
+        style={TextInputStyles.multiline}
+        labelStyle={TextInputStyles.labelStyle}
+        containerStyle={TextInputStyles.inputView}
+      />
+      <View style={{ alignItems: "center" }}>
+        <Text>{measurementSystem}</Text>
+        <Switch
+          trackColor={{ false: "grey", true: colorDefaults.primary }}
+          value={imperial}
+          onValueChange={() => {
+            if (imperial) {
+              setImperial(false);
+              setMeasurementSystem("Metric");
+              setWeightTitle("Weight (kgs)");
+              setHeightTitle("Height (cms)");
+            } else {
+              setImperial(true);
+              setMeasurementSystem("Imperial");
+              setWeightTitle("Weight (lbs)");
+              setHeightTitle("Height (ft)");
+            }
+            convertWeight();
+            convertHeight();
+          }}
+        />
+      </View>
+
+      {user.id === authUserId ? (
+        <EditEnableButton
+          editable={editable}
+          setEditable={setEditable}
+          saveChanges={updateFirebase}
+        />
+      ) : (
+        <></>
+      )}
+    </>
   );
   return renderView();
 };

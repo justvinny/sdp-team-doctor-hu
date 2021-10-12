@@ -22,6 +22,7 @@ import { Tab, TabView, Image, Overlay } from "react-native-elements";
 import GlobalProfileTab from "../profilecomponents/GlobalProfileTab";
 import BottomSheetNav from "../profilecomponents/BottomSheetNav";
 import UploadProfilePicture from "../profilecomponents/UploadProfilePicture";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export default function PatientProfile({ navigation, route }) {
   // Bottom navigation sheet for profile picture
@@ -64,18 +65,17 @@ export default function PatientProfile({ navigation, route }) {
     }
 
     return (
-      <KeyboardAvoidingView
-        behavior={Platform.OS == "ios" ? "padding" : "height"}
-        style={{ flex: 1, backgroundColor: colorDefaults.backDropColor }}
-      >
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <ScrollView
-            bounces="false"
-            style={{ flex: 1 }}
-            height={"100%"}
-            showsVerticalScrollIndicator={false}
-            nestedScrollEnabled={true}
-          >
+      <>
+        {/* <KeyboardAvoidingView
+          behavior={Platform.OS == "ios" ? "padding" : "height"}
+          enabled
+          style={{ flex: 1, backgroundColor: colorDefaults.backDropColor }}
+          keyboardVerticalOffset={Platform.select({android: 80, ios: 100})}
+        > */}
+        <KeyboardAwareScrollView>
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            {/* <ScrollView bounces={false}> */}
+            <View>
             <View style={styles.container}>
               <Image
                 style={styles.image}
@@ -87,28 +87,6 @@ export default function PatientProfile({ navigation, route }) {
               />
               <Text style={styles.name}>{user.getFullName()}</Text>
             </View>
-
-            {/* Overlay For Uploading & Profile Picture */}
-            <Overlay
-              isVisible={overlayVisible}
-              onBackdropPress={toggleOverlay}
-              overlayStyle={{ backgroundColor: colorDefaults.backDropColor }}
-              animationType="slide"
-              transparent
-            >
-              <UploadProfilePicture
-                setProfilePicture={setProfilePicture}
-                toggleOverlay={toggleOverlay}
-                user={user}
-              />
-            </Overlay>
-
-            {/* Bottom Sheet Navigation */}
-            <BottomSheetNav
-              visible={sheetVisible}
-              setVisible={setSheetVisible}
-              toggleOverlay={toggleOverlay}
-            />
 
             <Tab
               value={index}
@@ -154,11 +132,39 @@ export default function PatientProfile({ navigation, route }) {
                 <MedicalTab user={user} setUser={setUser} />
               </TabView.Item>
             </TabView>
-          </ScrollView>
-        </TouchableWithoutFeedback>
+            {/* Overlay For Uploading & Profile Picture */}
+            <Overlay
+              isVisible={overlayVisible}
+              onBackdropPress={toggleOverlay}
+              overlayStyle={{
+                backgroundColor: colorDefaults.backDropColor,
+              }}
+              animationType="slide"
+              transparent
+            >
+              <UploadProfilePicture
+                setProfilePicture={setProfilePicture}
+                toggleOverlay={toggleOverlay}
+                user={user}
+              />
+            </Overlay>
+
+            {/* Bottom Sheet Navigation */}
+            <BottomSheetNav
+              visible={sheetVisible}
+              setVisible={setSheetVisible}
+              toggleOverlay={toggleOverlay}
+            />
+            {/* </ScrollView> */}
+            </View>
+          </TouchableWithoutFeedback>
+        </KeyboardAwareScrollView>
         {/* This helps Keyboard Avoiding View function properly by moving the whole display up */}
-        <View style={{ height: 100 }} />
-      </KeyboardAvoidingView>
+        {/* <View style={{ height: 100 }} /> */}
+        {/* Commented out as it makes the UI ugly by hadding 100 of empty space at bottom
+            and cutting off the scroll view very awkardly */}
+        {/* </KeyboardAvoidingView> */}
+      </>
     );
   };
 

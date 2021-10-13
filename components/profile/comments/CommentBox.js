@@ -1,23 +1,28 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import CommentCard from "./CommentCard";
 import CommentActions from "./CommentActions";
 import CommentReplies from "./CommentReplies";
 
-const CommentBox = ({ comment }) => {
+const CommentBox = ({ comment, deleteComment }) => {
   // State
   const [repliesHidden, setRepliesHidden] = useState(true);
 
   // Toggle hidden replies
-  const toggleReplies = () => { 
+  const toggleReplies = () => {
     setRepliesHidden(!repliesHidden);
-  }
+  };
 
   return (
     <View style={styles.container}>
       <CommentCard comment={comment} />
-      <CommentActions repliesHidden={repliesHidden} toggleReplies={toggleReplies} />
-      <CommentReplies repliesHidden={repliesHidden}/>
+      <CommentActions
+        comment={comment}
+        repliesHidden={repliesHidden}
+        toggleReplies={toggleReplies}
+        deleteComment={deleteComment}
+      />
+      <CommentReplies repliesHidden={repliesHidden} />
     </View>
   );
 };
@@ -32,5 +37,6 @@ const styles = StyleSheet.create({
     margin: 8,
     padding: 8,
     marginBottom: 0,
-  }
+    paddingBottom: 0,
+  },
 });

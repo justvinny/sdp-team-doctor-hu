@@ -315,6 +315,17 @@ const updateNotifications = async (id, notifications) => {
     }
 }
 
+const updateComments = async (id, comments) => {
+  try {
+      await db.collection(COLLECTION_USERS)
+          .doc(id)
+          .update({ comments });
+      return "Sucessfully updated!";
+  } catch (error) {
+      return "Failed to update: " + error;
+  }
+}
+
 const addStaffNote = async (id, note) => {
   try {
     await db
@@ -375,6 +386,17 @@ const addNotification = async (id, notification) => {
     }
 }
 
+const addComment = async (id, comment) => {
+  try {
+      await db.collection(COLLECTION_USERS)
+          .doc(id)
+          .update({ comments: firebase.firestore.FieldValue.arrayUnion(comment) });
+      return "Sucessfully updated!";
+  } catch (error) {
+      return "Failed to update: " + error;
+  }
+}
+
 // Delete operations.
 const deleteUser = async (userId) => {
   try {
@@ -414,11 +436,13 @@ const firestoreService = {
     updateTitle,
     updateNotifications,
     updateWeight,
+    updateComments,
     addStaffNote,
     addAllergy,
     addMedicalResult,
     addMessage,
     addNotification,
+    addComment,
     deleteUser
 }
 

@@ -1,10 +1,29 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
+import CommentBox from "./CommentBox";
 
-const PrivateCommentTab = () => {
+const PrivateCommentTab = ({
+  comments,
+  setComments,
+  deleteComment,
+  editComment,
+  replyToComment,
+}) => {
   return (
     <View style={styles.container}>
-      <Text>Private comment</Text>
+      <FlatList
+        data={comments.filter(comment => comment.isPrivate)}
+        renderItem={({ item }) => (
+          <CommentBox
+            comment={item}
+            setComments={setComments}
+            deleteComment={deleteComment}
+            editComment={editComment}
+            replyToComment={replyToComment}
+          />
+        )}
+        keyExtractor={(item, index) => index.toString()}
+      />
     </View>
   );
 };
@@ -14,5 +33,6 @@ export default PrivateCommentTab;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: "stretch",
   },
 });

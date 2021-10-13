@@ -1,35 +1,12 @@
 import React, { useState, useLayoutEffect, useContext, useEffect } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { Tab, TabView, FAB } from "react-native-elements";
+import { StyleSheet, View } from "react-native";
+import { FAB } from "react-native-elements";
 import colorDefaults from "../../../theme/colorDefaults";
 import CommentTabNavigation from "./CommentTabNavigation";
 import AuthContext from "../../../context/AuthContext";
 import LoadingScreen from "../../LoadingScreen";
 import firestoreService from "../../../firebase/firestoreService";
 import CommentOverlay from "./CommentOverlay";
-
-const mockData = [
-  {
-    from: { first: "John", middle: "", last: "Doe" },
-    comment: "Hello this is a comment from John",
-    replies: [],
-  },
-  {
-    from: { first: "Mark", middle: "", last: "Rip" },
-    comment: "Hello this is a comment from Mark",
-    replies: [],
-  },
-  {
-    from: { first: "Luke", middle: "", last: "Schmuke" },
-    comment: "Hello this is a comment from Luke",
-    replies: [],
-  },
-  {
-    from: { first: "Steff", middle: "", last: "Hoops" },
-    comment: "Hello this is a comment from Steff",
-    replies: [],
-  },
-];
 
 const CommentController = ({ navigation, route }) => {
   const user = route.params?.user;
@@ -38,7 +15,8 @@ const CommentController = ({ navigation, route }) => {
   // States
   const [loading, setLoading] = useState(true);
   const [authUser, setAuthUser] = useState({});
-  const [comments, setComments] = useState(mockData);
+  const [viewedUser, setViewedUser] = useState();
+  const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [tabIndex, setTabIndex] = useState(0);
   const [newCommentVisible, setNewCommentVisible] = useState(false);
@@ -52,6 +30,15 @@ const CommentController = ({ navigation, route }) => {
     });
   }, []);
 
+  useEffect(() => {
+    firestoreService.getUserById(user.id).then((user) => {
+      if (user?.comments) {
+        setComments(user.comments);
+      }
+      setLoading(false);
+    });
+  }, []);
+
   // Dynamically change header title according to passed user.
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -59,39 +46,48 @@ const CommentController = ({ navigation, route }) => {
     });
   }, [navigation, route]);
 
-  // Comment action functions
+  // Other functions
   const toggleNewComment = () => {
     setNewCommentVisible(!newCommentVisible);
   };
 
   const toggleCommentPrivate = () => {
     setCommentPrivate(!commentPrivate);
-  }
+  };
+
+  const getCommentId = () => {
+    return comments.length > 0 ? comments[comments.length - 1].id + 1 : 0;
+  };
 
   const addComment = () => {
-    const _newComment = {
-      authorId: authUserId,
-      from: authUser.name,
-      comment: newComment,
-      replies: [],
-      isPrivate: commentPrivate,
-      timestamp: Date.now()
+    if (newComment) {
+      const _newComment = {
+        id: getCommentId(),
+        authorId: authUserId,
+        from: authUser.name,
+        comment: newComment,
+        replies: [],
+        isPrivate: commentPrivate,
+        timestamp: Date.now(),
+      };
+      firestoreService.addComment(user.id, _newComment);
+      setComments([...comments, _newComment]);
+      toggleNewComment();
+      setNewComment("");
     }
-    setComments([...comments, _newComment]);
-    toggleNewComment();
-    setNewComment("");
   };
-  
-  const deleteComment = () => {
-  }
 
-  const editComment = () => {
+  const deleteComment = (id) => {
+    if (id) {
+      const updatedComments = comments.filter((comment) => comment.id !== id);
+      setComments(updatedComments);
+      firestoreService.updateComments(user.id, updatedComments);
+    }
+  };
 
-  }
+  const editComment = () => {};
 
-  const replyToComment = () => {
-
-  }
+  const replyToComment = () => {};
 
   return (
     <>

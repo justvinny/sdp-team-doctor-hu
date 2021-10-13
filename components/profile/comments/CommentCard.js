@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { Avatar } from "react-native-elements";
 import colorDefaults from "../../../theme/colorDefaults";
 
-const CommentBox = ({ comment }) => {
+const CommentCard = ({ comment }) => {
   return (
     <View style={styles.container}>
       <View style={styles.nameContainer}>
@@ -22,7 +22,7 @@ const CommentBox = ({ comment }) => {
   );
 };
 
-export default CommentBox;
+export default CommentCard;
 
 const styles = StyleSheet.create({
   container: {

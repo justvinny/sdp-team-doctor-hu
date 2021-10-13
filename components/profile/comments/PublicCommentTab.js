@@ -1,5 +1,5 @@
 import React from "react";
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 import CommentBox from "./CommentBox";
 
 const PublicCommentTab = ({
@@ -12,7 +12,7 @@ const PublicCommentTab = ({
   return (
     <View style={styles.container}>
       <FlatList
-        data={comments}
+        data={comments.filter(comment => !comment.isPrivate)}
         renderItem={({ item }) => (
           <CommentBox
             comment={item}

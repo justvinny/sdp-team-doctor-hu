@@ -43,7 +43,13 @@ const CommentTabNavigation = ({
           />
         </TabView.Item>
         <TabView.Item style={styles.tabViewContainer}>
-          <PrivateCommentTab comments={comments} />
+          <PrivateCommentTab
+            comments={comments}
+            setComments={setComments}
+            deleteComment={deleteComment}
+            editComment={editComment}
+            replyToComment={replyToComment}
+          />
         </TabView.Item>
       </TabView>
     </>

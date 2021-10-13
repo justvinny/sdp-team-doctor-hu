@@ -15,7 +15,6 @@ import {
 import * as ImagePicker from "expo-image-picker";
 import { storage } from "../../firebase/firebaseConfig";
 import firestoreService from "../../firebase/firestoreService";
-import LoadingScreen from "../LoadingScreen";
 import * as DocumentPicker from "expo-document-picker";
 
 function UploadDocument({

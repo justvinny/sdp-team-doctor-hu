@@ -2,10 +2,10 @@
 import React, { useEffect, useState, useLayoutEffect, useContext } from "react";
 
 // import all the components we are going to use
-import { StyleSheet, View, LogBox, Image, Alert } from "react-native";
+import { StyleSheet, View, LogBox, Image, Alert , Text} from "react-native";
 
 import {
-  Text,
+  
   Button,
   Input,
   LinearProgress,
@@ -17,6 +17,8 @@ import { storage } from "../../firebase/firebaseConfig";
 import firestoreService from "../../firebase/firestoreService";
 import * as DocumentPicker from "expo-document-picker";
 import { WebView } from "react-native-webview";
+import { color } from "react-native-elements/dist/helpers";
+
 
 function UploadDocument({
   toggleDocumentOverlay,
@@ -147,7 +149,7 @@ function UploadDocument({
   const checkTitleInput = () => {
     //Check for the Name TextInput
     if (!title.trim()) {
-      alert("Please Enter a Document tite");
+      alert("Please enter a Document Title before uploading.");
       return;
     } else {
       upload();
@@ -160,13 +162,14 @@ function UploadDocument({
   const renderPage = () => {
     return (
       <View style={styles.container}>
-        <Text h3 style={{ textAlign: "center", marginBottom: 20 }}>
-          Upload Document for:
+        <Text style={{ textAlign: "center", marginBottom: 20, fontSize: 20,}}>
+          Upload Document for: 
+          <Text style={{fontWeight: "bold"}}> {patientName}</Text>
         </Text>
 
-        <Text h4 style={{ textAlign: "center", marginBottom: 20 }}>
+        {/* <Text style={{ textAlign: "center", marginBottom: 20, fontSize: 20,}}>
           {patientName}
-        </Text>
+        </Text> */}
         {/* Document title */}
         <Input
           placeholder="Document Title"
@@ -192,16 +195,7 @@ function UploadDocument({
               {note}
             </Text>  */}
 
-        {
-          /* Show a file preview */
-          
-          file ? 
-          <View>
-          <View style={styles.image} source={{ uri: file }} />
-          <Text>{file}</Text> 
-          </View>
-          : <></>
-        }
+       
         <Button
           title="Choose Image"
           icon={
@@ -232,7 +226,16 @@ function UploadDocument({
           buttonStyle={styles.globalButton}
         />
 
-        <Button
+        {
+          /* Show a file preview */
+          
+          file ? 
+          <View style={styles.container}>
+          <Text>Document attached successfully!</Text> 
+          <Text>Click Upload Document to continue.</Text> 
+
+
+          <Button
           title="Upload Document"
           icon={
             <Icon
@@ -244,8 +247,14 @@ function UploadDocument({
             />
           }
           onPress={checkTitleInput}
-          buttonStyle={styles.globalButton}
+          buttonStyle={styles.uploadButton}
         />
+
+          </View>
+          : <></>
+        }
+        
+     
 
         <Button
           title="Cancel"
@@ -259,7 +268,7 @@ function UploadDocument({
             />
           }
           onPress={toggleDocumentOverlay}
-          buttonStyle={styles.globalButton}
+          buttonStyle={styles.removeButton}
         />
       </View>
     );
@@ -279,16 +288,23 @@ const styles = StyleSheet.create({
     // justifyContent: "center",
   },
   image: {
-    width: 200,
-    height: 150,
+    width: 100,
+    height: 10,
     marginBottom: 10,
     marginTop: 10,
   },
   globalButton: {
     borderRadius: 10,
-    marginTop: 20,
+    marginTop: 30,
   },
   removeButton: {
+    borderRadius: 10,
+    marginTop: 30,
     backgroundColor: "red",
+  },
+  uploadButton: {
+    borderRadius: 10,
+    marginTop: 30,
+    backgroundColor: "green",
   },
 });

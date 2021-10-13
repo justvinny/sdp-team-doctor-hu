@@ -32,29 +32,45 @@ const [user, setUser] = useState({});
 const [tasks, setTasks] = useState([]);
  
 
+  // useEffect(() => {
+  //   firestoreService.getUserById(patientId).then((data) => {
+  //     setPatient(data);
+  //     setLoading1(false);
+  //   });
+  
+  // }, []);
+
+  // useEffect(() => {
+  //   firestoreService.getUserById(authUserId).then((data) => {
+  //     setUser(data);
+  //     setLoading2(false);
+  //   });
+
+  // }, []);
+
+  // useEffect(() => {
+  //   firestoreService.getUserById(staffId).then((data) => {
+  //     setStaff(data);
+  //     setLoading3(false);
+  //   });
+  // }, []);
+
   useEffect(() => {
     firestoreService.getUserById(patientId).then((data) => {
       setPatient(data);
       setLoading1(false);
     });
-  
-  }, []);
-
-
-  useEffect(() => {
     firestoreService.getUserById(authUserId).then((data) => {
       setUser(data);
       setLoading2(false);
     });
-
-  }, []);
-
-  useEffect(() => {
     firestoreService.getUserById(staffId).then((data) => {
       setStaff(data);
       setLoading3(false);
     });
   }, []);
+
+
 
  
 
@@ -74,12 +90,6 @@ const [tasks, setTasks] = useState([]);
                 style={styles.image}
                 source = {{ uri: image }}  
                 />  
-
-           <Button
-              title="Delete Document"
-              onPress={removePictureAlert}
-              buttonStyle={styles.globalButton}
-          />
         </View>
       ) : (
         <View style={styles.overlay}>

@@ -407,6 +407,40 @@ const addMessage = async (id, message) => {
     }
   };
 
+  const editDocument = async (obj) => {
+    try {
+      await db
+        .collection(COLLECTION_USERS)
+        .doc(obj.patientId)
+        .update({
+          medicalResults: {
+            patientId: obj.patientId,
+            staffId: obj.staffId,
+            timestamp: obj.timestamp,
+            title: obj.title,
+            url: obj.url,
+          },
+        });
+  
+      // await db
+      //   .collection(COLLECTION_USERS)
+      //   .doc(obj.staffId)
+      //   .update({
+      //     medicalResults: firebase.firestore.FieldValue.arrayRemove({
+      //       patientId: obj.patientId,
+      //       staffId: obj.staffId,
+      //       timestamp: obj.timestamp,
+      //       title: obj.title,
+      //       url: obj.url,
+      //     }),
+      //   });
+      return "Document successfully updated from database";
+    } catch (error) {
+      return "Error removing Document: " + error;
+    }
+  };
+
+
 
   // const deleteDocument = async (obj) => {
   //   try {

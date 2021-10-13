@@ -144,6 +144,7 @@ const viewFileScreen= ({navigation}) => {
                         <Text style={[styles.date, styles.subText]}>{dateUtility.getFormattedDateNow(new Date(l.timestamp))}</Text>
                             <>
                               {user.isStaff ? (
+                                <View style={styles.icon}>
                                  <Icon 
                                  name={'delete'} 
                                  onPress={() => 
@@ -157,6 +158,19 @@ const viewFileScreen= ({navigation}) => {
                                      } 
                                  }
                                  />
+                                 
+                                 <Icon 
+                                 name={'edit'} 
+                                 onPress={() => 
+                                   {
+                                     console.log("test");
+                                     } 
+                                 }
+                                 />
+
+                                 </View>
+                                 
+
                               ) : (
                                 <View >
                                   
@@ -219,5 +233,8 @@ const styles = StyleSheet.create({
   subText: {
       fontSize: 12,
       color: "grey"
-}
+},
+icon: {
+  alignSelf: "flex-start"
+},
 });

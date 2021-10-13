@@ -24,12 +24,9 @@ function UploadDocument({
   staff,
   patientName,
 }) {
-  const [image, setImage] = useState("");
+  const [file, setFile] = useState("");
   const [title, setTitle] = useState("");
   const [note, setNote] = useState("");
-
-  const defaultImage =
-    "https://firebasestorage.googleapis.com/v0/b/sdp-team-doctor-hu.appspot.com/o/profile%2Ficon.png?alt=media&token=b4ee677b-3ed3-41ab-9689-1ba237967830";
 
   useEffect(() => {
     LogBox.ignoreLogs(["Animated: `useNativeDriver`"]);
@@ -42,7 +39,7 @@ function UploadDocument({
     });
 
     if (!result.cancelled) {
-      setImage(result.uri);
+      setFile(result.uri);
     }
   };
 
@@ -51,12 +48,12 @@ function UploadDocument({
     let result = await DocumentPicker.getDocumentAsync({});
 
     if (!result.cancelled) {
-      setImage(result.uri);
+      setFile(result.uri);
     }
   };
 
   const upload = async () => {
-    if (image) {
+    if (file) {
       try {
         // const metadata = {
         //     customMetadata: {
@@ -67,7 +64,7 @@ function UploadDocument({
         // Links to meta data.
         //const task = await storage.ref().child(childPath).put(blob, metadata);
         const childPath = `document/${patient}/${Math.random().toString(36)}`;
-        const response = await fetch(image);
+        const response = await fetch(file);
         const blob = await response.blob();
         const task = await storage.ref().child(childPath).put(blob);
 
@@ -178,9 +175,9 @@ function UploadDocument({
           value={title}
           onChangeText={(title) => setTitle(title)}
         />
-        <Text h3 style={{ textAlign: "center", marginBottom: 20 }}>
-          {/* {title} */}
-        </Text>
+        {/* <Text h3 style={{ textAlign: "center", marginBottom: 20 }}>
+          {title}
+        </Text> */}
 
         {/* Document note */}
         {/* <Input
@@ -194,6 +191,11 @@ function UploadDocument({
             <Text h3 style={{ textAlign: "center", marginBottom: 20 }}>
               {note}
             </Text>  */}
+
+        {
+          /* Show a file preview */
+          file ? <Image style={styles.image} source={{ uri: file }} /> : <></>
+        }
         <Button
           title="Choose Image"
           icon={
@@ -224,14 +226,6 @@ function UploadDocument({
           buttonStyle={styles.globalButton}
         />
 
-        {/* {image ? (
-          <Image style={styles.image} source={{ uri: image }} />
-        ) : (
-          <Image
-            style={styles.image}
-            source={require("../../../assets/icon.png")}
-          ></Image>
-        )} */}
         <Button
           title="Upload Document"
           icon={
@@ -246,11 +240,7 @@ function UploadDocument({
           onPress={checkTitleInput}
           buttonStyle={styles.globalButton}
         />
-        {/* <Button
-          title="Remove Document"
-          onPress={removePictureAlert}
-          buttonStyle={[styles.globalButton, styles.removeButton]}
-        /> */}
+
         <Button
           title="Cancel"
           icon={
@@ -276,20 +266,17 @@ export default UploadDocument;
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
     alignItems: "center",
+    padding: 15,
+    // flex: 1,
     // alignContent: "center",
     // justifyContent: "center",
-    padding: 15,
   },
   image: {
     width: 200,
-    height: 200,
-    marginBottom: 20,
-    marginTop: 20,
-    borderRadius: 100,
-    borderColor: "black",
-    borderWidth: 2,
+    height: 150,
+    marginBottom: 10,
+    marginTop: 10,
   },
   globalButton: {
     borderRadius: 10,

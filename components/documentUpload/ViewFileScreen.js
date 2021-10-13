@@ -104,7 +104,7 @@ const viewFileScreen= ({navigation}) => {
   const renderPage = () => {
     if (loading) {
         return <LoadingScreen />
-    } else if (!loading && documents.length === 0 ) {
+    } else if ((!loading && user?.documents === undefined) || (!loading && user?.documents) ){
         return (
             <View style={styles.container}>
               

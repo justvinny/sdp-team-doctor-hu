@@ -29,7 +29,7 @@ const [loading3, setLoading3] = useState(true);
 const [patient, setPatient] = useState({});
 const [staff, setStaff] = useState({});
 const [user, setUser] = useState({});
-const [tasks, setTasks] = useState([]);
+
  
 
   // useEffect(() => {

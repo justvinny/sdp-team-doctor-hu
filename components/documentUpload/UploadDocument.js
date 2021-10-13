@@ -65,7 +65,7 @@ function UploadDocument({toggleDocumentOverlay, patient, staff, patientName}){
 
         task.ref.getDownloadURL().then((url) => {
           Alert.alert(
-            "Document " + title + " for " + " patient ",
+            "Document '" + title + "' for " +  patientName,
             "Document updated successfully.",
             [
               {
@@ -86,8 +86,7 @@ function UploadDocument({toggleDocumentOverlay, patient, staff, patientName}){
           firestoreService.addMedicalResult(staff, newDocument);
           firestoreService.addMedicalResult(patient, newDocument);
 
-          //firestoreService.updatePicture(user.id, url);
-          //setProfilePicture(url);
+       
         });
       } catch (error) {
         alert(error.message);

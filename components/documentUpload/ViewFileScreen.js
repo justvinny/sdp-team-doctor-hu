@@ -55,10 +55,8 @@ const viewFileScreen= ({navigation}) => {
       
       const data = doc.data();
       setUser(data);
-      let s = data.isStaff;
-      setIsStaff(s);
       setDocuments(data.medicalResults);
-      setTest(data.medicalResults.length);
+    
       setLoading(false);
     });
 
@@ -69,36 +67,19 @@ const viewFileScreen= ({navigation}) => {
 
 
   const removePicture = (deleteIndex) => {
-    //setProfilePicture(defaultImage);
-  
 
-    // firestoreService.getUserById(staffId).then((data1) => {
-    //   console.log(data1.medicalResults);
-    //   //setTest(data1.medicalResults);
-    // });
+    Alert.alert(
+      "Document " + title + " for " + patientId,
+      "Deleted successfully.",
+      [
+        {
+          text: "Thanks!",
+        },
+      ]
+    );
 
-    console.log(documents.length);
-
-    setDocuments(documents.filter((index) => index.url != url));
-  
-    console.log(documents.length);
-    //console.log(documents);
-  //   const newPalettes = test.filter(
-  //     palette => palette.url !== newUrl
-  // )
-
-   // console.log(newPalettes);
-    //firestoreService.updateMedicalResults(staffId, removeDocument);
-    // Alert.alert(
-    //   "Document Removed",
-   
-    //   [
-    //     {
-    //       text: "Cancel",
-    //       style: "cancel",
-    //     }
-    //   ]
-    // );
+    firestoreService.deleteDocument(documents[deleteIndex]);
+    
   };
 
   const removePictureAlert = (i) => {
@@ -129,6 +110,7 @@ const viewFileScreen= ({navigation}) => {
     } else if (!loading && documents.length === 0 ) {
         return (
             <View style={styles.container}>
+              
                 <MaterialIcons name="attachment" size={50} color={colorDefaults.primary} style={styles.center} />
                 <Text style={styles.noMsgTxt}>No Documents</Text>
             </View>
@@ -137,7 +119,7 @@ const viewFileScreen= ({navigation}) => {
 
     return(
       <ScrollView>
-        <Text>{test}</Text>
+      
         <View >
                      {
                     documents.map((l, i) => (
@@ -160,19 +142,28 @@ const viewFileScreen= ({navigation}) => {
                             {/* <ListItem.Subtitle  style={styles.subText}>{l.patientId}</ListItem.Subtitle> */}
                         </ListItem.Content>
                         <Text style={[styles.date, styles.subText]}>{dateUtility.getFormattedDateNow(new Date(l.timestamp))}</Text>
-                        <Icon 
-                          name={'delete'} 
-                          onPress={() => 
-                            {
-                              setURL(l.url);
-                              setPatientId(l.patientId);
-                              setStaffId(l.staffId);
-                              setTime(l.timestamp);
-                              setTitle(l.title);
-                              removePictureAlert(i);
-                              } 
-                          }
-                          />
+                            <>
+                              {user.isStaff ? (
+                                 <Icon 
+                                 name={'delete'} 
+                                 onPress={() => 
+                                   {
+                                     setURL(l.url);
+                                     setPatientId(l.patientId);
+                                     setStaffId(l.staffId);
+                                     setTime(l.timestamp);
+                                     setTitle(l.title);
+                                     removePictureAlert(i);
+                                     } 
+                                 }
+                                 />
+                              ) : (
+                                <View >
+                                  
+                                </View>
+                              )}
+                            </>
+                       
                         </ListItem>
                     ))
                     }

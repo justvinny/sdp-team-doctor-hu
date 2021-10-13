@@ -3,13 +3,10 @@ import { View, StyleSheet, Image, Text, Button, FlatList, ScrollView, Alert} fro
 import AuthContext from "../../context/AuthContext";
 import firestoreService from "../../firebase/firestoreService";
 import LoadingScreen from "../LoadingScreen";
-import { WebView} from "react-native-webview";
 import dateUtility from "../../utilities/dateUtility";
-import UploadDocsHomeScreen from "./assets/UploadedDocsHomeScreen.js";
 import colorDefaults from "../../theme/colorDefaults";
 import { ListItem, Icon, Overlay, Swipeable } from 'react-native-elements';
 import { MaterialIcons, AntDesign } from '@expo/vector-icons';
-import DocumentCard from './assets/DocumentCard';
 import ViewDocument from "../documentUpload/ViewDocument";
 
 
@@ -69,7 +66,7 @@ const viewFileScreen= ({navigation}) => {
   const removePicture = (deleteIndex) => {
 
     Alert.alert(
-      "Document " + title + " for " + patientId,
+      "Document ",
       "Deleted successfully.",
       [
         {

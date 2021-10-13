@@ -126,6 +126,7 @@ const viewFileScreen= ({navigation}) => {
                         <ListItem key={i} bottomDivider style={styles.container} >
                           <Icon 
                           name={'pageview'} 
+                          size={38}
                           onPress={() => 
                             {
                               toggleOverlay();
@@ -141,12 +142,14 @@ const viewFileScreen= ({navigation}) => {
                             <ListItem.Title style={styles.name}>{l.title}</ListItem.Title>
                             {/* <ListItem.Subtitle  style={styles.subText}>{l.patientId}</ListItem.Subtitle> */}
                         </ListItem.Content>
-                        <Text style={[styles.date, styles.subText]}>{dateUtility.getFormattedDateNow(new Date(l.timestamp))}</Text>
+                        <View style={styles.margin}>
+                       
                             <>
                               {user.isStaff ? (
                                 <View style={styles.icon}>
                                  <Icon 
                                  name={'delete'} 
+                                 size={30}
                                  onPress={() => 
                                    {
                                      setURL(l.url);
@@ -161,6 +164,7 @@ const viewFileScreen= ({navigation}) => {
                                  
                                  <Icon 
                                  name={'edit'} 
+                                 size={25}
                                  onPress={() => 
                                    {
                                      console.log("test");
@@ -177,7 +181,9 @@ const viewFileScreen= ({navigation}) => {
                                 </View>
                               )}
                             </>
-                       
+                            <Text style={[styles.date, styles.subText]}>{dateUtility.getFormattedDateNow(new Date(l.timestamp))}</Text>
+                            </View>
+
                         </ListItem>
                     ))
                     }
@@ -216,7 +222,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   container: {
-  
       justifyContent: "flex-start",
       alignItems: "center",
       backgroundColor: colorDefaults.backDropColor
@@ -231,10 +236,16 @@ const styles = StyleSheet.create({
       alignSelf: "flex-end"
   },
   subText: {
-      fontSize: 12,
+      fontSize: 14,
       color: "grey"
 },
 icon: {
-  alignSelf: "flex-start"
+  flexDirection: "row",
+  justifyContent: 'space-around',
+  
+},
+margin: {
+  justifyContent: 'flex-end',
+  
 },
 });

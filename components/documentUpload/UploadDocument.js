@@ -83,7 +83,7 @@ function UploadDocument({toggleDocumentOverlay, patient, staff, patientName}){
             title: title
         }
 
-          firestoreService.addStaffDoc(staff, newDocument);
+          firestoreService.addMedicalResult(staff, newDocument);
           firestoreService.addMedicalResult(patient, newDocument);
 
           //firestoreService.updatePicture(user.id, url);
@@ -166,7 +166,7 @@ function UploadDocument({toggleDocumentOverlay, patient, staff, patientName}){
         </Text>
 
         <Text h4 style={{ textAlign: "center", marginBottom: 20 }}>
-          {patientName} {staff} {patient}
+          {patientName}
         </Text>
         {/* Document title */}
         <Input

@@ -1,6 +1,8 @@
 import firebase, { db } from "./firebaseConfig";
 
+
 const COLLECTION_USERS = "users";
+
 
 // Read operations.
 const getAllStaff = async () => {
@@ -91,6 +93,7 @@ const createStaff = (id, first, middle, last, isStaff) => {
     title: "",
     about: "",
     messages: [],
+    medicalResults: [],
   };
 
   return newStaff;
@@ -266,14 +269,14 @@ const updateAllergies = async (id, allergies) => {
   }
 };
 
-const updateMedicalResults = async (id, medicalResults) => {
-  try {
-    await db.collection(COLLECTION_USERS).doc(id).update({ medicalResults });
-    return "Sucessfully updated!";
-  } catch (error) {
-    return "Failed to update: " + error;
-  }
-};
+// const updateMedicalResults = async (id, medicalResults) => {
+//   try {
+//     await db.collection(COLLECTION_USERS).doc(id).update({ medicalResults });
+//     return "Sucessfully updated!";
+//   } catch (error) {
+//     return "Failed to update: " + error;
+//   }
+// };
 
 const updateStaffNotes = async (id, staffNotes) => {
   try {
@@ -350,34 +353,33 @@ const addMessage = async (id, message) => {
     } catch (error) {
         return "Failed to update: " + error;
     }
-}
+};
 
-//staff
-const addStaffDoc = async (id, document) => {
+
+  const getMedicalResults = (id) => db.collection(COLLECTION_USERS).doc(id);
+
+  const updateMedicalResults = async (id, newUrl) => {
+
+    const user = firestoreService.getUserById(id);
+
+    console.log(user.name.first);
+
+    const newPalettes = userPalettes.filter(
+      palette => palette.url !== newUrl
+  )
 
     try {
-        await db.collection(COLLECTION_USERS)
-            .doc(id)
-            .update({ documents: firebase.firestore.FieldValue.arrayUnion(document) });
-        return "Sucessfully updated!";
+      await db
+        .collection(COLLECTION_USERS)
+        .doc(id) 
+        .update({
+          medicalResults: firebase.firestore.FieldValue.update(newPalettes),
+        });
+      return "Sucessfully updated!";
     } catch (error) {
-        return "Failed to update: " + error;
+      return "Failed to update: " + error;
     }
-
   };
-
-  const getStaffDocs = (id) => db.collection(COLLECTION_USERS).doc(id);
-
-  // try {
-  //   await db
-  //     .collection(COLLECTION_USERS)
-  //     .doc(id)
-  //     .update({ messages: firebase.firestore.FieldValue.arrayUnion(message) });
-  //   return "Sucessfully updated!";
-  // } catch (error) {
-  //   return "Failed to update: " + error;
-  // };
-//};
 
 // Delete operations.
 const deleteUser = async (userId) => {
@@ -424,8 +426,8 @@ const firestoreService = {
     addMedicalResult,
     addMessage,
     deleteUser,
-    addStaffDoc,
-    getStaffDocs
+    getMedicalResults,
+   
 }
 
 export default firestoreService;

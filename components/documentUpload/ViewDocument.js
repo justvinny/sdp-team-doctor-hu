@@ -7,6 +7,7 @@ import {
   LogBox,
   Button,
   Image,
+  Alert
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import colorDefaults from "../../theme/colorDefaults";
@@ -18,45 +19,78 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { WebView } from "react-native-webview";
 import LoadingScreen from "../LoadingScreen";
 
-const App = ({url, patientId}) => {
+const App = ({url, patientId, staffId}) => {
 
 const { authUserId } = useContext(AuthContext);
 const [image, setImage] = useState(url);
-const [loading, setLoading] = useState(true);
+const [loading1, setLoading1] = useState(true);
+const [loading2, setLoading2] = useState(true);
+const [loading3, setLoading3] = useState(true);
+const [patient, setPatient] = useState({});
+const [staff, setStaff] = useState({});
 const [user, setUser] = useState({});
-
-
+const [tasks, setTasks] = useState([]);
  
 
   useEffect(() => {
     firestoreService.getUserById(patientId).then((data) => {
-      setUser(data);
-      setLoading(false);
-     
+      setPatient(data);
+      setLoading1(false);
     });
+  
   }, []);
 
 
+  useEffect(() => {
+    firestoreService.getUserById(authUserId).then((data) => {
+      setUser(data);
+      setLoading2(false);
+    });
+
+  }, []);
+
+  useEffect(() => {
+    firestoreService.getUserById(staffId).then((data) => {
+      setStaff(data);
+      setLoading3(false);
+    });
+  }, []);
+
+ 
+
+  
+
+
   const renderPage = () => {
-    if (loading) {
+    if (loading1 || loading2 || loading3) {
       return <LoadingScreen style={styles.overlay}/>;
     }
     return (
+      <>
+      {user.isStaff ? (
         <View style={styles.overlay}>
-            <Text>Document uploaded to : {user.name.first} {user.name.last} </Text>
-        <WebView  
-            style={styles.image}
-            source = {{ uri: image }}  
-            />  
+          <Text>Document uploaded to: {patient.name.first} {patient.name.last} </Text>
+            <WebView  
+                style={styles.image}
+                source = {{ uri: image }}  
+                />  
 
-        <Button
-          title="Delete Document"
-          
-          buttonStyle={styles.globalButton}
-        />
+           <Button
+              title="Delete Document"
+              onPress={removePictureAlert}
+              buttonStyle={styles.globalButton}
+          />
         </View>
-
-
+      ) : (
+        <View style={styles.overlay}>
+          <Text>Document uploaded by: {staff.name.first} {staff.name.last} </Text>
+            <WebView  
+                style={styles.image}
+                source = {{ uri: image }}  
+                />  
+        </View>
+      )}
+    </>
   );
 };
 

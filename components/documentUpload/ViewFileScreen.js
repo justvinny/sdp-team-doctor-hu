@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, useLayoutEffect } from "react";
-import { View, StyleSheet, Image, Text, Button, FlatList, ScrollView} from "react-native";
+import { View, StyleSheet, Image, Text, Button, FlatList, ScrollView, Alert} from "react-native";
 import AuthContext from "../../context/AuthContext";
 import firestoreService from "../../firebase/firestoreService";
 import LoadingScreen from "../LoadingScreen";
@@ -7,7 +7,7 @@ import { WebView} from "react-native-webview";
 import dateUtility from "../../utilities/dateUtility";
 import UploadDocsHomeScreen from "./assets/UploadedDocsHomeScreen.js";
 import colorDefaults from "../../theme/colorDefaults";
-import { ListItem, Icon, Overlay } from 'react-native-elements';
+import { ListItem, Icon, Overlay, Swipeable } from 'react-native-elements';
 import { MaterialIcons, AntDesign } from '@expo/vector-icons';
 import DocumentCard from './assets/DocumentCard';
 import ViewDocument from "../documentUpload/ViewDocument";
@@ -34,6 +34,11 @@ const viewFileScreen= ({navigation}) => {
   const [documents, setDocuments] = useState([]);
   const [url, setURL] = useState("");
   const [patientId, setPatientId] = useState();
+  const [staffId, setStaffId] = useState();
+  const [staff, setIsStaff] = useState(false);
+  const [time, setTime] = useState();
+  const [title, setTitle] = useState();
+  const [test, setTest] = useState("");
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -47,72 +52,96 @@ const viewFileScreen= ({navigation}) => {
     const unsubscribe = firestoreService
     .getUserLive(authUserId)
     .onSnapshot((doc) => {
+      
       const data = doc.data();
       setUser(data);
-      setDocuments(data.documents);
+      let s = data.isStaff;
+      setIsStaff(s);
+      setDocuments(data.medicalResults);
+      setTest(data.medicalResults.length);
       setLoading(false);
     });
 
     return unsubscribe;
   }, []);
 
-  // const renderPage = () => {
-  //   if (loading) {
-  //     return <LoadingScreen />;
-  //   }
-  //   return (
-  //     <View style={styles.container}>
-  //       {/* <Text>{profilePicture}</Text>
-  //       <Image style={styles.image} source={{ uri: "https://firebasestorage.googleapis.com/v0/b/sdp-team-doctor-hu.appspot.com/o/document%2FouCHIlPhr3N9Qv7aaqcK8Oie6C42%2F0.8av4relhzgw?alt=media&token=035af25a-f4eb-4844-899b-a3fb96d1f08b" }} />
-  //       {/* {console.log(profilePicture)} */}
-  //       {/* <Text>{user.documents}</Text> */} 
-  //       {/* <Text>{title}</Text>
-  //       <Text>{dateUtility.getFormattedDateNow(new Date(time))}</Text> */}
+  
 
 
-  //           {/* <UploadDocsHomeScreen 
-  //             loading={loading}
-  //           /> */}
+  const removePicture = (deleteIndex) => {
+    //setProfilePicture(defaultImage);
+  
 
-  //       <View style={styles.container}>
-  //         {
-  //           documents.map((l, i) => (
-  //             <ListItem key={i} bottomDivider style={styles.container}>
-  //               <ListItem.Content>
-  //                 <ListItem.Title style={styles.name}>{l.title}</ListItem.Title>
-  //                 <ListItem.Subtitle  style={styles.subText}>{l.patientId}</ListItem.Subtitle>
-  //               </ListItem.Content>
-  //               <Text style={[styles.date, styles.subText]}>{dateUtility.getFormattedDateNow(new Date(l.timestamp))}</Text>
-  //             </ListItem>
-  //           ))
-  //         }
-  //       </View>
+    // firestoreService.getUserById(staffId).then((data1) => {
+    //   console.log(data1.medicalResults);
+    //   //setTest(data1.medicalResults);
+    // });
 
-  //       {/* {documents.map((document, index) => <Text key={index}>{document.url}</Text>)} */}
+    console.log(documents.length);
 
-  //     </View>
-  //   );
-  // };
+    setDocuments(documents.filter((index) => index.url != url));
+  
+    console.log(documents.length);
+    //console.log(documents);
+  //   const newPalettes = test.filter(
+  //     palette => palette.url !== newUrl
+  // )
 
-  // return renderPage();
+   // console.log(newPalettes);
+    //firestoreService.updateMedicalResults(staffId, removeDocument);
+    // Alert.alert(
+    //   "Document Removed",
+   
+    //   [
+    //     {
+    //       text: "Cancel",
+    //       style: "cancel",
+    //     }
+    //   ]
+    // );
+  };
+
+  const removePictureAlert = (i) => {
+    Alert.alert(
+      "Remove Document",
+      "Are you sure you want to remove the Document?",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Yes",
+          onPress: () => {
+            removePicture(i);
+            
+          },
+          style: "destructive",
+        },
+      ]
+    );
+  };
+
+
   const renderPage = () => {
     if (loading) {
         return <LoadingScreen />
-    } else if (!loading && documents.length === 0) {
+    } else if (!loading && documents.length === 0 ) {
         return (
-            <>
+            <View style={styles.container}>
                 <MaterialIcons name="attachment" size={50} color={colorDefaults.primary} style={styles.center} />
                 <Text style={styles.noMsgTxt}>No Documents</Text>
-            </>
+            </View>
         )
     }
 
     return(
       <ScrollView>
-        <View style={styles.container}>
+        <Text>{test}</Text>
+        <View >
                      {
                     documents.map((l, i) => (
-                        <ListItem key={i} bottomDivider style={styles.container}>
+                        <ListItem key={i} bottomDivider style={styles.container} >
                           <Icon 
                           name={'pageview'} 
                           onPress={() => 
@@ -121,6 +150,8 @@ const viewFileScreen= ({navigation}) => {
                               setSheetVisible(false);
                               setURL(l.url);
                               setPatientId(l.patientId);
+                              setStaffId(l.staffId);
+                              setTime(l.timestamp);
                               } 
                           }
                           />
@@ -129,6 +160,19 @@ const viewFileScreen= ({navigation}) => {
                             {/* <ListItem.Subtitle  style={styles.subText}>{l.patientId}</ListItem.Subtitle> */}
                         </ListItem.Content>
                         <Text style={[styles.date, styles.subText]}>{dateUtility.getFormattedDateNow(new Date(l.timestamp))}</Text>
+                        <Icon 
+                          name={'delete'} 
+                          onPress={() => 
+                            {
+                              setURL(l.url);
+                              setPatientId(l.patientId);
+                              setStaffId(l.staffId);
+                              setTime(l.timestamp);
+                              setTitle(l.title);
+                              removePictureAlert(i);
+                              } 
+                          }
+                          />
                         </ListItem>
                     ))
                     }
@@ -142,10 +186,11 @@ const viewFileScreen= ({navigation}) => {
               transparent
               >
               <ViewDocument
-                //setProfilePicture={setProfilePicture}
-                //toggleOverlay={toggleOverlay}
+              
                 url={url}
                 patientId={patientId}
+                staffId={staffId}
+                
               />
             </Overlay>
             </ScrollView>

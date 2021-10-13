@@ -16,6 +16,7 @@ import * as ImagePicker from "expo-image-picker";
 import { storage } from "../../firebase/firebaseConfig";
 import firestoreService from "../../firebase/firestoreService";
 import * as DocumentPicker from "expo-document-picker";
+import { WebView } from "react-native-webview";
 
 function UploadDocument({
   toggleDocumentOverlay,
@@ -193,7 +194,13 @@ function UploadDocument({
 
         {
           /* Show a file preview */
-          file ? <Image style={styles.image} source={{ uri: file }} /> : <></>
+          
+          file ? 
+          <View>
+          <View style={styles.image} source={{ uri: file }} />
+          <Text>{file}</Text> 
+          </View>
+          : <></>
         }
         <Button
           title="Choose Image"

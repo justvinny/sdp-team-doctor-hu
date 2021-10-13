@@ -176,7 +176,7 @@ function UploadDocument({toggleDocumentOverlay, patient, staff, patientName}){
           onChangeText={title => setTitle(title)}
           />
              <Text h3 style={{ textAlign: "center", marginBottom: 20 }}>
-              {title}
+              {/* {title} */}
             </Text> 
 
            {/* Document note */}    

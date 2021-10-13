@@ -127,6 +127,7 @@ const viewFileScreen= ({navigation}) => {
                           <Icon 
                           name={'pageview'} 
                           size={38}
+                          color= "#838aa1"
                           onPress={() => 
                             {
                               toggleOverlay();
@@ -150,6 +151,7 @@ const viewFileScreen= ({navigation}) => {
                                  <Icon 
                                  name={'delete'} 
                                  size={30}
+                                 color='#e34c46'
                                  onPress={() => 
                                    {
                                      setURL(l.url);
@@ -164,7 +166,8 @@ const viewFileScreen= ({navigation}) => {
                                  
                                  <Icon 
                                  name={'edit'} 
-                                 size={25}
+                                 size={30}
+                                 color='#4695e3'
                                  onPress={() => 
                                    {
                                      console.log("test");

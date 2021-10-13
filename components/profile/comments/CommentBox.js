@@ -1,37 +1,23 @@
-import React from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { Avatar } from "react-native-elements";
-import colorDefaults from "../../../theme/colorDefaults";
+import React, {useState} from "react";
+import { StyleSheet, View } from "react-native";
+import CommentCard from "./CommentCard";
+import CommentActions from "./CommentActions";
+import CommentReplies from "./CommentReplies";
 
 const CommentBox = ({ comment }) => {
+  // State
+  const [repliesHidden, setRepliesHidden] = useState(true);
+
+  // Toggle hidden replies
+  const toggleReplies = () => { 
+    setRepliesHidden(!repliesHidden);
+  }
+
   return (
     <View style={styles.container}>
-      <View style={styles.topContainer}>
-        <View style={styles.nameContainer}>
-          <Avatar
-            size="small"
-            rounded
-            title={`${comment.from.first.charAt(0)}${comment.from.last.charAt(0)}`}
-            containerStyle={{ backgroundColor: colorDefaults.primary }}
-          />
-          <Text style={styles.name}>{comment.from.first}</Text>
-        </View>
-        <Text>{comment.comment}</Text>
-      </View>
-      <View style={styles.botContainer}>
-        <TouchableOpacity>
-          <Text style={styles.textLink}>View Replies</Text>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Text style={styles.textLink}>Edit</Text>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Text style={styles.textLink}>Delete</Text>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Text style={styles.textLink}>Reply</Text>
-        </TouchableOpacity>
-      </View>
+      <CommentCard comment={comment} />
+      <CommentActions repliesHidden={repliesHidden} toggleReplies={toggleReplies} />
+      <CommentReplies repliesHidden={repliesHidden}/>
     </View>
   );
 };
@@ -46,31 +32,5 @@ const styles = StyleSheet.create({
     margin: 8,
     padding: 8,
     marginBottom: 0,
-  },
-  topContainer: {
-    backgroundColor: "#fff",
-    borderWidth: 1,
-    borderRadius: 8,
-    padding: 8,
-  },
-  nameContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 8
-  },
-  name: {
-    fontWeight: "bold",
-    fontSize: 14,
-    marginLeft: 4,
-  },
-  botContainer: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "flex-end",
-  },
-  textLink: {
-    color: "grey",
-    marginRight: 8,
-    fontSize: 12,
-  },
+  }
 });

@@ -1,11 +1,19 @@
 import React from "react";
-import { StyleSheet, Text } from "react-native";
+import { StyleSheet } from "react-native";
 import { Tab, TabView } from "react-native-elements";
 import colorDefaults from "../../../theme/colorDefaults";
 import PublicCommentTab from "./PublicCommentTab";
 import PrivateCommentTab from "./PrivateCommentTab";
 
-const CommentTabNavigation = ({ tabIndex, setTabIndex, comments }) => {
+const CommentTabNavigation = ({
+  tabIndex,
+  setTabIndex,
+  comments,
+  setComments,
+  deleteComment,
+  editComment,
+  replyToComment,
+}) => {
   return (
     <>
       <Tab
@@ -26,7 +34,13 @@ const CommentTabNavigation = ({ tabIndex, setTabIndex, comments }) => {
       </Tab>
       <TabView value={tabIndex} onChange={setTabIndex}>
         <TabView.Item style={styles.tabViewContainer}>
-          <PublicCommentTab comments={comments} />
+          <PublicCommentTab
+            comments={comments}
+            setComments={setComments}
+            deleteComment={deleteComment}
+            editComment={editComment}
+            replyToComment={replyToComment}
+          />
         </TabView.Item>
         <TabView.Item style={styles.tabViewContainer}>
           <PrivateCommentTab comments={comments} />

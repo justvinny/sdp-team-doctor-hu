@@ -5,6 +5,7 @@ import {
   View,
   ScrollView,
   KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import ProfileInformation from "../profilecomponents/ProfileInformation";
 import SelectDropdown from "react-native-select-dropdown";
@@ -13,6 +14,9 @@ import firestoreService from "../../../firebase/firestoreService";
 import AuthContext from "../../../context/AuthContext";
 import { Input } from "react-native-elements";
 import TextInputStyles from "../profilecomponents/TextInputStyles";
+import { Switch } from "react-native";
+import colorDefaults from "../../../theme/colorDefaults";
+import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view"
 
 const PatientMedicalTab = ({ user }) => {
   const { authUserId } = useContext(AuthContext);
@@ -23,6 +27,10 @@ const PatientMedicalTab = ({ user }) => {
   const [height, setHeight] = useState(user.height.toString());
   const [allergies, setAllergies] = useState(user ? user.getAllergies() : "");
   const [editable, setEditable] = useState(false);
+  const [imperial, setImperial] = useState(false);
+  const [measurementSystem, setMeasurementSystem] = useState("Metric");
+  const [weightTitle, setWeightTitle] = useState("Weight (kgs)");
+  const [heightTitle, setHeightTitle] = useState("Height (cms)");
 
   const updateFirebase = () => {
     firestoreService.updateBloodtype(user.id, bloodType);
@@ -32,78 +40,133 @@ const PatientMedicalTab = ({ user }) => {
     firestoreService.updateAllergies(user.id, allergies.split(", "));
   };
 
-  const renderView = () => (
-    <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
-      <ScrollView height={400} width={"100%"} bounces={false}>
-        {authUserId === user.id ? (
-          <View style={styles.dropdownContainer}>
-            <Text style={TextInputStyles.labelStyle}>Blood Type</Text>
-            <SelectDropdown
-              data={bloodTypes}
-              onSelect={(selectedItem) => {
-                setBloodType(selectedItem);
-              }}
-              buttonStyle={styles.dropdownButton}
-              defaultButtonText={user.bloodType}
-              disabled={!editable}
-            />
-          </View>
-        ) : (
-          <ProfileInformation
-            label="Blood Type"
-            value={bloodType}
-            onChangeText={setBloodType}
-            placeholder="Blood type"
-            editable={editable}
-          />
-        )}
+  const convertWeight = () => {
+    if (!imperial) {
+      // covnert weight to imperial system
+      let lbs = parseFloat(weight);
+      lbs = lbs * 2.205;
+      setWeight(lbs.toString());
+    } else if (imperial) {
+      //convert weight to metric system
+      let kgs = parseFloat(weight);
+      kgs = kgs / 2.205;
+      setWeight(kgs.toString());
+    }
+  };
 
-        <ProfileInformation
-          label="Birthdate"
-          value={birthdate}
-          onChangeText={setBirthdate}
-          placeholder="Birthdate"
-          editable={editable}
-        />
-        <ProfileInformation
-          label="Weight (kgs)"
-          value={weight}
-          onChangeText={setWeight}
-          placeholder="Weight"
-          editable={editable}
-          keyboardType="numeric"
-        />
-        <ProfileInformation
-          label="Height (cms)"
-          value={height}
-          onChangeText={setHeight}
-          placeholder="Height"
-          editable={editable}
-          keyboardType="numeric"
-        />
-        <Input
-          label="Allergies"
-          value={allergies}
-          onChangeText={setAllergies}
-          placeholder="Allergies"
-          editable={editable}
-          multiline={true}
-          style={TextInputStyles.multiline}
-          labelStyle={TextInputStyles.labelStyle}
-          containerStyle={TextInputStyles.inputView}
-        />
-        {user.id === authUserId ? (
-          <EditEnableButton
-            editable={editable}
-            setEditable={setEditable}
-            saveChanges={updateFirebase}
+  const convertHeight = () => {
+    if (!imperial) {
+      // convert hieght to imperial system
+      let cms = parseFloat(height);
+      let totalInches = cms / 2.54;
+      let feet = Math.floor(totalInches / 12);
+      let inches = totalInches - 12 * feet;
+      let impheight = `${feet}"${Math.round(inches)}`;
+      setHeight(impheight);
+    } else if (imperial) {
+      //convert weight to metric system
+      let feet = parseFloat(height);
+      let inch = parseFloat(height.substr(2));
+      let totalFeet = inch / 12 + feet;
+      let totalInches = totalFeet * 12;
+      let cms = totalInches * 2.54;
+      let cmHeight = `${Math.round(cms)}`;
+      setHeight(cmHeight);
+    }
+  };
+
+  const renderView = () => (
+    <>
+      {authUserId === user.id ? (
+        <View style={styles.dropdownContainer}>
+          <Text style={TextInputStyles.labelStyle}>Blood Type</Text>
+          <SelectDropdown
+            data={bloodTypes}
+            onSelect={(selectedItem) => {
+              setBloodType(selectedItem);
+            }}
+            buttonStyle={styles.dropdownButton}
+            defaultButtonText={user.bloodType}
+            disabled={!editable}
           />
-        ) : (
-          <></>
-        )}
-      </ScrollView>
-      {/* <View style={{ height: 100 }} /> */}
-    </KeyboardAvoidingView>
+        </View>
+      ) : (
+        <ProfileInformation
+          label="Blood Type"
+          value={bloodType}
+          onChangeText={setBloodType}
+          placeholder="Blood type"
+          editable={editable}
+        />
+      )}
+
+      <ProfileInformation
+        label="Birthdate"
+        value={birthdate}
+        onChangeText={setBirthdate}
+        placeholder="Birthdate"
+        editable={editable}
+      />
+      <ProfileInformation
+        label={weightTitle}
+        value={weight}
+        onChangeText={setWeight}
+        placeholder="Weight"
+        editable={editable}
+        keyboardType="numeric"
+      />
+      <ProfileInformation
+        label={heightTitle}
+        value={height}
+        onChangeText={setHeight}
+        placeholder="Height"
+        editable={editable}
+        keyboardType="numeric"
+      />
+      <Input
+        label="Allergies"
+        value={allergies}
+        onChangeText={setAllergies}
+        placeholder="Allergies"
+        editable={editable}
+        multiline={true}
+        style={TextInputStyles.multiline}
+        labelStyle={TextInputStyles.labelStyle}
+        containerStyle={TextInputStyles.inputView}
+      />
+      <View style={{ alignItems: "center" }}>
+        <Text>{measurementSystem}</Text>
+        <Switch
+          trackColor={{ false: "grey", true: colorDefaults.primary }}
+          value={imperial}
+          onValueChange={() => {
+            if (imperial) {
+              setImperial(false);
+              setMeasurementSystem("Metric");
+              setWeightTitle("Weight (kgs)");
+              setHeightTitle("Height (cms)");
+            } else {
+              setImperial(true);
+              setMeasurementSystem("Imperial");
+              setWeightTitle("Weight (lbs)");
+              setHeightTitle("Height (ft)");
+            }
+            convertWeight();
+            convertHeight();
+          }}
+        />
+      </View>
+
+      {user.id === authUserId ? (
+        <EditEnableButton
+          editable={editable}
+          setEditable={setEditable}
+          saveChanges={updateFirebase}
+        />
+      ) : (
+        <></>
+      )}
+    </>
   );
   return renderView();
 };

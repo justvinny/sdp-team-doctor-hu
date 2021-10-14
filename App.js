@@ -18,7 +18,6 @@ import StaffProfile from "./components/profile/staff/StaffProfile";
 import PatientProfile from "./components/profile/patient/PatientProfile";
 import Menu from "./components/mainmenu/Menu";
 import ProfileSelection from "./components/profile/ProfileSelection";
-import UploadFileScreen from "./components/documentUpload/UploadDocument";
 import ViewFileScreen from "./components/documentUpload/ViewFileScreen";
 
 

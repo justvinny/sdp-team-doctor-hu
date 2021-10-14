@@ -274,9 +274,6 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "center",
     padding: 15,
-    // flex: 1,
-    // alignContent: "center",
-    // justifyContent: "center",
   },
   globalButton: {
     borderRadius: 10,

@@ -358,16 +358,30 @@ const addMessage = async (id, message) => {
 
   const getMedicalResults = (id) => db.collection(COLLECTION_USERS).doc(id);
 
-  const updateMedicalResults = async (id, url, patient, staff, time, title) => {
+  // const updateMedicalResults = async (obj) => {
+  //   try {
+      
+  //     await db
+  //       .collection(COLLECTION_USERS)
+  //       .doc(obj.patientId) 
+  //       .update({
+  //         medicalResults: firebase.firestore.FieldValue.update(obj)}, {merge:true});
 
+  //     return "Sucessfully updated!";
+  //   } catch (error) {
+  //     return "Failed to update: " + error;
+  //   }
+  // };
+
+  const updateMedicalResults = async (id, documents) => {
     try {
+      
       await db
         .collection(COLLECTION_USERS)
         .doc(id) 
         .update({
-          medicalResults: firebase.firestore.FieldValue.arrayRemove({"patientId": patient, "staffId": staff, "timestamp":time, "title":title, "url": url})
-        });
-        console.log("deleting medical doc");
+          medicalResults: documents});
+
       return "Sucessfully updated!";
     } catch (error) {
       return "Failed to update: " + error;
@@ -392,6 +406,26 @@ const addMessage = async (id, message) => {
       await db
         .collection(COLLECTION_USERS)
         .doc(obj.staffId)
+        .update({
+          medicalResults: firebase.firestore.FieldValue.arrayRemove({
+            patientId: obj.patientId,
+            staffId: obj.staffId,
+            timestamp: obj.timestamp,
+            title: obj.title,
+            url: obj.url,
+          }),
+        });
+      return "Document successfully delete from database";
+    } catch (error) {
+      return "Error removing Document: " + error;
+    }
+  };
+
+  const deleteMedicalResultsPatient = async (obj) => {
+    try {
+      await db
+        .collection(COLLECTION_USERS)
+        .doc(obj.patientId)
         .update({
           medicalResults: firebase.firestore.FieldValue.arrayRemove({
             patientId: obj.patientId,
@@ -507,7 +541,9 @@ const firestoreService = {
     addMessage,
     deleteUser,
     getMedicalResults,
-    deleteMedicalResults
+    deleteMedicalResults,
+    updateMedicalResults,
+    deleteMedicalResultsPatient
    
 }
 

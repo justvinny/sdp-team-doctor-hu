@@ -35,13 +35,15 @@ const viewFileScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(true);
 
   const [documents, setDocuments] = useState([]);
+
   const [url, setURL] = useState("");
   const [patientId, setPatientId] = useState();
   const [staffId, setStaffId] = useState();
   const [staff, setIsStaff] = useState(false);
   const [time, setTime] = useState();
   const [title, setTitle] = useState();
-  const [test, setTest] = useState();
+  const [updatedTitle, setUpdatedTitle] = useState("");
+  const [patient, setPatient] = useState({});
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -68,32 +70,19 @@ const viewFileScreen = ({ navigation }) => {
 
     try{
 
-      firestoreService.getUserById(patientId).then((data) => {
-        const name = data.name.first;
-        //const last = data.name.last;
-
-        Alert.alert(
-          "Document '" + documents[deleteIndex].title + "' for " + name ,
-          "deleted successfully.",
-          [
-            {
-              text: "Thanks!",
-            },
-          ]
-        );
-      });
-
-      // Alert.alert(
-      //   "Document '" + documents[deleteIndex].title + "' for " + test,
-      //   "deleted successfully.",
-      //   [
-      //     {
-      //       text: "Thanks!",
-      //     },
-      //   ]
-      // );
+      Alert.alert(
+        "Document '" + documents[deleteIndex].title +"'",
+        "deleted successfully.",
+        [
+          {
+            text: "Thanks!",
+          },
+        ]
+      );
 
       firestoreService.deleteMedicalResults(documents[deleteIndex]);
+
+      
 
     }catch (error) {
       alert(error.message);
@@ -121,10 +110,48 @@ const viewFileScreen = ({ navigation }) => {
     );
   };
 
+
+  const updatedTask = async (newName, index) => {
+    try{
+
+      firestoreService.deleteMedicalResultsPatient(documents[index]);
+
+      documents[index].title = newName;
+      setDocuments([...documents]); 
+      firestoreService.updateMedicalResults(documents[index].staffId, documents);
+
+      firestoreService.addMedicalResult(documents[index].patientId, documents[index]);
+      
+    }catch (error) {
+        alert(error.message);
+      }
+  };
+
+
+  const editTask = (index) => {
+  
+    Alert.prompt(
+      "Enter new document title ",
+      "Current: "+ documents[index].title ,
+      [
+        {
+          text: "Cancel",
+          style: "cancel"
+        },
+        {
+          text: "OK",
+          onPress: newName => updatedTask(newName, index),
+        }
+      ],
+      
+    );
+    
+  };
+
   const renderPage = () => {
     if (loading) {
       return <LoadingScreen />;
-    } else if (!loading && documents.length === 0 || !loading && user?.documents === undefined) {
+    } else if (!loading && documents.length === 0 ) {
       return (
         <View style={styles.container}>
           <MaterialIcons
@@ -175,14 +202,14 @@ const viewFileScreen = ({ navigation }) => {
                         }}
                       />
                     {/* not implemented yet */}
-                      {/* <Icon
+                      <Icon
                         name={"edit"}
                         size={30}
                         color="#4695e3"
                         onPress={() => {
-                          console.log("test");
+                          editTask(i);
                         }}
-                      /> */}
+                      />
                     </View>
                   ) : (
                     <View></View>
@@ -227,13 +254,14 @@ const styles = StyleSheet.create({
     marginTop: "60%",
   },
   name: {
+    fontSize: 14,
     fontWeight: "bold",
   },
   date: {
     alignSelf: "flex-end",
   },
   subText: {
-    fontSize: 14,
+    fontSize: 12,
     color: "grey",
   },
   icon: {

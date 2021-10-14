@@ -374,7 +374,7 @@ const addMessage = async (id, message) => {
     }
   };
   
-  const deleteDocument = async (obj) => {
+  const deleteMedicalResults = async (obj) => {
     try {
       await db
         .collection(COLLECTION_USERS)
@@ -494,7 +494,6 @@ const firestoreService = {
     updateBirthDate,
     updateBloodtype,
     updateHeight,
-    updateMedicalResults,
     updateFullName,
     updateFirstName,
     updateMiddleName,
@@ -508,7 +507,7 @@ const firestoreService = {
     addMessage,
     deleteUser,
     getMedicalResults,
-    deleteDocument 
+    deleteMedicalResults
    
 }
 

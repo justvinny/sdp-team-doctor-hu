@@ -58,55 +58,53 @@ const viewFileScreen = ({ navigation }) => {
         const data = doc.data();
         setUser(data);
         setDocuments(data.medicalResults);
-
         setLoading(false);
       });
 
     return unsubscribe;
   }, []);
 
-  const removePicture = (deleteIndex, paId) => {
+  const removePicture = async (deleteIndex) => {
 
     try{
-      firestoreService.getUserById(paId).then((data) => {
-        let name = data.name.first;
-        setTest(name);
-      });
-  
-      if (test !== undefined && title != undefined) {
-        Alert.alert(
-          "Document '" + title + "' for " + test,
-          "deleted successfully.",
-          [
-            {
-              text: "Thanks!",
-            },
-          ]
-        );
-      }else{
-        Alert.alert(
-          "Document",
-          "deleted successfully.",
-          [
-            {
-              text: "Thanks!",
-            },
-          ]
-        );
-      }
 
-  
-      firestoreService.deleteDocument(documents[deleteIndex]);
+      firestoreService.getUserById(patientId).then((data) => {
+        const name = data.name.first;
+        //const last = data.name.last;
+
+        Alert.alert(
+          "Document '" + documents[deleteIndex].title + "' for " + name ,
+          "deleted successfully.",
+          [
+            {
+              text: "Thanks!",
+            },
+          ]
+        );
+      });
+
+      // Alert.alert(
+      //   "Document '" + documents[deleteIndex].title + "' for " + test,
+      //   "deleted successfully.",
+      //   [
+      //     {
+      //       text: "Thanks!",
+      //     },
+      //   ]
+      // );
+
+      firestoreService.deleteMedicalResults(documents[deleteIndex]);
+
     }catch (error) {
       alert(error.message);
     }
 
   };
 
-  const removePictureAlert = (i, paId) => {
+  const removePictureAlert = async (i) => {
     Alert.alert(
       "Remove Document",
-      "Are you sure you want to remove the Document?",
+      "Are you sure you want to remove the document " + documents[i].title + "?",
       [
         {
           text: "Cancel",
@@ -115,7 +113,7 @@ const viewFileScreen = ({ navigation }) => {
         {
           text: "Yes",
           onPress: () => {
-            removePicture(i, paId);
+            removePicture(i);
           },
           style: "destructive",
         },
@@ -171,12 +169,9 @@ const viewFileScreen = ({ navigation }) => {
                         size={30}
                         color="#e34c46"
                         onPress={() => {
-                          setURL(l.url);
-                          setPatientId(l.patientId);
-                          setStaffId(l.staffId);
-                          setTime(l.timestamp);
+                           setPatientId(l.patientId);
                           setTitle(l.title);
-                          removePictureAlert(i,l.patientId);
+                          removePictureAlert(i);
                         }}
                       />
                     {/* not implemented yet */}

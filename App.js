@@ -20,7 +20,7 @@ import Menu from "./components/mainmenu/Menu";
 import ProfileSelection from "./components/profile/ProfileSelection";
 import UploadFileScreen from "./components/documentUpload/UploadDocument";
 import ViewFileScreen from "./components/documentUpload/ViewFileScreen";
-import ProgressBar from "./components/documentUpload/ProgressBar";
+
 
 const Stack = createNativeStackNavigator();
 
@@ -69,10 +69,6 @@ export default function App() {
         <Button color={colorDefaults.primary}
           onPress={() => navigation.navigate("ViewFileScreen")}
           title="ViewFileScreen" />
-
-          <Button color={colorDefaults.primary}
-          onPress={() => navigation.navigate("ProgressBar")}
-          title="ProgressBar" />
       </View>
     );
   };
@@ -128,10 +124,7 @@ export default function App() {
               component={ViewFileScreen}
               name="ViewFileScreen"
             />
-            <Stack.Screen
-              component={ProgressBar}
-              name="ProgressBar"
-            />
+         
           </Stack.Navigator>
           <StatusBar style="light" />
         </NavigationContainer>

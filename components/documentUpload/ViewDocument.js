@@ -30,30 +30,6 @@ const [patient, setPatient] = useState({});
 const [staff, setStaff] = useState({});
 const [user, setUser] = useState({});
 
- 
-
-  // useEffect(() => {
-  //   firestoreService.getUserById(patientId).then((data) => {
-  //     setPatient(data);
-  //     setLoading1(false);
-  //   });
-  
-  // }, []);
-
-  // useEffect(() => {
-  //   firestoreService.getUserById(authUserId).then((data) => {
-  //     setUser(data);
-  //     setLoading2(false);
-  //   });
-
-  // }, []);
-
-  // useEffect(() => {
-  //   firestoreService.getUserById(staffId).then((data) => {
-  //     setStaff(data);
-  //     setLoading3(false);
-  //   });
-  // }, []);
 
   useEffect(() => {
     firestoreService.getUserById(patientId).then((data) => {

@@ -25,6 +25,7 @@ function UploadDocument({
   const [download, showDownload] = useState(false);
   const [title, setTitle] = useState("");
   const [progress, showProgress] = useState(false);
+  const [docTitle, setDocTitle] = useState("");
 
   useEffect(() => {
     LogBox.ignoreLogs(["Animated: `useNativeDriver`"]);
@@ -41,16 +42,44 @@ function UploadDocument({
       setFile(result.uri);
       showDownload(true);
     }
+    else  {
+      showDownload(false);
+    }
+   
   };
 
   //document picker
   const pickDocument = async () => {
     let result = await DocumentPicker.getDocumentAsync({});
 
-    if (!result.cancelled) {
+    if (result.type !== "cancel") {
       setFile(result.uri);
       showDownload(true);
+
+      if (result?.name !== undefined ) {
+        Alert.alert(
+          "Use the existing document name or make your own?",
+          "Exisiting title: " + result.name,
+          [
+            {
+              text: "No",
+              style: "cancel",
+            },
+            {
+              text: "Yes",
+              onPress: () => {
+                setTitle(result.name);
+              },
+              style: "destructive",
+            },
+          ]
+        );
+      }
     }
+    else  {
+      showDownload(false);
+    }
+    
   };
 
   const upload = async () => {

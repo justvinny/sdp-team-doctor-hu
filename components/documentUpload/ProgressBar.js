@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useLayoutEffect, useContext, Component} from "react";
 import { StyleSheet, TouchableOpacity, View,} from 'react-native';
-import Image from 'react-native-image-progress';
 import * as Progress from 'react-native-progress';
 
 const ProgressBar = () => {

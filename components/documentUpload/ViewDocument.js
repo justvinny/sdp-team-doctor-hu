@@ -71,12 +71,6 @@ const [user, setUser] = useState({});
   }, []);
 
 
-
- 
-
-  
-
-
   const renderPage = () => {
     if (loading1 || loading2 || loading3) {
       return <LoadingScreen style={styles.overlay}/>;

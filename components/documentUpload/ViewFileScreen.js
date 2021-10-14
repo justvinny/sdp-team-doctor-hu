@@ -41,7 +41,7 @@ const viewFileScreen = ({ navigation }) => {
   const [staff, setIsStaff] = useState(false);
   const [time, setTime] = useState();
   const [title, setTitle] = useState();
-  const [test, setTest] = useState("");
+  const [test, setTest] = useState();
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -65,21 +65,45 @@ const viewFileScreen = ({ navigation }) => {
     return unsubscribe;
   }, []);
 
-  const removePicture = (deleteIndex) => {
-    Alert.alert(
-      "Document " + title + " for " + patientId,
-      "Deleted successfully.",
-      [
-        {
-          text: "Thanks!",
-        },
-      ]
-    );
+  const removePicture = (deleteIndex, paId) => {
 
-    firestoreService.deleteDocument(documents[deleteIndex]);
+    try{
+      firestoreService.getUserById(paId).then((data) => {
+        let name = data.name.first;
+        setTest(name);
+      });
+  
+      if (test !== undefined && title != undefined) {
+        Alert.alert(
+          "Document '" + title + "' for " + test,
+          "deleted successfully.",
+          [
+            {
+              text: "Thanks!",
+            },
+          ]
+        );
+      }else{
+        Alert.alert(
+          "Document",
+          "deleted successfully.",
+          [
+            {
+              text: "Thanks!",
+            },
+          ]
+        );
+      }
+
+  
+      firestoreService.deleteDocument(documents[deleteIndex]);
+    }catch (error) {
+      alert(error.message);
+    }
+
   };
 
-  const removePictureAlert = (i) => {
+  const removePictureAlert = (i, paId) => {
     Alert.alert(
       "Remove Document",
       "Are you sure you want to remove the Document?",
@@ -91,7 +115,7 @@ const viewFileScreen = ({ navigation }) => {
         {
           text: "Yes",
           onPress: () => {
-            removePicture(i);
+            removePicture(i, paId);
           },
           style: "destructive",
         },
@@ -102,7 +126,7 @@ const viewFileScreen = ({ navigation }) => {
   const renderPage = () => {
     if (loading) {
       return <LoadingScreen />;
-    } else if (!loading && documents.length === 0) {
+    } else if (!loading && documents.length === 0 || !loading && user?.documents === undefined) {
       return (
         <View style={styles.container}>
           <MaterialIcons
@@ -152,18 +176,18 @@ const viewFileScreen = ({ navigation }) => {
                           setStaffId(l.staffId);
                           setTime(l.timestamp);
                           setTitle(l.title);
-                          removePictureAlert(i);
+                          removePictureAlert(i,l.patientId);
                         }}
                       />
-
-                      <Icon
+                    {/* not implemented yet */}
+                      {/* <Icon
                         name={"edit"}
                         size={30}
                         color="#4695e3"
                         onPress={() => {
                           console.log("test");
                         }}
-                      />
+                      /> */}
                     </View>
                   ) : (
                     <View></View>
@@ -184,7 +208,7 @@ const viewFileScreen = ({ navigation }) => {
           animationType="slide"
           transparent
         >
-          <ViewDocument url={url} patientId={patientId} staffId={staffId} />
+        <ViewDocument url={url} patientId={patientId} staffId={staffId} />
         </Overlay>
       </ScrollView>
     );

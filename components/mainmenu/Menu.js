@@ -23,6 +23,7 @@ export default function Menu({ navigation }) {
     { iconname: "Notifications", icon: "notifications", route: "" },
     { iconname: "Search User", icon: "search", route: "Search" },
     { iconname: "View File", icon: "attach-file", route: "ViewFileScreen" },
+    { iconname: "View File", icon: "attach-file", route: "ProgressBar" },
   ]);
 
   const [menuPatient, setMenuItemsPatient] = useState([

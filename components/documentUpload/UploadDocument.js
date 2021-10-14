@@ -1,14 +1,10 @@
 // import React in our code
 import React, { useEffect, useState, useLayoutEffect, useContext } from "react";
-
 // import all the components we are going to use
 import { StyleSheet, View, LogBox, Image, Alert , Text} from "react-native";
-
 import {
-  
   Button,
   Input,
-  LinearProgress,
   Icon,
 } from "react-native-elements";
 
@@ -16,8 +12,7 @@ import * as ImagePicker from "expo-image-picker";
 import { storage } from "../../firebase/firebaseConfig";
 import firestoreService from "../../firebase/firestoreService";
 import * as DocumentPicker from "expo-document-picker";
-import { WebView } from "react-native-webview";
-import { color } from "react-native-elements/dist/helpers";
+import ProgressBar from '../documentUpload/ProgressBar'
 
 
 function UploadDocument({
@@ -27,13 +22,15 @@ function UploadDocument({
   patientName,
 }) {
   const [file, setFile] = useState("");
+  const [download, showDownload] = useState(false);
   const [title, setTitle] = useState("");
-  const [note, setNote] = useState("");
+  const [progress, showProgress] = useState(false);
 
   useEffect(() => {
     LogBox.ignoreLogs(["Animated: `useNativeDriver`"]);
   }, []);
 
+  //image picker
   const imagePicker = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -42,6 +39,7 @@ function UploadDocument({
 
     if (!result.cancelled) {
       setFile(result.uri);
+      showDownload(true);
     }
   };
 
@@ -51,12 +49,14 @@ function UploadDocument({
 
     if (!result.cancelled) {
       setFile(result.uri);
+      showDownload(true);
     }
   };
 
   const upload = async () => {
     if (file) {
       try {
+        showProgress(true);
         // const metadata = {
         //     customMetadata: {
         //       //contentType: 'application/pdf',
@@ -71,16 +71,6 @@ function UploadDocument({
         const task = await storage.ref().child(childPath).put(blob);
 
         task.ref.getDownloadURL().then((url) => {
-          Alert.alert(
-            "Document '" + title + "' for " + patientName,
-            "Document updated successfully.",
-            [
-              {
-                text: "Thanks!",
-                onPress: () => toggleDocumentOverlay(),
-              },
-            ]
-          );
 
           const newDocument = {
             staffId: staff,
@@ -92,47 +82,27 @@ function UploadDocument({
 
           firestoreService.addMedicalResult(staff, newDocument);
           firestoreService.addMedicalResult(patient, newDocument);
+
+          showProgress(false);
+          showDownload(false);
+
+          Alert.alert(
+            "Document '" + title + "' for " + patientName,
+            "Document updated successfully.",
+            [
+              {
+                text: "Thanks!",
+                
+              },
+            ]
+          );
+          setTitle("");
         });
       } catch (error) {
         alert(error.message);
       }
     }
   };
-
-  //   const removePicture = () => {
-  //     setProfilePicture(defaultImage);
-  //     firestoreService.updatePicture(user.id, defaultImage);
-  //     Alert.alert(
-  //       "Aww Man!",
-  //       "Hope to see your beautiful face again soon " + user.name.first + ".",
-  //       [
-  //         {
-  //           text: "Close",
-  //           onPress: () => toggleOverlay(),
-  //         },
-  //       ]
-  //     );
-  //   };
-
-  //   const removePictureAlert = () => {
-  //     Alert.alert(
-  //       "Remove Picture",
-  //       "Are you sure you want to remove your profile picture?",
-  //       [
-  //         {
-  //           text: "Cancel",
-  //           style: "cancel",
-  //         },
-  //         {
-  //           text: "Yes",
-  //           onPress: () => {
-  //             removePicture();
-  //           },
-  //           style: "destructive",
-  //         },
-  //       ]
-  //     );
-  //   };
 
   useEffect(() => {
     (async () => {
@@ -146,6 +116,7 @@ function UploadDocument({
     })();
   }, []);
 
+  // checks title is present and progresses to upload
   const checkTitleInput = () => {
     //Check for the Name TextInput
     if (!title.trim()) {
@@ -154,109 +125,96 @@ function UploadDocument({
     } else {
       upload();
     }
-    //Checked Successfully
-    //Do whatever you want
-    //alert('Success');
   };
 
   const renderPage = () => {
     return (
       <View style={styles.container}>
-        <Text style={{ textAlign: "center", marginBottom: 20, fontSize: 20,}}>
-          Upload Document for: 
-          <Text style={{fontWeight: "bold"}}> {patientName}</Text>
-        </Text>
-
-        {/* <Text style={{ textAlign: "center", marginBottom: 20, fontSize: 20,}}>
-          {patientName}
-        </Text> */}
-        {/* Document title */}
-        <Input
-          placeholder="Document Title"
-          leftIcon={{ type: "document", name: "label" }}
-          // style={styles}
-          value={title}
-          onChangeText={(title) => setTitle(title)}
-        />
-        {/* <Text h3 style={{ textAlign: "center", marginBottom: 20 }}>
-          {title}
-        </Text> */}
-
-        {/* Document note */}
-        {/* <Input
-          placeholder="Any notes"
-          leftIcon={{ type: 'document', name: 'comment' }}
-          value={note}
-          onChangeText={note => setNote(note)}
-          // style={styles}
-         
-          />
-            <Text h3 style={{ textAlign: "center", marginBottom: 20 }}>
-              {note}
-            </Text>  */}
-
-       
-        <Button
-          title="Choose Image"
-          icon={
-            <Icon
-              name="camera"
-              type="font-awesome-5"
-              size={20}
-              color="white"
-              style={{ marginRight: 10 }}
-            />
-          }
-          onPress={imagePicker}
-          buttonStyle={styles.globalButton}
-        />
-
-        <Button
-          title="Choose Document"
-          icon={
-            <Icon
-              name="file-upload"
-              type="font-awesome-5"
-              size={20}
-              color="white"
-              style={{ marginRight: 10 }}
-            />
-          }
-          onPress={pickDocument}
-          buttonStyle={styles.globalButton}
-        />
-
-        {
-          /* Show a file preview */
-          
-          file ? 
+      {/* screen coniditon showing on status of loading document */}
+      { 
+          progress ? 
           <View style={styles.container}>
-          <Text>Document attached successfully!</Text> 
-          <Text>Click Upload Document to continue.</Text> 
+              <Text>Won't be a second, just uploading your document!</Text> 
+              <Text>Please don't navigate from the upload screen.</Text> 
+              
+              <ProgressBar>
+                
+              </ProgressBar>
+          </View>
+          : <>
+          <Text style={{ textAlign: "center", marginBottom: 20, fontSize: 20,}}>
+          Upload Document for: 
+            <Text style={{fontWeight: "bold"}}> {patientName}</Text>
+          </Text>
 
+          {/* Document title */}
+          <Input
+            placeholder="Document Title"
+            leftIcon={{ type: "document", name: "label" }}
+            // style={styles}
+            value={title}
+            onChangeText={(title) => setTitle(title)}
+          />
+  
+          <Button
+            title="Choose Image"
+            icon={
+              <Icon
+                name="camera"
+                type="font-awesome-5"
+                size={20}
+                color="white"
+                style={{ marginRight: 10 }}
+              />
+            }
+            onPress={imagePicker}
+            buttonStyle={styles.globalButton}
+          />
 
           <Button
-          title="Upload Document"
-          icon={
-            <Icon
-              name="upload"
-              type="font-awesome-5"
-              size={20}
-              color="white"
-              style={{ marginRight: 10 }}
-            />
-          }
-          onPress={checkTitleInput}
-          buttonStyle={styles.uploadButton}
-        />
+            title="Choose Document"
+            icon={
+              <Icon
+                name="file-upload"
+                type="font-awesome-5"
+                size={20}
+                color="white"
+                style={{ marginRight: 10 }}
+              />
+            }
+            onPress={pickDocument}
+            buttonStyle={styles.globalButton}
+          />
 
-          </View>
-          : <></>
+        {/* document attached and can be uploaded  */}
+        { 
+          download ? 
+            <View style={styles.container}>
+              <Text>Document attached successfully!</Text> 
+              <Text>Click Upload Document to continue.</Text> 
+
+                <Button
+                title="Upload Document"
+                icon={
+                  <Icon
+                    name="upload"
+                    type="font-awesome-5"
+                    size={20}
+                    color="white"
+                    style={{ marginRight: 10 }}
+                  />
+                }
+                onPress={checkTitleInput}
+                buttonStyle={styles.uploadButton}
+                />
+
+            </View>
+          : 
+          <></>
         }
-        
-     
 
-        <Button
+        {/* cancel button */}
+          <Button
           title="Cancel"
           icon={
             <Icon
@@ -270,6 +228,10 @@ function UploadDocument({
           onPress={toggleDocumentOverlay}
           buttonStyle={styles.removeButton}
         />
+          
+          </>
+        }
+  
       </View>
     );
   };
@@ -286,12 +248,6 @@ const styles = StyleSheet.create({
     // flex: 1,
     // alignContent: "center",
     // justifyContent: "center",
-  },
-  image: {
-    width: 100,
-    height: 10,
-    marginBottom: 10,
-    marginTop: 10,
   },
   globalButton: {
     borderRadius: 10,

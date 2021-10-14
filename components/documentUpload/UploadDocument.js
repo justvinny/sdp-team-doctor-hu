@@ -25,7 +25,6 @@ function UploadDocument({
   const [title, setTitle] = useState("");
   const [progress, showProgress] = useState(false);
 
-
   useEffect(() => {
     LogBox.ignoreLogs(["Animated: `useNativeDriver`"]);
   }, []);

@@ -7,7 +7,6 @@ import {
   Input,
   Icon,
 } from "react-native-elements";
-
 import * as ImagePicker from "expo-image-picker";
 import { storage } from "../../firebase/firebaseConfig";
 import firestoreService from "../../firebase/firestoreService";
@@ -58,7 +57,7 @@ function UploadDocument({
 
       if (result?.name !== undefined ) {
         Alert.alert(
-          "Use the existing document name or make your own?",
+          "Use the existing document title or make your own?",
           "Exisiting title: " + result.name,
           [
             {
@@ -82,6 +81,7 @@ function UploadDocument({
     
   };
 
+  // uploads document to firestorage and firebase
   const upload = async () => {
     if (file) {
       try {
@@ -109,7 +109,7 @@ function UploadDocument({
 
           Alert.alert(
             "Document '" + title + "' for " + patientName,
-            "Document updated successfully.",
+            "Document updated successfully!",
             [
               {
                 text: "Thanks!",
@@ -139,7 +139,7 @@ function UploadDocument({
 
   // checks title is present and progresses to upload
   const checkTitleInput = () => {
-    //Check for the Name TextInput
+    //Check for the title TextInput
     if (!title.trim()) {
       alert("Please enter a Document Title before uploading.");
       return;
@@ -151,6 +151,7 @@ function UploadDocument({
   const renderPage = () => {
     return (
       <View style={styles.container}>
+
       {/* screen coniditon showing on status of loading document */}
       { 
           progress ? 
@@ -158,9 +159,9 @@ function UploadDocument({
               <Text>Won't be a second, just uploading your document!</Text> 
               <Text>Please don't navigate from the upload screen.</Text> 
               
-              <ProgressBar>
-                
-              </ProgressBar>
+              {/* progress bar component */}
+              <ProgressBar> </ProgressBar>
+
           </View>
           : <>
           <Text style={{ textAlign: "center", marginBottom: 20, fontSize: 20,}}>
@@ -168,7 +169,7 @@ function UploadDocument({
             <Text style={{fontWeight: "bold"}}> {patientName}</Text>
           </Text>
 
-          {/* Document title */}
+      {/* Document title input*/}
           <Input
             placeholder="Document Title"
             leftIcon={{ type: "document", name: "label" }}
@@ -207,7 +208,7 @@ function UploadDocument({
             buttonStyle={styles.globalButton}
           />
 
-        {/* document attached and can be uploaded  */}
+    {/* document attached and can be uploaded only when a document has been attached */}
         { 
           download ? 
             <View style={styles.container}>

@@ -355,23 +355,7 @@ const addMessage = async (id, message) => {
     }
 };
 
-
   const getMedicalResults = (id) => db.collection(COLLECTION_USERS).doc(id);
-
-  // const updateMedicalResults = async (obj) => {
-  //   try {
-      
-  //     await db
-  //       .collection(COLLECTION_USERS)
-  //       .doc(obj.patientId) 
-  //       .update({
-  //         medicalResults: firebase.firestore.FieldValue.update(obj)}, {merge:true});
-
-  //     return "Sucessfully updated!";
-  //   } catch (error) {
-  //     return "Failed to update: " + error;
-  //   }
-  // };
 
   const updateMedicalResults = async (id, documents) => {
     try {
@@ -388,7 +372,7 @@ const addMessage = async (id, message) => {
     }
   };
   
-  const deleteMedicalResults = async (obj) => {
+  const deleteMedicalResultsBoth = async (obj) => {
     try {
       await db
         .collection(COLLECTION_USERS)
@@ -441,60 +425,6 @@ const addMessage = async (id, message) => {
     }
   };
 
-  const editDocument = async (obj) => {
-    try {
-      await db
-        .collection(COLLECTION_USERS)
-        .doc(obj.patientId)
-        .update({
-          medicalResults: {
-            patientId: obj.patientId,
-            staffId: obj.staffId,
-            timestamp: obj.timestamp,
-            title: obj.title,
-            url: obj.url,
-          },
-        });
-  
-      // await db
-      //   .collection(COLLECTION_USERS)
-      //   .doc(obj.staffId)
-      //   .update({
-      //     medicalResults: firebase.firestore.FieldValue.arrayRemove({
-      //       patientId: obj.patientId,
-      //       staffId: obj.staffId,
-      //       timestamp: obj.timestamp,
-      //       title: obj.title,
-      //       url: obj.url,
-      //     }),
-      //   });
-      return "Document successfully updated from database";
-    } catch (error) {
-      return "Error removing Document: " + error;
-    }
-  };
-
-
-
-  // const deleteDocument = async (obj) => {
-  //   try {
-  
-  //     await db
-  //       .collection(COLLECTION_USERS)
-  //       .doc(obj.patientId)
-  //       .update(firebase.firestore.FieldValue.arrayRemove(obj.url));
-  
-  //     await db
-  //       .collection(COLLECTION_USERS)
-  //       .doc(obj.staffId)
-  //       .update(firebase.firestore.FieldValue.arrayRemove(obj.url));
-  
-  //     return "Document successfully delete from database";
-  //   } catch (error) {
-  //     return "Error removing Document: " + error;
-  //   }
-  // };
-
 
 // Delete operations.
 const deleteUser = async (userId) => {
@@ -541,9 +471,9 @@ const firestoreService = {
     addMessage,
     deleteUser,
     getMedicalResults,
-    deleteMedicalResults,
+    deleteMedicalResultsBoth,
     updateMedicalResults,
-    deleteMedicalResultsPatient
+    deleteMedicalResultsPatient,
    
 }
 

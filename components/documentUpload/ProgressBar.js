@@ -5,7 +5,6 @@ import * as Progress from 'react-native-progress';
 const ProgressBar = () => {
   
     return (
-
         <Progress.Bar
            style={styles.progress}
             indeterminate= {true}
@@ -22,15 +21,7 @@ const ProgressBar = () => {
 export default  ProgressBar ;
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: '#fff',
-      paddingVertical: 20,
-    },
     progress: {
       margin: 10,
-      
     },
   });

@@ -1,21 +1,11 @@
 import React, { useEffect, useState, useContext } from "react";
 import {
-  SafeAreaView,
   StyleSheet,
   View,
   Text,
-  LogBox,
-  Button,
-  Image,
-  Alert
 } from "react-native";
-import * as ImagePicker from "expo-image-picker";
-import colorDefaults from "../../theme/colorDefaults";
-import { storage } from "../../firebase/firebaseConfig";
 import AuthContext from "../../context/AuthContext";
 import firestoreService from "../../firebase/firestoreService";
-import { FAB } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import { WebView } from "react-native-webview";
 import LoadingScreen from "../LoadingScreen";
 
@@ -81,17 +71,6 @@ const [user, setUser] = useState({});
 export default App;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "white",
-    padding: 10,
-  },
-  titleStyle: {
-    fontSize: 28,
-    fontWeight: "bold",
-    textAlign: "center",
-    padding: 10,
-  },
   overlay: {
     width: 400,
     height: 650,
@@ -100,9 +79,5 @@ const styles = StyleSheet.create({
     width: 400,
     height: 500,
   },
-  globalButton: {
-    borderRadius: 10,
-    marginTop: 20,
-    backgroundColor: "red"
-  },
+
 });

@@ -2,10 +2,7 @@ import React, { useState, useEffect, useContext, useLayoutEffect } from "react";
 import {
   View,
   StyleSheet,
-  Image,
   Text,
-  Button,
-  FlatList,
   ScrollView,
   Alert,
 } from "react-native";
@@ -14,8 +11,8 @@ import firestoreService from "../../firebase/firestoreService";
 import LoadingScreen from "../LoadingScreen";
 import dateUtility from "../../utilities/dateUtility";
 import colorDefaults from "../../theme/colorDefaults";
-import { ListItem, Icon, Overlay, Swipeable } from "react-native-elements";
-import { MaterialIcons, AntDesign } from "@expo/vector-icons";
+import { ListItem, Icon, Overlay} from "react-native-elements";
+import { MaterialIcons } from "@expo/vector-icons";
 import ViewDocument from "../documentUpload/ViewDocument";
 
 const viewFileScreen = ({ navigation }) => {
@@ -28,31 +25,21 @@ const viewFileScreen = ({ navigation }) => {
 
   // Collects the user's ID.
   const { authUserId } = useContext(AuthContext);
-  // I set the user but don't use the data from user this as I get an error undefined is not an object.
-  // Not sure how to fix this yet.
   const [user, setUser] = useState({});
-  // Just used loading as was copying from other classes on what I had done.
   const [loading, setLoading] = useState(true);
-
   const [documents, setDocuments] = useState([]);
-
   const [url, setURL] = useState("");
   const [patientId, setPatientId] = useState();
   const [staffId, setStaffId] = useState();
-  const [staff, setIsStaff] = useState(false);
-  const [time, setTime] = useState();
-  const [title, setTitle] = useState();
-  const [updatedTitle, setUpdatedTitle] = useState("");
-  const [patient, setPatient] = useState({});
+
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: "Previous Upload Documents",
+      title: "Upload Documents",
     });
   }, []);
 
-  // Grab the current user & set them,
-  // Also set the user
+  //sets useStates
   useEffect(() => {
     const unsubscribe = firestoreService
       .getUserLive(authUserId)
@@ -80,9 +67,7 @@ const viewFileScreen = ({ navigation }) => {
         ]
       );
 
-      firestoreService.deleteMedicalResults(documents[deleteIndex]);
-
-      
+      firestoreService.deleteMedicalResultsBoth(documents[deleteIndex]);
 
     }catch (error) {
       alert(error.message);
@@ -180,12 +165,10 @@ const viewFileScreen = ({ navigation }) => {
                   setURL(l.url);
                   setPatientId(l.patientId);
                   setStaffId(l.staffId);
-                  setTime(l.timestamp);
                 }}
               />
               <ListItem.Content>
                 <ListItem.Title style={styles.name}>{l.title}</ListItem.Title>
-                {/* <ListItem.Subtitle  style={styles.subText}>{l.patientId}</ListItem.Subtitle> */}
               </ListItem.Content>
               <View style={styles.margin}>
                 <>
@@ -196,12 +179,10 @@ const viewFileScreen = ({ navigation }) => {
                         size={30}
                         color="#e34c46"
                         onPress={() => {
-                           setPatientId(l.patientId);
-                          setTitle(l.title);
+                          setPatientId(l.patientId);
                           removePictureAlert(i);
                         }}
                       />
-                    {/* not implemented yet */}
                       <Icon
                         name={"edit"}
                         size={30}

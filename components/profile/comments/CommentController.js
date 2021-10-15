@@ -188,7 +188,16 @@ const CommentController = ({ navigation, route }) => {
         reply: newComment,
         timestamp: Date.now(),
       };
+
+      // Clone old map and add new reply to newly cloned map.
+      const _commentReplies = new Map(commentReplies);
+      if (!_commentReplies.has(_reply.commentId)) {
+        _commentReplies.set(_reply.commentId, []);
+      }
+      _commentReplies.get(_reply.commentId).push(_reply);
+
       firestoreService.addCommentReply(user.id, _reply);
+      setCommentReplies(_commentReplies);
       setLatestReplyId(latestReplyId + 1);
       toggleCommentOverlay();
     }

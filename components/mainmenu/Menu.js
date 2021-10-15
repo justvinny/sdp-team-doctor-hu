@@ -85,7 +85,7 @@ export default function Menu({ navigation }) {
 
     //Right now this is the best way to render the screen correctly on the first try
     return (
-      <>
+      <View style={styles.mainContainer}>
         {user.isStaff ? (
           <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
             <StatusBar style="auto" />
@@ -165,7 +165,7 @@ export default function Menu({ navigation }) {
             </View>
           </ScrollView>
         )}
-      </>
+      </View>
     );
   };
 
@@ -173,6 +173,10 @@ export default function Menu({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    flex: 1,
+    backgroundColor: colorDefaults.backDropColor
+  },
   container: {
     flex: 1,
     backgroundColor: colorDefaults.backDropColor,

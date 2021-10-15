@@ -25,7 +25,7 @@ const CommentReplies = ({
                     title={`${reply.from.first.charAt(
                       0
                     )}${reply.from.last.charAt(0)}`}
-                    name={reply.from.first}
+                    name={`${reply.from.first} ${reply.from.last}`}
                     content={reply.reply}
                   />
                   <CommentActions

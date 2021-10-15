@@ -7,6 +7,7 @@ import AuthContext from "../../../context/AuthContext";
 import LoadingScreen from "../../LoadingScreen";
 import firestoreService from "../../../firebase/firestoreService";
 import CommentOverlay from "./CommentOverlay";
+import PublicCommentTab from "./PublicCommentTab";
 
 const CommentController = ({ navigation, route }) => {
   const user = route.params?.user;
@@ -264,26 +265,43 @@ const CommentController = ({ navigation, route }) => {
         <LoadingScreen />
       ) : (
         <View style={styles.container}>
-          <CommentTabNavigation
-            tabIndex={tabIndex}
-            setTabIndex={setTabIndex}
-            comments={comments}
-            commentReplies={commentReplies}
-            setComments={setComments}
-            setNewComment={setNewComment}
-            deleteComment={deleteComment}
-            deleteReply={deleteReply}
-            editComment={editComment}
-            openEditingOverlay={openEditingOverlay}
-            openEditingReplyOverlay={openEditingReplyOverlay}
-            openReplyOverlay={openReplyOverlay}
-          />
-          <FAB
-            icon={{ name: "add-comment", color: "white" }}
-            color={colorDefaults.primary}
-            placement="right"
-            onPress={openCommentOverlay}
-          />
+          {authUser.isStaff ? (
+            <>
+              <CommentTabNavigation
+                tabIndex={tabIndex}
+                setTabIndex={setTabIndex}
+                comments={comments}
+                commentReplies={commentReplies}
+                setComments={setComments}
+                setNewComment={setNewComment}
+                deleteComment={deleteComment}
+                deleteReply={deleteReply}
+                editComment={editComment}
+                openEditingOverlay={openEditingOverlay}
+                openEditingReplyOverlay={openEditingReplyOverlay}
+                openReplyOverlay={openReplyOverlay}
+              />
+              <FAB
+                icon={{ name: "add-comment", color: "white" }}
+                color={colorDefaults.primary}
+                placement="right"
+                onPress={openCommentOverlay}
+              />
+            </>
+          ) : (
+            <PublicCommentTab
+              comments={comments}
+              commentReplies={commentReplies}
+              setComments={setComments}
+              deleteComment={deleteComment}
+              deleteReply={deleteReply}
+              editComment={editComment}
+              openEditingOverlay={openEditingOverlay}
+              openReplyOverlay={openReplyOverlay}
+              openEditingReplyOverlay={openEditingReplyOverlay}
+            />
+          )}
+
           <CommentOverlay
             visible={commentOverlayVisible}
             toggleOverlay={toggleCommentOverlay}

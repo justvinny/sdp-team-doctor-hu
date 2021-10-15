@@ -1,5 +1,6 @@
 import React from "react";
 import { FlatList, StyleSheet, View } from "react-native";
+import colorDefaults from "../../../theme/colorDefaults";
 import CommentBox from "./CommentBox";
 
 const PublicCommentTab = ({
@@ -31,6 +32,7 @@ const PublicCommentTab = ({
           />
         )}
         keyExtractor={(item, index) => index.toString()}
+        contentContainerStyle={styles.flatList}
       />
     </View>
   );
@@ -42,5 +44,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "stretch",
+    backgroundColor: colorDefaults.backDropColor
   },
+  flatList: {
+    paddingBottom: 80
+  }
 });

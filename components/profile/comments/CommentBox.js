@@ -25,7 +25,7 @@ const CommentBox = ({
     <View style={styles.container}>
       <CommentCard
         title={`${comment.from.first.charAt(0)}${comment.from.last.charAt(0)}`}
-        name={comment.from.first}
+        name={`${comment.from.first} ${comment.from.last}`}
         content={comment.comment}
       />
       <CommentActions
@@ -35,6 +35,7 @@ const CommentBox = ({
         deleteComment={deleteComment}
         openEditingOverlay={openEditingOverlay}
         openReplyOverlay={openReplyOverlay}
+        hasReplies={commentReplies.get(comment.id)?.length > 0 ? true : false}
       />
       <CommentReplies
         commentReplies={commentReplies.get(comment.id)}

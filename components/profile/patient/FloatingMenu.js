@@ -14,14 +14,14 @@ const FloatingMenu = ({ open, setOpen, openComments }) => {
       overlayColor="rgba(0,0,0,0)"
     >
       <SpeedDial.Action
-        icon={{ name: "add-comment", color: "#fff" }}
-        title="Add Comment"
+        icon={{ name: "comment", color: "#fff" }}
+        title="View Comments"
         onPress={openComments}
         color={colorDefaults.primary}
       />
       <SpeedDial.Action
-        icon={{ name: "file-upload", color: "#fff" }}
-        title="Upload Result"
+        icon={{ name: "image", color: "#fff" }}
+        title="View Results"
         onPress={() => console.log("Delete Something")}
         color={colorDefaults.primary}
       />

@@ -31,6 +31,7 @@ const PrivateCommentTab = ({
           />
         )}
         keyExtractor={(item, index) => index.toString()}
+        contentContainerStyle={styles.flatList}
       />
     </View>
   );
@@ -43,4 +44,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "stretch",
   },
+  flatList: {
+    paddingBottom: 80
+  }
 });

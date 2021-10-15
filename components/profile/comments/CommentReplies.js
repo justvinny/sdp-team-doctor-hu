@@ -3,18 +3,12 @@ import { StyleSheet, Text, View } from "react-native";
 import CommentCard from "./CommentCard";
 import CommentActions from "./CommentActions";
 
-const mockReply = [
-  {
-    from: { first: "John", middle: "", last: "Doe" },
-    comment: "This is a reply.",
-  },
-  {
-    from: { first: "John", middle: "", last: "Doe" },
-    comment: "This is a reply.",
-  },
-];
-
-const CommentReplies = ({ commentReplies, repliesHidden, openReplyOverlay }) => {
+const CommentReplies = ({
+  commentReplies,
+  deleteReply,
+  repliesHidden,
+  openReplyOverlay,
+}) => {
   return (
     <>
       {repliesHidden ? (
@@ -36,6 +30,7 @@ const CommentReplies = ({ commentReplies, repliesHidden, openReplyOverlay }) => 
                   <CommentActions
                     isReply={true}
                     comment={reply}
+                    deleteReply={deleteReply}
                     openReplyOverlay={openReplyOverlay}
                   />
                 </View>

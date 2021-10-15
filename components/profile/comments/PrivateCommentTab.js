@@ -7,6 +7,7 @@ const PrivateCommentTab = ({
   commentReplies,
   setComments,
   deleteComment,
+  deleteReply,
   editComment,
   openEditingOverlay,
   openReplyOverlay
@@ -21,6 +22,7 @@ const PrivateCommentTab = ({
             commentReplies={commentReplies}
             setComments={setComments}
             deleteComment={deleteComment}
+            deleteReply={deleteReply}
             editComment={editComment}
             openEditingOverlay={openEditingOverlay}
             openReplyOverlay={openReplyOverlay}

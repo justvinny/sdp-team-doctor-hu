@@ -156,6 +156,24 @@ const CommentController = ({ navigation, route }) => {
     }
   };
 
+  const deleteReply = (id, commentId) => {
+    if (id && commentId) {
+      const _commentReplies = new Map(commentReplies);
+      const updatedRepliesArr = _commentReplies.get(commentId).filter((reply) => reply.id !== id);
+      _commentReplies.set(commentId, updatedRepliesArr);
+      setCommentReplies(_commentReplies);
+      
+      // Transform to array before storing in firestore
+      let commentRepliesArr = []
+      _commentReplies.forEach((value) => {
+        if (value?.length > 0) {
+          commentRepliesArr = [...commentRepliesArr, ...value]
+        }
+      });
+      firestoreService.updateCommentReplies(user.id, commentRepliesArr);
+    }
+  };
+
   const editComment = () => {
     // Store newly edited comment into new object.
     const selectedComment = comments.find(
@@ -217,6 +235,7 @@ const CommentController = ({ navigation, route }) => {
             setComments={setComments}
             setNewComment={setNewComment}
             deleteComment={deleteComment}
+            deleteReply={deleteReply}
             editComment={editComment}
             openEditingOverlay={openEditingOverlay}
             openReplyOverlay={openReplyOverlay}

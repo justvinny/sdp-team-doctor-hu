@@ -8,6 +8,7 @@ const CommentBox = ({
   comment,
   commentReplies,
   deleteComment,
+  deleteReply,
   openEditingOverlay,
   openReplyOverlay,
 }) => {
@@ -36,6 +37,7 @@ const CommentBox = ({
       />
       <CommentReplies
         commentReplies={commentReplies.get(comment.id)}
+        deleteReply={deleteReply}
         repliesHidden={repliesHidden}
         openReplyOverlay={openReplyOverlay}
       />

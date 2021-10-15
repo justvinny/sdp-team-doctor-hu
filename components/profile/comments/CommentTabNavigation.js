@@ -12,6 +12,7 @@ const CommentTabNavigation = ({
   commentReplies,
   setComments,
   deleteComment,
+  deleteReply,
   editComment,
   openEditingOverlay,
   openReplyOverlay,
@@ -41,6 +42,7 @@ const CommentTabNavigation = ({
             commentReplies={commentReplies}
             setComments={setComments}
             deleteComment={deleteComment}
+            deleteReply={deleteReply}
             editComment={editComment}
             openEditingOverlay={openEditingOverlay}
             openReplyOverlay={openReplyOverlay}
@@ -52,6 +54,7 @@ const CommentTabNavigation = ({
             commentReplies={commentReplies}
             setComments={setComments}
             deleteComment={deleteComment}
+            deleteReply={deleteReply}
             editComment={editComment}
             openEditingOverlay={openEditingOverlay}
             openReplyOverlay={openReplyOverlay}

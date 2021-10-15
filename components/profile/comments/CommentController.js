@@ -237,7 +237,6 @@ const CommentController = ({ navigation, route }) => {
         timestamp: Date.now(),
       };
 
-      console.log(_reply);
       // Clone old map and add new reply to newly cloned map.
       const _commentReplies = new Map(commentReplies);
       if (!_commentReplies.has(_reply.commentId)) {

@@ -20,7 +20,7 @@ const CommentBox = ({
   // Gives the comment Id dynamically for both normal comments and replies.
   // Reply has a commentId property to determine which comment it is associated to.
   const getCommentId = () => {
-    if (comment?.commentId) {
+    if (comment?.commentId !== undefined) {
       return comment.commentId;
     }
     return comment.id;

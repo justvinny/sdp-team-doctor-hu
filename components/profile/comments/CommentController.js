@@ -141,7 +141,7 @@ const CommentController = ({ navigation, route }) => {
       const _newComment = {
         id: getNextId(comments),
         authorId: authUserId,
-        authorPicture: authUser.picture,
+        authorPicture: authUser.picture === undefined ? "" : authUser.picture,
         from: authUser.name,
         comment: newComment,
         isPrivate: commentPrivate,
@@ -155,7 +155,7 @@ const CommentController = ({ navigation, route }) => {
   };
 
   const deleteComment = (id) => {
-    if (id) {
+    if (id !== undefined) {
       const updatedComments = comments.filter((comment) => comment.id !== id);
       setComments(updatedComments);
       firestoreService.updateComments(user.id, updatedComments);
@@ -163,7 +163,7 @@ const CommentController = ({ navigation, route }) => {
   };
 
   const deleteReply = (id, commentId) => {
-    if (id && commentId) {
+    if (id !== undefined && commentId !== undefined) {
       const _commentReplies = new Map(commentReplies);
       const updatedRepliesArr = _commentReplies
         .get(commentId)
@@ -231,12 +231,13 @@ const CommentController = ({ navigation, route }) => {
         id: latestReplyId,
         commentId: selectedCommentId,
         authorId: authUserId,
-        authorPicture: authUser?.picture,
+        authorPicture: authUser.picture === undefined ? "" : authUser.picture,
         from: authUser.name,
         reply: newComment,
         timestamp: Date.now(),
       };
 
+      console.log(_reply);
       // Clone old map and add new reply to newly cloned map.
       const _commentReplies = new Map(commentReplies);
       if (!_commentReplies.has(_reply.commentId)) {
@@ -246,8 +247,8 @@ const CommentController = ({ navigation, route }) => {
 
       setCommentReplies(_commentReplies);
       setLatestReplyId(latestReplyId + 1);
-      toggleCommentOverlay();
       firestoreService.addCommentReply(user.id, _reply);
+      toggleCommentOverlay();
     }
   };
 

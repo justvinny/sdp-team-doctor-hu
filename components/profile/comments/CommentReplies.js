@@ -14,7 +14,7 @@ const mockReply = [
   },
 ];
 
-const CommentReplies = ({ commentReplies, repliesHidden }) => {
+const CommentReplies = ({ commentReplies, repliesHidden, openReplyOverlay }) => {
   return (
     <>
       {repliesHidden ? (
@@ -33,7 +33,11 @@ const CommentReplies = ({ commentReplies, repliesHidden }) => {
                     name={reply.from.first}
                     content={reply.reply}
                   />
-                  <CommentActions isReply={true} />
+                  <CommentActions
+                    isReply={true}
+                    comment={reply}
+                    openReplyOverlay={openReplyOverlay}
+                  />
                 </View>
               </View>
             ))}

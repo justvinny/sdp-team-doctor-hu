@@ -10,6 +10,17 @@ const CommentBox = ({
   openEditingOverlay,
   openReplyOverlay
 }) => {
+
+  // Gives the comment Id dynamically for both normal comments and replies.
+  // Reply has a commentId property to determine which comment it is associated to. 
+  const getCommentId = () => {
+    if (comment?.commentId) {
+      return comment.commentId;
+    }
+    return comment.id;
+  }
+
+  console.log(getCommentId());
   return (
     <View style={styles.container}>
       {isReply ? (
@@ -28,7 +39,7 @@ const CommentBox = ({
         <Text style={styles.textLink}>Delete</Text>
       </TouchableOpacity>
       <TouchableOpacity>
-        <Text style={styles.textLink} onPress={() => openReplyOverlay(comment.id)}>Reply</Text>
+        <Text style={styles.textLink} onPress={() => openReplyOverlay(getCommentId())}>Reply</Text>
       </TouchableOpacity>
     </View>
   );

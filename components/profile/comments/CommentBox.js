@@ -37,6 +37,7 @@ const CommentBox = ({
       <CommentReplies
         commentReplies={commentReplies.get(comment.id)}
         repliesHidden={repliesHidden}
+        openReplyOverlay={openReplyOverlay}
       />
     </View>
   );

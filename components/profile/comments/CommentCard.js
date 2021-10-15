@@ -3,21 +3,19 @@ import { StyleSheet, Text, View } from "react-native";
 import { Avatar } from "react-native-elements";
 import colorDefaults from "../../../theme/colorDefaults";
 
-const CommentCard = ({ comment }) => {
+const CommentCard = ({ title, name, content }) => {
   return (
     <View style={styles.container}>
       <View style={styles.nameContainer}>
         <Avatar
           size="small"
           rounded
-          title={`${comment.from.first.charAt(0)}${comment.from.last.charAt(
-            0
-          )}`}
+          title={title}
           containerStyle={{ backgroundColor: colorDefaults.primary }}
         />
-        <Text style={styles.name}>{comment.from.first}</Text>
+        <Text style={styles.name}>{name}</Text>
       </View>
-      <Text>{comment.comment}</Text>
+      <Text>{content}</Text>
     </View>
   );
 };

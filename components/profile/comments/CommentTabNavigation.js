@@ -9,11 +9,12 @@ const CommentTabNavigation = ({
   tabIndex,
   setTabIndex,
   comments,
+  commentReplies,
   setComments,
   deleteComment,
   editComment,
-  replyToComment,
   openEditingOverlay,
+  openReplyOverlay,
 }) => {
   return (
     <>
@@ -37,21 +38,23 @@ const CommentTabNavigation = ({
         <TabView.Item style={styles.tabViewContainer}>
           <PublicCommentTab
             comments={comments}
+            commentReplies={commentReplies}
             setComments={setComments}
             deleteComment={deleteComment}
             editComment={editComment}
             openEditingOverlay={openEditingOverlay}
-            replyToComment={replyToComment}
+            openReplyOverlay={openReplyOverlay}
           />
         </TabView.Item>
         <TabView.Item style={styles.tabViewContainer}>
           <PrivateCommentTab
             comments={comments}
+            commentReplies={commentReplies}
             setComments={setComments}
             deleteComment={deleteComment}
             editComment={editComment}
             openEditingOverlay={openEditingOverlay}
-            replyToComment={replyToComment}
+            openReplyOverlay={openReplyOverlay}
           />
         </TabView.Item>
       </TabView>

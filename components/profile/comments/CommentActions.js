@@ -8,6 +8,7 @@ const CommentBox = ({
   isReply,
   deleteComment,
   openEditingOverlay,
+  openReplyOverlay
 }) => {
   return (
     <View style={styles.container}>
@@ -27,7 +28,7 @@ const CommentBox = ({
         <Text style={styles.textLink}>Delete</Text>
       </TouchableOpacity>
       <TouchableOpacity>
-        <Text style={styles.textLink}>Reply</Text>
+        <Text style={styles.textLink} onPress={() => openReplyOverlay(comment.id)}>Reply</Text>
       </TouchableOpacity>
     </View>
   );

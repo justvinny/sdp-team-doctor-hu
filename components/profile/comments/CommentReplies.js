@@ -14,22 +14,29 @@ const mockReply = [
   },
 ];
 
-const CommentReplies = ({ repliesHidden }) => {
+const CommentReplies = ({ commentReplies, repliesHidden }) => {
   return (
     <>
       {repliesHidden ? (
         <></>
       ) : (
         <View style={styles.container}>
-          {mockReply.map((reply, index) => (
-            <View key={index} style={styles.replyContainer}>
-              <View style={styles.line}/>
-              <View style={styles.replyBox}>
-                <CommentCard key={index} comment={reply} />
-                <CommentActions isReply={true} />
+          {commentReplies &&
+            commentReplies.map((reply, index) => (
+              <View key={index} style={styles.replyContainer}>
+                <View style={styles.line} />
+                <View style={styles.replyBox}>
+                  <CommentCard
+                    title={`${reply.from.first.charAt(
+                      0
+                    )}${reply.from.last.charAt(0)}`}
+                    name={reply.from.first}
+                    content={reply.reply}
+                  />
+                  <CommentActions isReply={true} />
+                </View>
               </View>
-            </View>
-          ))}
+            ))}
         </View>
       )}
     </>
@@ -49,12 +56,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   replyBox: {
-    flex: 1
+    flex: 1,
   },
   line: {
     backgroundColor: "green",
     width: "2.5%",
     height: "85%",
-    marginRight: 8
-  }
+    marginRight: 8,
+  },
 });

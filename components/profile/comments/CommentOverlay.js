@@ -14,11 +14,25 @@ const CommentOverlay = ({
   addComment,
   editComment,
   editingComment,
+  replyToComment,
+  replyingComment,
 }) => {
   const renderButtonsDynamically = () => {
     if (editingComment) {
       return (
-        <TouchableOpacity style={[styles.button, styles.buttonEdit]} onPress={editComment}>
+        <TouchableOpacity
+          style={[styles.button, styles.buttonEdit]}
+          onPress={editComment}
+        >
+          <Text style={styles.buttonText}>Post</Text>
+        </TouchableOpacity>
+      );
+    } else if (replyingComment) {
+      return (
+        <TouchableOpacity
+          style={[styles.button, styles.buttonEdit]}
+          onPress={replyToComment}
+        >
           <Text style={styles.buttonText}>Post</Text>
         </TouchableOpacity>
       );
@@ -49,7 +63,7 @@ const CommentOverlay = ({
       overlayStyle={styles.container}
     >
       <TextInput
-        placeholder="Write a comment..."
+        placeholder={`Write a ${replyingComment ? "reply" : "comment"}...`}
         value={newComment}
         onChangeText={setNewcomment}
         style={styles.input}

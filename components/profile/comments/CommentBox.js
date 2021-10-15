@@ -4,7 +4,13 @@ import CommentCard from "./CommentCard";
 import CommentActions from "./CommentActions";
 import CommentReplies from "./CommentReplies";
 
-const CommentBox = ({ comment, deleteComment, openEditingOverlay }) => {
+const CommentBox = ({
+  comment,
+  commentReplies,
+  deleteComment,
+  openEditingOverlay,
+  openReplyOverlay,
+}) => {
   // State
   const [repliesHidden, setRepliesHidden] = useState(true);
 
@@ -15,15 +21,23 @@ const CommentBox = ({ comment, deleteComment, openEditingOverlay }) => {
 
   return (
     <View style={styles.container}>
-      <CommentCard comment={comment} />
+      <CommentCard
+        title={`${comment.from.first.charAt(0)}${comment.from.last.charAt(0)}`}
+        name={comment.from.first}
+        content={comment.comment}
+      />
       <CommentActions
         comment={comment}
         repliesHidden={repliesHidden}
         toggleReplies={toggleReplies}
         deleteComment={deleteComment}
         openEditingOverlay={openEditingOverlay}
+        openReplyOverlay={openReplyOverlay}
       />
-      <CommentReplies repliesHidden={repliesHidden} />
+      <CommentReplies
+        commentReplies={commentReplies.get(comment.id)}
+        repliesHidden={repliesHidden}
+      />
     </View>
   );
 };

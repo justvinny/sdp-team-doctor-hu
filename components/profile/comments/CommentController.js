@@ -21,15 +21,17 @@ const CommentController = ({ navigation, route }) => {
 
   // Users
   const [authUser, setAuthUser] = useState({});
-  const [viewedUser, setViewedUser] = useState();
   const [comments, setComments] = useState([]);
+  const [commentReplies, setCommentReplies] = useState(new Map());
+  const [latestReplyId, setLatestReplyId] = useState(0);
 
   // Comment overlay
   const [commentOverlayVisible, setCommentOveralVisible] = useState(false);
   const [commentPrivate, setCommentPrivate] = useState(false);
   const [newComment, setNewComment] = useState("");
-  const [editingCommentId, setEditingCommentId] = useState(0);
+  const [selectedCommentId, setSelectedCommentId] = useState(0);
   const [editingComment, setEditingComment] = useState(false);
+  const [replyingComment, setReplyingComment] = useState(false);
 
   /*
     Hooks
@@ -46,6 +48,33 @@ const CommentController = ({ navigation, route }) => {
       if (user?.comments) {
         setComments(user.comments);
       }
+
+      if (user?.commentReplies) {
+        // Transform firestore array of replies to map data structure using the comment id as key
+        // for ease of querying
+        const transformedMap = user.commentReplies.reduce(
+          (map, currentValue) => {
+            if (!map.has(currentValue.commentId)) {
+              map.set(currentValue.commentId, []);
+            }
+            map.get(currentValue.commentId).push(currentValue);
+            return map;
+          },
+          new Map()
+        );
+
+        // Get the highest id value which will be used to calculate the new id value for replies.
+        const latestId = user.commentReplies.reduce(
+          (previousValue, currentValue) =>
+            previousValue > currentValue ? previousValue : currentValue,
+          -1
+        );
+
+        // Update states
+        setCommentReplies(transformedMap);
+        setLatestReplyId(latestId + 1);
+      }
+
       setLoading(false);
     });
   }, []);
@@ -67,13 +96,31 @@ const CommentController = ({ navigation, route }) => {
   const openCommentOverlay = () => {
     setNewComment("");
     setEditingComment(false);
+    setReplyingComment(false);
     setCommentOveralVisible(true);
   };
 
   const openEditingOverlay = (id, comment) => {
-    setEditingCommentId(id);
+    setSelectedCommentId(id);
     setNewComment(comment);
     setEditingComment(true);
+    setReplyingComment(false);
+    setCommentOveralVisible(true);
+  };
+
+  const openReplyOverlay = (id) => {
+    setNewComment("");
+    setSelectedCommentId(id);
+    setEditingComment(false);
+    setReplyingComment(true);
+    setCommentOveralVisible(true);
+  };
+
+  const openEditingReplyOverlay = (id, comment) => {
+    setSelectedCommentId(id);
+    setNewComment(comment);
+    setEditingComment(true);
+    setReplyingComment(true);
     setCommentOveralVisible(true);
   };
 
@@ -81,18 +128,17 @@ const CommentController = ({ navigation, route }) => {
     setCommentPrivate(!commentPrivate);
   };
 
-  const getCommentId = () => {
-    return comments.length > 0 ? comments[comments.length - 1].id + 1 : 0;
+  const getNextId = (arr) => {
+    return arr.length > 0 ? arr[arr.length - 1].id + 1 : 0;
   };
 
   const addComment = () => {
     if (newComment) {
       const _newComment = {
-        id: getCommentId(),
+        id: getNextId(comments),
         authorId: authUserId,
         from: authUser.name,
         comment: newComment,
-        replies: [],
         isPrivate: commentPrivate,
         timestamp: Date.now(),
       };
@@ -113,7 +159,7 @@ const CommentController = ({ navigation, route }) => {
   const editComment = () => {
     // Store newly edited comment into new object.
     const selectedComment = comments.find(
-      (comment) => editingCommentId === comment.id
+      (comment) => selectedCommentId === comment.id
     );
     const editedComment = {
       ...selectedComment,
@@ -122,15 +168,31 @@ const CommentController = ({ navigation, route }) => {
 
     // Save the edited comment our comments array by replacing its old object with the new one.
     const _comments = comments.filter(
-      (comment) => comment.id !== editingCommentId
+      (comment) => comment.id !== selectedCommentId
     );
-    const editedComments = [..._comments, editedComment].sort((a,b) => a.id - b.id);
+    const editedComments = [..._comments, editedComment].sort(
+      (a, b) => a.id - b.id
+    );
     firestoreService.updateComments(user.id, editedComments);
     setComments(editedComments);
     setCommentOveralVisible(false);
   };
 
-  const replyToComment = () => {};
+  const replyToComment = () => {
+    if (newComment) {
+      const _reply = {
+        id: latestReplyId,
+        commentId: selectedCommentId,
+        authorId: authUserId,
+        from: authUser.name,
+        reply: newComment,
+        timestamp: Date.now(),
+      };
+      firestoreService.addCommentReply(user.id, _reply);
+      setLatestReplyId(latestReplyId + 1);
+      toggleCommentOverlay();
+    }
+  };
 
   return (
     <>
@@ -142,12 +204,13 @@ const CommentController = ({ navigation, route }) => {
             tabIndex={tabIndex}
             setTabIndex={setTabIndex}
             comments={comments}
+            commentReplies={commentReplies}
             setComments={setComments}
             setNewComment={setNewComment}
             deleteComment={deleteComment}
             editComment={editComment}
             openEditingOverlay={openEditingOverlay}
-            replyToComment={replyToComment}
+            openReplyOverlay={openReplyOverlay}
           />
           <FAB
             icon={{ name: "add-comment", color: "white" }}
@@ -165,6 +228,8 @@ const CommentController = ({ navigation, route }) => {
             addComment={addComment}
             editComment={editComment}
             editingComment={editingComment}
+            replyToComment={replyToComment}
+            replyingComment={replyingComment}
           />
         </View>
       )}

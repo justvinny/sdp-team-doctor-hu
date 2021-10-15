@@ -4,12 +4,12 @@ import CommentBox from "./CommentBox";
 
 const PublicCommentTab = ({
   comments,
+  commentReplies,
   setComments,
-  setNewComment,
   deleteComment,
   editComment,
-  replyToComment,
   openEditingOverlay,
+  openReplyOverlay
 }) => {
   return (
     <View style={styles.container}>
@@ -18,11 +18,12 @@ const PublicCommentTab = ({
         renderItem={({ item }) => (
           <CommentBox
             comment={item}
+            commentReplies={commentReplies}
             setComments={setComments}
             deleteComment={deleteComment}
             editComment={editComment}
             openEditingOverlay={openEditingOverlay}
-            replyToComment={replyToComment}
+            openReplyOverlay={openReplyOverlay}
           />
         )}
         keyExtractor={(item, index) => index.toString()}

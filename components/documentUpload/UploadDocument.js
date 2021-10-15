@@ -1,7 +1,7 @@
 // import React in our code
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useLayoutEffect, useContext } from "react";
 // import all the components we are going to use
-import { StyleSheet, View, LogBox, Alert , Text} from "react-native";
+import { StyleSheet, View, LogBox, Image, Alert , Text} from "react-native";
 import {
   Button,
   Input,
@@ -24,6 +24,10 @@ function UploadDocument({
   const [download, showDownload] = useState(false);
   const [title, setTitle] = useState("");
   const [progress, showProgress] = useState(false);
+<<<<<<< HEAD
+=======
+  const [docTitle, setDocTitle] = useState("");
+>>>>>>> parent of b2642b8 (cleaned up)
 
   useEffect(() => {
     LogBox.ignoreLogs(["Animated: `useNativeDriver`"]);
@@ -85,6 +89,14 @@ function UploadDocument({
     if (file) {
       try {
         showProgress(true);
+        // const metadata = {
+        //     customMetadata: {
+        //       //contentType: 'application/pdf',
+        //       // 'note': 'Hiking'
+        //     }
+        //   };
+        // Links to meta data.
+        //const task = await storage.ref().child(childPath).put(blob, metadata);
         const childPath = `document/${patient}/${Math.random().toString(36)}`;
         const response = await fetch(file);
         const blob = await response.blob();

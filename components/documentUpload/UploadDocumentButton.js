@@ -1,5 +1,8 @@
 import React, { useEffect, useState, useContext } from "react";
 import { FAB, Overlay , SpeedDial} from 'react-native-elements';
+import UploadDocument from '../documentUpload/UploadDocument';
+import colorDefaults from "../../theme/colorDefaults";
+
 
 function UploadActionButton({visible, setDocumentVisible, toggleDocumentOverlay}){
 

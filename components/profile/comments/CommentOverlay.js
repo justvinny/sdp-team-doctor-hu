@@ -14,17 +14,27 @@ const CommentOverlay = ({
   addComment,
   editComment,
   editingComment,
+  editReply,
   replyToComment,
   replyingComment,
 }) => {
   const renderButtonsDynamically = () => {
-    if (editingComment) {
+    if (replyingComment && editingComment) {
+      return (
+        <TouchableOpacity
+          style={[styles.button, styles.buttonEdit]}
+          onPress={editReply}
+        >
+          <Text style={styles.buttonText}>Update</Text>
+        </TouchableOpacity>
+      );
+    } else if (editingComment) {
       return (
         <TouchableOpacity
           style={[styles.button, styles.buttonEdit]}
           onPress={editComment}
         >
-          <Text style={styles.buttonText}>Post</Text>
+          <Text style={styles.buttonText}>Update</Text>
         </TouchableOpacity>
       );
     } else if (replyingComment) {

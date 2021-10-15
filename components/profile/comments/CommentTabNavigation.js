@@ -16,6 +16,7 @@ const CommentTabNavigation = ({
   editComment,
   openEditingOverlay,
   openReplyOverlay,
+  openEditingReplyOverlay
 }) => {
   return (
     <>
@@ -46,6 +47,7 @@ const CommentTabNavigation = ({
             editComment={editComment}
             openEditingOverlay={openEditingOverlay}
             openReplyOverlay={openReplyOverlay}
+            openEditingReplyOverlay={openEditingReplyOverlay}
           />
         </TabView.Item>
         <TabView.Item style={styles.tabViewContainer}>
@@ -58,6 +60,7 @@ const CommentTabNavigation = ({
             editComment={editComment}
             openEditingOverlay={openEditingOverlay}
             openReplyOverlay={openReplyOverlay}
+            openEditingReplyOverlay={openEditingReplyOverlay}
           />
         </TabView.Item>
       </TabView>

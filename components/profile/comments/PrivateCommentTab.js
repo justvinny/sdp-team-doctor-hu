@@ -10,7 +10,8 @@ const PrivateCommentTab = ({
   deleteReply,
   editComment,
   openEditingOverlay,
-  openReplyOverlay
+  openReplyOverlay,
+  openEditingReplyOverlay
 }) => {
   return (
     <View style={styles.container}>
@@ -26,6 +27,7 @@ const PrivateCommentTab = ({
             editComment={editComment}
             openEditingOverlay={openEditingOverlay}
             openReplyOverlay={openReplyOverlay}
+            openEditingReplyOverlay={openEditingReplyOverlay}
           />
         )}
         keyExtractor={(item, index) => index.toString()}

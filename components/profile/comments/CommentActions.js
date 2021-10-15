@@ -10,6 +10,7 @@ const CommentBox = ({
   deleteReply,
   openEditingOverlay,
   openReplyOverlay,
+  openEditingReplyOverlay,
 }) => {
   // Gives the comment Id dynamically for both normal comments and replies.
   // Reply has a commentId property to determine which comment it is associated to.
@@ -32,7 +33,7 @@ const CommentBox = ({
         </TouchableOpacity>
       )}
       <TouchableOpacity
-        onPress={() => openEditingOverlay(comment.id, comment.comment)}
+        onPress={() => {openEditingOverlay ? openEditingOverlay(comment.id, comment.comment) : openEditingReplyOverlay(comment.id, comment.commentId, comment.reply)}}
       >
         <Text style={styles.textLink}>Edit</Text>
       </TouchableOpacity>

@@ -8,6 +8,7 @@ const CommentReplies = ({
   deleteReply,
   repliesHidden,
   openReplyOverlay,
+  openEditingReplyOverlay
 }) => {
   return (
     <>
@@ -32,6 +33,7 @@ const CommentReplies = ({
                     comment={reply}
                     deleteReply={deleteReply}
                     openReplyOverlay={openReplyOverlay}
+                    openEditingReplyOverlay={openEditingReplyOverlay}
                   />
                 </View>
               </View>

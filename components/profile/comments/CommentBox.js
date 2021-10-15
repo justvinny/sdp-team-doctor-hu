@@ -11,6 +11,7 @@ const CommentBox = ({
   deleteReply,
   openEditingOverlay,
   openReplyOverlay,
+  openEditingReplyOverlay
 }) => {
   // State
   const [repliesHidden, setRepliesHidden] = useState(true);
@@ -40,6 +41,7 @@ const CommentBox = ({
         deleteReply={deleteReply}
         repliesHidden={repliesHidden}
         openReplyOverlay={openReplyOverlay}
+        openEditingReplyOverlay={openEditingReplyOverlay}
       />
     </View>
   );

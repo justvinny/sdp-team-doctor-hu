@@ -8,6 +8,7 @@ const PrivateCommentTab = ({
   deleteComment,
   editComment,
   replyToComment,
+  openEditingOverlay
 }) => {
   return (
     <View style={styles.container}>
@@ -19,6 +20,7 @@ const PrivateCommentTab = ({
             setComments={setComments}
             deleteComment={deleteComment}
             editComment={editComment}
+            openEditingOverlay={openEditingOverlay}
             replyToComment={replyToComment}
           />
         )}

@@ -4,7 +4,7 @@ import CommentCard from "./CommentCard";
 import CommentActions from "./CommentActions";
 import CommentReplies from "./CommentReplies";
 
-const CommentBox = ({ comment, deleteComment }) => {
+const CommentBox = ({ comment, deleteComment, openEditingOverlay }) => {
   // State
   const [repliesHidden, setRepliesHidden] = useState(true);
 
@@ -21,6 +21,7 @@ const CommentBox = ({ comment, deleteComment }) => {
         repliesHidden={repliesHidden}
         toggleReplies={toggleReplies}
         deleteComment={deleteComment}
+        openEditingOverlay={openEditingOverlay}
       />
       <CommentReplies repliesHidden={repliesHidden} />
     </View>

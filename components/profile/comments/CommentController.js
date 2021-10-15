@@ -12,17 +12,28 @@ const CommentController = ({ navigation, route }) => {
   const user = route.params?.user;
   const { authUserId } = useContext(AuthContext);
 
-  // States
+  /*
+    States
+  */
+  // Loading screen when data is not loaded yet from firebase
   const [loading, setLoading] = useState(true);
+  const [tabIndex, setTabIndex] = useState(0);
+
+  // Users
   const [authUser, setAuthUser] = useState({});
   const [viewedUser, setViewedUser] = useState();
   const [comments, setComments] = useState([]);
-  const [newComment, setNewComment] = useState("");
-  const [tabIndex, setTabIndex] = useState(0);
-  const [newCommentVisible, setNewCommentVisible] = useState(false);
-  const [commentPrivate, setCommentPrivate] = useState(false);
 
-  // Hooks
+  // Comment overlay
+  const [commentOverlayVisible, setCommentOveralVisible] = useState(false);
+  const [commentPrivate, setCommentPrivate] = useState(false);
+  const [newComment, setNewComment] = useState("");
+  const [editingCommentId, setEditingCommentId] = useState(0);
+  const [editingComment, setEditingComment] = useState(false);
+
+  /*
+    Hooks
+  */
   useEffect(() => {
     firestoreService.getUserById(authUserId).then((user) => {
       setAuthUser(user);
@@ -46,9 +57,24 @@ const CommentController = ({ navigation, route }) => {
     });
   }, [navigation, route]);
 
-  // Other functions
-  const toggleNewComment = () => {
-    setNewCommentVisible(!newCommentVisible);
+  /*
+    Other functions
+  */
+  const toggleCommentOverlay = () => {
+    setCommentOveralVisible(!commentOverlayVisible);
+  };
+
+  const openCommentOverlay = () => {
+    setNewComment("");
+    setEditingComment(false);
+    setCommentOveralVisible(true);
+  };
+
+  const openEditingOverlay = (id, comment) => {
+    setEditingCommentId(id);
+    setNewComment(comment);
+    setEditingComment(true);
+    setCommentOveralVisible(true);
   };
 
   const toggleCommentPrivate = () => {
@@ -72,8 +98,7 @@ const CommentController = ({ navigation, route }) => {
       };
       firestoreService.addComment(user.id, _newComment);
       setComments([...comments, _newComment]);
-      toggleNewComment();
-      setNewComment("");
+      toggleCommentOverlay();
     }
   };
 
@@ -85,7 +110,25 @@ const CommentController = ({ navigation, route }) => {
     }
   };
 
-  const editComment = () => {};
+  const editComment = () => {
+    // Store newly edited comment into new object.
+    const selectedComment = comments.find(
+      (comment) => editingCommentId === comment.id
+    );
+    const editedComment = {
+      ...selectedComment,
+      comment: newComment,
+    };
+
+    // Save the edited comment our comments array by replacing its old object with the new one.
+    const _comments = comments.filter(
+      (comment) => comment.id !== editingCommentId
+    );
+    const editedComments = [..._comments, editedComment].sort((a,b) => a.id - b.id);
+    firestoreService.updateComments(user.id, editedComments);
+    setComments(editedComments);
+    setCommentOveralVisible(false);
+  };
 
   const replyToComment = () => {};
 
@@ -100,24 +143,28 @@ const CommentController = ({ navigation, route }) => {
             setTabIndex={setTabIndex}
             comments={comments}
             setComments={setComments}
+            setNewComment={setNewComment}
             deleteComment={deleteComment}
             editComment={editComment}
+            openEditingOverlay={openEditingOverlay}
             replyToComment={replyToComment}
           />
           <FAB
             icon={{ name: "add-comment", color: "white" }}
             color={colorDefaults.primary}
             placement="right"
-            onPress={toggleNewComment}
+            onPress={openCommentOverlay}
           />
           <CommentOverlay
-            visible={newCommentVisible}
-            toggleNewComment={toggleNewComment}
+            visible={commentOverlayVisible}
+            toggleOverlay={toggleCommentOverlay}
             commentPrivate={commentPrivate}
             toggleCommentPrivate={toggleCommentPrivate}
             newComment={newComment}
             setNewcomment={setNewComment}
             addComment={addComment}
+            editComment={editComment}
+            editingComment={editingComment}
           />
         </View>
       )}

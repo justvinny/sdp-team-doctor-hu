@@ -5,9 +5,11 @@ import CommentBox from "./CommentBox";
 const PublicCommentTab = ({
   comments,
   setComments,
+  setNewComment,
   deleteComment,
   editComment,
   replyToComment,
+  openEditingOverlay,
 }) => {
   return (
     <View style={styles.container}>
@@ -19,6 +21,7 @@ const PublicCommentTab = ({
             setComments={setComments}
             deleteComment={deleteComment}
             editComment={editComment}
+            openEditingOverlay={openEditingOverlay}
             replyToComment={replyToComment}
           />
         )}

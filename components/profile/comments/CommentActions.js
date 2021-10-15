@@ -1,7 +1,14 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-const CommentBox = ({ comment, repliesHidden, toggleReplies, isReply, deleteComment }) => {
+const CommentBox = ({
+  comment,
+  repliesHidden,
+  toggleReplies,
+  isReply,
+  deleteComment,
+  openEditingOverlay,
+}) => {
   return (
     <View style={styles.container}>
       {isReply ? (
@@ -13,7 +20,7 @@ const CommentBox = ({ comment, repliesHidden, toggleReplies, isReply, deleteComm
           </Text>
         </TouchableOpacity>
       )}
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => openEditingOverlay(comment.id, comment.comment)}>
         <Text style={styles.textLink}>Edit</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => deleteComment(comment.id)}>

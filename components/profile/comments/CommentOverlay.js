@@ -6,26 +6,25 @@ import colorDefaults from "../../../theme/colorDefaults";
 
 const CommentOverlay = ({
   visible,
-  toggleNewComment,
+  toggleOverlay,
   commentPrivate,
   toggleCommentPrivate,
   newComment,
   setNewcomment,
   addComment,
+  editComment,
+  editingComment,
 }) => {
-  return (
-    <Overlay
-      isVisible={visible}
-      onBackdropPress={toggleNewComment}
-      overlayStyle={styles.container}
-    >
-      <TextInput
-        placeholder="Write a comment..."
-        value={newComment}
-        onChangeText={setNewcomment}
-        style={styles.input}
-        multiline
-      />
+  const renderButtonsDynamically = () => {
+    if (editingComment) {
+      return (
+        <TouchableOpacity style={[styles.button, styles.buttonEdit]} onPress={editComment}>
+          <Text style={styles.buttonText}>Post</Text>
+        </TouchableOpacity>
+      );
+    }
+
+    return (
       <View style={styles.botContainer}>
         <View style={styles.switch}>
           <Text style={styles.switchText}>Private</Text>
@@ -40,6 +39,24 @@ const CommentOverlay = ({
           <Text style={styles.buttonText}>Post</Text>
         </TouchableOpacity>
       </View>
+    );
+  };
+
+  return (
+    <Overlay
+      isVisible={visible}
+      onBackdropPress={toggleOverlay}
+      overlayStyle={styles.container}
+    >
+      <TextInput
+        placeholder="Write a comment..."
+        value={newComment}
+        onChangeText={setNewcomment}
+        style={styles.input}
+        multiline
+      />
+
+      {renderButtonsDynamically()}
     </Overlay>
   );
 };
@@ -55,14 +72,14 @@ const styles = StyleSheet.create({
   botContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center"
+    alignItems: "center",
   },
   input: {
     padding: 12,
     margin: 8,
     borderWidth: 1,
     borderRadius: 8,
-    borderColor: colorDefaults.primary
+    borderColor: colorDefaults.primary,
   },
   button: {
     justifyContent: "center",
@@ -70,25 +87,27 @@ const styles = StyleSheet.create({
     padding: 8,
     backgroundColor: colorDefaults.primary,
     width: "25%",
-    alignSelf: "flex-end",
     marginRight: 8,
     borderRadius: 8,
+  },
+  buttonEdit: {
+    alignSelf: "flex-end",
   },
   buttonText: {
     color: "#fff",
     fontWeight: "bold",
   },
   switch: {
-      marginLeft: 16,
-      flexDirection: "row",
-      alignItems: "center",
-      borderRadius: 8,
-      borderColor: colorDefaults.primary,
+    marginLeft: 8,
+    flexDirection: "row",
+    alignItems: "center",
+    borderRadius: 8,
+    borderColor: colorDefaults.primary,
   },
   switchText: {
-      fontSize: 16,
-      fontWeight: "700",
-      color: colorDefaults.primary,
-      marginRight: 4
-  }
+    fontSize: 16,
+    fontWeight: "700",
+    color: colorDefaults.primary,
+    marginRight: 4,
+  },
 });

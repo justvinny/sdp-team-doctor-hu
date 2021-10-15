@@ -24,8 +24,8 @@ const getAllUsers = () =>
     .then((querySnapshot) => querySnapshot.docs.map((doc) => doc.data()))
     .catch((error) => "Error getting users: " + error);
 
-const getAllStaffLive = (id) =>
-  db.collection(COLLECTION_USERS).where("isStaff", "==", true);
+const getAllStaffLive = () => db.collection(COLLECTION_USERS)
+    .where("isStaff", "==", true)
 
 const getAllPatients = async () => {
   try {
@@ -41,15 +41,19 @@ const getAllPatients = async () => {
 };
 
 const getUserById = async (id) => {
-  try {
-    const doc = await db.collection(COLLECTION_USERS).doc(id).get();
-    return doc.data();
-  } catch (error) {
-    return "Error getting user: " + error;
-  }
-};
+    try {
+        const doc = await db.collection(COLLECTION_USERS)
+            .doc(id)
+            .get();
+        return doc.data();
+    } catch (error) {
+        return "Error getting user: " + error;
+    }
+}
 
-const getLiveMessages = (id) => db.collection(COLLECTION_USERS).doc(id);
+const getUserLive = (id) => db.collection(COLLECTION_USERS).doc(id) ;
+
+
 
 const getUserLive = (id) => db.collection(COLLECTION_USERS).doc(id);
 
@@ -305,6 +309,17 @@ const updateTitle = async (id, title) => {
   }
 };
 
+const updateNotifications = async (id, notifications) => {
+    try {
+        await db.collection(COLLECTION_USERS)
+            .doc(id)
+            .update({ notifications });
+        return "Sucessfully updated!";
+    } catch (error) {
+        return "Failed to update: " + error;
+    }
+}
+
 const addStaffNote = async (id, note) => {
   try {
     await db
@@ -353,7 +368,18 @@ const addMessage = async (id, message) => {
     } catch (error) {
         return "Failed to update: " + error;
     }
-};
+}
+
+const addNotification = async (id, notification) => {
+    try {
+        await db.collection(COLLECTION_USERS)
+            .doc(id)
+            .update({ notifications: firebase.firestore.FieldValue.arrayUnion(notification) });
+        return "Sucessfully updated!";
+    } catch (error) {
+        return "Failed to update: " + error;
+    }
+}
 
   const getMedicalResults = (id) => db.collection(COLLECTION_USERS).doc(id);
 
@@ -458,12 +484,14 @@ const firestoreService = {
     updateBirthDate,
     updateBloodtype,
     updateHeight,
+    updateMedicalResults,
     updateFullName,
     updateFirstName,
     updateMiddleName,
     updateLastName,
     updateStaffNotes,
     updateTitle,
+    updateNotifications,
     updateWeight,
     addStaffNote,
     addAllergy,
@@ -474,7 +502,8 @@ const firestoreService = {
     deleteMedicalResultsBoth,
     updateMedicalResults,
     deleteMedicalResultsPatient,
-   
+    addNotification,
+    deleteUser
 }
 
 export default firestoreService;

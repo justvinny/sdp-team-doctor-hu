@@ -25,6 +25,7 @@ import UploadProfilePicture from "../profilecomponents/UploadProfilePicture";
 import { FAB } from "react-native-elements";
 import UploadDocumentButton from "../../documentUpload/UploadDocumentButton";
 import UploadDocument from "../../documentUpload/UploadDocument";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export default function PatientProfile({ navigation, route }) {
   // Bottom navigation sheet for profile picture
@@ -74,35 +75,77 @@ export default function PatientProfile({ navigation, route }) {
     }
 
     return (
-      <KeyboardAvoidingView
-        behavior={Platform.OS == "ios" ? "padding" : "height"}
-        style={{ flex: 1, backgroundColor: colorDefaults.backDropColor }}
-      >
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <ScrollView
-            bounces="false"
-            style={{ flex: 1 }}
-            height={"100%"}
-            showsVerticalScrollIndicator={false}
-            nestedScrollEnabled={true}
-          >
-            <View style={styles.container}>
-              <Image
-                style={styles.image}
-                source={{ uri: profilePicture }}
-                PlaceholderContent={<ActivityIndicator />}
-                onPress={() => {
-                  !passedUser ? setSheetVisible(true) : {};
-                }}
-              />
-              <Text style={styles.name}>{user.getFullName()}</Text>
-            </View>
+      <>
+        <View style={styles.container}>
+          <Image
+            style={styles.image}
+            source={{ uri: profilePicture }}
+            PlaceholderContent={<ActivityIndicator />}
+            onPress={() => {
+              !passedUser ? setSheetVisible(true) : {};
+            }}
+          />
+          <Text style={styles.name}>{user.getFullName()}</Text>
+        </View>
+        <Tab
+          value={index}
+          onChange={setIndex}
+          indicatorStyle={TabStyles.tabIndicatorStyle}
+          variant="primary"
+        >
+          <Tab.Item
+            title="profile"
+            titleStyle={TabStyles.tabText}
+            buttonStyle={[
+              index == 0 ? TabStyles.activeTab : TabStyles.inactiveTab,
+            ]}
+          />
 
+          <Tab.Item
+            title="address"
+            titleStyle={TabStyles.tabText}
+            buttonStyle={[
+              index == 1 ? TabStyles.activeTab : TabStyles.inactiveTab,
+            ]}
+          />
+
+          <Tab.Item
+            title="medical"
+            titleStyle={TabStyles.tabText}
+            buttonStyle={[
+              index == 2 ? TabStyles.activeTab : TabStyles.inactiveTab,
+            ]}
+          />
+        </Tab>
+        {/* <KeyboardAvoidingView
+          behavior={Platform.OS == "ios" ? "padding" : "height"}
+          enabled
+          style={{ flex: 1, backgroundColor: colorDefaults.backDropColor }}
+          keyboardVerticalOffset={Platform.select({android: 80, ios: 100})}
+        > */}
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          {/* <ScrollView bounces={false}> */}
+          <KeyboardAwareScrollView>
+            <TabView value={index} onChange={setIndex} animationType="timing">
+              <TabView.Item style={{ width: "100%" }}>
+                <GlobalProfileTab user={user} setUser={setUser} />
+              </TabView.Item>
+
+              <TabView.Item style={{ width: "100%" }} animationType="timing">
+                <AddressTab user={user} setUser={setUser} />
+              </TabView.Item>
+
+              <TabView.Item style={{ width: "100%" }} animationType="timing">
+                <MedicalTab user={user} setUser={setUser} />
+              </TabView.Item>
+            </TabView>
             {/* Overlay For Uploading & Profile Picture */}
             <Overlay
               isVisible={overlayVisible}
               onBackdropPress={toggleOverlay}
-              overlayStyle={{ backgroundColor: colorDefaults.backDropColor }}
+              overlayStyle={{
+                backgroundColor: colorDefaults.backDropColor,
+              }}
               animationType="slide"
               transparent
             >
@@ -181,7 +224,7 @@ export default function PatientProfile({ navigation, route }) {
                 <MedicalTab user={user} setUser={setUser} />
               </TabView.Item>
             </TabView>
-          </ScrollView>
+          </KeyboardAwareScrollView>
         </TouchableWithoutFeedback>
         {/* This helps Keyboard Avoiding View function properly by moving the whole display up */}
         <View style={{ height: 100 }} />
@@ -198,7 +241,13 @@ export default function PatientProfile({ navigation, route }) {
         ) : (
           <></>
         )}
-      </KeyboardAvoidingView>
+            {/* </ScrollView> */}
+        {/* This helps Keyboard Avoiding View function properly by moving the whole display up */}
+        {/* <View style={{ height: 100 }} /> */}
+        {/* Commented out as it makes the UI ugly by hadding 100 of empty space at bottom
+            and cutting off the scroll view very awkardly */}
+        {/* </KeyboardAvoidingView> */}
+      </>
     );
   };
 

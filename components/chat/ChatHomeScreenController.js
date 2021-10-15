@@ -17,6 +17,7 @@ const ChatHomeScreenController = ({ navigation }) => {
             .getAllStaffLive()
             .onSnapshot((querySnapshot) => {
                 const staffWithMessage = querySnapshot.docs.map(doc => doc.data())
+                    // Filter to only to include users with chat history to the current user.
                     .filter(staff => {
                         if (staff.messages.length === 0) {
                             return false;
@@ -26,6 +27,12 @@ const ChatHomeScreenController = ({ navigation }) => {
 
                         return staff.messages.find(message => message.sentTo === authUserId
                             || message.sentBy === authUserId);
+                    })
+                    // Sort the user messages by latest message date.
+                    .sort((staffA, staffB) => {
+                        const timestampA = staffA.messages[staffA.messages.length - 1].timestamp;
+                        const timestampB = staffB.messages[staffB.messages.length - 1].timestamp;
+                        return timestampB - timestampA;
                     })
                     .map(staff => Staff.staffFirestoreFactory(staff));
                 setStaff(staffWithMessage);

@@ -31,7 +31,8 @@ const viewFileScreen = ({ navigation }) => {
   const [url, setURL] = useState("");
   const [patientId, setPatientId] = useState();
   const [staffId, setStaffId] = useState();
-
+  const [title, setTitle] = useState("");
+  const [date, setDate] = useState("");
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -165,6 +166,8 @@ const viewFileScreen = ({ navigation }) => {
                   setURL(l.url);
                   setPatientId(l.patientId);
                   setStaffId(l.staffId);
+                  setTitle(l.title);
+                  setDate(l.timestamp);
                 }}
               />
               <ListItem.Content>
@@ -211,7 +214,7 @@ const viewFileScreen = ({ navigation }) => {
           animationType="slide"
           transparent
         >
-        <ViewDocument url={url} patientId={patientId} staffId={staffId} />
+        <ViewDocument url={url} patientId={patientId} staffId={staffId} title={title} date={date}/>
         </Overlay>
       </ScrollView>
     );
@@ -253,3 +256,5 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
 });
+
+

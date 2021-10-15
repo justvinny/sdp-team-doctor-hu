@@ -8,8 +8,9 @@ import AuthContext from "../../context/AuthContext";
 import firestoreService from "../../firebase/firestoreService";
 import { WebView } from "react-native-webview";
 import LoadingScreen from "../LoadingScreen";
+import dateUtility from "../../utilities/dateUtility";
 
-const App = ({url, patientId, staffId}) => {
+const App = ({url, patientId, staffId, title, date}) => {
 
 const { authUserId } = useContext(AuthContext);
 const [image, setImage] = useState(url);
@@ -42,25 +43,37 @@ const [user, setUser] = useState({});
       return <LoadingScreen style={styles.overlay}/>;
     }
     return (
-      <>
+      <View style={styles.overlay }>
+      <Text style={styles.bold}>Viewing document: 
+        <Text style={styles.regular}> {title}</Text>
+      </Text>
+
+      <Text style={styles.bold}>Uploaded on: 
+        <Text style={styles.regular}> {dateUtility.getFormattedDateNow(new Date(date))}</Text>
+      </Text>
+
+      {/* conditonal render name */}
       {user.isStaff ? (
-        <View style={styles.overlay}>
-          <Text>Document uploaded to: {patient.name.first} {patient.name.last} </Text>
-            <WebView  
-                style={styles.image}
-                source = {{ uri: image }}  
-                />  
-        </View>
-      ) : (
-        <View style={styles.overlay}>
-          <Text>Document uploaded by: {staff.name.first} {staff.name.last} </Text>
-            <WebView  
-                style={styles.image}
-                source = {{ uri: image }}  
-                />  
-        </View>
+   
+        <Text style={styles.bold}>Document uploaded to: 
+          <Text style={styles.regular}> {patient.name.first} {patient.name.last} </Text>
+        </Text>
+
+        ) : (
+              
+          <Text style={styles.bold}>Document uploaded by: 
+          <Text style={styles.regular}> {staff.name.first} {staff.name.last}</Text>
+        </Text>
+     
       )}
-    </>
+
+      {/* Webview allows for viewing of any document types */}
+      <WebView  
+          style={styles.image}
+          source = {{ uri: image }}  
+      />  
+
+    </View>
   );
 };
 
@@ -76,8 +89,15 @@ const styles = StyleSheet.create({
     height: 650,
   },
   image: {
+    marginTop: 20,
     width: 400,
     height: 500,
   },
+  bold: {
+    fontWeight: "bold",
+  },
+  regular: {
+    fontWeight: "normal",
+  }
 
 });

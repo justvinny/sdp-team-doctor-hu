@@ -2,6 +2,7 @@ import React, { useEffect, useState, useLayoutEffect, useContext, Component} fro
 import { StyleSheet, TouchableOpacity, View,} from 'react-native';
 import * as Progress from 'react-native-progress';
 
+// progress bar component
 const ProgressBar = () => {
   
     return (

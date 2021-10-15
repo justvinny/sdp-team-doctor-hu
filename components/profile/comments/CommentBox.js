@@ -27,6 +27,7 @@ const CommentBox = ({
         title={`${comment.from.first.charAt(0)}${comment.from.last.charAt(0)}`}
         name={`${comment.from.first} ${comment.from.last}`}
         content={comment.comment}
+        picture={comment.authorPicture}
       />
       <CommentActions
         comment={comment}
@@ -43,6 +44,7 @@ const CommentBox = ({
         repliesHidden={repliesHidden}
         openReplyOverlay={openReplyOverlay}
         openEditingReplyOverlay={openEditingReplyOverlay}
+        picture={comment.authorPicture}
       />
     </View>
   );

@@ -27,6 +27,7 @@ const CommentReplies = ({
                     )}${reply.from.last.charAt(0)}`}
                     name={`${reply.from.first} ${reply.from.last}`}
                     content={reply.reply}
+                    picture={reply.authorPicture}
                   />
                   <CommentActions
                     isReply={true}

@@ -445,6 +445,7 @@ const firestoreService = {
     updateSuburb,
     updateCity,
     updatePost,
+    updatePicture,
     updateAllergies,
     updateBirthDate,
     updateBloodtype,

@@ -8,6 +8,7 @@ import LoadingScreen from "../../LoadingScreen";
 import firestoreService from "../../../firebase/firestoreService";
 import CommentOverlay from "./CommentOverlay";
 import PublicCommentTab from "./PublicCommentTab";
+import { auth } from "../../../firebase/firebaseConfig";
 
 const CommentController = ({ navigation, route }) => {
   const user = route.params?.user;
@@ -140,6 +141,7 @@ const CommentController = ({ navigation, route }) => {
       const _newComment = {
         id: getNextId(comments),
         authorId: authUserId,
+        authorPicture: authUser.picture,
         from: authUser.name,
         comment: newComment,
         isPrivate: commentPrivate,
@@ -229,6 +231,7 @@ const CommentController = ({ navigation, route }) => {
         id: latestReplyId,
         commentId: selectedCommentId,
         authorId: authUserId,
+        authorPicture: authUser?.picture,
         from: authUser.name,
         reply: newComment,
         timestamp: Date.now(),

@@ -75,7 +75,7 @@ const CommentController = ({ navigation, route }) => {
 
         // Update states
         setCommentReplies(transformedMap);
-        setLatestReplyId(latestId + 1);
+        setLatestReplyId(latestId.id + 1);
       }
 
       setLoading(false);

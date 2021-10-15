@@ -1,17 +1,11 @@
 import React, { useState, useEffect, useContext, useLayoutEffect } from "react";
-import {
-  View,
-  StyleSheet,
-  Text,
-  ScrollView,
-  Alert,
-} from "react-native";
+import { View, StyleSheet, Text, ScrollView, Alert } from "react-native";
 import AuthContext from "../../context/AuthContext";
 import firestoreService from "../../firebase/firestoreService";
 import LoadingScreen from "../LoadingScreen";
 import dateUtility from "../../utilities/dateUtility";
 import colorDefaults from "../../theme/colorDefaults";
-import { ListItem, Icon, Overlay} from "react-native-elements";
+import { ListItem, Icon, Overlay } from "react-native-elements";
 import { MaterialIcons } from "@expo/vector-icons";
 import ViewDocument from "../documentUpload/ViewDocument";
 
@@ -55,11 +49,9 @@ const viewFileScreen = ({ navigation }) => {
   }, []);
 
   const removePicture = async (deleteIndex) => {
-
-    try{
-
+    try {
       Alert.alert(
-        "Document '" + documents[deleteIndex].title +"'",
+        "Document '" + documents[deleteIndex].title + "'",
         "deleted successfully.",
         [
           {
@@ -69,17 +61,17 @@ const viewFileScreen = ({ navigation }) => {
       );
 
       firestoreService.deleteMedicalResultsBoth(documents[deleteIndex]);
-
-    }catch (error) {
+    } catch (error) {
       alert(error.message);
     }
-
   };
 
   const removePictureAlert = async (i) => {
     Alert.alert(
       "Remove Document",
-      "Are you sure you want to remove the document " + documents[i].title + "?",
+      "Are you sure you want to remove the document " +
+        documents[i].title +
+        "?",
       [
         {
           text: "Cancel",
@@ -96,48 +88,47 @@ const viewFileScreen = ({ navigation }) => {
     );
   };
 
-
   const updatedTask = async (newName, index) => {
-    try{
-
+    try {
       firestoreService.deleteMedicalResultsPatient(documents[index]);
 
       documents[index].title = newName;
-      setDocuments([...documents]); 
-      firestoreService.updateMedicalResults(documents[index].staffId, documents);
+      setDocuments([...documents]);
+      firestoreService.updateMedicalResults(
+        documents[index].staffId,
+        documents
+      );
 
-      firestoreService.addMedicalResult(documents[index].patientId, documents[index]);
-      
-    }catch (error) {
-        alert(error.message);
-      }
+      firestoreService.addMedicalResult(
+        documents[index].patientId,
+        documents[index]
+      );
+    } catch (error) {
+      alert(error.message);
+    }
   };
 
-
   const editTask = (index) => {
-  
     Alert.prompt(
       "Enter new document title ",
-      "Current: "+ documents[index].title ,
+      "Current: " + documents[index].title,
       [
         {
           text: "Cancel",
-          style: "cancel"
+          style: "cancel",
         },
         {
           text: "OK",
-          onPress: newName => updatedTask(newName, index),
-        }
-      ],
-      
+          onPress: (newName) => updatedTask(newName, index),
+        },
+      ]
     );
-    
   };
 
   const renderPage = () => {
     if (loading) {
       return <LoadingScreen />;
-    } else if (!loading && documents.length === 0 ) {
+    } else if (!loading && documents.length === 0) {
       return (
         <View style={styles.container}>
           <MaterialIcons
@@ -214,7 +205,13 @@ const viewFileScreen = ({ navigation }) => {
           animationType="slide"
           transparent
         >
-        <ViewDocument url={url} patientId={patientId} staffId={staffId} title={title} date={date}/>
+          <ViewDocument
+            url={url}
+            patientId={patientId}
+            staffId={staffId}
+            title={title}
+            date={date}
+          />
         </Overlay>
       </ScrollView>
     );
@@ -256,5 +253,3 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
 });
-
-

@@ -1,8 +1,6 @@
 import firebase, { db } from "./firebaseConfig";
 
-
 const COLLECTION_USERS = "users";
-
 
 // Read operations.
 const getAllStaff = async () => {
@@ -24,8 +22,8 @@ const getAllUsers = () =>
     .then((querySnapshot) => querySnapshot.docs.map((doc) => doc.data()))
     .catch((error) => "Error getting users: " + error);
 
-const getAllStaffLive = () => db.collection(COLLECTION_USERS)
-    .where("isStaff", "==", true)
+const getAllStaffLive = () =>
+  db.collection(COLLECTION_USERS).where("isStaff", "==", true);
 
 const getAllPatients = async () => {
   try {
@@ -41,21 +39,17 @@ const getAllPatients = async () => {
 };
 
 const getUserById = async (id) => {
-    try {
-        const doc = await db.collection(COLLECTION_USERS)
-            .doc(id)
-            .get();
-        return doc.data();
-    } catch (error) {
-        return "Error getting user: " + error;
-    }
-}
-
-const getUserLive = (id) => db.collection(COLLECTION_USERS).doc(id) ;
-
-
+  try {
+    const doc = await db.collection(COLLECTION_USERS).doc(id).get();
+    return doc.data();
+  } catch (error) {
+    return "Error getting user: " + error;
+  }
+};
 
 const getUserLive = (id) => db.collection(COLLECTION_USERS).doc(id);
+
+//const getUserLive = (id) => db.collection(COLLECTION_USERS).doc(id);
 
 // Create operations.
 const createPatient = (id, first, middle, last, isStaff) => {
@@ -310,15 +304,13 @@ const updateTitle = async (id, title) => {
 };
 
 const updateNotifications = async (id, notifications) => {
-    try {
-        await db.collection(COLLECTION_USERS)
-            .doc(id)
-            .update({ notifications });
-        return "Sucessfully updated!";
-    } catch (error) {
-        return "Failed to update: " + error;
-    }
-}
+  try {
+    await db.collection(COLLECTION_USERS).doc(id).update({ notifications });
+    return "Sucessfully updated!";
+  } catch (error) {
+    return "Failed to update: " + error;
+  }
+};
 
 const addStaffNote = async (id, note) => {
   try {
@@ -360,97 +352,97 @@ const addMedicalResult = async (id, medicalResult) => {
 };
 
 const addMessage = async (id, message) => {
-    try {
-        await db.collection(COLLECTION_USERS)
-            .doc(id)
-            .update({ messages: firebase.firestore.FieldValue.arrayUnion(message) });
-        return "Sucessfully updated!";
-    } catch (error) {
-        return "Failed to update: " + error;
-    }
-}
+  try {
+    await db
+      .collection(COLLECTION_USERS)
+      .doc(id)
+      .update({ messages: firebase.firestore.FieldValue.arrayUnion(message) });
+    return "Sucessfully updated!";
+  } catch (error) {
+    return "Failed to update: " + error;
+  }
+};
 
 const addNotification = async (id, notification) => {
-    try {
-        await db.collection(COLLECTION_USERS)
-            .doc(id)
-            .update({ notifications: firebase.firestore.FieldValue.arrayUnion(notification) });
-        return "Sucessfully updated!";
-    } catch (error) {
-        return "Failed to update: " + error;
-    }
-}
+  try {
+    await db
+      .collection(COLLECTION_USERS)
+      .doc(id)
+      .update({
+        notifications: firebase.firestore.FieldValue.arrayUnion(notification),
+      });
+    return "Sucessfully updated!";
+  } catch (error) {
+    return "Failed to update: " + error;
+  }
+};
 
-  const getMedicalResults = (id) => db.collection(COLLECTION_USERS).doc(id);
+const getMedicalResults = (id) => db.collection(COLLECTION_USERS).doc(id);
 
-  const updateMedicalResults = async (id, documents) => {
-    try {
-      
-      await db
-        .collection(COLLECTION_USERS)
-        .doc(id) 
-        .update({
-          medicalResults: documents});
+const updateMedicalResults = async (id, documents) => {
+  try {
+    await db.collection(COLLECTION_USERS).doc(id).update({
+      medicalResults: documents,
+    });
 
-      return "Sucessfully updated!";
-    } catch (error) {
-      return "Failed to update: " + error;
-    }
-  };
-  
-  const deleteMedicalResultsBoth = async (obj) => {
-    try {
-      await db
-        .collection(COLLECTION_USERS)
-        .doc(obj.patientId)
-        .update({
-          medicalResults: firebase.firestore.FieldValue.arrayRemove({
-            patientId: obj.patientId,
-            staffId: obj.staffId,
-            timestamp: obj.timestamp,
-            title: obj.title,
-            url: obj.url,
-          }),
-        });
-  
-      await db
-        .collection(COLLECTION_USERS)
-        .doc(obj.staffId)
-        .update({
-          medicalResults: firebase.firestore.FieldValue.arrayRemove({
-            patientId: obj.patientId,
-            staffId: obj.staffId,
-            timestamp: obj.timestamp,
-            title: obj.title,
-            url: obj.url,
-          }),
-        });
-      return "Document successfully delete from database";
-    } catch (error) {
-      return "Error removing Document: " + error;
-    }
-  };
+    return "Sucessfully updated!";
+  } catch (error) {
+    return "Failed to update: " + error;
+  }
+};
 
-  const deleteMedicalResultsPatient = async (obj) => {
-    try {
-      await db
-        .collection(COLLECTION_USERS)
-        .doc(obj.patientId)
-        .update({
-          medicalResults: firebase.firestore.FieldValue.arrayRemove({
-            patientId: obj.patientId,
-            staffId: obj.staffId,
-            timestamp: obj.timestamp,
-            title: obj.title,
-            url: obj.url,
-          }),
-        });
-      return "Document successfully delete from database";
-    } catch (error) {
-      return "Error removing Document: " + error;
-    }
-  };
+const deleteMedicalResultsBoth = async (obj) => {
+  try {
+    await db
+      .collection(COLLECTION_USERS)
+      .doc(obj.patientId)
+      .update({
+        medicalResults: firebase.firestore.FieldValue.arrayRemove({
+          patientId: obj.patientId,
+          staffId: obj.staffId,
+          timestamp: obj.timestamp,
+          title: obj.title,
+          url: obj.url,
+        }),
+      });
 
+    await db
+      .collection(COLLECTION_USERS)
+      .doc(obj.staffId)
+      .update({
+        medicalResults: firebase.firestore.FieldValue.arrayRemove({
+          patientId: obj.patientId,
+          staffId: obj.staffId,
+          timestamp: obj.timestamp,
+          title: obj.title,
+          url: obj.url,
+        }),
+      });
+    return "Document successfully delete from database";
+  } catch (error) {
+    return "Error removing Document: " + error;
+  }
+};
+
+const deleteMedicalResultsPatient = async (obj) => {
+  try {
+    await db
+      .collection(COLLECTION_USERS)
+      .doc(obj.patientId)
+      .update({
+        medicalResults: firebase.firestore.FieldValue.arrayRemove({
+          patientId: obj.patientId,
+          staffId: obj.staffId,
+          timestamp: obj.timestamp,
+          title: obj.title,
+          url: obj.url,
+        }),
+      });
+    return "Document successfully delete from database";
+  } catch (error) {
+    return "Error removing Document: " + error;
+  }
+};
 
 // Delete operations.
 const deleteUser = async (userId) => {
@@ -463,47 +455,46 @@ const deleteUser = async (userId) => {
 };
 
 const firestoreService = {
-    getAllStaff,
-    getAllStaffLive,
-    getAllPatients,
-    getAllUsers,
-    getUserById,
-    getLiveMessages,
-    getUserLive,
-    createUser,
-    createPatient,
-    createStaff,
-    updateAbout,
-    updateFullAddress,
-    updateStreet,
-    updateSuburb,
-    updatePicture,
-    updateCity,
-    updatePost,
-    updateAllergies,
-    updateBirthDate,
-    updateBloodtype,
-    updateHeight,
-    updateMedicalResults,
-    updateFullName,
-    updateFirstName,
-    updateMiddleName,
-    updateLastName,
-    updateStaffNotes,
-    updateTitle,
-    updateNotifications,
-    updateWeight,
-    addStaffNote,
-    addAllergy,
-    addMedicalResult,
-    addMessage,
-    deleteUser,
-    getMedicalResults,
-    deleteMedicalResultsBoth,
-    updateMedicalResults,
-    deleteMedicalResultsPatient,
-    addNotification,
-    deleteUser
-}
+  getAllStaff,
+  getAllStaffLive,
+  getAllPatients,
+  getAllUsers,
+  getUserById,
+  getUserLive,
+  createUser,
+  createPatient,
+  createStaff,
+  updateAbout,
+  updateFullAddress,
+  updateStreet,
+  updateSuburb,
+  updatePicture,
+  updateCity,
+  updatePost,
+  updateAllergies,
+  updateBirthDate,
+  updateBloodtype,
+  updateHeight,
+  updateMedicalResults,
+  updateFullName,
+  updateFirstName,
+  updateMiddleName,
+  updateLastName,
+  updateStaffNotes,
+  updateTitle,
+  updateNotifications,
+  updateWeight,
+  addStaffNote,
+  addAllergy,
+  addMedicalResult,
+  addMessage,
+  deleteUser,
+  getMedicalResults,
+  deleteMedicalResultsBoth,
+  updateMedicalResults,
+  deleteMedicalResultsPatient,
+  addNotification,
+  deleteUser,
+};
 
 export default firestoreService;

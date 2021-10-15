@@ -1,26 +1,20 @@
 import React, { useEffect, useState, useContext } from "react";
-import {
-  StyleSheet,
-  View,
-  Text,
-} from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 import AuthContext from "../../context/AuthContext";
 import firestoreService from "../../firebase/firestoreService";
 import { WebView } from "react-native-webview";
 import LoadingScreen from "../LoadingScreen";
 import dateUtility from "../../utilities/dateUtility";
 
-const App = ({url, patientId, staffId, title, date}) => {
-
-const { authUserId } = useContext(AuthContext);
-const [image, setImage] = useState(url);
-const [loading1, setLoading1] = useState(true);
-const [loading2, setLoading2] = useState(true);
-const [loading3, setLoading3] = useState(true);
-const [patient, setPatient] = useState({});
-const [staff, setStaff] = useState({});
-const [user, setUser] = useState({});
-
+const App = ({ url, patientId, staffId, title, date }) => {
+  const { authUserId } = useContext(AuthContext);
+  const [image, setImage] = useState(url);
+  const [loading1, setLoading1] = useState(true);
+  const [loading2, setLoading2] = useState(true);
+  const [loading3, setLoading3] = useState(true);
+  const [patient, setPatient] = useState({});
+  const [staff, setStaff] = useState({});
+  const [user, setUser] = useState({});
 
   useEffect(() => {
     firestoreService.getUserById(patientId).then((data) => {
@@ -37,49 +31,52 @@ const [user, setUser] = useState({});
     });
   }, []);
 
-
   const renderPage = () => {
     if (loading1 || loading2 || loading3) {
-      return <LoadingScreen style={styles.overlay}/>;
+      return <LoadingScreen style={styles.overlay} />;
     }
     return (
-      <View style={styles.overlay }>
-      <Text style={styles.bold}>Viewing document: 
-        <Text style={styles.regular}> {title}</Text>
-      </Text>
-
-      <Text style={styles.bold}>Uploaded on: 
-        <Text style={styles.regular}> {dateUtility.getFormattedDateNow(new Date(date))}</Text>
-      </Text>
-
-      {/* conditonal render name */}
-      {user.isStaff ? (
-   
-        <Text style={styles.bold}>Document uploaded to: 
-          <Text style={styles.regular}> {patient.name.first} {patient.name.last} </Text>
+      <View style={styles.overlay}>
+        <Text style={styles.bold}>
+          Viewing document:
+          <Text style={styles.regular}> {title}</Text>
         </Text>
 
+        <Text style={styles.bold}>
+          Uploaded on:
+          <Text style={styles.regular}>
+            {" "}
+            {dateUtility.getFormattedDateNow(new Date(date))}
+          </Text>
+        </Text>
+
+        {/* conditonal render name */}
+        {user.isStaff ? (
+          <Text style={styles.bold}>
+            Document uploaded to:
+            <Text style={styles.regular}>
+              {" "}
+              {patient.name.first} {patient.name.last}{" "}
+            </Text>
+          </Text>
         ) : (
-              
-          <Text style={styles.bold}>Document uploaded by: 
-          <Text style={styles.regular}> {staff.name.first} {staff.name.last}</Text>
-        </Text>
-     
-      )}
+          <Text style={styles.bold}>
+            Document uploaded by:
+            <Text style={styles.regular}>
+              {" "}
+              {staff.name.first} {staff.name.last}
+            </Text>
+          </Text>
+        )}
 
-      {/* Webview allows for viewing of any document types */}
-      <WebView  
-          style={styles.image}
-          source = {{ uri: image }}  
-      />  
-
-    </View>
-  );
-};
+        {/* Webview allows for viewing of any document types */}
+        <WebView style={styles.image} source={{ uri: image }} />
+      </View>
+    );
+  };
 
   return renderPage();
-   
-}
+};
 
 export default App;
 
@@ -98,6 +95,5 @@ const styles = StyleSheet.create({
   },
   regular: {
     fontWeight: "normal",
-  }
-
+  },
 });

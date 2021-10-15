@@ -128,24 +128,26 @@ const viewFileScreen = ({ navigation }) => {
   const renderPage = () => {
     if (loading) {
       return <LoadingScreen />;
-    } else if (!loading && documents.length === 0) {
-      return (
-        <View style={styles.container}>
-          <MaterialIcons
-            name="attachment"
-            size={50}
-            color={colorDefaults.primary}
-            style={styles.center}
-          />
-          <Text style={styles.noMsgTxt}>No Documents</Text>
-        </View>
-      );
+    } else if (!loading) {
+      if (documents?.length < 1 || documents === undefined) {
+        return (
+          <View style={styles.container}>
+            <MaterialIcons
+              name="attachment"
+              size={50}
+              color={colorDefaults.primary}
+              style={styles.center}
+            />
+            <Text>No Documents</Text>
+          </View>
+        );
+      }
     }
 
     return (
       <ScrollView>
         <View>
-          {documents.map((l, i) => (
+          {documents?.map((l, i) => (
             <ListItem key={i} bottomDivider style={styles.container}>
               <Icon
                 name={"pageview"}
@@ -217,7 +219,7 @@ const viewFileScreen = ({ navigation }) => {
     );
   };
 
-  return <View style={styles.flex}>{renderPage()}</View>;
+  return <View>{renderPage()}</View>;
 };
 
 export default viewFileScreen;

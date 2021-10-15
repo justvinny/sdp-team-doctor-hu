@@ -22,9 +22,9 @@ import { Tab, TabView, Image, Overlay } from "react-native-elements";
 import GlobalProfileTab from "../profilecomponents/GlobalProfileTab";
 import BottomSheetNav from "../profilecomponents/BottomSheetNav";
 import UploadProfilePicture from "../profilecomponents/UploadProfilePicture";
-import { FAB } from 'react-native-elements';
-import UploadDocumentButton from '../../documentUpload/UploadDocumentButton'
-import UploadDocument from '../../documentUpload/UploadDocument';
+import { FAB } from "react-native-elements";
+import UploadDocumentButton from "../../documentUpload/UploadDocumentButton";
+import UploadDocument from "../../documentUpload/UploadDocument";
 
 export default function PatientProfile({ navigation, route }) {
   // Bottom navigation sheet for profile picture
@@ -52,7 +52,6 @@ export default function PatientProfile({ navigation, route }) {
   const toggleDocumentOverlay = () => {
     setOverlayDocumentVisible(!overlayDocumentVisible);
   };
-  
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -121,21 +120,21 @@ export default function PatientProfile({ navigation, route }) {
               toggleOverlay={toggleOverlay}
             />
 
-          {/* document upload */}
+            {/* document upload */}
             <Overlay
-                  isVisible={overlayDocumentVisible}
-                  onBackdropPress={toggleDocumentOverlay}
-                  overlayStyle={{ backgroundColor: colorDefaults.backDropColor }}
-                  animationType="slide"
-                  transparent
-                >
-                  <UploadDocument
-                    //setProfilePicture={setProfilePicture}
-                    toggleDocumentOverlay={toggleDocumentOverlay}
-                    patient= {user.id}
-                    staff = {authUserId}
-                    patientName = {user.getFullName()}
-                  />
+              isVisible={overlayDocumentVisible}
+              onBackdropPress={toggleDocumentOverlay}
+              overlayStyle={{ backgroundColor: colorDefaults.backDropColor }}
+              animationType="slide"
+              transparent
+            >
+              <UploadDocument
+                //setProfilePicture={setProfilePicture}
+                toggleDocumentOverlay={toggleDocumentOverlay}
+                patient={user.id}
+                staff={authUserId}
+                patientName={user.getFullName()}
+              />
             </Overlay>
 
             <Tab
@@ -182,18 +181,23 @@ export default function PatientProfile({ navigation, route }) {
                 <MedicalTab user={user} setUser={setUser} />
               </TabView.Item>
             </TabView>
-            
           </ScrollView>
         </TouchableWithoutFeedback>
         {/* This helps Keyboard Avoiding View function properly by moving the whole display up */}
         <View style={{ height: 100 }} />
 
-        <UploadDocumentButton 
-          visible={documentVisible}
-          setDocumentVisible={setDocumentVisible}
-          toggleDocumentOverlay={toggleDocumentOverlay}
-         />
-        
+        {/* Checks if the staff is viewing the profile,
+        as staff are the only ones who can view patient profiles.
+        Then shows the Upload Document button*/}
+        {passedUser ? (
+          <UploadDocumentButton
+            visible={documentVisible}
+            setDocumentVisible={setDocumentVisible}
+            toggleDocumentOverlay={toggleDocumentOverlay}
+          />
+        ) : (
+          <></>
+        )}
       </KeyboardAvoidingView>
     );
   };

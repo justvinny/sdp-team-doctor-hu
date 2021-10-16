@@ -5,7 +5,7 @@ import CommentActions from "./CommentActions";
 import CommentReplies from "./CommentReplies";
 import dateUtility from "../../../utilities/dateUtility";
 /**
- * 
+ *
  * Contains all the elements needed for a comment such as:
  * - Commenter Profile Picture
  * - Commenter Name

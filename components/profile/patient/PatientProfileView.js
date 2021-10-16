@@ -1,83 +1,45 @@
-import React, { useEffect, useLayoutEffect, useContext, useState } from "react";
+import React from "react";
 import {
   StyleSheet,
-  Text,
   View,
   Keyboard,
   TouchableWithoutFeedback,
-  ActivityIndicator,
 } from "react-native";
+import { Tab, TabView, Overlay, FAB } from "react-native-elements";
 import colorDefaults from "../../../theme/colorDefaults";
 import AddressTab from "./AddressTab";
 import MedicalTab from "./MedicalTab";
-import firestoreService from "../../../firebase/firestoreService";
-import AuthContext from "../../../context/AuthContext";
 import LoadingScreen from "../../../components/LoadingScreen";
-import Patient from "../../../models/Patient";
-import TabStyles from "../profilecomponents/TabStyles";
-import { Tab, TabView, Image, Overlay } from "react-native-elements";
+import TabStyles from "../profilecomponents/styles/TabStyles";
 import GlobalProfileTab from "../profilecomponents/GlobalProfileTab";
 import BottomSheetNav from "../profilecomponents/BottomSheetNav";
-import UploadProfilePicture from "../profilecomponents/UploadProfilePicture";
-import FloatingMenu from "./FloatingMenu";
-import { FAB } from "react-native-elements";
 import UploadDocument from "../../documentUpload/UploadDocument";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import UploadProfilePictureController from "../profilecomponents/profilePicture/UploadProfilePictureController";
+import ProfilePicture from "../profilecomponents/profilePicture/ProfilePicture";
+import FloatingMenu from "./FloatingMenu";
 
-export default function PatientProfile({ navigation, route }) {
-  // Bottom navigation sheet for profile picture
-  const [sheetVisible, setSheetVisible] = useState(false);
-  // Tab Index
-  const [index, setIndex] = useState(0);
-  // Passed User
-  const passedUser = route?.params?.user;
-  const { authUserId } = useContext(AuthContext);
-  const [user, setUser] = useState(
-    passedUser ? Patient.patientFirestoreFactory(passedUser) : {}
-  );
-  const [loading, setLoading] = useState(passedUser ? false : true);
-  const [profilePicture, setProfilePicture] = useState(user.picture);
-
-  // Overlay Controls for Uploading Profile Picture
-  const [overlayVisible, setOverlayVisible] = useState(false);
-  const toggleOverlay = () => {
-    setOverlayVisible(!overlayVisible);
-  };
-
-  // Overlay Controls for Uploading Document
-  const [documentVisible, setDocumentVisible] = useState(false);
-  const [overlayDocumentVisible, setOverlayDocumentVisible] = useState(false);
-  const toggleDocumentOverlay = () => {
-    setOverlayDocumentVisible(!overlayDocumentVisible);
-  };
-  const uploadButtonAction = () => {
-    toggleDocumentOverlay();
-    setDocumentVisible(true);
-  };
-
-  // Speed dial states
-  const [open, setOpen] = useState(false);
-
-  // Function to navigate to patient profile comments
-  const openComments = () => {
-    navigation.navigate("Comment", { user });
-  };
-
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      title: "Patient Profile",
-    });
-  }, []);
-
-  !passedUser &&
-    useEffect(() => {
-      firestoreService.getUserById(authUserId).then((data) => {
-        setUser(Patient.patientFirestoreFactory(data));
-        setProfilePicture(data.picture);
-        setLoading(false);
-      });
-    }, []);
-
+export default function PatientProfileView({
+  loading,
+  user,
+  passedUser,
+  profilePicture,
+  setSheetVisible,
+  index,
+  setIndex,
+  setUser,
+  sheetVisible,
+  toggleOverlay,
+  overlayVisible,
+  setProfilePicture,
+  overlayDocumentVisible,
+  toggleDocumentOverlay,
+  authUserId,
+  open,
+  setOpen,
+  openComments,
+  uploadButtonAction,
+}) {
   const renderPage = () => {
     if (loading) {
       return <LoadingScreen />;
@@ -85,17 +47,13 @@ export default function PatientProfile({ navigation, route }) {
 
     return (
       <>
-        <View style={styles.container}>
-          <Image
-            style={styles.image}
-            source={{ uri: profilePicture }}
-            PlaceholderContent={<ActivityIndicator />}
-            onPress={() => {
-              !passedUser ? setSheetVisible(true) : {};
-            }}
-          />
-          <Text style={styles.name}>{user.getFullName()}</Text>
-        </View>
+        <ProfilePicture
+          user={user}
+          passedUser={passedUser}
+          profilePicture={profilePicture}
+          setSheetVisible={setSheetVisible}
+        />
+
         <Tab
           value={index}
           onChange={setIndex}
@@ -130,15 +88,15 @@ export default function PatientProfile({ navigation, route }) {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <KeyboardAwareScrollView>
             <TabView value={index} onChange={setIndex} animationType="timing">
-              <TabView.Item style={{ width: "100%" }}>
+              <TabView.Item style={styles.tabContent}>
                 <GlobalProfileTab user={user} setUser={setUser} />
               </TabView.Item>
 
-              <TabView.Item style={{ width: "100%" }} animationType="timing">
+              <TabView.Item style={styles.tabContent} animationType="timing">
                 <AddressTab user={user} setUser={setUser} />
               </TabView.Item>
 
-              <TabView.Item style={{ width: "100%" }} animationType="timing">
+              <TabView.Item style={styles.tabContent} animationType="timing">
                 <MedicalTab user={user} setUser={setUser} />
               </TabView.Item>
             </TabView>
@@ -155,13 +113,11 @@ export default function PatientProfile({ navigation, route }) {
             <Overlay
               isVisible={overlayVisible}
               onBackdropPress={toggleOverlay}
-              overlayStyle={{
-                backgroundColor: colorDefaults.backDropColor,
-              }}
+              overlayStyle={styles.overlayStyle}
               animationType="slide"
               transparent
             >
-              <UploadProfilePicture
+              <UploadProfilePictureController
                 setProfilePicture={setProfilePicture}
                 toggleOverlay={toggleOverlay}
                 user={user}
@@ -173,7 +129,7 @@ export default function PatientProfile({ navigation, route }) {
             <Overlay
               isVisible={overlayDocumentVisible}
               onBackdropPress={toggleDocumentOverlay}
-              overlayStyle={{ backgroundColor: colorDefaults.backDropColor }}
+              overlayStyle={styles.overlayStyle}
               animationType="slide"
               transparent
             >
@@ -223,22 +179,11 @@ export default function PatientProfile({ navigation, route }) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    alignItems: "center",
-    marginBottom: 20,
+  tabContent: {
+    width: "100%",
   },
-  image: {
-    width: 150,
-    height: 150,
-    marginBottom: 20,
-    marginTop: 20,
-    borderRadius: 100,
-    borderColor: "black",
-    borderWidth: 2,
-  },
-  name: {
-    fontSize: 18,
-    fontWeight: "bold",
+  overlayStyle: {
+    backgroundColor: colorDefaults.backDropColor,
   },
   tabContainer: {
     display: "flex",

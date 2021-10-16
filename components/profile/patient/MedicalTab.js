@@ -13,7 +13,7 @@ import EditEnableButton from "../profilecomponents/EditEnableButton";
 import firestoreService from "../../../firebase/firestoreService";
 import AuthContext from "../../../context/AuthContext";
 import { Input } from "react-native-elements";
-import TextInputStyles from "../profilecomponents/TextInputStyles";
+import TextInputStyles from "../profilecomponents/styles/TextInputStyles";
 import { Switch } from "react-native";
 import colorDefaults from "../../../theme/colorDefaults";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view"

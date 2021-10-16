@@ -6,7 +6,7 @@ import firestoreService from "../../../firebase/firestoreService";
 import AuthContext from "../../../context/AuthContext";
 import EditEnableButton from "../profilecomponents/EditEnableButton";
 import { Input } from "react-native-elements/dist/input/Input";
-import TextInputStyles from "../profilecomponents/TextInputStyles";
+import TextInputStyles from "../profilecomponents/styles/TextInputStyles";
 
 function AboutTab({ user, setUser }) {
   const { authUserId } = useContext(AuthContext);

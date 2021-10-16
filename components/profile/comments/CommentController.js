@@ -1,14 +1,7 @@
 import React, { useState, useLayoutEffect, useContext, useEffect } from "react";
-import { StyleSheet, View } from "react-native";
-import { FAB } from "react-native-elements";
-import colorDefaults from "../../../theme/colorDefaults";
-import CommentTabNavigation from "./CommentTabNavigation";
 import AuthContext from "../../../context/AuthContext";
-import LoadingScreen from "../../LoadingScreen";
 import firestoreService from "../../../firebase/firestoreService";
-import CommentOverlay from "./CommentOverlay";
-import PublicCommentTab from "./PublicCommentTab";
-import { auth } from "../../../firebase/firebaseConfig";
+import CommentView from "./CommentView";
 
 const CommentController = ({ navigation, route }) => {
   const user = route.params?.user;
@@ -85,7 +78,7 @@ const CommentController = ({ navigation, route }) => {
   // Dynamically change header title according to passed user.
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: `Comments - ${user.name.first}`,
+      title: `Comments - ${user.name.first} ${user.name.last}`,
     });
   }, [navigation, route]);
 
@@ -263,89 +256,34 @@ const CommentController = ({ navigation, route }) => {
   };
 
   return (
-    <>
-      {loading ? (
-        <LoadingScreen />
-      ) : (
-        <View style={styles.container}>
-          {authUser.isStaff ? (
-            <>
-              <CommentTabNavigation
-                tabIndex={tabIndex}
-                setTabIndex={setTabIndex}
-                comments={comments}
-                commentReplies={commentReplies}
-                setComments={setComments}
-                setNewComment={setNewComment}
-                deleteComment={deleteComment}
-                deleteReply={deleteReply}
-                editComment={editComment}
-                openEditingOverlay={openEditingOverlay}
-                openEditingReplyOverlay={openEditingReplyOverlay}
-                openReplyOverlay={openReplyOverlay}
-              />
-              <FAB
-                icon={{ name: "add-comment", color: "white" }}
-                color={colorDefaults.primary}
-                placement="right"
-                onPress={openCommentOverlay}
-              />
-            </>
-          ) : (
-            <PublicCommentTab
-              comments={comments}
-              commentReplies={commentReplies}
-              setComments={setComments}
-              deleteComment={deleteComment}
-              deleteReply={deleteReply}
-              editComment={editComment}
-              openEditingOverlay={openEditingOverlay}
-              openReplyOverlay={openReplyOverlay}
-              openEditingReplyOverlay={openEditingReplyOverlay}
-            />
-          )}
-
-          <CommentOverlay
-            visible={commentOverlayVisible}
-            toggleOverlay={toggleCommentOverlay}
-            commentPrivate={commentPrivate}
-            toggleCommentPrivate={toggleCommentPrivate}
-            newComment={newComment}
-            setNewcomment={setNewComment}
-            addComment={addComment}
-            editComment={editComment}
-            editingComment={editingComment}
-            editReply={editReply}
-            replyToComment={replyToComment}
-            replyingComment={replyingComment}
-          />
-        </View>
-      )}
-    </>
+    <CommentView
+      loading={loading}
+      authUser={authUser}
+      tabIndex={tabIndex}
+      setTabIndex={setTabIndex}
+      comments={comments}
+      commentReplies={commentReplies}
+      setComments={setComments}
+      setNewComment={setNewComment}
+      deleteComment={deleteComment}
+      deleteReply={deleteReply}
+      editComment={editComment}
+      openCommentOverlay={openCommentOverlay}
+      openEditingOverlay={openEditingOverlay}
+      openEditingReplyOverlay={openEditingReplyOverlay}
+      openReplyOverlay={openReplyOverlay}
+      commentOverlayVisible={commentOverlayVisible}
+      toggleCommentOverlay={toggleCommentOverlay}
+      commentPrivate={commentPrivate}
+      toggleCommentPrivate={toggleCommentPrivate}
+      newComment={newComment}
+      addComment={addComment}
+      editingComment={editingComment}
+      editReply={editReply}
+      replyToComment={replyToComment}
+      replyingComment={replyingComment}
+    />
   );
 };
 
 export default CommentController;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colorDefaults.primary,
-  },
-  tabTitle: {
-    color: "#fff",
-  },
-  indicatorStyle: {
-    backgroundColor: "black",
-  },
-  activeButton: {
-    backgroundColor: colorDefaults.secondary,
-  },
-  button: {
-    backgroundColor: colorDefaults.primary,
-  },
-  tabViewContainer: {
-    flex: 1,
-    backgroundColor: colorDefaults.backDropColor,
-  },
-});

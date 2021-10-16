@@ -1,11 +1,8 @@
 // import React in our code
 import React, { useEffect, useState } from "react";
-
 // import all the components we are going to use
 import { StyleSheet, View, LogBox, Image, Alert } from "react-native";
-
 import { Text, Button } from "react-native-elements";
-
 import * as ImagePicker from "expo-image-picker";
 import { storage } from "../../../firebase/firebaseConfig";
 import firestoreService from "../../../firebase/firestoreService";
@@ -152,10 +149,7 @@ export default UploadProfilePicture;
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
     alignItems: "center",
-    // alignContent: "center",
-    // justifyContent: "center",
     padding: 15,
   },
   image: {

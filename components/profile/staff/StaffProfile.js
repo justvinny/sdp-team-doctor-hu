@@ -51,7 +51,7 @@ export default function StaffProfile({ navigation, route }) {
     useEffect(() => {
       firestoreService.getUserById(authUserId).then((data) => {
         setUser(data);
-        setProfilePicture(data.picture ? data.picture : defaultPicture);
+        setProfilePicture(data?.picture ? data.picture : defaultPicture);
         setLoading(false);
       });
     }, []);

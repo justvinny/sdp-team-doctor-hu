@@ -21,6 +21,7 @@ import ProfileSelection from "./components/profile/ProfileSelection";
 import ViewFileScreen from "./components/documentUpload/ViewFileScreen";
 
 import NotificationScreenController from "./components/notifications/NotificationScreenController";
+import CommentScreenController from "./components/profile/comments/CommentScreenController";
 
 const Stack = createNativeStackNavigator();
 
@@ -133,6 +134,8 @@ export default function App() {
               component={NotificationScreenController}
               name="NotificationScreen"
             />
+
+            <Stack.Screen component={CommentScreenController} name="Comment" />
           </Stack.Navigator>
           <StatusBar style="light" />
         </NavigationContainer>

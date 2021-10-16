@@ -20,28 +20,28 @@ export default function Menu({ navigation }) {
   const [menuStaff, setMenuItemsStaff] = useState([
     { iconname: "Profile", icon: "account-circle", route: "ProfileSelection" },
     { iconname: "Messages", icon: "message", route: "ChatHome" },
-    { iconname: "Settings", icon: "settings", route: "ChangePassword" },
+    { iconname: "Search User", icon: "search", route: "Search" },
     {
       iconname: "Notifications",
       icon: "notifications",
       route: "NotificationScreen",
       hasBadge: true,
     },
-    { iconname: "Search User", icon: "search", route: "Search" },
     { iconname: "View Files", icon: "attach-file", route: "ViewFileScreen" },
+    { iconname: "Settings", icon: "settings", route: "ChangePassword" },
   ]);
 
   const [menuPatient, setMenuItemsPatient] = useState([
     { iconname: "Profile", icon: "account-circle", route: "ProfileSelection" },
-    { iconname: "Settings", icon: "settings", route: "ChangePassword" },
+    { iconname: "Search User", icon: "search", route: "Search" },
     {
       iconname: "Notifications",
       icon: "notifications",
       route: "NotificationScreen",
       hasBadge: true,
     },
-    { iconname: "Search User", icon: "search", route: "Search" },
     { iconname: "View File", icon: "attach-file", route: "ViewFileScreen" },
+    { iconname: "Settings", icon: "settings", route: "ChangePassword" },
   ]);
 
   useEffect(() => {
@@ -87,7 +87,7 @@ export default function Menu({ navigation }) {
 
     //Right now this is the best way to render the screen correctly on the first try
     return (
-      <>
+      <View style={styles.mainContainer}>
         {user.isStaff ? (
           <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
             <StatusBar style="auto" />
@@ -169,7 +169,7 @@ export default function Menu({ navigation }) {
             </View>
           </ScrollView>
         )}
-      </>
+      </View>
     );
   };
 
@@ -177,6 +177,10 @@ export default function Menu({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    flex: 1,
+    backgroundColor: colorDefaults.backDropColor
+  },
   container: {
     flex: 1,
     backgroundColor: colorDefaults.backDropColor,
@@ -184,7 +188,6 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     justifyContent: "center",
     flexWrap: "wrap",
-    //paddingTop: Platform.OS === "ios" ? 20 : 0,
   },
   item: {
     padding: 20,

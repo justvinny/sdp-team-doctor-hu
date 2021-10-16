@@ -32,7 +32,8 @@ const SearchUserCard = ({ navigation, user, type, ...props }) => {
         1;
         break;
       default:
-        if (user.isStaff) navigation.navigate("StaffProfile", { user });
+        if (user.isStaff)
+          navigation.navigate("StaffProfileController", { user });
         else navigation.navigate("PatientProfileController", { user });
     }
   };

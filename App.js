@@ -14,7 +14,7 @@ import SignInScreen from "./components/login/SignInScreen";
 import SignUpScreen from "./components/login/SignUpScreen";
 import ResetPassword from "./components/login/ResetPassword";
 import ChangePasswordScreen from "./components/settings/ChangePasswordScreen";
-import StaffProfile from "./components/profile/staff/StaffProfile";
+import StaffProfileController from "./components/profile/staff/StaffProfileController";
 import PatientProfileController from "./components/profile/patient/PatientProfileController";
 import Menu from "./components/mainmenu/Menu";
 import ProfileSelection from "./components/profile/ProfileSelection";
@@ -58,7 +58,7 @@ export default function App() {
         />
         <Button
           color={colorDefaults.primary}
-          onPress={() => navigation.navigate("StaffProfile")}
+          onPress={() => navigation.navigate("StaffProfileController")}
           title="View Staff Profile"
         />
         <Button
@@ -112,7 +112,10 @@ export default function App() {
               component={DirectMessageScreenController}
               name="DirectMessage"
             />
-            <Stack.Screen component={StaffProfile} name="StaffProfile" />
+            <Stack.Screen
+              component={StaffProfileController}
+              name="StaffProfileController"
+            />
             <Stack.Screen
               component={ChangePasswordScreen}
               name="ChangePassword"

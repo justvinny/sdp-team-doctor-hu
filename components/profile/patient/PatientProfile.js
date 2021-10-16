@@ -61,136 +61,137 @@ export default function PatientProfile({ navigation, route }) {
   // Function to navigate to patient profile comments
   const openComments = () => {
     navigation.navigate("Comment", { user });
+  };
 
-    useLayoutEffect(() => {
-      navigation.setOptions({
-        title: "Patient Profile",
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: "Patient Profile",
+    });
+  }, []);
+
+  !passedUser &&
+    useEffect(() => {
+      firestoreService.getUserById(authUserId).then((data) => {
+        setUser(Patient.patientFirestoreFactory(data));
+        setProfilePicture(data.picture);
+        setLoading(false);
       });
     }, []);
 
-    !passedUser &&
-      useEffect(() => {
-        firestoreService.getUserById(authUserId).then((data) => {
-          setUser(Patient.patientFirestoreFactory(data));
-          setProfilePicture(data.picture);
-          setLoading(false);
-        });
-      }, []);
+  const renderPage = () => {
+    if (loading) {
+      return <LoadingScreen />;
+    }
 
-    const renderPage = () => {
-      if (loading) {
-        return <LoadingScreen />;
-      }
+    return (
+      <>
+        <View style={styles.container}>
+          <Image
+            style={styles.image}
+            source={{ uri: profilePicture }}
+            PlaceholderContent={<ActivityIndicator />}
+            onPress={() => {
+              !passedUser ? setSheetVisible(true) : {};
+            }}
+          />
+          <Text style={styles.name}>{user.getFullName()}</Text>
+        </View>
+        <Tab
+          value={index}
+          onChange={setIndex}
+          indicatorStyle={TabStyles.tabIndicatorStyle}
+          variant="primary"
+        >
+          <Tab.Item
+            title="profile"
+            titleStyle={TabStyles.tabText}
+            buttonStyle={[
+              index == 0 ? TabStyles.activeTab : TabStyles.inactiveTab,
+            ]}
+          />
 
-      return (
-        <>
-          <View style={styles.container}>
-            <Image
-              style={styles.image}
-              source={{ uri: profilePicture }}
-              PlaceholderContent={<ActivityIndicator />}
-              onPress={() => {
-                !passedUser ? setSheetVisible(true) : {};
+          <Tab.Item
+            title="address"
+            titleStyle={TabStyles.tabText}
+            buttonStyle={[
+              index == 1 ? TabStyles.activeTab : TabStyles.inactiveTab,
+            ]}
+          />
+
+          <Tab.Item
+            title="medical"
+            titleStyle={TabStyles.tabText}
+            buttonStyle={[
+              index == 2 ? TabStyles.activeTab : TabStyles.inactiveTab,
+            ]}
+          />
+        </Tab>
+
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <KeyboardAwareScrollView>
+            <TabView value={index} onChange={setIndex} animationType="timing">
+              <TabView.Item style={{ width: "100%" }}>
+                <GlobalProfileTab user={user} setUser={setUser} />
+              </TabView.Item>
+
+              <TabView.Item style={{ width: "100%" }} animationType="timing">
+                <AddressTab user={user} setUser={setUser} />
+              </TabView.Item>
+
+              <TabView.Item style={{ width: "100%" }} animationType="timing">
+                <MedicalTab user={user} setUser={setUser} />
+              </TabView.Item>
+            </TabView>
+
+            {/* Bottom Sheet Navigation */}
+            <BottomSheetNav
+              visible={sheetVisible}
+              setVisible={setSheetVisible}
+              toggleOverlay={toggleOverlay}
+            />
+            {/* Bottom Sheet Navigation */}
+
+            {/* Overlay For Uploading a Profile Picture */}
+            <Overlay
+              isVisible={overlayVisible}
+              onBackdropPress={toggleOverlay}
+              overlayStyle={{
+                backgroundColor: colorDefaults.backDropColor,
               }}
-            />
-            <Text style={styles.name}>{user.getFullName()}</Text>
-          </View>
-          <Tab
-            value={index}
-            onChange={setIndex}
-            indicatorStyle={TabStyles.tabIndicatorStyle}
-            variant="primary"
-          >
-            <Tab.Item
-              title="profile"
-              titleStyle={TabStyles.tabText}
-              buttonStyle={[
-                index == 0 ? TabStyles.activeTab : TabStyles.inactiveTab,
-              ]}
-            />
-
-            <Tab.Item
-              title="address"
-              titleStyle={TabStyles.tabText}
-              buttonStyle={[
-                index == 1 ? TabStyles.activeTab : TabStyles.inactiveTab,
-              ]}
-            />
-
-            <Tab.Item
-              title="medical"
-              titleStyle={TabStyles.tabText}
-              buttonStyle={[
-                index == 2 ? TabStyles.activeTab : TabStyles.inactiveTab,
-              ]}
-            />
-          </Tab>
-
-          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <KeyboardAwareScrollView>
-              <TabView value={index} onChange={setIndex} animationType="timing">
-                <TabView.Item style={{ width: "100%" }}>
-                  <GlobalProfileTab user={user} setUser={setUser} />
-                </TabView.Item>
-
-                <TabView.Item style={{ width: "100%" }} animationType="timing">
-                  <AddressTab user={user} setUser={setUser} />
-                </TabView.Item>
-
-                <TabView.Item style={{ width: "100%" }} animationType="timing">
-                  <MedicalTab user={user} setUser={setUser} />
-                </TabView.Item>
-              </TabView>
-
-              {/* Bottom Sheet Navigation */}
-              <BottomSheetNav
-                visible={sheetVisible}
-                setVisible={setSheetVisible}
+              animationType="slide"
+              transparent
+            >
+              <UploadProfilePicture
+                setProfilePicture={setProfilePicture}
                 toggleOverlay={toggleOverlay}
+                user={user}
               />
-              {/* Bottom Sheet Navigation */}
+            </Overlay>
+            {/* Overlay For Uploading a Profile Picture */}
 
-              {/* Overlay For Uploading a Profile Picture */}
-              <Overlay
-                isVisible={overlayVisible}
-                onBackdropPress={toggleOverlay}
-                overlayStyle={{
-                  backgroundColor: colorDefaults.backDropColor,
-                }}
-                animationType="slide"
-                transparent
-              >
-                <UploadProfilePicture
-                  setProfilePicture={setProfilePicture}
-                  toggleOverlay={toggleOverlay}
-                  user={user}
-                />
-              </Overlay>
-              {/* Overlay For Uploading a Profile Picture */}
+            {/* document upload */}
+            <Overlay
+              isVisible={overlayDocumentVisible}
+              onBackdropPress={toggleDocumentOverlay}
+              overlayStyle={{ backgroundColor: colorDefaults.backDropColor }}
+              animationType="slide"
+              transparent
+            >
+              <UploadDocument
+                //setProfilePicture={setProfilePicture}
+                toggleDocumentOverlay={toggleDocumentOverlay}
+                patient={user.id}
+                staff={authUserId}
+                patientName={user.getFullName()}
+              />
+            </Overlay>
+            {/* Document Upload */}
+          </KeyboardAwareScrollView>
+        </TouchableWithoutFeedback>
+        {/* This helps Keyboard Avoiding View function properly by moving the whole display up */}
+        <View style={{ height: 100 }} />
 
-              {/* document upload */}
-              <Overlay
-                isVisible={overlayDocumentVisible}
-                onBackdropPress={toggleDocumentOverlay}
-                overlayStyle={{ backgroundColor: colorDefaults.backDropColor }}
-                animationType="slide"
-                transparent
-              >
-                <UploadDocument
-                  //setProfilePicture={setProfilePicture}
-                  toggleDocumentOverlay={toggleDocumentOverlay}
-                  patient={user.id}
-                  staff={authUserId}
-                  patientName={user.getFullName()}
-                />
-              </Overlay>
-              {/* Document Upload */}
-            </KeyboardAwareScrollView>
-          </TouchableWithoutFeedback>
-          {/* This helps Keyboard Avoiding View function properly by moving the whole display up */}
-          <View style={{ height: 100 }} />
-
-          {/*
+        {/*
              Floating action button for menu which contains add comment and result upload. 
              Uses conditional as we don't want patients to be able to upload results. 
 
@@ -198,28 +199,27 @@ export default function PatientProfile({ navigation, route }) {
              - Staff should be able to see a speed dial FAB that gives them view commenet and upload document
                as options.
           */}
-          {passedUser ? (
-            <FloatingMenu
-              open={open}
-              setOpen={setOpen}
-              openComments={openComments}
-              uploadButtonAction={uploadButtonAction}
-            />
-          ) : (
-            <FAB
-              icon={{ name: "comment", color: "#fff" }}
-              onPress={openComments}
-              color={colorDefaults.primary}
-              placement="right"
-              size="large"
-            />
-          )}
-        </>
-      );
-    };
-
-    return renderPage();
+        {passedUser ? (
+          <FloatingMenu
+            open={open}
+            setOpen={setOpen}
+            openComments={openComments}
+            uploadButtonAction={uploadButtonAction}
+          />
+        ) : (
+          <FAB
+            icon={{ name: "comment", color: "#fff" }}
+            onPress={openComments}
+            color={colorDefaults.primary}
+            placement="right"
+            size="large"
+          />
+        )}
+      </>
+    );
   };
+
+  return renderPage();
 }
 
 const styles = StyleSheet.create({

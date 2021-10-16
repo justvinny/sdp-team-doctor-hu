@@ -21,7 +21,6 @@ import ProfileSelection from "./components/profile/ProfileSelection";
 import ViewFileScreen from "./components/documentUpload/ViewFileScreen";
 
 import NotificationScreenController from "./components/notifications/NotificationScreenController";
-import UploadProfilePicture from "./components/profile/profilecomponents/profilePicture/UploadProfilePicture";
 
 const Stack = createNativeStackNavigator();
 
@@ -133,10 +132,6 @@ export default function App() {
             <Stack.Screen
               component={NotificationScreenController}
               name="NotificationScreen"
-            />
-            <Stack.Screen
-              component={UploadProfilePicture}
-              name="UploadProfilePicture"
             />
           </Stack.Navigator>
           <StatusBar style="light" />

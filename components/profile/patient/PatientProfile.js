@@ -62,7 +62,7 @@ export default function PatientProfile({ navigation, route }) {
     useEffect(() => {
       firestoreService.getUserById(authUserId).then((data) => {
         setUser(Patient.patientFirestoreFactory(data));
-        setProfilePicture(data.picture ? data.picture : defaultPicture);
+        setProfilePicture(data.picture);
         setLoading(false);
       });
     }, []);

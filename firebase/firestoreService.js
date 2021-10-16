@@ -22,8 +22,8 @@ const getAllUsers = () =>
     .then((querySnapshot) => querySnapshot.docs.map((doc) => doc.data()))
     .catch((error) => "Error getting users: " + error);
 
-const getAllStaffLive = () => db.collection(COLLECTION_USERS)
-    .where("isStaff", "==", true)
+const getAllStaffLive = () =>
+  db.collection(COLLECTION_USERS).where("isStaff", "==", true);
 
 const getAllPatients = async () => {
   try {
@@ -38,19 +38,17 @@ const getAllPatients = async () => {
 };
 
 const getUserById = async (id) => {
-    try {
-        const doc = await db.collection(COLLECTION_USERS)
-            .doc(id)
-            .get();
-        return doc.data();
-    } catch (error) {
-        return "Error getting user: " + error;
-    }
-}
+  try {
+    const doc = await db.collection(COLLECTION_USERS).doc(id).get();
+    return doc.data();
+  } catch (error) {
+    return "Error getting user: " + error;
+  }
+};
 
-const getUserLive = (id) => db.collection(COLLECTION_USERS).doc(id) ;
+const getUserLive = (id) => db.collection(COLLECTION_USERS).doc(id);
 
-
+const getMedicalResults = (id) => db.collection(COLLECTION_USERS).doc(id);
 
 // Create operations.
 const createPatient = (id, first, middle, last, isStaff) => {
@@ -92,6 +90,7 @@ const createStaff = (id, first, middle, last, isStaff) => {
     title: "",
     about: "",
     messages: [],
+    medicalResults: [],
   };
 
   return newStaff;
@@ -267,15 +266,6 @@ const updateAllergies = async (id, allergies) => {
   }
 };
 
-const updateMedicalResults = async (id, medicalResults) => {
-  try {
-    await db.collection(COLLECTION_USERS).doc(id).update({ medicalResults });
-    return "Sucessfully updated!";
-  } catch (error) {
-    return "Failed to update: " + error;
-  }
-};
-
 const updateStaffNotes = async (id, staffNotes) => {
   try {
     await db.collection(COLLECTION_USERS).doc(id).update({ staffNotes });
@@ -304,37 +294,42 @@ const updateTitle = async (id, title) => {
 };
 
 const updateNotifications = async (id, notifications) => {
-    try {
-        await db.collection(COLLECTION_USERS)
-            .doc(id)
-            .update({ notifications });
-        return "Sucessfully updated!";
-    } catch (error) {
-        return "Failed to update: " + error;
-    }
-}
+  try {
+    await db.collection(COLLECTION_USERS).doc(id).update({ notifications });
+    return "Sucessfully updated!";
+  } catch (error) {
+    return "Failed to update: " + error;
+  }
+};
+const updateMedicalResults = async (id, documents) => {
+  try {
+    await db.collection(COLLECTION_USERS).doc(id).update({
+      medicalResults: documents,
+    });
+
+    return "Sucessfully updated!";
+  } catch (error) {
+    return "Failed to update: " + error;
+  }
+};
 
 const updateComments = async (id, comments) => {
   try {
-      await db.collection(COLLECTION_USERS)
-          .doc(id)
-          .update({ comments });
-      return "Sucessfully updated!";
+    await db.collection(COLLECTION_USERS).doc(id).update({ comments });
+    return "Sucessfully updated!";
   } catch (error) {
-      return "Failed to update: " + error;
+    return "Failed to update: " + error;
   }
-}
+};
 
 const updateCommentReplies = async (id, commentReplies) => {
   try {
-      await db.collection(COLLECTION_USERS)
-          .doc(id)
-          .update({ commentReplies });
-      return "Sucessfully updated!";
+    await db.collection(COLLECTION_USERS).doc(id).update({ commentReplies });
+    return "Sucessfully updated!";
   } catch (error) {
-      return "Failed to update: " + error;
+    return "Failed to update: " + error;
   }
-}
+};
 
 const addStaffNote = async (id, note) => {
   try {
@@ -360,6 +355,7 @@ const addAllergy = async (id, allergy) => {
   }
 };
 
+//patients
 const addMedicalResult = async (id, medicalResult) => {
   try {
     await db
@@ -375,48 +371,56 @@ const addMedicalResult = async (id, medicalResult) => {
 };
 
 const addMessage = async (id, message) => {
-    try {
-        await db.collection(COLLECTION_USERS)
-            .doc(id)
-            .update({ messages: firebase.firestore.FieldValue.arrayUnion(message) });
-        return "Sucessfully updated!";
-    } catch (error) {
-        return "Failed to update: " + error;
-    }
-}
+  try {
+    await db
+      .collection(COLLECTION_USERS)
+      .doc(id)
+      .update({ messages: firebase.firestore.FieldValue.arrayUnion(message) });
+    return "Sucessfully updated!";
+  } catch (error) {
+    return "Failed to update: " + error;
+  }
+};
 
 const addNotification = async (id, notification) => {
-    try {
-        await db.collection(COLLECTION_USERS)
-            .doc(id)
-            .update({ notifications: firebase.firestore.FieldValue.arrayUnion(notification) });
-        return "Sucessfully updated!";
-    } catch (error) {
-        return "Failed to update: " + error;
-    }
-}
+  try {
+    await db
+      .collection(COLLECTION_USERS)
+      .doc(id)
+      .update({
+        notifications: firebase.firestore.FieldValue.arrayUnion(notification),
+      });
+    return "Sucessfully updated!";
+  } catch (error) {
+    return "Failed to update: " + error;
+  }
+};
 
 const addComment = async (id, comment) => {
   try {
-      await db.collection(COLLECTION_USERS)
-          .doc(id)
-          .update({ comments: firebase.firestore.FieldValue.arrayUnion(comment) });
-      return "Sucessfully updated!";
+    await db
+      .collection(COLLECTION_USERS)
+      .doc(id)
+      .update({ comments: firebase.firestore.FieldValue.arrayUnion(comment) });
+    return "Sucessfully updated!";
   } catch (error) {
-      return "Failed to update: " + error;
+    return "Failed to update: " + error;
   }
-}
+};
 
 const addCommentReply = async (id, commentReply) => {
   try {
-      await db.collection(COLLECTION_USERS)
-          .doc(id)
-          .update({ commentReplies: firebase.firestore.FieldValue.arrayUnion(commentReply) });
-      return "Sucessfully updated!";
+    await db
+      .collection(COLLECTION_USERS)
+      .doc(id)
+      .update({
+        commentReplies: firebase.firestore.FieldValue.arrayUnion(commentReply),
+      });
+    return "Sucessfully updated!";
   } catch (error) {
-      return "Failed to update: " + error;
+    return "Failed to update: " + error;
   }
-}
+};
 
 // Delete operations.
 const deleteUser = async (userId) => {
@@ -428,46 +432,104 @@ const deleteUser = async (userId) => {
   }
 };
 
+
+const deleteMedicalResultsBoth = async (obj) => {
+  try {
+    await db
+      .collection(COLLECTION_USERS)
+      .doc(obj.patientId)
+      .update({
+        medicalResults: firebase.firestore.FieldValue.arrayRemove({
+          patientId: obj.patientId,
+          staffId: obj.staffId,
+          timestamp: obj.timestamp,
+          title: obj.title,
+          url: obj.url,
+        }),
+      });
+
+    await db
+      .collection(COLLECTION_USERS)
+      .doc(obj.staffId)
+      .update({
+        medicalResults: firebase.firestore.FieldValue.arrayRemove({
+          patientId: obj.patientId,
+          staffId: obj.staffId,
+          timestamp: obj.timestamp,
+          title: obj.title,
+          url: obj.url,
+        }),
+      });
+    return "Document successfully delete from database";
+  } catch (error) {
+    return "Error removing Document: " + error;
+  }
+};
+
+const deleteMedicalResultsPatient = async (obj) => {
+  try {
+    await db
+      .collection(COLLECTION_USERS)
+      .doc(obj.patientId)
+      .update({
+        medicalResults: firebase.firestore.FieldValue.arrayRemove({
+          patientId: obj.patientId,
+          staffId: obj.staffId,
+          timestamp: obj.timestamp,
+          title: obj.title,
+          url: obj.url,
+        }),
+      });
+    return "Document successfully delete from database";
+  } catch (error) {
+    return "Error removing Document: " + error;
+  }
+};
+
 const firestoreService = {
-    getAllStaff,
-    getAllStaffLive,
-    getAllPatients,
-    getAllUsers,
-    getUserById,
-    getUserLive,
-    createUser,
-    createPatient,
-    createStaff,
-    updateAbout,
-    updateFullAddress,
-    updateStreet,
-    updateSuburb,
-    updateCity,
-    updatePost,
-    updatePicture,
-    updateAllergies,
-    updateBirthDate,
-    updateBloodtype,
-    updateHeight,
-    updateMedicalResults,
-    updateFullName,
-    updateFirstName,
-    updateMiddleName,
-    updateLastName,
-    updateStaffNotes,
-    updateTitle,
-    updateNotifications,
-    updateWeight,
-    updateComments,
-    updateCommentReplies,
-    addStaffNote,
-    addAllergy,
-    addMedicalResult,
-    addMessage,
-    addNotification,
-    addComment,
-    addCommentReply,
-    deleteUser
-}
+  getAllStaff,
+  getAllStaffLive,
+  getAllPatients,
+  getAllUsers,
+  getUserById,
+  getUserLive,
+  getMedicalResults,
+  createUser,
+  createPatient,
+  createStaff,
+  updateAbout,
+  updateFullAddress,
+  updateStreet,
+  updateSuburb,
+  updateCity,
+  updatePost,
+  updatePicture,
+  updateAllergies,
+  updateBirthDate,
+  updateBloodtype,
+  updateHeight,
+  updateMedicalResults,
+  updateFullName,
+  updateFirstName,
+  updateMiddleName,
+  updateLastName,
+  updateStaffNotes,
+  updateTitle,
+  updateNotifications,
+  updateWeight,
+  updateMedicalResults,
+  updateComments,
+  updateCommentReplies,
+  addStaffNote,
+  addAllergy,
+  addMedicalResult,
+  addMessage,
+  addNotification,
+  addComment,
+  addCommentReply,
+  deleteUser,
+  deleteMedicalResultsPatient,
+  deleteMedicalResultsBoth,
+};
 
 export default firestoreService;

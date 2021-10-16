@@ -27,6 +27,7 @@ export default function Menu({ navigation }) {
       route: "NotificationScreen",
       hasBadge: true,
     },
+    { iconname: "View Files", icon: "attach-file", route: "ViewFileScreen" },
     { iconname: "Settings", icon: "settings", route: "ChangePassword" },
   ]);
 
@@ -39,6 +40,7 @@ export default function Menu({ navigation }) {
       route: "NotificationScreen",
       hasBadge: true,
     },
+    { iconname: "View File", icon: "attach-file", route: "ViewFileScreen" },
     { iconname: "Settings", icon: "settings", route: "ChangePassword" },
   ]);
 
@@ -136,7 +138,7 @@ export default function Menu({ navigation }) {
                 ]}
               >
                 <Text style={styles.text}>
-                  Welcome back, {Staff.getFullName(user.name)}{" "}
+                  Welcome back, {Staff.getFullName(user.name)}
                 </Text>
               </View>
               {menuPatient.map((menuIt, index) => (
@@ -148,6 +150,7 @@ export default function Menu({ navigation }) {
                       navigation={navigation}
                       route={menuIt.route}
                       notificationsBadge={notificationsBadge}
+                      isStaff={isStaff}
                     />
                   ) : (
                     <Square
@@ -155,6 +158,7 @@ export default function Menu({ navigation }) {
                       icon={menuIt.icon}
                       navigation={navigation}
                       route={menuIt.route}
+                      isStaff={isStaff}
                     />
                   )}
                 </React.Fragment>
@@ -184,7 +188,6 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     justifyContent: "center",
     flexWrap: "wrap",
-    //paddingTop: Platform.OS === "ios" ? 20 : 0,
   },
   item: {
     padding: 20,

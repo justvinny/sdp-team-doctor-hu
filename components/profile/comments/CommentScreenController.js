@@ -1,9 +1,9 @@
 import React, { useState, useLayoutEffect, useContext, useEffect } from "react";
 import AuthContext from "../../../context/AuthContext";
 import firestoreService from "../../../firebase/firestoreService";
-import CommentView from "./CommentView";
+import CommentScreenView from "./CommentScreenView";
 
-const CommentController = ({ navigation, route }) => {
+const CommentScreenController = ({ navigation, route }) => {
   const user = route.params?.user;
   const { authUserId } = useContext(AuthContext);
 
@@ -256,7 +256,7 @@ const CommentController = ({ navigation, route }) => {
   };
 
   return (
-    <CommentView
+    <CommentScreenView
       loading={loading}
       authUser={authUser}
       tabIndex={tabIndex}
@@ -286,4 +286,4 @@ const CommentController = ({ navigation, route }) => {
   );
 };
 
-export default CommentController;
+export default CommentScreenController;

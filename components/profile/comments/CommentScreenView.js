@@ -7,7 +7,7 @@ import LoadingScreen from "../../LoadingScreen";
 import CommentOverlay from "./CommentOverlay";
 import PublicCommentTab from "./PublicCommentTab";
 
-const CommentView = ({
+const CommentScreenView = ({
   loading,
   authUser,
   tabIndex,
@@ -98,7 +98,7 @@ const CommentView = ({
   );
 };
 
-export default CommentView;
+export default CommentScreenView;
 
 const styles = StyleSheet.create({
   container: {

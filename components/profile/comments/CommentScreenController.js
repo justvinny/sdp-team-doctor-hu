@@ -24,6 +24,7 @@ const CommentScreenController = ({ navigation, route }) => {
   const [comments, setComments] = useState([]);
   const [commentReplies, setCommentReplies] = useState(new Map());
   const [latestReplyId, setLatestReplyId] = useState(0);
+  const [reRenderList, setReRenderList] = useState(false);
 
   // Comment overlay
   const [commentOverlayVisible, setCommentOverlayVisible] = useState(false);
@@ -360,6 +361,8 @@ const CommentScreenController = ({ navigation, route }) => {
       editReply={editReply}
       replyToComment={replyToComment}
       replyingComment={replyingComment}
+      reRenderList={reRenderList}
+      setReRenderList={setReRenderList}
     />
   );
 };

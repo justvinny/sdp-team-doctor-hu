@@ -8,7 +8,7 @@ import CommentOverlay from "./CommentOverlay";
 import PublicCommentTab from "./PublicCommentTab";
 
 /**
- * Comment Screen View that is the parent of all UI components related to the comment screen. 
+ * Comment Screen View that is the parent of all UI components related to the comment screen.
  * This is a purely UI component and does not contain logic that mutates state.
  */
 const CommentScreenView = ({
@@ -37,7 +37,8 @@ const CommentScreenView = ({
   editReply,
   replyToComment,
   replyingComment,
-
+  reRenderList,
+  setReRenderList,
 }) => {
   return (
     <>
@@ -60,6 +61,8 @@ const CommentScreenView = ({
                 openEditingOverlay={openEditingOverlay}
                 openEditingReplyOverlay={openEditingReplyOverlay}
                 openReplyOverlay={openReplyOverlay}
+                reRenderList={reRenderList}
+                setReRenderList={setReRenderList}
               />
               <FAB
                 icon={{ name: "add-comment", color: "white" }}
@@ -79,6 +82,8 @@ const CommentScreenView = ({
               openEditingOverlay={openEditingOverlay}
               openReplyOverlay={openReplyOverlay}
               openEditingReplyOverlay={openEditingReplyOverlay}
+              reRenderList={reRenderList}
+              setReRenderList={setReRenderList}
             />
           )}
 

@@ -24,7 +24,9 @@ const CommentBox = ({
   deleteReply,
   openEditingOverlay,
   openReplyOverlay,
-  openEditingReplyOverlay
+  openEditingReplyOverlay,
+  reRenderList,
+  setReRenderList,
 }) => {
   // State
   const [repliesHidden, setRepliesHidden] = useState(true);
@@ -32,6 +34,7 @@ const CommentBox = ({
   // Toggle hidden replies
   const toggleReplies = () => {
     setRepliesHidden(!repliesHidden);
+    setReRenderList(!reRenderList);
   };
 
   return (

@@ -3,7 +3,7 @@ import { FlatList, StyleSheet, View } from "react-native";
 import CommentBox from "./CommentBox";
 
 /**
- * Private comment tab which only staff can view. 
+ * Private comment tab which only staff can view.
  * Renders a scrollable flat list for all private comments and replies.
  */
 const PrivateCommentTab = ({
@@ -15,12 +15,14 @@ const PrivateCommentTab = ({
   editComment,
   openEditingOverlay,
   openReplyOverlay,
-  openEditingReplyOverlay
+  openEditingReplyOverlay,
+  reRenderList,
+  setReRenderList,
 }) => {
   return (
     <View style={styles.container}>
       <FlatList
-        data={comments.filter(comment => comment.isPrivate)}
+        data={comments.filter((comment) => comment.isPrivate)}
         renderItem={({ item }) => (
           <CommentBox
             comment={item}
@@ -32,10 +34,13 @@ const PrivateCommentTab = ({
             openEditingOverlay={openEditingOverlay}
             openReplyOverlay={openReplyOverlay}
             openEditingReplyOverlay={openEditingReplyOverlay}
+            reRenderList={reRenderList}
+            setReRenderList={setReRenderList}
           />
         )}
         keyExtractor={(item, index) => index.toString()}
         contentContainerStyle={styles.flatList}
+        extraData={reRenderList}
       />
     </View>
   );
@@ -49,6 +54,6 @@ const styles = StyleSheet.create({
     alignItems: "stretch",
   },
   flatList: {
-    paddingBottom: 80
-  }
+    paddingBottom: 80,
+  },
 });

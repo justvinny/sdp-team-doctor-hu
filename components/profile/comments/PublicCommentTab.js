@@ -16,12 +16,14 @@ const PublicCommentTab = ({
   editComment,
   openEditingOverlay,
   openReplyOverlay,
-  openEditingReplyOverlay
+  openEditingReplyOverlay,
+  reRenderList,
+  setReRenderList,
 }) => {
   return (
     <View style={styles.container}>
       <FlatList
-        data={comments.filter(comment => !comment.isPrivate)}
+        data={comments.filter((comment) => !comment.isPrivate)}
         renderItem={({ item }) => (
           <CommentBox
             comment={item}
@@ -33,10 +35,13 @@ const PublicCommentTab = ({
             openEditingOverlay={openEditingOverlay}
             openReplyOverlay={openReplyOverlay}
             openEditingReplyOverlay={openEditingReplyOverlay}
+            reRenderList={reRenderList}
+            setReRenderList={setReRenderList}
           />
         )}
         keyExtractor={(item, index) => index.toString()}
         contentContainerStyle={styles.flatList}
+        extraData={reRenderList}
       />
     </View>
   );
@@ -48,9 +53,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "stretch",
-    backgroundColor: colorDefaults.backDropColor
+    backgroundColor: colorDefaults.backDropColor,
   },
   flatList: {
-    paddingBottom: 80
-  }
+    paddingBottom: 80,
+  },
 });

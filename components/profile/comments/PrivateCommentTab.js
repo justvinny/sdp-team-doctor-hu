@@ -34,7 +34,7 @@ const PrivateCommentTab = ({
             openEditingReplyOverlay={openEditingReplyOverlay}
           />
         )}
-        keyExtractor={(item, index) => item.id + index.toString()}
+        keyExtractor={(item, index) => index.toString()}
         contentContainerStyle={styles.flatList}
       />
     </View>

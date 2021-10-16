@@ -21,7 +21,7 @@ const CommentReplies = ({
           {commentReplies &&
             commentReplies.map((reply, index) => (
               <CommentReplyBox
-                key={reply.id + index}
+                key={index}
                 reply={reply}
                 deleteReply={deleteReply}
                 openReplyOverlay={openReplyOverlay}

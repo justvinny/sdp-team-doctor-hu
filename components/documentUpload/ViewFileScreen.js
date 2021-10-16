@@ -9,15 +9,16 @@ import { ListItem, Icon, Overlay } from "react-native-elements";
 import { MaterialIcons } from "@expo/vector-icons";
 import ViewDocument from "../documentUpload/ViewDocument";
 
+// View Document/Files main screen
 const viewFileScreen = ({ navigation }) => {
-  // Overlay Controls for Uploading Profile Picture
+  // Overlay Controls for viewing files
   const [sheetVisible, setSheetVisible] = useState(false);
   const [overlayVisible, setOverlayVisible] = useState(false);
   const toggleOverlay = () => {
     setOverlayVisible(!overlayVisible);
   };
 
-  // Collects the user's ID.
+  // populate the states 
   const { authUserId } = useContext(AuthContext);
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
@@ -48,7 +49,8 @@ const viewFileScreen = ({ navigation }) => {
     return unsubscribe;
   }, []);
 
-  const removePicture = async (deleteIndex) => {
+  //removing a document or picture
+  const removeDocument = async (deleteIndex) => {
     try {
       Alert.alert(
         "Document '" + documents[deleteIndex].title + "'",
@@ -66,7 +68,8 @@ const viewFileScreen = ({ navigation }) => {
     }
   };
 
-  const removePictureAlert = async (i) => {
+  //alert to confirm removing
+  const removeDocumentAlert = async (i) => {
     Alert.alert(
       "Remove Document",
       "Are you sure you want to remove the document " +
@@ -80,7 +83,7 @@ const viewFileScreen = ({ navigation }) => {
         {
           text: "Yes",
           onPress: () => {
-            removePicture(i);
+            removeDocument(i);
           },
           style: "destructive",
         },
@@ -88,10 +91,14 @@ const viewFileScreen = ({ navigation }) => {
     );
   };
 
-  const updatedTask = async (newName, index) => {
+  //updating or editing document
+  const updatedDocument = async (newName, index) => {
     try {
+      //remove document from patient account
       firestoreService.deleteMedicalResultsPatient(documents[index]);
 
+      //update record on staff account
+      // updates by duplicating the array with desired changes
       documents[index].title = newName;
       setDocuments([...documents]);
       firestoreService.updateMedicalResults(
@@ -99,6 +106,7 @@ const viewFileScreen = ({ navigation }) => {
         documents
       );
 
+      //add duplicated document with new edit to patient account
       firestoreService.addMedicalResult(
         documents[index].patientId,
         documents[index]
@@ -108,7 +116,8 @@ const viewFileScreen = ({ navigation }) => {
     }
   };
 
-  const editTask = (index) => {
+  // alert to get edit text and confirm edit
+  const editDocument = (index) => {
     Alert.prompt(
       "Enter new document title ",
       "Current: " + documents[index].title,
@@ -119,16 +128,17 @@ const viewFileScreen = ({ navigation }) => {
         },
         {
           text: "OK",
-          onPress: (newName) => updatedTask(newName, index),
+          onPress: (newName) => updatedDocument(newName, index),
         },
       ]
     );
   };
 
   const renderPage = () => {
+    //if loading
     if (loading) {
       return <LoadingScreen />;
-    } else if (!loading) {
+    } else if (!loading) { //if there are no documents in account and loading is complete
       if (documents?.length < 1 || documents === undefined) {
         return (
           <View style={styles.container}>
@@ -143,7 +153,7 @@ const viewFileScreen = ({ navigation }) => {
         );
       }
     }
-
+    //display the document on account
     return (
       <ScrollView>
         <View>
@@ -168,7 +178,7 @@ const viewFileScreen = ({ navigation }) => {
               </ListItem.Content>
               <View style={styles.margin}>
                 <>
-                  {user.isStaff ? (
+                  {user.isStaff ? ( //if user is a staff they can edit and delete documents
                     <View style={styles.icon}>
                       <Icon
                         name={"delete"}
@@ -176,7 +186,7 @@ const viewFileScreen = ({ navigation }) => {
                         color="#e34c46"
                         onPress={() => {
                           setPatientId(l.patientId);
-                          removePictureAlert(i);
+                          removeDocumentAlert(i);
                         }}
                       />
                       <Icon
@@ -184,7 +194,7 @@ const viewFileScreen = ({ navigation }) => {
                         size={30}
                         color="#4695e3"
                         onPress={() => {
-                          editTask(i);
+                          editDocument(i);
                         }}
                       />
                     </View>
@@ -192,7 +202,7 @@ const viewFileScreen = ({ navigation }) => {
                     <View></View>
                   )}
                 </>
-                <Text style={[styles.date, styles.subText]}>
+                <Text style={[styles.date, styles.subText]}> 
                   {dateUtility.getFormattedDateNow(new Date(l.timestamp))}
                 </Text>
               </View>

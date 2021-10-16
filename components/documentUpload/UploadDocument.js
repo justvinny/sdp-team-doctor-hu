@@ -13,7 +13,7 @@ import firestoreService from "../../firebase/firestoreService";
 import * as DocumentPicker from "expo-document-picker";
 import ProgressBar from '../documentUpload/ProgressBar'
 
-
+// Upload documents/images to patient profile
 function UploadDocument({
   toggleDocumentOverlay,
   patient,
@@ -29,6 +29,7 @@ function UploadDocument({
     LogBox.ignoreLogs(["Animated: `useNativeDriver`"]);
   }, []);
 
+  // can upload either a camera image or doucment 
   //image picker
   const imagePicker = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -100,6 +101,7 @@ function UploadDocument({
             title: title,
           };
 
+          //adds upload doucment to patient and staff profiles
           firestoreService.addMedicalResult(staff, newDocument);
           firestoreService.addMedicalResult(patient, newDocument);
 
@@ -136,7 +138,7 @@ function UploadDocument({
     })();
   }, []);
 
-  // checks title is present and progresses to upload
+  // checks title is present into order to progresses to upload
   const checkTitleInput = () => {
     //Check for the title TextInput
     if (!title.trim()) {

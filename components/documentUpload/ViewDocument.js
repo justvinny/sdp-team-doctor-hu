@@ -6,7 +6,7 @@ import { WebView } from "react-native-webview";
 import LoadingScreen from "../LoadingScreen";
 import dateUtility from "../../utilities/dateUtility";
 
-const App = ({ url, patientId, staffId, title, date }) => {
+const ViewDocument = ({ url, patientId, staffId, title, date }) => {
   const { authUserId } = useContext(AuthContext);
   const [image, setImage] = useState(url);
   const [loading1, setLoading1] = useState(true);
@@ -16,6 +16,9 @@ const App = ({ url, patientId, staffId, title, date }) => {
   const [staff, setStaff] = useState({});
   const [user, setUser] = useState({});
 
+  //populate the needed information
+  //using three load checks to confirm all information is present and not undefined
+  //need to get live names from the system to reflect any changes in real time
   useEffect(() => {
     firestoreService.getUserById(patientId).then((data) => {
       setPatient(data);
@@ -50,7 +53,7 @@ const App = ({ url, patientId, staffId, title, date }) => {
           </Text>
         </Text>
 
-        {/* conditonal render name */}
+        {/* conditonal render name so staff can see who docuemnt was loaded to and patient can see from*/}
         {user.isStaff ? (
           <Text style={styles.bold}>
             Document uploaded to:
@@ -78,7 +81,7 @@ const App = ({ url, patientId, staffId, title, date }) => {
   return renderPage();
 };
 
-export default App;
+export default ViewDocument;
 
 const styles = StyleSheet.create({
   overlay: {

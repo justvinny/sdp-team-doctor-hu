@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { FAB, Overlay , SpeedDial} from 'react-native-elements';
 
+// upload FAB button for patient account
 function UploadActionButton({visible, setDocumentVisible, toggleDocumentOverlay}){
 
     return (

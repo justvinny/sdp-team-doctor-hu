@@ -45,39 +45,43 @@ const CommentScreenController = ({ navigation, route }) => {
   }, []);
 
   useEffect(() => {
-    firestoreService.getUserById(user.id).then((user) => {
-      if (user?.comments) {
-        setComments(user.comments);
-      }
+    const unsubscribe = firestoreService
+      .getUserLive(user.id)
+      .onSnapshot((doc) => {
+        const user = doc.data();
+        if (user?.comments) {
+          setComments(user.comments);
+        }
 
-      if (user?.commentReplies) {
-        // Transform firestore array of replies to map data structure using the comment id as key
-        // for ease of querying
-        const transformedMap = user.commentReplies.reduce(
-          (map, currentValue) => {
-            if (!map.has(currentValue.commentId)) {
-              map.set(currentValue.commentId, []);
-            }
-            map.get(currentValue.commentId).push(currentValue);
-            return map;
-          },
-          new Map()
-        );
+        if (user?.commentReplies) {
+          // Transform firestore array of replies to map data structure using the comment id as key
+          // for ease of querying
+          const transformedMap = user.commentReplies.reduce(
+            (map, currentValue) => {
+              if (!map.has(currentValue.commentId)) {
+                map.set(currentValue.commentId, []);
+              }
+              map.get(currentValue.commentId).push(currentValue);
+              return map;
+            },
+            new Map()
+          );
 
-        // Get the highest id value which will be used to calculate the new id value for replies.
-        const latestId = user.commentReplies.reduce(
-          (previousValue, currentValue) =>
-            previousValue > currentValue ? previousValue : currentValue,
-          -1
-        );
+          // Get the highest id value which will be used to calculate the new id value for replies.
+          const latestId = user.commentReplies.reduce(
+            (previousValue, currentValue) =>
+              previousValue > currentValue ? previousValue : currentValue,
+            -1
+          );
 
-        // Update states
-        setCommentReplies(transformedMap);
-        setLatestReplyId(latestId.id + 1);
-      }
+          // Update states
+          setCommentReplies(transformedMap);
+          setLatestReplyId(latestId.id + 1);
+        }
 
-      setLoading(false);
-    });
+        setLoading(false);
+      });
+    return unsubscribe;
   }, []);
 
   // Dynamically change header title according to passed user.

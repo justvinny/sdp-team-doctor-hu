@@ -59,8 +59,8 @@ function UploadProfilePicture({ setProfilePicture, toggleOverlay, user }) {
     /* Set the profile picture to undefined
     so that React Native knows to use Initials of a User's name
     instead of no profile picture */
-    setProfilePicture(undefined);
-    firestoreService.updatePicture(user.id, undefined);
+    setProfilePicture("");
+    firestoreService.updatePicture(user.id, "");
     Alert.alert(
       "Aww Man!",
       "Hope to see your beautiful face again soon " + user.name.first + ".",

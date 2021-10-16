@@ -4,13 +4,11 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, View, LogBox, Image, Alert } from "react-native";
 import { Text, Button } from "react-native-elements";
 import * as ImagePicker from "expo-image-picker";
-import { storage } from "../../../firebase/firebaseConfig";
-import firestoreService from "../../../firebase/firestoreService";
-import { defaultPicture } from "./DefaultPicture";
+import { storage } from "../../../../firebase/firebaseConfig";
+import firestoreService from "../../../../firebase/firestoreService";
 
 function UploadProfilePicture({ setProfilePicture, toggleOverlay, user }) {
   const [image, setImage] = useState("");
-  const defaultImage = defaultPicture;
 
   useEffect(() => {
     LogBox.ignoreLogs(["Animated: `useNativeDriver`"]);
@@ -58,8 +56,11 @@ function UploadProfilePicture({ setProfilePicture, toggleOverlay, user }) {
   };
 
   const removePicture = () => {
-    setProfilePicture(defaultImage);
-    firestoreService.updatePicture(user.id, defaultImage);
+    /* Set the profile picture to undefined
+    so that React Native knows to use Initials of a User's name
+    instead of no profile picture */
+    setProfilePicture(undefined);
+    firestoreService.updatePicture(user.id, undefined);
     Alert.alert(
       "Aww Man!",
       "Hope to see your beautiful face again soon " + user.name.first + ".",
@@ -120,7 +121,7 @@ function UploadProfilePicture({ setProfilePicture, toggleOverlay, user }) {
         ) : (
           <Image
             style={styles.image}
-            source={require("../../../assets/icon.png")}
+            source={require("../../../../assets/icon.png")}
           ></Image>
         )}
         <Button

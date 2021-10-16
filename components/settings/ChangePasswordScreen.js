@@ -56,7 +56,7 @@ const ChangePasswordScreen = ({ navigation }) => {
   const renderView = () => {
     return (
       <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <Text style={styles.headerText}>Forgot Your Password?</Text>
+        <Text style={styles.headerText}>Sick of your old password?</Text>
         <Text style={styles.headerDescription}>Change your password here!</Text>
         <View style={{ marginTop: 10 }}></View>
 

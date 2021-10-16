@@ -1,7 +1,7 @@
 // import React in our code
 import React, { useEffect, useState } from "react";
 // import all the components we are going to use
-import { StyleSheet, View, LogBox, Alert, Text } from "react-native";
+import { StyleSheet, View, Platform, Alert, Text } from "react-native";
 import { Button, Input, Icon } from "react-native-elements";
 import * as ImagePicker from "expo-image-picker";
 import { storage } from "../../firebase/firebaseConfig";
@@ -22,9 +22,12 @@ function UploadDocument({
   const [title, setTitle] = useState("");
   const [progress, showProgress] = useState(false);
 
-  useEffect(() => {
-    LogBox.ignoreLogs(["Animated: `useNativeDriver`"]);
-  }, []);
+  if (Platform.OS === "android" || Platform.OS === "ios") {
+    useEffect(() => {
+      const LogBox = require("react-native").LogBox;
+      LogBox.ignoreLogs(["Animated: `useNativeDriver`"]);
+    }, []);
+  }
 
   // can upload either a camera image or doucment
   //image picker
@@ -110,7 +113,10 @@ function UploadDocument({
               timestamp: newDocument.timestamp,
               from: _staff.getFullName(),
             };
-            firestoreService.addNotification(newDocument.patientId, newNotification);
+            firestoreService.addNotification(
+              newDocument.patientId,
+              newNotification
+            );
           });
 
           Alert.alert(

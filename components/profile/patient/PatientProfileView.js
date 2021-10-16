@@ -15,7 +15,7 @@ import GlobalProfileTab from "../profilecomponents/GlobalProfileTab";
 import BottomSheetNav from "../profilecomponents/BottomSheetNav";
 import UploadDocument from "../../documentUpload/UploadDocument";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import UploadProfilePicture from "../profilecomponents/profilePicture/UploadProfilePicture";
+import UploadProfilePictureController from "../profilecomponents/profilePicture/UploadProfilePictureController";
 import ProfilePicture from "../profilecomponents/profilePicture/ProfilePicture";
 import FloatingMenu from "./FloatingMenu";
 
@@ -117,7 +117,7 @@ export default function PatientProfileView({
               animationType="slide"
               transparent
             >
-              <UploadProfilePicture
+              <UploadProfilePictureController
                 setProfilePicture={setProfilePicture}
                 toggleOverlay={toggleOverlay}
                 user={user}

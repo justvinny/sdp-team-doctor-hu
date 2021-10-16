@@ -15,7 +15,7 @@ import TabStyles from "../profilecomponents/TabStyles";
 import GlobalProfileTab from "../profilecomponents/GlobalProfileTab";
 import LoadingScreen from "../../LoadingScreen";
 import BottomSheetNav from "../profilecomponents/BottomSheetNav";
-import UploadProfilePicture from "../profilecomponents/profilePicture/UploadProfilePicture";
+import UploadProfilePictureController from "../profilecomponents/profilePicture/UploadProfilePictureController";
 import ProfilePicture from "../profilecomponents/profilePicture/ProfilePicture";
 
 export default function StaffProfileView({
@@ -59,7 +59,7 @@ export default function StaffProfileView({
               animationType="slide"
               transparent
             >
-              <UploadProfilePicture
+              <UploadProfilePictureController
                 setProfilePicture={setProfilePicture}
                 toggleOverlay={toggleOverlay}
                 user={user}

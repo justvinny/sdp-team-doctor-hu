@@ -21,7 +21,7 @@ import ProfileSelection from "./components/profile/ProfileSelection";
 import ViewFileScreen from "./components/documentUpload/ViewFileScreen";
 
 import NotificationScreenController from "./components/notifications/NotificationScreenController";
-import UploadProfilePicture from "./components/profile/profilecomponents/UploadProfilePicture";
+import UploadProfilePicture from "./components/profile/profilecomponents/profilePicture/UploadProfilePicture";
 
 const Stack = createNativeStackNavigator();
 

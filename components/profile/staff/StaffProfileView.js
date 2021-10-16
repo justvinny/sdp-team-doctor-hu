@@ -15,8 +15,8 @@ import TabStyles from "../profilecomponents/TabStyles";
 import GlobalProfileTab from "../profilecomponents/GlobalProfileTab";
 import LoadingScreen from "../../LoadingScreen";
 import BottomSheetNav from "../profilecomponents/BottomSheetNav";
-import UploadProfilePicture from "../profilecomponents/UploadProfilePicture";
-import ProfilePicture from "../profilecomponents/ProfilePicture";
+import UploadProfilePicture from "../profilecomponents/profilePicture/UploadProfilePicture";
+import ProfilePicture from "../profilecomponents/profilePicture/ProfilePicture";
 
 export default function StaffProfileView({
   loading,

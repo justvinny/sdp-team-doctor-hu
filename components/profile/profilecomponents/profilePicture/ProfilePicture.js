@@ -1,8 +1,8 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Avatar } from "react-native-elements";
-import Staff from "../../../models/Staff";
-import colorDefaults from "../../../theme/colorDefaults";
+import Staff from "../../../../models/Staff";
+import colorDefaults from "../../../../theme/colorDefaults";
 
 const ProfilePicture = ({
   profilePicture,

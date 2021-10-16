@@ -1,28 +1,18 @@
 import React, { useEffect, useLayoutEffect, useContext, useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Keyboard,
-  TouchableWithoutFeedback,
-  ActivityIndicator,
-} from "react-native";
+import { StyleSheet, Keyboard, TouchableWithoutFeedback } from "react-native";
 import colorDefaults from "../../../theme/colorDefaults";
 import AddressTab from "./AddressTab";
 import MedicalTab from "./MedicalTab";
-import firestoreService from "../../../firebase/firestoreService";
-import AuthContext from "../../../context/AuthContext";
 import LoadingScreen from "../../../components/LoadingScreen";
-import Patient from "../../../models/Patient";
 import TabStyles from "../profilecomponents/TabStyles";
-import { Tab, TabView, Image, Overlay } from "react-native-elements";
+import { Tab, TabView, Overlay } from "react-native-elements";
 import GlobalProfileTab from "../profilecomponents/GlobalProfileTab";
 import BottomSheetNav from "../profilecomponents/BottomSheetNav";
-import UploadProfilePicture from "../profilecomponents/UploadProfilePicture";
 import UploadDocumentButton from "../../documentUpload/UploadDocumentButton";
 import UploadDocument from "../../documentUpload/UploadDocument";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import ProfilePicture from "../profilecomponents/ProfilePicture";
+import UploadProfilePicture from "../profilecomponents/profilePicture/UploadProfilePicture";
+import ProfilePicture from "../profilecomponents/profilePicture/ProfilePicture";
 
 export default function PatientProfileView({
   loading,

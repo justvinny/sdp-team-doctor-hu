@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { Avatar } from "react-native-elements";
+import { Avatar, Icon, Accessory } from "react-native-elements";
 import Staff from "../../../../models/Staff";
 import colorDefaults from "../../../../theme/colorDefaults";
 
@@ -21,7 +21,18 @@ const ProfilePicture = ({
           onPress={() => {
             !passedUser ? setSheetVisible(true) : {};
           }}
-        />
+        >
+          <Accessory
+            name="edit"
+            size={35}
+            style={{ backgroundColor: colorDefaults.primary }}
+            underlayColor={colorDefaults.secondary}
+            iconStyle={{ color: "white" }}
+            onPress={() => {
+              !passedUser ? setSheetVisible(true) : {};
+            }}
+          />
+        </Avatar>
       ) : (
         <Avatar
           size={150}
@@ -31,7 +42,18 @@ const ProfilePicture = ({
           onPress={() => {
             !passedUser ? setSheetVisible(true) : {};
           }}
-        />
+        >
+          <Accessory
+            name="edit"
+            size={35}
+            style={{ backgroundColor: colorDefaults.secondary }}
+            underlayColor={colorDefaults.primary}
+            iconStyle={{ color: "white" }}
+            onPress={() => {
+              !passedUser ? setSheetVisible(true) : {};
+            }}
+          />
+        </Avatar>
       )}
 
       <Text style={styles.name}>{Staff.getFullName(user.name)}</Text>

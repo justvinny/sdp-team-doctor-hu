@@ -23,6 +23,7 @@ import UploadDocumentButton from "../../documentUpload/UploadDocumentButton";
 import UploadDocument from "../../documentUpload/UploadDocument";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { defaultPicture } from "../profilecomponents/DefaultPicture";
+import ProfilePicture from "../profilecomponents/ProfilePicture";
 
 export default function PatientProfile({ navigation, route }) {
   // Bottom navigation sheet for profile picture
@@ -73,17 +74,13 @@ export default function PatientProfile({ navigation, route }) {
 
     return (
       <>
-        <View style={styles.container}>
-          <Image
-            style={styles.image}
-            source={{ uri: profilePicture }}
-            PlaceholderContent={<ActivityIndicator />}
-            onPress={() => {
-              !passedUser ? setSheetVisible(true) : {};
-            }}
-          />
-          <Text style={styles.name}>{user.getFullName()}</Text>
-        </View>
+        <ProfilePicture
+          user={user}
+          passedUser={passedUser}
+          profilePicture={profilePicture}
+          setSheetVisible={setSheetVisible}
+        />
+
         <Tab
           value={index}
           onChange={setIndex}
@@ -118,15 +115,15 @@ export default function PatientProfile({ navigation, route }) {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <KeyboardAwareScrollView>
             <TabView value={index} onChange={setIndex} animationType="timing">
-              <TabView.Item style={{ width: "100%" }}>
+              <TabView.Item style={styles.tabContent}>
                 <GlobalProfileTab user={user} setUser={setUser} />
               </TabView.Item>
 
-              <TabView.Item style={{ width: "100%" }} animationType="timing">
+              <TabView.Item style={styles.tabContent} animationType="timing">
                 <AddressTab user={user} setUser={setUser} />
               </TabView.Item>
 
-              <TabView.Item style={{ width: "100%" }} animationType="timing">
+              <TabView.Item style={styles.tabContent} animationType="timing">
                 <MedicalTab user={user} setUser={setUser} />
               </TabView.Item>
             </TabView>
@@ -143,9 +140,7 @@ export default function PatientProfile({ navigation, route }) {
             <Overlay
               isVisible={overlayVisible}
               onBackdropPress={toggleOverlay}
-              overlayStyle={{
-                backgroundColor: colorDefaults.backDropColor,
-              }}
+              overlayStyle={styles.overlayStyle}
               animationType="slide"
               transparent
             >
@@ -161,7 +156,7 @@ export default function PatientProfile({ navigation, route }) {
             <Overlay
               isVisible={overlayDocumentVisible}
               onBackdropPress={toggleDocumentOverlay}
-              overlayStyle={{ backgroundColor: colorDefaults.backDropColor }}
+              overlayStyle={styles.overlayStyle}
               animationType="slide"
               transparent
             >
@@ -197,21 +192,10 @@ export default function PatientProfile({ navigation, route }) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    alignItems: "center",
-    marginBottom: 20,
+  tabContent: {
+    width: "100%",
   },
-  image: {
-    width: 150,
-    height: 150,
-    marginBottom: 20,
-    marginTop: 20,
-    borderRadius: 100,
-    borderColor: "black",
-    borderWidth: 2,
-  },
-  name: {
-    fontSize: 18,
-    fontWeight: "bold",
+  overlayStyle: {
+    backgroundColor: colorDefaults.backDropColor,
   },
 });

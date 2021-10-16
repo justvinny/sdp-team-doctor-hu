@@ -6,7 +6,7 @@ import colorDefaults from "../../../theme/colorDefaults";
 /**
  * Comment card component that contains the commenter's picture, name, and message.
  */
-const CommentCard = ({ title, name, content, picture }) => {
+const CommentCard = ({ title, name, content, picture, date }) => {
   return (
     <View style={styles.container}>
       <View style={styles.nameContainer}>
@@ -15,7 +15,7 @@ const CommentCard = ({ title, name, content, picture }) => {
             size="small"
             rounded
             title={title}
-            source={{uri: picture}}
+            source={{ uri: picture }}
             containerStyle={{ backgroundColor: colorDefaults.primary }}
           />
         ) : (
@@ -26,7 +26,10 @@ const CommentCard = ({ title, name, content, picture }) => {
             containerStyle={{ backgroundColor: colorDefaults.primary }}
           />
         )}
-        <Text style={styles.name}>{name}</Text>
+        <View>
+          <Text style={styles.name}>{name}</Text>
+          <Text style={styles.date}>{date}</Text>
+        </View>
       </View>
       <Text>{content}</Text>
     </View>
@@ -51,5 +54,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 14,
     marginLeft: 4,
+  },
+  date: {
+    color: "grey",
+    marginLeft: 4,
+    fontSize: 12,
   },
 });

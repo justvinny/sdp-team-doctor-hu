@@ -3,7 +3,7 @@ import { StyleSheet, View } from "react-native";
 import CommentCard from "./CommentCard";
 import CommentActions from "./CommentActions";
 import CommentReplies from "./CommentReplies";
-
+import dateUtility from "../../../utilities/dateUtility";
 /**
  * 
  * Contains all the elements needed for a comment such as:
@@ -41,6 +41,7 @@ const CommentBox = ({
         name={`${comment.from.first} ${comment.from.last}`}
         content={comment.comment}
         picture={comment.authorPicture}
+        date={dateUtility.getFormattedDateNow(new Date(comment.timestamp))}
       />
       <CommentActions
         comment={comment}

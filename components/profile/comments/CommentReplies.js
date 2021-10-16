@@ -19,9 +19,9 @@ const CommentReplies = ({
       ) : (
         <View style={styles.container}>
           {commentReplies &&
-            commentReplies.map((reply) => (
+            commentReplies.map((reply, index) => (
               <CommentReplyBox
-                key={reply.id}
+                key={reply.id + index}
                 reply={reply}
                 deleteReply={deleteReply}
                 openReplyOverlay={openReplyOverlay}
@@ -41,11 +41,5 @@ const styles = StyleSheet.create({
     paddingLeft: 12,
     borderTopRightRadius: 8,
     borderBottomRightRadius: 8,
-  },
-  line: {
-    backgroundColor: "green",
-    width: "2.5%",
-    height: "85%",
-    marginRight: 8,
   },
 });

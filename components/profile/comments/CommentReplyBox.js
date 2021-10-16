@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 import CommentCard from "./CommentCard";
 import CommentActions from "./CommentActions";
+import dateUtility from "../../../utilities/dateUtility";
 
 /**
  * Comment Reply Box component that contains reply information such as:
@@ -28,6 +29,7 @@ const CommentReplyBox = ({
           name={`${reply.from.first} ${reply.from.last}`}
           content={reply.reply}
           picture={reply.authorPicture}
+          date={dateUtility.getFormattedDateNow(new Date(reply.timestamp))}
         />
         <CommentActions
           isReply={true}
@@ -50,5 +52,11 @@ const styles = StyleSheet.create({
   },
   replyBox: {
     flex: 1,
+  },
+  line: {
+    backgroundColor: "green",
+    width: "2.5%",
+    height: "85%",
+    marginRight: 8,
   },
 });

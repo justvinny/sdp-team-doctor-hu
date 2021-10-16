@@ -39,17 +39,28 @@ const NotificationScreenController = ({ navigation, route }) => {
   // Clicking notification navigates it to the appropriate screen. It also marks it as read.
   // For example, clicking a new message notification will send you to the chat home screen.
   const notificationClick = (notification, index) => {
+    markNotificationRead(index);
     if (notification.type.localeCompare("message") === 0) {
-      const copyNotifications = [...notifications];
-      copyNotifications[index].isRead = true;
-      firestoreService.updateNotifications(
-        authUserId,
-        copyNotifications.reverse()
-      );
       navigation.navigate("ChatHome");
+    } else if (
+      notification.type.localeCompare("comment") === 0 ||
+      notification.type.localeCompare("comment-reply") === 0
+    ) {
+      firestoreService.getUserById(notification.patientId).then((user) => {
+        navigation.navigate("Comment", { user });
+      });
     } else {
       window.alert("Non-message notification");
     }
+  };
+
+  const markNotificationRead = (index) => {
+    const copyNotifications = [...notifications];
+    copyNotifications[index].isRead = true;
+    firestoreService.updateNotifications(
+      authUserId,
+      copyNotifications.reverse()
+    );
   };
 
   // Clear all notifications

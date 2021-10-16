@@ -2,6 +2,7 @@ import React, { useState, useLayoutEffect, useContext, useEffect } from "react";
 import AuthContext from "../../../context/AuthContext";
 import firestoreService from "../../../firebase/firestoreService";
 import CommentScreenView from "./CommentScreenView";
+import Staff from "../../../models/Staff";
 
 /**
  * Comment Screen Controller that contains all the states and functionality of our comment screen.
@@ -38,7 +39,7 @@ const CommentScreenController = ({ navigation, route }) => {
   */
   useEffect(() => {
     firestoreService.getUserById(authUserId).then((user) => {
-      setAuthUser(user);
+      setAuthUser(Staff.staffFirestoreFactory(user));
       setLoading(false);
     });
   }, []);
@@ -129,6 +130,7 @@ const CommentScreenController = ({ navigation, route }) => {
     setCommentPrivate(!commentPrivate);
   };
 
+  // Used for getting the id to use for a new comment.
   const getNextId = (arr) => {
     return arr.length > 0 ? arr[arr.length - 1].id + 1 : 0;
   };
@@ -148,6 +150,90 @@ const CommentScreenController = ({ navigation, route }) => {
       setComments([...comments, _newComment]);
       toggleCommentOverlay();
       firestoreService.addComment(user.id, _newComment);
+
+      // Only notifiy patient of public comments.
+      if (!_newComment.isPrivate) {
+        const newNotification = {
+          type: "comment",
+          content: _newComment.comment,
+          isRead: false,
+          timestamp: _newComment.timestamp,
+          from: authUser.getFullName(),
+          patientId: user.id,
+        };
+
+        firestoreService.addNotification(user.id, newNotification);
+      }
+    }
+  };
+
+  const replyToComment = () => {
+    if (newComment) {
+      const _reply = {
+        id: latestReplyId,
+        commentId: selectedCommentId,
+        authorId: authUserId,
+        authorPicture: authUser.picture === undefined ? "" : authUser.picture,
+        from: authUser.name,
+        reply: newComment,
+        timestamp: Date.now(),
+      };
+
+      // Clone old map and add new reply to newly cloned map.
+      const _commentReplies = new Map(commentReplies);
+      if (!_commentReplies.has(_reply.commentId)) {
+        _commentReplies.set(_reply.commentId, []);
+      }
+      _commentReplies.get(_reply.commentId).push(_reply);
+
+      setCommentReplies(_commentReplies);
+      setLatestReplyId(latestReplyId + 1);
+      toggleCommentOverlay();
+      firestoreService.addCommentReply(user.id, _reply);
+
+      // Notify all users with replies in the comment thread except for the sender of the new reply.
+      const newNotification = {
+        type: "comment-reply",
+        content: _reply.reply,
+        isRead: false,
+        timestamp: _reply.timestamp,
+        from: authUser.getFullName(),
+        patientId: user.id,
+      };
+
+      // Notify all uers that have a reply in the comment thread.
+      _commentReplies
+        .get(_reply.commentId)
+        .filter((reply) => reply.authorId.localeCompare(_reply.authorId) !== 0)
+        .forEach((reply) => {
+          firestoreService.addNotification(reply.authorId, newNotification);
+        });
+
+      // Notify patient as well even if they don't have a reply in the comment thread.
+      // Except if the patient is the sender of the new reply.
+      const patientHasReply = _commentReplies
+        .get(_reply.commentId)
+        .some((reply) => reply.authorId.localeCompare(user.id) === 0);
+
+      if (!patientHasReply && user.id.localeCompare(_reply.authorId) !== 0) {
+        firestoreService.addNotification(user.id, newNotification);
+      }
+
+      // Notify comment thread author as well even if they don't have a reply in the comment thread.
+      // Except if the comment thread author is the sender of the new reply.
+      const commentAuthorId = comments.find(
+        (comment) => comment.id === _reply.commentId
+      ).authorId;
+      const authorHasReply = _commentReplies
+        .get(_reply.commentId)
+        .some((reply) => reply.authorId.localeCompare(commentAuthorId) === 0);
+
+      if (
+        !authorHasReply &&
+        commentAuthorId.localeCompare(_reply.authorId) !== 0
+      ) {
+        firestoreService.addNotification(commentAuthorId, newNotification);
+      }
     }
   };
 
@@ -156,6 +242,15 @@ const CommentScreenController = ({ navigation, route }) => {
       const updatedComments = comments.filter((comment) => comment.id !== id);
       setComments(updatedComments);
       firestoreService.updateComments(user.id, updatedComments);
+
+      // Also delete related replies
+      const _commentReplies = new Map(commentReplies);
+      _commentReplies.delete(id);
+      setCommentReplies(_commentReplies);
+      firestoreService.updateCommentReplies(
+        user.id,
+        mapToArray(_commentReplies)
+      );
     }
   };
 
@@ -222,32 +317,7 @@ const CommentScreenController = ({ navigation, route }) => {
     firestoreService.updateCommentReplies(user.id, mapToArray(_commentReplies));
   };
 
-  const replyToComment = () => {
-    if (newComment) {
-      const _reply = {
-        id: latestReplyId,
-        commentId: selectedCommentId,
-        authorId: authUserId,
-        authorPicture: authUser.picture === undefined ? "" : authUser.picture,
-        from: authUser.name,
-        reply: newComment,
-        timestamp: Date.now(),
-      };
-
-      // Clone old map and add new reply to newly cloned map.
-      const _commentReplies = new Map(commentReplies);
-      if (!_commentReplies.has(_reply.commentId)) {
-        _commentReplies.set(_reply.commentId, []);
-      }
-      _commentReplies.get(_reply.commentId).push(_reply);
-
-      setCommentReplies(_commentReplies);
-      setLatestReplyId(latestReplyId + 1);
-      firestoreService.addCommentReply(user.id, _reply);
-      toggleCommentOverlay();
-    }
-  };
-
+  // Concatenate all array map values to a single array.
   const mapToArray = (map) => {
     // Transform to array before storing in firestore
     let arr = [];

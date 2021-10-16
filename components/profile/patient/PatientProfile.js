@@ -3,11 +3,8 @@ import {
   StyleSheet,
   Text,
   View,
-  KeyboardAvoidingView,
   Keyboard,
   TouchableWithoutFeedback,
-  ScrollView,
-  Platform,
   ActivityIndicator,
 } from "react-native";
 import colorDefaults from "../../../theme/colorDefaults";
@@ -22,8 +19,8 @@ import { Tab, TabView, Image, Overlay } from "react-native-elements";
 import GlobalProfileTab from "../profilecomponents/GlobalProfileTab";
 import BottomSheetNav from "../profilecomponents/BottomSheetNav";
 import UploadProfilePicture from "../profilecomponents/UploadProfilePicture";
+import FloatingMenu from "./FloatingMenu";
 import { FAB } from "react-native-elements";
-import UploadDocumentButton from "../../documentUpload/UploadDocumentButton";
 import UploadDocument from "../../documentUpload/UploadDocument";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
@@ -52,6 +49,18 @@ export default function PatientProfile({ navigation, route }) {
   const [overlayDocumentVisible, setOverlayDocumentVisible] = useState(false);
   const toggleDocumentOverlay = () => {
     setOverlayDocumentVisible(!overlayDocumentVisible);
+  };
+  const uploadButtonAction = () => {
+    toggleDocumentOverlay();
+    setDocumentVisible(true);
+  };
+
+  // Speed dial states
+  const [open, setOpen] = useState(false);
+
+  // Function to navigate to patient profile comments
+  const openComments = () => {
+    navigation.navigate("Comment", { user });
   };
 
   useLayoutEffect(() => {
@@ -179,18 +188,32 @@ export default function PatientProfile({ navigation, route }) {
             {/* Document Upload */}
           </KeyboardAwareScrollView>
         </TouchableWithoutFeedback>
+        {/* This helps Keyboard Avoiding View function properly by moving the whole display up */}
+        <View style={{ height: 100 }} />
 
-        {/* Checks if the staff is viewing the profile,
-        as staff are the only ones who can view patient profiles.
-        Then shows the Upload Document button*/}
+        {/*
+             Floating action button for menu which contains add comment and result upload. 
+             Uses conditional as we don't want patients to be able to upload results. 
+
+             - Patients should only see view comments FAB on their profile.
+             - Staff should be able to see a speed dial FAB that gives them view commenet and upload document
+               as options.
+          */}
         {passedUser ? (
-          <UploadDocumentButton
-            visible={documentVisible}
-            setDocumentVisible={setDocumentVisible}
-            toggleDocumentOverlay={toggleDocumentOverlay}
+          <FloatingMenu
+            open={open}
+            setOpen={setOpen}
+            openComments={openComments}
+            uploadButtonAction={uploadButtonAction}
           />
         ) : (
-          <></>
+          <FAB
+            icon={{ name: "comment", color: "#fff" }}
+            onPress={openComments}
+            color={colorDefaults.primary}
+            placement="right"
+            size="large"
+          />
         )}
       </>
     );
@@ -216,5 +239,10 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 18,
     fontWeight: "bold",
+  },
+  tabContainer: {
+    display: "flex",
+    flexDirection: "row",
+    alignSelf: "stretch",
   },
 });

@@ -22,6 +22,7 @@ import ViewFileScreen from "./components/documentUpload/ViewFileScreen";
 
 import NotificationScreenController from "./components/notifications/NotificationScreenController";
 import UploadProfilePicture from "./components/profile/profilecomponents/UploadProfilePicture";
+import CommentScreenController from "./components/profile/comments/CommentScreenController";
 
 const Stack = createNativeStackNavigator();
 
@@ -66,10 +67,12 @@ export default function App() {
           onPress={signOut}
           title="Sign Out"
         />
-          
-        <Button color={colorDefaults.primary}
+
+        <Button
+          color={colorDefaults.primary}
           onPress={() => navigation.navigate("ViewFileScreen")}
-          title="ViewFileScreen" />
+          title="ViewFileScreen"
+        />
       </View>
     );
   };
@@ -120,11 +123,8 @@ export default function App() {
               component={ProfileSelection}
               name="ProfileSelection"
             />
-          
-           <Stack.Screen
-              component={ViewFileScreen}
-              name="ViewFileScreen"
-              />
+
+            <Stack.Screen component={ViewFileScreen} name="ViewFileScreen" />
             <Stack.Screen
               component={NotificationScreenController}
               name="NotificationScreen"
@@ -133,7 +133,7 @@ export default function App() {
               component={UploadProfilePicture}
               name="UploadProfilePicture"
             />
-         
+            <Stack.Screen component={CommentScreenController} name="Comment" />
           </Stack.Navigator>
           <StatusBar style="light" />
         </NavigationContainer>

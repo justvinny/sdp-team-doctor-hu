@@ -2,7 +2,7 @@
 import React, { useEffect, useState, useLayoutEffect, useContext } from "react";
 
 // import all the components we are going to use
-import { StyleSheet, View, LogBox, Image, Alert } from "react-native";
+import { StyleSheet, View, Image, Alert, Platform } from "react-native";
 
 import { Text, Button } from "react-native-elements";
 
@@ -16,9 +16,13 @@ function UploadProfilePicture({ setProfilePicture, toggleOverlay, user }) {
   const defaultImage =
     "https://firebasestorage.googleapis.com/v0/b/sdp-team-doctor-hu.appspot.com/o/profile%2Ficon.png?alt=media&token=b4ee677b-3ed3-41ab-9689-1ba237967830";
 
-  useEffect(() => {
-    LogBox.ignoreLogs(["Animated: `useNativeDriver`"]);
-  }, []);
+  // Only run on android and ios. Webpack does not have Logbox.
+  if (Platform.OS === "android" || Platform.OS === "ios") {
+    useEffect(() => {
+      const LogBox = require("react-native").LogBox;
+      LogBox.ignoreLogs(["Animated: `useNativeDriver`"]);
+    }, []);
+  }
 
   const imagePicker = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({

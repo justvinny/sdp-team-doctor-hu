@@ -56,7 +56,7 @@ function UploadProfilePicture({ setProfilePicture, toggleOverlay, user }) {
   };
 
   const removePicture = () => {
-    /* Set the profile picture to undefined
+    /* Set the profile picture to blank string
     so that React Native knows to use Initials of a User's name
     instead of no profile picture */
     setProfilePicture("");

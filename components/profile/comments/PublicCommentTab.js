@@ -52,7 +52,6 @@ export default PublicCommentTab;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "stretch",
     backgroundColor: colorDefaults.backDropColor,
   },
   flatList: {

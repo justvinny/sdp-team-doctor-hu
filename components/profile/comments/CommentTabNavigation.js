@@ -1,6 +1,5 @@
 import React from "react";
-import { StyleSheet } from "react-native";
-import { Tab, TabView } from "react-native-elements";
+import { StyleSheet, View, TouchableOpacity, Text } from "react-native";
 import colorDefaults from "../../../theme/colorDefaults";
 import PublicCommentTab from "./PublicCommentTab";
 import PrivateCommentTab from "./PrivateCommentTab";
@@ -25,77 +24,89 @@ const CommentTabNavigation = ({
   reRenderList,
   setReRenderList,
 }) => {
+  const menuButtonClick = (index) => {
+    setTabIndex(index);
+  };
+
   return (
-    <>
-      <Tab
-        value={tabIndex}
-        onChange={setTabIndex}
-        indicatorStyle={styles.indicatorStyle}
-      >
-        <Tab.Item
-          titleStyle={styles.tabTitle}
-          title="public"
-          buttonStyle={[tabIndex == 0 ? styles.activeButton : styles.button]}
+    <View style={styles.container}>
+      <View style={styles.menuContainer}>
+        <TouchableOpacity
+          style={tabIndex === 0 ? styles.activeMenuButton : styles.menuButton}
+          onPress={() => menuButtonClick(0)}
+        >
+          <Text style={styles.menuTitle}>Public</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={tabIndex === 1 ? styles.activeMenuButton : styles.menuButton}
+          onPress={() => menuButtonClick(1)}
+        >
+          <Text style={styles.menuTitle}>Private</Text>
+        </TouchableOpacity>
+      </View>
+      {tabIndex === 0 ? (
+        <PublicCommentTab
+          comments={comments}
+          commentReplies={commentReplies}
+          setComments={setComments}
+          deleteComment={deleteComment}
+          deleteReply={deleteReply}
+          editComment={editComment}
+          openEditingOverlay={openEditingOverlay}
+          openReplyOverlay={openReplyOverlay}
+          openEditingReplyOverlay={openEditingReplyOverlay}
+          reRenderList={reRenderList}
+          setReRenderList={setReRenderList}
         />
-        <Tab.Item
-          titleStyle={styles.tabTitle}
-          title="private"
-          buttonStyle={[tabIndex == 1 ? styles.activeButton : styles.button]}
+      ) : (
+        <PrivateCommentTab
+          comments={comments}
+          commentReplies={commentReplies}
+          setComments={setComments}
+          deleteComment={deleteComment}
+          deleteReply={deleteReply}
+          editComment={editComment}
+          openEditingOverlay={openEditingOverlay}
+          openReplyOverlay={openReplyOverlay}
+          openEditingReplyOverlay={openEditingReplyOverlay}
+          reRenderList={reRenderList}
+          setReRenderList={setReRenderList}
         />
-      </Tab>
-      <TabView value={tabIndex} onChange={setTabIndex}>
-        <TabView.Item style={styles.tabViewContainer}>
-          <PublicCommentTab
-            comments={comments}
-            commentReplies={commentReplies}
-            setComments={setComments}
-            deleteComment={deleteComment}
-            deleteReply={deleteReply}
-            editComment={editComment}
-            openEditingOverlay={openEditingOverlay}
-            openReplyOverlay={openReplyOverlay}
-            openEditingReplyOverlay={openEditingReplyOverlay}
-            reRenderList={reRenderList}
-            setReRenderList={setReRenderList}
-          />
-        </TabView.Item>
-        <TabView.Item style={styles.tabViewContainer}>
-          <PrivateCommentTab
-            comments={comments}
-            commentReplies={commentReplies}
-            setComments={setComments}
-            deleteComment={deleteComment}
-            deleteReply={deleteReply}
-            editComment={editComment}
-            openEditingOverlay={openEditingOverlay}
-            openReplyOverlay={openReplyOverlay}
-            openEditingReplyOverlay={openEditingReplyOverlay}
-            reRenderList={reRenderList}
-            setReRenderList={setReRenderList}
-          />
-        </TabView.Item>
-      </TabView>
-    </>
+      )}
+    </View>
   );
 };
 
 export default CommentTabNavigation;
 
 const styles = StyleSheet.create({
-  tabTitle: {
-    color: "#fff",
-  },
-  indicatorStyle: {
-    backgroundColor: "black",
-  },
-  activeButton: {
-    backgroundColor: colorDefaults.secondary,
-  },
-  button: {
-    backgroundColor: colorDefaults.primary,
-  },
-  tabViewContainer: {
+  container: {
     flex: 1,
     backgroundColor: colorDefaults.backDropColor,
+  },
+  menuContainer: {
+    display: "flex",
+    flexDirection: "row",
+    alignSelf: "stretch",
+  },
+  menuButton: {
+    width: "50%",
+    backgroundColor: colorDefaults.primary,
+    padding: 16,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  activeMenuButton: {
+    width: "50%",
+    backgroundColor: colorDefaults.secondary,
+    padding: 16,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  menuTitle: {
+    color: "#fff",
+    fontWeight: "bold",
+    fontSize: 16,
+    textTransform: "uppercase",
   },
 });

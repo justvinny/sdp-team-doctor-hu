@@ -1,4 +1,5 @@
 import React, { useState, useLayoutEffect, useContext, useEffect } from "react";
+import { Alert } from "react-native";
 import AuthContext from "../../../context/AuthContext";
 import firestoreService from "../../../firebase/firestoreService";
 import CommentScreenView from "./CommentScreenView";
@@ -243,36 +244,62 @@ const CommentScreenController = ({ navigation, route }) => {
   };
 
   const deleteComment = (id) => {
-    if (id !== undefined) {
-      const updatedComments = comments.filter((comment) => comment.id !== id);
-      setComments(updatedComments);
-      firestoreService.updateComments(user.id, updatedComments);
+    Alert.alert("Confirm Delete", "Are you sure you want to delete comment?", [
+      {
+        text: "No",
+        style: "cancel",
+      },
+      {
+        text: "Yes",
+        style: "destructive",
+        onPress: () => {
+          if (id !== undefined) {
+            const updatedComments = comments.filter(
+              (comment) => comment.id !== id
+            );
+            setComments(updatedComments);
+            firestoreService.updateComments(user.id, updatedComments);
 
-      // Also delete related replies
-      const _commentReplies = new Map(commentReplies);
-      _commentReplies.delete(id);
-      setCommentReplies(_commentReplies);
-      firestoreService.updateCommentReplies(
-        user.id,
-        mapToArray(_commentReplies)
-      );
-    }
+            // Also delete related replies
+            const _commentReplies = new Map(commentReplies);
+            _commentReplies.delete(id);
+            setCommentReplies(_commentReplies);
+            firestoreService.updateCommentReplies(
+              user.id,
+              mapToArray(_commentReplies)
+            );
+          }
+        },
+      },
+    ]);
   };
 
   const deleteReply = (id, commentId) => {
-    if (id !== undefined && commentId !== undefined) {
-      const _commentReplies = new Map(commentReplies);
-      const updatedRepliesArr = _commentReplies
-        .get(commentId)
-        .filter((reply) => reply.id !== id);
-      _commentReplies.set(commentId, updatedRepliesArr);
+    Alert.alert("Confirm Delete", "Are you sure you want to delete comment?", [
+      {
+        text: "No",
+        style: "cancel",
+      },
+      {
+        text: "Yes",
+        style: "destructive",
+        onPress: () => {
+          if (id !== undefined && commentId !== undefined) {
+            const _commentReplies = new Map(commentReplies);
+            const updatedRepliesArr = _commentReplies
+              .get(commentId)
+              .filter((reply) => reply.id !== id);
+            _commentReplies.set(commentId, updatedRepliesArr);
 
-      setCommentReplies(_commentReplies);
-      firestoreService.updateCommentReplies(
-        user.id,
-        mapToArray(_commentReplies)
-      );
-    }
+            setCommentReplies(_commentReplies);
+            firestoreService.updateCommentReplies(
+              user.id,
+              mapToArray(_commentReplies)
+            );
+          }
+        },
+      },
+    ]);
   };
 
   const editComment = () => {

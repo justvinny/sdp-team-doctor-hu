@@ -2,6 +2,10 @@ import React from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 import CommentBox from "./CommentBox";
 
+/**
+ * Private comment tab which only staff can view. 
+ * Renders a scrollable flat list for all private comments and replies.
+ */
 const PrivateCommentTab = ({
   comments,
   commentReplies,

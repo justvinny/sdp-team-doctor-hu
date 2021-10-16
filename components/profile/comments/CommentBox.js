@@ -4,6 +4,19 @@ import CommentCard from "./CommentCard";
 import CommentActions from "./CommentActions";
 import CommentReplies from "./CommentReplies";
 
+/**
+ * 
+ * Contains all the elements needed for a comment such as:
+ * - Commenter Profile Picture
+ * - Commenter Name
+ * - Commenter Message
+ * - All replies related to this comment
+ * - Actions such as:
+ *    - View/Hide Replies
+ *    - Edit
+ *    - Delete
+ *    - Reply
+ */
 const CommentBox = ({
   comment,
   commentReplies,

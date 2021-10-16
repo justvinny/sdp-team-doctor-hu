@@ -3,6 +3,10 @@ import { FlatList, StyleSheet, View } from "react-native";
 import colorDefaults from "../../../theme/colorDefaults";
 import CommentBox from "./CommentBox";
 
+/**
+ * Public comment tab which can be viewed by both patient and staff.
+ * Renders a scrolalble flat list for all public comments and replies.
+ */
 const PublicCommentTab = ({
   comments,
   commentReplies,

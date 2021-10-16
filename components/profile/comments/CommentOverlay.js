@@ -4,6 +4,16 @@ import { Overlay, Switch } from "react-native-elements";
 import { TextInput } from "react-native-gesture-handler";
 import colorDefaults from "../../../theme/colorDefaults";
 
+/**
+ * Overlay used for posting new comments, adding new replies to comments, and editing comments/replies.
+ * 
+ * Overlay will dynamically change UI elements based on the type of action needed.
+ * 
+ * Actions:
+ *  - New Comment
+ *  - New Reply
+ *  - Editing Reply/Comment
+ */
 const CommentOverlay = ({
   visible,
   toggleOverlay,

@@ -3,6 +3,9 @@ import { StyleSheet, Text, View } from "react-native";
 import { Avatar } from "react-native-elements";
 import colorDefaults from "../../../theme/colorDefaults";
 
+/**
+ * Comment card component that contains the commenter's picture, name, and message.
+ */
 const CommentCard = ({ title, name, content, picture }) => {
   return (
     <View style={styles.container}>

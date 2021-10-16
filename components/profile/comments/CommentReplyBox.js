@@ -3,6 +3,16 @@ import { StyleSheet, View } from "react-native";
 import CommentCard from "./CommentCard";
 import CommentActions from "./CommentActions";
 
+/**
+ * Comment Reply Box component that contains reply information such as:
+ *  - Reply author
+ *  - Reply avatar
+ *  - Reply message
+ *  - Reply actions such as
+ *    - Edit
+ *    - Delete
+ *    - Reply
+ */
 const CommentReplyBox = ({
   reply,
   deleteReply,

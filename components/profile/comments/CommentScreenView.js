@@ -7,6 +7,10 @@ import LoadingScreen from "../../LoadingScreen";
 import CommentOverlay from "./CommentOverlay";
 import PublicCommentTab from "./PublicCommentTab";
 
+/**
+ * Comment Screen View that is the parent of all UI components related to the comment screen. 
+ * This is a purely UI component and does not contain logic that mutates state.
+ */
 const CommentScreenView = ({
   loading,
   authUser,

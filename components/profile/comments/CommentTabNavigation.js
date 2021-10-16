@@ -5,6 +5,11 @@ import colorDefaults from "../../../theme/colorDefaults";
 import PublicCommentTab from "./PublicCommentTab";
 import PrivateCommentTab from "./PrivateCommentTab";
 
+/**
+ * Tab Navigation used when staff are viewing patient comments as there are two types of comments:
+ *  - Public which can be viewed by both staff and patient.
+ *  - Private which can only be viewed by other staff.
+ */
 const CommentTabNavigation = ({
   tabIndex,
   setTabIndex,

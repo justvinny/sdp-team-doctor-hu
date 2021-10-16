@@ -2,6 +2,9 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 import CommentReplyBox from "./CommentReplyBox";
 
+/**
+ * Comment replies component responsible for rendering all replies associated to the given parent comment.
+ */
 const CommentReplies = ({
   commentReplies,
   deleteReply,

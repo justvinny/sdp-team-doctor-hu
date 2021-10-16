@@ -2,7 +2,25 @@ import React, { useContext } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import AuthContext from "../../../context/AuthContext";
 
-const CommentBox = ({
+/**
+ * Actions for comments such as View Replies, Edit, Delete, and Reply.
+ * 
+ * Will dynamically show actions based on logged in user.
+ * 
+ * Comment Owner Actions:
+ * - View
+ * - Reply
+ * - Edit
+ * - Delete
+ * 
+ * Non-comment Owner Actions:
+ * - View
+ * - Reply
+ * 
+ * Comment Replies also do not have View Replies as extra nesting will make the UI chaotic. Thus, all replies are
+ * associated to one parent comment.
+ */
+const CommentActions = ({
   comment,
   repliesHidden,
   toggleReplies,
@@ -92,7 +110,7 @@ const CommentBox = ({
   );
 };
 
-export default CommentBox;
+export default CommentActions;
 
 const styles = StyleSheet.create({
   container: {

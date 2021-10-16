@@ -3,6 +3,10 @@ import AuthContext from "../../../context/AuthContext";
 import firestoreService from "../../../firebase/firestoreService";
 import CommentScreenView from "./CommentScreenView";
 
+/**
+ * Comment Screen Controller that contains all the states and functionality of our comment screen.
+ * Firebase API calls are located here and various fucntions that mutate react state.
+ */
 const CommentScreenController = ({ navigation, route }) => {
   const user = route.params?.user;
   const { authUserId } = useContext(AuthContext);

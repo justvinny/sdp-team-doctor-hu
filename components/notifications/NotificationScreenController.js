@@ -5,8 +5,8 @@ import AuthContext from "../../context/AuthContext";
 import NotificationScreenView from "./NotificationScreenView";
 
 /*
-  Contains all the functionality about the notifications screen.
-  
+  Contains all the functionality about the notifications screen. All the firebase API calls,
+  state mutation, and functions related to state are located here.
 */
 const NotificationScreenController = ({ navigation, route }) => {
   // States

@@ -10,7 +10,7 @@ import colorDefaults from "../../../theme/colorDefaults";
 import AddressTab from "./AddressTab";
 import MedicalTab from "./MedicalTab";
 import LoadingScreen from "../../../components/LoadingScreen";
-import TabStyles from "../profilecomponents/TabStyles";
+import TabStyles from "../profilecomponents/styles/TabStyles";
 import GlobalProfileTab from "../profilecomponents/GlobalProfileTab";
 import BottomSheetNav from "../profilecomponents/BottomSheetNav";
 import UploadDocument from "../../documentUpload/UploadDocument";

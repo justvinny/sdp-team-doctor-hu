@@ -11,7 +11,7 @@ import {
 import colorDefaults from "../../../theme/colorDefaults";
 import AboutTab from "./AboutTab";
 import { Tab, TabView, Overlay } from "react-native-elements";
-import TabStyles from "../profilecomponents/TabStyles";
+import TabStyles from "../profilecomponents/styles/TabStyles";
 import GlobalProfileTab from "../profilecomponents/GlobalProfileTab";
 import LoadingScreen from "../../LoadingScreen";
 import BottomSheetNav from "../profilecomponents/BottomSheetNav";

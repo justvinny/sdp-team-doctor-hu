@@ -1,7 +1,7 @@
 import React from "react";
 import { View } from "react-native";
 import { Input } from "react-native-elements";
-import TextInputStyles from "./TextInputStyles";
+import TextInputStyles from "./styles/TextInputStyles";
 
 function ProfileInformation({
   label,

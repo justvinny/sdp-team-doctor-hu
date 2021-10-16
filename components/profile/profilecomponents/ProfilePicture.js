@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View, ActivityIndicator } from "react-native";
 import { Image } from "react-native-elements";
+import Staff from "../../../models/Staff";
 
 const ProfilePicture = ({
   profilePicture,
@@ -18,7 +19,7 @@ const ProfilePicture = ({
           !passedUser ? setSheetVisible(true) : {};
         }}
       />
-      <Text style={styles.name}>{user.getFullName()}</Text>
+      <Text style={styles.name}>{Staff.getFullName(user.name)}</Text>
     </View>
   );
 };

@@ -1,27 +1,25 @@
 import React, { useState, useContext, useEffect, useLayoutEffect } from "react";
 import {
   StyleSheet,
-  Text,
   View,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
   ScrollView,
   Platform,
-  ActivityIndicator,
 } from "react-native";
 import colorDefaults from "../../../theme/colorDefaults";
 import AuthContext from "../../../context/AuthContext";
 import firestoreService from "../../../firebase/firestoreService";
-import Staff from "../../../models/Staff";
 import AboutTab from "./AboutTab";
-import { Tab, TabView, Image, Overlay } from "react-native-elements";
+import { Tab, TabView, Overlay } from "react-native-elements";
 import TabStyles from "../profilecomponents/TabStyles";
 import GlobalProfileTab from "../profilecomponents/GlobalProfileTab";
 import LoadingScreen from "../../LoadingScreen";
 import BottomSheetNav from "../profilecomponents/BottomSheetNav";
 import UploadProfilePicture from "../profilecomponents/UploadProfilePicture";
 import { defaultPicture } from "../profilecomponents/DefaultPicture";
+import ProfilePicture from "../profilecomponents/ProfilePicture";
 
 export default function StaffProfile({ navigation, route }) {
   // Bottom Navigation Sheet for profile picture
@@ -64,29 +62,22 @@ export default function StaffProfile({ navigation, route }) {
     return (
       <KeyboardAvoidingView
         behavior={Platform.OS == "ios" ? "padding" : "height"}
-        style={{ flex: 1, backgroundColor: colorDefaults.backDropColor }}
+        style={styles.keyboardAvoidingViewStyle}
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <ScrollView bounces="false" style={{ flex: 1 }}>
-            <View style={styles.container}>
-              <Image
-                style={styles.image}
-                source={{
-                  uri: profilePicture,
-                }}
-                PlaceholderContent={<ActivityIndicator />}
-                onPress={() => {
-                  !passedUser ? setSheetVisible(true) : {};
-                }}
-              />
-              <Text style={styles.name}>{Staff.getFullName(user.name)}</Text>
-            </View>
+          <ScrollView bounces="false" style={styles.scrollViewStyle}>
+            <ProfilePicture
+              profilePicture={profilePicture}
+              passedUser={passedUser}
+              setSheetVisible={setSheetVisible}
+              user={user}
+            />
 
             {/* Overlay For Uploading & Profile Picture */}
             <Overlay
               isVisible={overlayVisible}
               onBackdropPress={toggleOverlay}
-              overlayStyle={{ backgroundColor: colorDefaults.backDropColor }}
+              overlayStyle={styles.overlayStyle}
               animationType="slide"
               transparent
             >
@@ -96,6 +87,7 @@ export default function StaffProfile({ navigation, route }) {
                 user={user}
               />
             </Overlay>
+            {/* Overlay For Uploading & Profile Picture */}
 
             {/* Bottom Sheet Navigation */}
             <BottomSheetNav
@@ -103,6 +95,7 @@ export default function StaffProfile({ navigation, route }) {
               setVisible={setSheetVisible}
               toggleOverlay={toggleOverlay}
             />
+            {/* Bottom Sheet Navigation */}
 
             <Tab
               value={index}
@@ -116,7 +109,6 @@ export default function StaffProfile({ navigation, route }) {
                 buttonStyle={[
                   index == 0 ? TabStyles.activeTab : TabStyles.inactiveTab,
                 ]}
-                //buttonStyle={TabStyles.activeTab}
               />
 
               <Tab.Item
@@ -129,17 +121,17 @@ export default function StaffProfile({ navigation, route }) {
             </Tab>
 
             <TabView value={index} onChange={setIndex} animationType="timing">
-              <TabView.Item style={{ width: "100%" }}>
+              <TabView.Item style={styles.tabContent}>
                 <GlobalProfileTab user={user} setUser={setUser} />
               </TabView.Item>
 
-              <TabView.Item style={{ width: "100%" }} animationType="timing">
+              <TabView.Item style={styles.tabContent} animationType="timing">
                 <AboutTab user={user} setUser={setUser} />
               </TabView.Item>
             </TabView>
           </ScrollView>
         </TouchableWithoutFeedback>
-        {/* This helps Keyboard Avoiding View function properly by moving the whole display up */}
+        {/* This view helps Keyboard Avoiding View function properly by moving the whole display up */}
         <View style={{ height: 100 }} />
       </KeyboardAvoidingView>
     );
@@ -149,21 +141,17 @@ export default function StaffProfile({ navigation, route }) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    alignItems: "center",
-    marginBottom: 20,
+  tabContent: {
+    width: "100%",
   },
-  image: {
-    width: 150,
-    height: 150,
-    marginBottom: 20,
-    marginTop: 20,
-    borderRadius: 100,
-    borderColor: "black",
-    borderWidth: 2,
+  overlayStyle: {
+    backgroundColor: colorDefaults.backDropColor,
   },
-  name: {
-    fontSize: 18,
-    fontWeight: "bold",
+  keyboardAvoidingViewStyle: {
+    flex: 1,
+    backgroundColor: colorDefaults.backDropColor,
+  },
+  scrollViewStyle: {
+    flex: 1,
   },
 });

@@ -49,8 +49,8 @@ const NotificationScreenController = ({ navigation, route }) => {
       firestoreService.getUserById(notification.patientId).then((user) => {
         navigation.navigate("Comment", { user });
       });
-    } else if(notification.type.localeCompare("result") === 0) {
-      navigation.navigate("ViewFileScreen")
+    } else if (notification.type.localeCompare("result") === 0) {
+      navigation.navigate("ViewFileScreen");
     } else {
       window.alert("Notification not implemented for this feature.");
     }
@@ -74,14 +74,15 @@ const NotificationScreenController = ({ navigation, route }) => {
         "Are you sure you want do delete all notifications?",
         [
           {
-            text: "Cancel",
+            text: "No",
             style: "cancel",
           },
           {
-            text: "Ok",
+            text: "Yes",
             onPress: () => {
               firestoreService.updateNotifications(authUserId, []);
             },
+            style: "destructive",
           },
         ]
       );

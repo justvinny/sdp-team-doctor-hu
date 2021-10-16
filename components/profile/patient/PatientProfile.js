@@ -117,14 +117,8 @@ export default function PatientProfile({ navigation, route }) {
             ]}
           />
         </Tab>
-        {/* <KeyboardAvoidingView
-          behavior={Platform.OS == "ios" ? "padding" : "height"}
-          enabled
-          style={{ flex: 1, backgroundColor: colorDefaults.backDropColor }}
-          keyboardVerticalOffset={Platform.select({android: 80, ios: 100})}
-        > */}
+
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          {/* <ScrollView bounces={false}> */}
           <KeyboardAwareScrollView>
             <TabView value={index} onChange={setIndex} animationType="timing">
               <TabView.Item style={{ width: "100%" }}>
@@ -139,7 +133,16 @@ export default function PatientProfile({ navigation, route }) {
                 <MedicalTab user={user} setUser={setUser} />
               </TabView.Item>
             </TabView>
-            {/* Overlay For Uploading & Profile Picture */}
+
+            {/* Bottom Sheet Navigation */}
+            <BottomSheetNav
+              visible={sheetVisible}
+              setVisible={setSheetVisible}
+              toggleOverlay={toggleOverlay}
+            />
+            {/* Bottom Sheet Navigation */}
+
+            {/* Overlay For Uploading a Profile Picture */}
             <Overlay
               isVisible={overlayVisible}
               onBackdropPress={toggleOverlay}
@@ -155,13 +158,7 @@ export default function PatientProfile({ navigation, route }) {
                 user={user}
               />
             </Overlay>
-
-            {/* Bottom Sheet Navigation */}
-            <BottomSheetNav
-              visible={sheetVisible}
-              setVisible={setSheetVisible}
-              toggleOverlay={toggleOverlay}
-            />
+            {/* Overlay For Uploading a Profile Picture */}
 
             {/* document upload */}
             <Overlay
@@ -179,55 +176,9 @@ export default function PatientProfile({ navigation, route }) {
                 patientName={user.getFullName()}
               />
             </Overlay>
-
-            <Tab
-              value={index}
-              onChange={setIndex}
-              indicatorStyle={TabStyles.tabIndicatorStyle}
-              variant="primary"
-            >
-              <Tab.Item
-                title="profile"
-                titleStyle={TabStyles.tabText}
-                buttonStyle={[
-                  index == 0 ? TabStyles.activeTab : TabStyles.inactiveTab,
-                ]}
-              />
-
-              <Tab.Item
-                title="address"
-                titleStyle={TabStyles.tabText}
-                buttonStyle={[
-                  index == 1 ? TabStyles.activeTab : TabStyles.inactiveTab,
-                ]}
-              />
-
-              <Tab.Item
-                title="medical"
-                titleStyle={TabStyles.tabText}
-                buttonStyle={[
-                  index == 2 ? TabStyles.activeTab : TabStyles.inactiveTab,
-                ]}
-              />
-            </Tab>
-
-            <TabView value={index} onChange={setIndex} animationType="timing">
-              <TabView.Item style={{ width: "100%" }}>
-                <GlobalProfileTab user={user} setUser={setUser} />
-              </TabView.Item>
-
-              <TabView.Item style={{ width: "100%" }} animationType="timing">
-                <AddressTab user={user} setUser={setUser} />
-              </TabView.Item>
-
-              <TabView.Item style={{ width: "100%" }} animationType="timing">
-                <MedicalTab user={user} setUser={setUser} />
-              </TabView.Item>
-            </TabView>
+            {/* Document Upload */}
           </KeyboardAwareScrollView>
         </TouchableWithoutFeedback>
-        {/* This helps Keyboard Avoiding View function properly by moving the whole display up */}
-        <View style={{ height: 100 }} />
 
         {/* Checks if the staff is viewing the profile,
         as staff are the only ones who can view patient profiles.
@@ -241,12 +192,6 @@ export default function PatientProfile({ navigation, route }) {
         ) : (
           <></>
         )}
-            {/* </ScrollView> */}
-        {/* This helps Keyboard Avoiding View function properly by moving the whole display up */}
-        {/* <View style={{ height: 100 }} /> */}
-        {/* Commented out as it makes the UI ugly by hadding 100 of empty space at bottom
-            and cutting off the scroll view very awkardly */}
-        {/* </KeyboardAvoidingView> */}
       </>
     );
   };

@@ -1,5 +1,5 @@
 // import React in our code
-import React, { useEffect, useState, useLayoutEffect, useContext } from "react";
+import React, { useEffect, useState } from "react";
 
 // import all the components we are going to use
 import { StyleSheet, View, LogBox, Image, Alert } from "react-native";
@@ -9,12 +9,11 @@ import { Text, Button } from "react-native-elements";
 import * as ImagePicker from "expo-image-picker";
 import { storage } from "../../../firebase/firebaseConfig";
 import firestoreService from "../../../firebase/firestoreService";
-import LoadingScreen from "../../LoadingScreen";
+import { defaultPicture } from "./DefaultPicture";
 
 function UploadProfilePicture({ setProfilePicture, toggleOverlay, user }) {
   const [image, setImage] = useState("");
-  const defaultImage =
-    "https://firebasestorage.googleapis.com/v0/b/sdp-team-doctor-hu.appspot.com/o/profile%2Ficon.png?alt=media&token=b4ee677b-3ed3-41ab-9689-1ba237967830";
+  const defaultImage = defaultPicture;
 
   useEffect(() => {
     LogBox.ignoreLogs(["Animated: `useNativeDriver`"]);

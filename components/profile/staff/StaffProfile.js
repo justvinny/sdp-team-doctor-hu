@@ -21,7 +21,7 @@ import GlobalProfileTab from "../profilecomponents/GlobalProfileTab";
 import LoadingScreen from "../../LoadingScreen";
 import BottomSheetNav from "../profilecomponents/BottomSheetNav";
 import UploadProfilePicture from "../profilecomponents/UploadProfilePicture";
-import { StatusBar } from "expo-status-bar";
+import { defaultPicture } from "../profilecomponents/DefaultPicture";
 
 export default function StaffProfile({ navigation, route }) {
   // Bottom Navigation Sheet for profile picture
@@ -51,7 +51,7 @@ export default function StaffProfile({ navigation, route }) {
     useEffect(() => {
       firestoreService.getUserById(authUserId).then((data) => {
         setUser(data);
-        setProfilePicture(data.picture);
+        setProfilePicture(data.picture ? data.picture : defaultPicture);
         setLoading(false);
       });
     }, []);

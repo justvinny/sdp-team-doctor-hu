@@ -3,11 +3,8 @@ import {
   StyleSheet,
   Text,
   View,
-  KeyboardAvoidingView,
   Keyboard,
   TouchableWithoutFeedback,
-  ScrollView,
-  Platform,
   ActivityIndicator,
 } from "react-native";
 import colorDefaults from "../../../theme/colorDefaults";
@@ -22,10 +19,10 @@ import { Tab, TabView, Image, Overlay } from "react-native-elements";
 import GlobalProfileTab from "../profilecomponents/GlobalProfileTab";
 import BottomSheetNav from "../profilecomponents/BottomSheetNav";
 import UploadProfilePicture from "../profilecomponents/UploadProfilePicture";
-import { FAB } from "react-native-elements";
 import UploadDocumentButton from "../../documentUpload/UploadDocumentButton";
 import UploadDocument from "../../documentUpload/UploadDocument";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { defaultPicture } from "../profilecomponents/DefaultPicture";
 
 export default function PatientProfile({ navigation, route }) {
   // Bottom navigation sheet for profile picture
@@ -64,7 +61,7 @@ export default function PatientProfile({ navigation, route }) {
     useEffect(() => {
       firestoreService.getUserById(authUserId).then((data) => {
         setUser(Patient.patientFirestoreFactory(data));
-        setProfilePicture(data.picture);
+        setProfilePicture(data.picture ? data.picture : defaultPicture);
         setLoading(false);
       });
     }, []);

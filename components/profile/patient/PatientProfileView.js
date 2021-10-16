@@ -1,27 +1,22 @@
-import React, { useEffect, useLayoutEffect, useContext, useState } from "react";
+import React from "react";
 import {
   StyleSheet,
   View,
   Keyboard,
   TouchableWithoutFeedback,
 } from "react-native";
+import { Tab, TabView, Overlay, FAB } from "react-native-elements";
 import colorDefaults from "../../../theme/colorDefaults";
 import AddressTab from "./AddressTab";
 import MedicalTab from "./MedicalTab";
 import LoadingScreen from "../../../components/LoadingScreen";
 import TabStyles from "../profilecomponents/TabStyles";
-import { Tab, TabView, Overlay } from "react-native-elements";
 import GlobalProfileTab from "../profilecomponents/GlobalProfileTab";
 import BottomSheetNav from "../profilecomponents/BottomSheetNav";
-
-/* Code Above does not need to be touched */
-
-// import UploadDocumentButton from "../../documentUpload/UploadDocumentButton";
 import UploadDocument from "../../documentUpload/UploadDocument";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import UploadProfilePicture from "../profilecomponents/profilePicture/UploadProfilePicture";
 import ProfilePicture from "../profilecomponents/profilePicture/ProfilePicture";
-import { FAB } from "react-native-elements";
 import FloatingMenu from "./FloatingMenu";
 
 export default function PatientProfileView({
@@ -40,8 +35,6 @@ export default function PatientProfileView({
   overlayDocumentVisible,
   toggleDocumentOverlay,
   authUserId,
-  documentVisible,
-  setDocumentVisible,
   open,
   setOpen,
   openComments,

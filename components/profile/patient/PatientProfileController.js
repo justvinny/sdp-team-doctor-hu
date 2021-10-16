@@ -46,6 +46,22 @@ export default function PatientProfileController({ navigation, route }) {
       });
     }, []);
 
+  /* New Comment Stuff */
+  const uploadButtonAction = () => {
+    toggleDocumentOverlay();
+    setDocumentVisible(true);
+  };
+
+  // Speed dial states
+  const [open, setOpen] = useState(false);
+
+  // Function to navigate to patient profile comments
+  const openComments = () => {
+    navigation.navigate("Comment", { user });
+  };
+
+  /* Return Statement */
+
   return (
     <PatientProfileView
       loading={loading}
@@ -63,8 +79,10 @@ export default function PatientProfileController({ navigation, route }) {
       overlayDocumentVisible={overlayDocumentVisible}
       toggleDocumentOverlay={toggleDocumentOverlay}
       authUserId={authUserId}
-      documentVisible={documentVisible}
-      setDocumentVisible={setDocumentVisible}
+      open={open}
+      setOpen={setOpen}
+      openComments={openComments}
+      uploadButtonAction={uploadButtonAction}
     />
   );
 }

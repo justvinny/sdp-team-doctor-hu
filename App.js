@@ -18,6 +18,8 @@ import StaffProfile from "./components/profile/staff/StaffProfile";
 import PatientProfile from "./components/profile/patient/PatientProfile";
 import Menu from "./components/mainmenu/Menu";
 import ProfileSelection from "./components/profile/ProfileSelection";
+import ViewFileScreen from "./components/documentUpload/ViewFileScreen";
+
 import NotificationScreenController from "./components/notifications/NotificationScreenController";
 import UploadProfilePicture from "./components/profile/profilecomponents/UploadProfilePicture";
 
@@ -64,6 +66,10 @@ export default function App() {
           onPress={signOut}
           title="Sign Out"
         />
+          
+        <Button color={colorDefaults.primary}
+          onPress={() => navigation.navigate("ViewFileScreen")}
+          title="ViewFileScreen" />
       </View>
     );
   };
@@ -114,6 +120,11 @@ export default function App() {
               component={ProfileSelection}
               name="ProfileSelection"
             />
+          
+           <Stack.Screen
+              component={ViewFileScreen}
+              name="ViewFileScreen"
+              />
             <Stack.Screen
               component={NotificationScreenController}
               name="NotificationScreen"
@@ -122,6 +133,7 @@ export default function App() {
               component={UploadProfilePicture}
               name="UploadProfilePicture"
             />
+         
           </Stack.Navigator>
           <StatusBar style="light" />
         </NavigationContainer>

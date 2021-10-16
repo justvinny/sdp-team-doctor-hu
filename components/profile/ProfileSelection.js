@@ -33,6 +33,7 @@ const ProfileSelection = ({ navigation, route }) => {
       return <LoadingScreen />;
     } else if (user.isStaff) {
       return <StaffProfile navigation={navigation} route={route} />;
+      
     }
     return <PatientProfile navigation={navigation} route={route} />;
   };

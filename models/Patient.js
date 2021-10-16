@@ -33,7 +33,6 @@ class Patient extends User {
     this.height = height;
     this.allergies = allergies;
     this.staffNotes = staffNotes;
-    this.medicalResults = medicalResults;
   }
 
   getAllergies() {

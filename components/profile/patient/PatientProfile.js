@@ -22,6 +22,9 @@ import { Tab, TabView, Image, Overlay } from "react-native-elements";
 import GlobalProfileTab from "../profilecomponents/GlobalProfileTab";
 import BottomSheetNav from "../profilecomponents/BottomSheetNav";
 import UploadProfilePicture from "../profilecomponents/UploadProfilePicture";
+import { FAB } from "react-native-elements";
+import UploadDocumentButton from "../../documentUpload/UploadDocumentButton";
+import UploadDocument from "../../documentUpload/UploadDocument";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export default function PatientProfile({ navigation, route }) {
@@ -42,6 +45,13 @@ export default function PatientProfile({ navigation, route }) {
   const [overlayVisible, setOverlayVisible] = useState(false);
   const toggleOverlay = () => {
     setOverlayVisible(!overlayVisible);
+  };
+
+  // Overlay Controls for Uploading Document
+  const [documentVisible, setDocumentVisible] = useState(false);
+  const [overlayDocumentVisible, setOverlayDocumentVisible] = useState(false);
+  const toggleDocumentOverlay = () => {
+    setOverlayDocumentVisible(!overlayDocumentVisible);
   };
 
   useLayoutEffect(() => {
@@ -107,14 +117,8 @@ export default function PatientProfile({ navigation, route }) {
             ]}
           />
         </Tab>
-        {/* <KeyboardAvoidingView
-          behavior={Platform.OS == "ios" ? "padding" : "height"}
-          enabled
-          style={{ flex: 1, backgroundColor: colorDefaults.backDropColor }}
-          keyboardVerticalOffset={Platform.select({android: 80, ios: 100})}
-        > */}
+
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          {/* <ScrollView bounces={false}> */}
           <KeyboardAwareScrollView>
             <TabView value={index} onChange={setIndex} animationType="timing">
               <TabView.Item style={{ width: "100%" }}>
@@ -129,7 +133,16 @@ export default function PatientProfile({ navigation, route }) {
                 <MedicalTab user={user} setUser={setUser} />
               </TabView.Item>
             </TabView>
-            {/* Overlay For Uploading & Profile Picture */}
+
+            {/* Bottom Sheet Navigation */}
+            <BottomSheetNav
+              visible={sheetVisible}
+              setVisible={setSheetVisible}
+              toggleOverlay={toggleOverlay}
+            />
+            {/* Bottom Sheet Navigation */}
+
+            {/* Overlay For Uploading a Profile Picture */}
             <Overlay
               isVisible={overlayVisible}
               onBackdropPress={toggleOverlay}
@@ -145,21 +158,40 @@ export default function PatientProfile({ navigation, route }) {
                 user={user}
               />
             </Overlay>
+            {/* Overlay For Uploading a Profile Picture */}
 
-            {/* Bottom Sheet Navigation */}
-            <BottomSheetNav
-              visible={sheetVisible}
-              setVisible={setSheetVisible}
-              toggleOverlay={toggleOverlay}
-            />
-            {/* </ScrollView> */}
+            {/* document upload */}
+            <Overlay
+              isVisible={overlayDocumentVisible}
+              onBackdropPress={toggleDocumentOverlay}
+              overlayStyle={{ backgroundColor: colorDefaults.backDropColor }}
+              animationType="slide"
+              transparent
+            >
+              <UploadDocument
+                //setProfilePicture={setProfilePicture}
+                toggleDocumentOverlay={toggleDocumentOverlay}
+                patient={user.id}
+                staff={authUserId}
+                patientName={user.getFullName()}
+              />
+            </Overlay>
+            {/* Document Upload */}
           </KeyboardAwareScrollView>
         </TouchableWithoutFeedback>
-        {/* This helps Keyboard Avoiding View function properly by moving the whole display up */}
-        {/* <View style={{ height: 100 }} /> */}
-        {/* Commented out as it makes the UI ugly by hadding 100 of empty space at bottom
-            and cutting off the scroll view very awkardly */}
-        {/* </KeyboardAvoidingView> */}
+
+        {/* Checks if the staff is viewing the profile,
+        as staff are the only ones who can view patient profiles.
+        Then shows the Upload Document button*/}
+        {passedUser ? (
+          <UploadDocumentButton
+            visible={documentVisible}
+            setDocumentVisible={setDocumentVisible}
+            toggleDocumentOverlay={toggleDocumentOverlay}
+          />
+        ) : (
+          <></>
+        )}
       </>
     );
   };

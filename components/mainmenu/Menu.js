@@ -28,6 +28,7 @@ export default function Menu({ navigation }) {
       hasBadge: true,
     },
     { iconname: "Search User", icon: "search", route: "Search" },
+    { iconname: "View Files", icon: "attach-file", route: "ViewFileScreen" },
   ]);
 
   const [menuPatient, setMenuItemsPatient] = useState([
@@ -40,6 +41,7 @@ export default function Menu({ navigation }) {
       hasBadge: true,
     },
     { iconname: "Search User", icon: "search", route: "Search" },
+    { iconname: "View File", icon: "attach-file", route: "ViewFileScreen" },
   ]);
 
   useEffect(() => {

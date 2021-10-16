@@ -49,8 +49,10 @@ const NotificationScreenController = ({ navigation, route }) => {
       firestoreService.getUserById(notification.patientId).then((user) => {
         navigation.navigate("Comment", { user });
       });
+    } else if(notification.type.localeCompare("result") === 0) {
+      navigation.navigate("ViewFileScreen")
     } else {
-      window.alert("Non-message notification");
+      window.alert("Notification not implemented for this feature.");
     }
   };
 

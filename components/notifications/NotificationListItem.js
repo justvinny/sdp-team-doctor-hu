@@ -24,8 +24,9 @@ const NotificationListItem = ({index, notification, notificationClick}) => {
             return `New comment${notification.from ? ` from ${notification.from}` : ""}`;
         } else if (notification.type.localeCompare("comment-reply") === 0) {
             return `New comment reply${notification.from ? ` from ${notification.from}` : ""}`;
+        } else if (notification.type.localeCompare("result") === 0) {
+            return `New file uploaded${notification.from ? ` from ${notification.from}` : ""}`;
         }
-
         return "Not Implemented.";
     }
 

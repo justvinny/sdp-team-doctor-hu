@@ -15,7 +15,7 @@ import SignUpScreen from "./components/login/SignUpScreen";
 import ResetPassword from "./components/login/ResetPassword";
 import ChangePasswordScreen from "./components/settings/ChangePasswordScreen";
 import StaffProfile from "./components/profile/staff/StaffProfile";
-import PatientProfile from "./components/profile/patient/PatientProfile";
+import PatientProfileController from "./components/profile/patient/PatientProfileController";
 import Menu from "./components/mainmenu/Menu";
 import ProfileSelection from "./components/profile/ProfileSelection";
 import ViewFileScreen from "./components/documentUpload/ViewFileScreen";
@@ -66,10 +66,12 @@ export default function App() {
           onPress={signOut}
           title="Sign Out"
         />
-          
-        <Button color={colorDefaults.primary}
+
+        <Button
+          color={colorDefaults.primary}
           onPress={() => navigation.navigate("ViewFileScreen")}
-          title="ViewFileScreen" />
+          title="ViewFileScreen"
+        />
       </View>
     );
   };
@@ -115,16 +117,16 @@ export default function App() {
               component={ChangePasswordScreen}
               name="ChangePassword"
             />
-            <Stack.Screen component={PatientProfile} name="PatientProfile" />
+            <Stack.Screen
+              component={PatientProfileController}
+              name="PatientProfileController"
+            />
             <Stack.Screen
               component={ProfileSelection}
               name="ProfileSelection"
             />
-          
-           <Stack.Screen
-              component={ViewFileScreen}
-              name="ViewFileScreen"
-              />
+
+            <Stack.Screen component={ViewFileScreen} name="ViewFileScreen" />
             <Stack.Screen
               component={NotificationScreenController}
               name="NotificationScreen"
@@ -133,7 +135,6 @@ export default function App() {
               component={UploadProfilePicture}
               name="UploadProfilePicture"
             />
-         
           </Stack.Navigator>
           <StatusBar style="light" />
         </NavigationContainer>

@@ -9,7 +9,7 @@ import colorDefaults from "../../theme/colorDefaults";
 const DeleteFab = ({ deleteAllNotifications }) => {
   return (
     <TouchableOpacity style={styles.fab} onPress={deleteAllNotifications}>
-      <AntDesign name="delete" size={35} color="white" />
+      <AntDesign name="delete" size={25} color="white" />
     </TouchableOpacity>
   );
 };
@@ -24,11 +24,11 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 0,
     right: 0,
-    margin: 16,
+    margin: 12,
     backgroundColor: colorDefaults.primary,
-    height: 70,
-    width: 70,
-    borderRadius: 35,
+    height: 56,
+    width: 56,
+    borderRadius: 28,
     elevation: 5,
   },
 });

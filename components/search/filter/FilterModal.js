@@ -31,7 +31,7 @@ const FilterModal = ({
                                 <Text style={styles.title}>Filter</Text>
                                 <View style={styles.section}>
                                     <RadioButtonGroup
-                                        radioData={["Staff Only", "Patient Only", "Both"]}
+                                        radioData={["Both", "Staff Only", "Patient Only"]}
                                         setSelectedValue={setFilterSelected}
                                     />
                                 </View>

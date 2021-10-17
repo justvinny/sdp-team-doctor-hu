@@ -10,7 +10,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import ViewDocument from "../documentUpload/ViewDocument";
 
 // View Document/Files main screen
-const viewFileScreen = ({ navigation }) => {
+const viewFileScreen = ({ navigation, route }) => {
   // Overlay Controls for viewing files
   const [sheetVisible, setSheetVisible] = useState(false);
   const [overlayVisible, setOverlayVisible] = useState(false);
@@ -18,7 +18,7 @@ const viewFileScreen = ({ navigation }) => {
     setOverlayVisible(!overlayVisible);
   };
 
-  // populate the states 
+  // populate the states
   const { authUserId } = useContext(AuthContext);
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
@@ -37,8 +37,12 @@ const viewFileScreen = ({ navigation }) => {
 
   //sets useStates
   useEffect(() => {
+    let userId = authUserId;
+    if (route.params.passedId !== undefined) {
+      userId = route.params.passedId;
+    }
     const unsubscribe = firestoreService
-      .getUserLive(authUserId)
+      .getUserLive(userId)
       .onSnapshot((doc) => {
         const data = doc.data();
         setUser(data);
@@ -138,7 +142,8 @@ const viewFileScreen = ({ navigation }) => {
     //if loading
     if (loading) {
       return <LoadingScreen />;
-    } else if (!loading) { //if there are no documents in account and loading is complete
+    } else if (!loading) {
+      //if there are no documents in account and loading is complete
       if (documents?.length < 1 || documents === undefined) {
         return (
           <View style={styles.container}>
@@ -202,7 +207,7 @@ const viewFileScreen = ({ navigation }) => {
                     <View></View>
                   )}
                 </>
-                <Text style={[styles.date, styles.subText]}> 
+                <Text style={[styles.date, styles.subText]}>
                   {dateUtility.getFormattedDateNow(new Date(l.timestamp))}
                 </Text>
               </View>

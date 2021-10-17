@@ -10,7 +10,7 @@ import Staff from "../../../models/Staff";
 import UploadDocumentView from "./UploadDocumentView";
 
 // Upload documents/images to patient profile
-function UploadDocument({
+function UploadDocumentController({
   toggleDocumentOverlay,
   patient,
   staff,
@@ -176,5 +176,5 @@ function UploadDocument({
   />
 }
 
-export default UploadDocument;
+export default UploadDocumentController;
 

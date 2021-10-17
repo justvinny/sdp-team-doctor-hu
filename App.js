@@ -18,7 +18,7 @@ import StaffProfileController from "./components/profile/staff/StaffProfileContr
 import PatientProfileController from "./components/profile/patient/PatientProfileController";
 import Menu from "./components/mainmenu/Menu";
 import ProfileSelection from "./components/profile/ProfileSelection";
-import ViewFileScreen from "./components/documentUpload/ViewFileScreen";
+import ViewFileScreen from "./components/documentUpload/viewDocuments/ViewFileScreen";
 
 import NotificationScreenController from "./components/notifications/NotificationScreenController";
 import CommentScreenController from "./components/profile/comments/CommentScreenController";

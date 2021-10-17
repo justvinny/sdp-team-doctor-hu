@@ -60,6 +60,11 @@ export default function PatientProfileController({ navigation, route }) {
     navigation.navigate("Comment", { user });
   };
 
+  // Open patient file screen
+  const openFileScreen = () => {
+    navigation.navigate("ViewFileScreen", { passedId: passedUser.id });
+  };
+
   /* Return Statement */
 
   return (
@@ -83,6 +88,7 @@ export default function PatientProfileController({ navigation, route }) {
       setOpen={setOpen}
       openComments={openComments}
       uploadButtonAction={uploadButtonAction}
+      openFileScreen={openFileScreen}
     />
   );
 }

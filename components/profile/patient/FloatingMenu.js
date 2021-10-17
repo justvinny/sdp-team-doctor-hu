@@ -2,7 +2,13 @@ import React from "react";
 import colorDefaults from "../../../theme/colorDefaults";
 import { SpeedDial } from "react-native-elements";
 
-const FloatingMenu = ({ open, setOpen, openComments, uploadButtonAction }) => {
+const FloatingMenu = ({
+  open,
+  setOpen,
+  openComments,
+  uploadButtonAction,
+  openFileScreen,
+}) => {
   return (
     <SpeedDial
       isOpen={open}
@@ -17,6 +23,12 @@ const FloatingMenu = ({ open, setOpen, openComments, uploadButtonAction }) => {
         icon={{ name: "comment", color: "#fff" }}
         title="View Comments"
         onPress={openComments}
+        color={colorDefaults.primary}
+      />
+      <SpeedDial.Action
+        icon={{ name: "file-medical", type: "font-awesome-5", color: "white" }}
+        title="View Documents"
+        onPress={openFileScreen}
         color={colorDefaults.primary}
       />
       <SpeedDial.Action

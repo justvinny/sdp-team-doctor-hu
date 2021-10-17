@@ -39,6 +39,7 @@ export default function PatientProfileView({
   setOpen,
   openComments,
   uploadButtonAction,
+  openFileScreen,
 }) {
   const renderPage = () => {
     if (loading) {
@@ -161,6 +162,7 @@ export default function PatientProfileView({
             setOpen={setOpen}
             openComments={openComments}
             uploadButtonAction={uploadButtonAction}
+            openFileScreen={openFileScreen}
           />
         ) : (
           <FAB

@@ -34,3 +34,6 @@ Note: Sometimes Expo is finnicky on first start and will force close your applic
 - Catharine Baker
 - Vinson Beduya
 - Poyan Payandeh
+
+# License 
+[MIT License](https://github.com/justvinny/sdp-team-doctor-hu/blob/main/LICENSE)

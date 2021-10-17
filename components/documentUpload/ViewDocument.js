@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, Alert, Platform } from "react-native";
 import AuthContext from "../../context/AuthContext";
 import firestoreService from "../../firebase/firestoreService";
 import { WebView } from "react-native-webview";
@@ -34,6 +34,22 @@ const ViewDocument = ({ url, patientId, staffId, title, date }) => {
     });
   }, []);
 
+  if (Platform.OS === "android") {
+    useEffect(() => {
+      window.setTimeout(() => {
+        Alert.alert(
+          "Android Info",
+          "Non-image files on android will be downloaded. Check your downloads folder to view.",
+          [
+            {
+              text: "Ok",
+            },
+          ]
+        );
+      }, 750);
+    }, []);
+  }
+
   const renderPage = () => {
     if (loading1 || loading2 || loading3) {
       return <LoadingScreen style={styles.overlay} />;
@@ -48,7 +64,6 @@ const ViewDocument = ({ url, patientId, staffId, title, date }) => {
         <Text style={styles.bold}>
           Uploaded on:
           <Text style={styles.regular}>
-            {" "}
             {dateUtility.getFormattedDateNow(new Date(date))}
           </Text>
         </Text>
@@ -58,15 +73,13 @@ const ViewDocument = ({ url, patientId, staffId, title, date }) => {
           <Text style={styles.bold}>
             Document uploaded to:
             <Text style={styles.regular}>
-              {" "}
-              {patient.name.first} {patient.name.last}{" "}
+              {patient.name.first} {patient.name.last}
             </Text>
           </Text>
         ) : (
           <Text style={styles.bold}>
             Document uploaded by:
             <Text style={styles.regular}>
-              {" "}
               {staff.name.first} {staff.name.last}
             </Text>
           </Text>
@@ -98,5 +111,14 @@ const styles = StyleSheet.create({
   },
   regular: {
     fontWeight: "normal",
+  },
+  androidMessage: {
+    position: "absolute",
+    top: "40%",
+    left: 0,
+    margin: 16,
+    fontWeight: "bold",
+    fontSize: 16,
+    textAlign: "center",
   },
 });

@@ -47,7 +47,10 @@ function UploadDocument({
 
   //document picker
   const pickDocument = async () => {
-    let result = await DocumentPicker.getDocumentAsync({});
+    let result = await DocumentPicker.getDocumentAsync({
+      type: "*/*",
+      copyToCacheDirectory: false,
+    });
 
     if (result.type !== "cancel") {
       setFile(result.uri);

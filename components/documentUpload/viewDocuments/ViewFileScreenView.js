@@ -5,7 +5,7 @@ import dateUtility from "../../../utilities/dateUtility";
 import colorDefaults from "../../../theme/colorDefaults";
 import { ListItem, Icon, Overlay } from "react-native-elements";
 import { MaterialIcons } from "@expo/vector-icons";
-import ViewDocument from "../ViewDocument";
+import ViewDocument from "../viewSingleDocument/ViewDocument";
 
 // View Document/Files main screen
 const ViewFileScreenView = ({ 

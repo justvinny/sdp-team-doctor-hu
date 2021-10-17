@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, FlatList } from "react-native";
 import colorDefaults from "../../theme/colorDefaults";
 import NotificationListItem from "./NotificationListItem";
 import DeleteFab from "./DeleteFab";
@@ -34,26 +34,23 @@ const NotificationScreenView = ({
 
     return (
       <View style={styles.container}>
-        {notifications.map((notification, index) => {
-          return (
+        <FlatList
+          data={notifications}
+          renderItem={({ item, index }) => (
             <NotificationListItem
-              key={index}
               index={index}
-              notification={notification}
+              notification={item}
               notificationClick={notificationClick}
             />
-          );
-        })}
+          )}
+          keyExtractor={(item, index) => index.toString()}
+        />
         <DeleteFab deleteAllNotifications={deleteAllNotifications} />
       </View>
     );
   };
 
-  return (
-    <>
-      {renderView()}
-    </>
-  );
+  return renderView();
 };
 
 export default NotificationScreenView;
@@ -70,10 +67,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: colorDefaults.backDropColor,
-  },    
+  },
   noNotificationsTxt: {
     fontWeight: "bold",
     fontSize: 20,
-    color: colorDefaults.primary
-},
+    color: colorDefaults.primary,
+  },
 });

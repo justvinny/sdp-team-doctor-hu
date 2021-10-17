@@ -4,7 +4,7 @@ import AuthContext from "../../../context/AuthContext";
 import firestoreService from "../../../firebase/firestoreService";
 import ViewDocumentView from "./ViewDocumentView";
 
-const ViewDocument = ({ url, patientId, staffId, title, date }) => {
+const ViewDocumentController = ({ url, patientId, staffId, title, date }) => {
   const { authUserId } = useContext(AuthContext);
   const [image, setImage] = useState(url);
   const [loading1, setLoading1] = useState(true);
@@ -62,5 +62,5 @@ const ViewDocument = ({ url, patientId, staffId, title, date }) => {
 
 };
 
-export default ViewDocument;
+export default ViewDocumentController;
 

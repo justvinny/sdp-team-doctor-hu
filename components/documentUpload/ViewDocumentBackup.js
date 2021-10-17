@@ -6,7 +6,7 @@ import { WebView } from "react-native-webview";
 import LoadingScreen from "../LoadingScreen";
 import dateUtility from "../../utilities/dateUtility";
 
-const ViewDocument = ({ url, patientId, staffId, title, date }) => {
+const ViewDocumentController = ({ url, patientId, staffId, title, date }) => {
   const { authUserId } = useContext(AuthContext);
   const [image, setImage] = useState(url);
   const [loading1, setLoading1] = useState(true);
@@ -94,7 +94,7 @@ const ViewDocument = ({ url, patientId, staffId, title, date }) => {
   return renderPage();
 };
 
-export default ViewDocument;
+export default ViewDocumentController;
 
 const styles = StyleSheet.create({
   overlay: {

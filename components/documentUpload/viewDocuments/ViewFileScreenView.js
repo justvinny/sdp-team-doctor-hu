@@ -5,7 +5,7 @@ import dateUtility from "../../../utilities/dateUtility";
 import colorDefaults from "../../../theme/colorDefaults";
 import { ListItem, Icon, Overlay } from "react-native-elements";
 import { MaterialIcons } from "@expo/vector-icons";
-import ViewDocument from "../viewSingleDocument/ViewDocument";
+import ViewDocumentController from "../viewSingleDocument/ViewDocumentController";
 
 // View Document/Files main screen
 const ViewFileScreenView = ({ 
@@ -113,7 +113,7 @@ const ViewFileScreenView = ({
           animationType="slide"
           transparent
         >
-          <ViewDocument
+          <ViewDocumentController
             url={url}
             patientId={patientId}
             staffId={staffId}

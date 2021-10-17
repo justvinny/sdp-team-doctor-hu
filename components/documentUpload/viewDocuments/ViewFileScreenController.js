@@ -5,7 +5,7 @@ import firestoreService from "../../../firebase/firestoreService";
 import ViewFileScreenView from "./ViewFileScreenView";
 
 // View Document/Files main screen
-const viewFileScreen = ({ navigation, route }) => {
+const ViewFileScreenController = ({ navigation, route }) => {
   // Overlay Controls for viewing files
   const [sheetVisible, setSheetVisible] = useState(false);
   const [overlayVisible, setOverlayVisible] = useState(false);
@@ -155,4 +155,4 @@ const viewFileScreen = ({ navigation, route }) => {
   />;
 };
 
-export default viewFileScreen;
+export default ViewFileScreenController;

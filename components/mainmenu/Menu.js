@@ -27,7 +27,7 @@ export default function Menu({ navigation }) {
       route: "NotificationScreen",
       hasBadge: true,
     },
-    { iconname: "View Files", icon: "attach-file", route: "ViewFileScreen" },
+    { iconname: "View Files", icon: "attach-file", route: "ViewFileScreenController" },
     { iconname: "Settings", icon: "settings", route: "ChangePassword" },
   ]);
 
@@ -40,7 +40,7 @@ export default function Menu({ navigation }) {
       route: "NotificationScreen",
       hasBadge: true,
     },
-    { iconname: "View File", icon: "attach-file", route: "ViewFileScreen" },
+    { iconname: "View File", icon: "attach-file", route: "ViewFileScreenController" },
     { iconname: "Settings", icon: "settings", route: "ChangePassword" },
   ]);
 

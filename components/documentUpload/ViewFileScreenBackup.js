@@ -7,10 +7,10 @@ import dateUtility from "../../utilities/dateUtility";
 import colorDefaults from "../../theme/colorDefaults";
 import { ListItem, Icon, Overlay } from "react-native-elements";
 import { MaterialIcons } from "@expo/vector-icons";
-import ViewDocument from "./viewSingleDocument/ViewDocument";
+import ViewDocumentController from "./viewSingleDocument/ViewDocumentController";
 
 // View Document/Files main screen
-const viewFileScreen = ({ navigation, route }) => {
+const ViewFileScreenController = ({ navigation, route }) => {
   // Overlay Controls for viewing files
   const [sheetVisible, setSheetVisible] = useState(false);
   const [overlayVisible, setOverlayVisible] = useState(false);
@@ -222,7 +222,7 @@ const viewFileScreen = ({ navigation, route }) => {
           animationType="slide"
           transparent
         >
-          <ViewDocument
+          <ViewDocumentController
             url={url}
             patientId={patientId}
             staffId={staffId}
@@ -237,7 +237,7 @@ const viewFileScreen = ({ navigation, route }) => {
   return <View>{renderPage()}</View>;
 };
 
-export default viewFileScreen;
+export default ViewFileScreenController;
 
 const styles = StyleSheet.create({
   top: {

@@ -1,20 +1,18 @@
 // import React in our code
-import React, { useEffect, useState, useLayoutEffect, useContext } from "react";
-
+import React, { useEffect, useState } from "react";
 // import all the components we are going to use
-import { StyleSheet, View, Image, Alert, Platform } from "react-native";
-
-import { Text, Button } from "react-native-elements";
-
+import { Alert, Platform } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import { storage } from "../../../firebase/firebaseConfig";
-import firestoreService from "../../../firebase/firestoreService";
-import LoadingScreen from "../../LoadingScreen";
+import { storage } from "../../../../firebase/firebaseConfig";
+import firestoreService from "../../../../firebase/firestoreService";
+import UploadProfilePictureView from "./UploadProfilePictureView";
 
-function UploadProfilePicture({ setProfilePicture, toggleOverlay, user }) {
+function UploadProfilePictureController({
+  setProfilePicture,
+  toggleOverlay,
+  user,
+}) {
   const [image, setImage] = useState("");
-  const defaultImage =
-    "https://firebasestorage.googleapis.com/v0/b/sdp-team-doctor-hu.appspot.com/o/profile%2Ficon.png?alt=media&token=b4ee677b-3ed3-41ab-9689-1ba237967830";
 
   // Only run on android and ios. Webpack does not have Logbox.
   if (Platform.OS === "android" || Platform.OS === "ios") {
@@ -66,8 +64,11 @@ function UploadProfilePicture({ setProfilePicture, toggleOverlay, user }) {
   };
 
   const removePicture = () => {
-    setProfilePicture(defaultImage);
-    firestoreService.updatePicture(user.id, defaultImage);
+    /* Set the profile picture to blank string
+    so that React Native knows to use Initials of a User's name
+    instead of no profile picture */
+    setProfilePicture("");
+    firestoreService.updatePicture(user.id, "");
     Alert.alert(
       "Aww Man!",
       "Hope to see your beautiful face again soon " + user.name.first + ".",
@@ -112,71 +113,15 @@ function UploadProfilePicture({ setProfilePicture, toggleOverlay, user }) {
     })();
   }, []);
 
-  const renderPage = () => {
-    return (
-      <View style={styles.container}>
-        <Text h3 style={{ textAlign: "center", marginBottom: 20 }}>
-          Upload Profile Picture
-        </Text>
-        <Button
-          title="Choose Photo"
-          onPress={imagePicker}
-          buttonStyle={styles.globalButton}
-        />
-        {image ? (
-          <Image style={styles.image} source={{ uri: image }} />
-        ) : (
-          <Image
-            style={styles.image}
-            source={require("../../../assets/icon.png")}
-          ></Image>
-        )}
-        <Button
-          title="Upload Profile Picture"
-          onPress={upload}
-          buttonStyle={styles.globalButton}
-        />
-        <Button
-          title="Remove Profile Picture"
-          onPress={removePictureAlert}
-          buttonStyle={[styles.globalButton, styles.removeButton]}
-        />
-        <Button
-          title="Cancel"
-          onPress={toggleOverlay}
-          buttonStyle={styles.globalButton}
-        />
-      </View>
-    );
-  };
-
-  return renderPage();
+  return (
+    <UploadProfilePictureView
+      imagePicker={imagePicker}
+      image={image}
+      upload={upload}
+      removePictureAlert={removePictureAlert}
+      toggleOverlay={toggleOverlay}
+    />
+  );
 }
 
-export default UploadProfilePicture;
-
-const styles = StyleSheet.create({
-  container: {
-    // flex: 1,
-    alignItems: "center",
-    // alignContent: "center",
-    // justifyContent: "center",
-    padding: 15,
-  },
-  image: {
-    width: 200,
-    height: 200,
-    marginBottom: 20,
-    marginTop: 20,
-    borderRadius: 100,
-    borderColor: "black",
-    borderWidth: 2,
-  },
-  globalButton: {
-    borderRadius: 10,
-    marginTop: 20,
-  },
-  removeButton: {
-    backgroundColor: "red",
-  },
-});
+export default UploadProfilePictureController;

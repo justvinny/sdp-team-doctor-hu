@@ -1,8 +1,8 @@
 import React, { useLayoutEffect } from "react";
 import { useContext, useEffect, useState } from "react";
 import AuthContext from "../../context/AuthContext";
-import PatientProfile from "./patient/PatientProfile";
-import StaffProfile from "./staff/StaffProfile";
+import PatientProfileController from "./patient/PatientProfileController";
+import StaffProfileController from "./staff/StaffProfileController";
 import firestoreService from "../../firebase/firestoreService";
 import Staff from "../../models/Staff";
 import LoadingScreen from "../../components/LoadingScreen";
@@ -32,10 +32,9 @@ const ProfileSelection = ({ navigation, route }) => {
     if (loading) {
       return <LoadingScreen />;
     } else if (user.isStaff) {
-      return <StaffProfile navigation={navigation} route={route} />;
-      
+      return <StaffProfileController navigation={navigation} route={route} />;
     }
-    return <PatientProfile navigation={navigation} route={route} />;
+    return <PatientProfileController navigation={navigation} route={route} />;
   };
 
   return renderProfile();

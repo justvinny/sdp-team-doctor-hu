@@ -14,13 +14,25 @@ const SearchUserScreenController = ({ navigation, route }) => {
 
     const type = (route.params) ? route.params.type : "none";
     const isStaff = (route.params) ? route.params.isStaff : "undefined";
+    
     const { authUserId } = useContext(AuthContext);
+
+    // Grab all users.
     useEffect(() => {
         firestoreService.getAllUsers()
             .then(data => setUsers(data))
             .then(() => setLoading(false));
     }, []);
 
+    // If a staff is logged in, automatically set the filter to be able to view
+    // both staff and patient profiles.
+    if (isStaff) {
+        useEffect(() => {
+            setFilterSelected("Both");
+        }, []);
+    } 
+
+    // Grab all users except currently logged in user to be able to search.
     const getSortedUsers = () => {
         const sortedUsers = users
             .filter(user => authUserId !== user.id)

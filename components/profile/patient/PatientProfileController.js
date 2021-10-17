@@ -62,7 +62,7 @@ export default function PatientProfileController({ navigation, route }) {
 
   // Open patient file screen
   const openFileScreen = () => {
-    navigation.navigate("ViewFileScreen", { passedId: passedUser.id });
+    navigation.navigate("ViewFileScreenController", { passedId: passedUser.id });
   };
 
   /* Return Statement */

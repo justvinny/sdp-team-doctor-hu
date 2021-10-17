@@ -1,12 +1,12 @@
 import React from "react";
 import { render  } from "@testing-library/react-native";
-import UploadDocument from "./UploadDocument";
-import ProgressBar from "./ProgressBar";
+import UploadDocumentController from "./UploadDocumentController/UploadDocumentController";
+import ProgressBar from "./UploadDocumentController/ProgressBar";
 
 
-describe('<UploadDocument />', () => {
-    const tree = render(<UploadDocument />).toJSON();
-    it('UploadDocument Component renders correctly', () => {
+describe('<UploadDocumentController />', () => {
+    const tree = render(<UploadDocumentController />).toJSON();
+    it('UploadDocumentController Component renders correctly', () => {
         expect(tree).toMatchSnapshot();
     });
 });

@@ -50,7 +50,7 @@ const NotificationScreenController = ({ navigation, route }) => {
         navigation.navigate("Comment", { user });
       });
     } else if (notification.type.localeCompare("result") === 0) {
-      navigation.navigate("ViewFileScreen");
+      navigation.navigate("ViewFileScreenController");
     } else {
       window.alert("Notification not implemented for this feature.");
     }

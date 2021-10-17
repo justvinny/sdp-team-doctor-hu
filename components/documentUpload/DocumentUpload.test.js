@@ -1,7 +1,7 @@
 import React from "react";
 import { render  } from "@testing-library/react-native";
-import UploadDocument from "./UploadDocument";
-import ProgressBar from "./ProgressBar";
+import UploadDocument from "./uploadDocument/UploadDocument";
+import ProgressBar from "./uploadDocument/ProgressBar";
 
 
 describe('<UploadDocument />', () => {

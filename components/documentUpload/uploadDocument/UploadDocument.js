@@ -4,11 +4,12 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Platform, Alert, Text } from "react-native";
 import { Button, Input, Icon } from "react-native-elements";
 import * as ImagePicker from "expo-image-picker";
-import { storage } from "../../firebase/firebaseConfig";
-import firestoreService from "../../firebase/firestoreService";
+import { storage } from "../../../firebase/firebaseConfig";
+import firestoreService from "../../../firebase/firestoreService";
 import * as DocumentPicker from "expo-document-picker";
-import ProgressBar from "../documentUpload/ProgressBar";
-import Staff from "../../models/Staff";
+import ProgressBar from "./ProgressBar";
+import Staff from "../../../models/Staff";
+import UploadDocumentView from "./UploadDocumentView";
 
 // Upload documents/images to patient profile
 function UploadDocument({
@@ -134,6 +135,8 @@ function UploadDocument({
           setTitle("");
         });
       } catch (error) {
+          showProgress(false);
+          showDownload(false);
         alert(error.message);
       }
     }
@@ -162,134 +165,22 @@ function UploadDocument({
     }
   };
 
-  const renderPage = () => {
-    return (
-      <View style={styles.container}>
-        {/* screen coniditon showing on status of loading document */}
-        {progress ? (
-          <View style={styles.container}>
-            <Text>Won't be a second, just uploading your document!</Text>
-            <Text>Please don't navigate from the upload screen.</Text>
-
-            {/* progress bar component */}
-            <ProgressBar> </ProgressBar>
-          </View>
-        ) : (
-          <>
-            <Text
-              style={{ textAlign: "center", marginBottom: 20, fontSize: 20 }}
-            >
-              Upload Document for:
-              <Text style={{ fontWeight: "bold" }}> {patientName}</Text>
-            </Text>
-
-            {/* Document title input*/}
-            <Input
-              placeholder="Document Title"
-              leftIcon={{ type: "document", name: "label" }}
-              // style={styles}
-              value={title}
-              onChangeText={(title) => setTitle(title)}
-            />
-
-            <Button
-              title="Choose Image"
-              icon={
-                <Icon
-                  name="camera"
-                  type="font-awesome-5"
-                  size={20}
-                  color="white"
-                  style={{ marginRight: 10 }}
-                />
-              }
-              onPress={imagePicker}
-              buttonStyle={styles.globalButton}
-            />
-
-            <Button
-              title="Choose Document"
-              icon={
-                <Icon
-                  name="file-upload"
-                  type="font-awesome-5"
-                  size={20}
-                  color="white"
-                  style={{ marginRight: 10 }}
-                />
-              }
-              onPress={pickDocument}
-              buttonStyle={styles.globalButton}
-            />
-
-            {/* document attached and can be uploaded only when a document has been attached */}
-            {download ? (
-              <View style={styles.container}>
-                <Text>Document attached successfully!</Text>
-                <Text>Click Upload Document to continue.</Text>
-
-                <Button
-                  title="Upload Document"
-                  icon={
-                    <Icon
-                      name="upload"
-                      type="font-awesome-5"
-                      size={20}
-                      color="white"
-                      style={{ marginRight: 10 }}
-                    />
-                  }
-                  onPress={checkTitleInput}
-                  buttonStyle={styles.uploadButton}
-                />
-              </View>
-            ) : (
-              <></>
-            )}
-
-            {/* cancel button */}
-            <Button
-              title="Cancel"
-              icon={
-                <Icon
-                  name="times"
-                  type="font-awesome-5"
-                  size={20}
-                  color="white"
-                  style={{ marginRight: 10 }}
-                />
-              }
-              onPress={toggleDocumentOverlay}
-              buttonStyle={styles.removeButton}
-            />
-          </>
-        )}
-      </View>
-    );
-  };
-
-  return renderPage();
+  return <UploadDocumentView 
+    toggleDocumentOverlay={toggleDocumentOverlay}
+    patientName={patientName}
+    file={file}
+    setFile={setFile}
+    download={download}
+    showDownload={showDownload}
+    title={title}
+    setTitle={setTitle}
+    progress={progress}
+    showProgress={showProgress}
+    pickDocument={pickDocument}
+    imagePicker={imagePicker}
+    checkTitleInput={checkTitleInput}
+  />
 }
 
 export default UploadDocument;
 
-const styles = StyleSheet.create({
-  container: {
-    alignItems: "center",
-    padding: 15,
-  },
-  globalButton: {
-    borderRadius: 10,
-    marginTop: 30,
-  },
-  removeButton: {
-    borderRadius: 10,
-    marginTop: 30,
-    backgroundColor: "red",
-  },
-  uploadButton: {
-    borderRadius: 10,
-    marginTop: 30,
-    backgroundColor: "green",
-  },
-});

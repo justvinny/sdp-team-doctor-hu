@@ -24,31 +24,21 @@ const ViewDocumentView = ({
     return (
       <View style={styles.overlay}>
         <Text style={styles.bold}>
-          Viewing document:
-          <Text style={styles.regular}> {title}</Text>
+          Viewing document:<Text style={styles.regular}> {title}</Text>
         </Text>
 
         <Text style={styles.bold}>
-          Uploaded on:
-          <Text style={styles.regular}>
-            {dateUtility.getFormattedDateNow(new Date(date))}
-          </Text>
+          Uploaded on:<Text style={styles.regular}> {dateUtility.getFormattedDateNow(new Date(date))} </Text>
         </Text>
 
         {/* conditonal render name so staff can see who docuemnt was loaded to and patient can see from*/}
         {user.isStaff ? (
           <Text style={styles.bold}>
-            Document uploaded to:
-            <Text style={styles.regular}>
-              {patient.name.first} {patient.name.last}
-            </Text>
+            Document uploaded to:<Text style={styles.regular}> {patient.name.first} {patient.name.last} </Text>
           </Text>
         ) : (
           <Text style={styles.bold}>
-            Document uploaded by:
-            <Text style={styles.regular}>
-              {staff.name.first} {staff.name.last}
-            </Text>
+            Document uploaded by:<Text style={styles.regular}> {staff.name.first} {staff.name.last}</Text>
           </Text>
         )}
 

@@ -8,7 +8,7 @@ const SearchUserScreenController = ({ navigation, route }) => {
     const [users, setUsers] = useState([]);
     const [search, setSearch] = useState("");
     const [loading, setLoading] = useState(true);
-    const [filterSelected, setFilterSelected] = useState("");
+    const [filterSelected, setFilterSelected] = useState("Both");
     const [sortSelected, setSortSelected] = useState("");
     const [sortAscending, setAscending] = useState(true);
 

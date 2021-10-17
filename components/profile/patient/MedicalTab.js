@@ -1,12 +1,5 @@
 import React, { useContext, useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  ScrollView,
-  KeyboardAvoidingView,
-  Platform,
-} from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import ProfileInformation from "../profilecomponents/ProfileInformation";
 import SelectDropdown from "react-native-select-dropdown";
 import EditEnableButton from "../profilecomponents/EditEnableButton";
@@ -16,7 +9,6 @@ import { Input } from "react-native-elements";
 import TextInputStyles from "../profilecomponents/styles/TextInputStyles";
 import { Switch } from "react-native";
 import colorDefaults from "../../../theme/colorDefaults";
-import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view"
 
 const PatientMedicalTab = ({ user }) => {
   const { authUserId } = useContext(AuthContext);

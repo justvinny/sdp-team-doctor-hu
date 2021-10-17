@@ -1,13 +1,11 @@
 // import React in our code
 import React, { useEffect, useState } from "react";
 // import all the components we are going to use
-import { StyleSheet, View, Platform, Alert, Text } from "react-native";
-import { Button, Input, Icon } from "react-native-elements";
+import { Platform, Alert} from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { storage } from "../../../firebase/firebaseConfig";
 import firestoreService from "../../../firebase/firestoreService";
 import * as DocumentPicker from "expo-document-picker";
-import ProgressBar from "./ProgressBar";
 import Staff from "../../../models/Staff";
 import UploadDocumentView from "./UploadDocumentView";
 
@@ -168,14 +166,10 @@ function UploadDocument({
   return <UploadDocumentView 
     toggleDocumentOverlay={toggleDocumentOverlay}
     patientName={patientName}
-    file={file}
-    setFile={setFile}
     download={download}
-    showDownload={showDownload}
     title={title}
     setTitle={setTitle}
     progress={progress}
-    showProgress={showProgress}
     pickDocument={pickDocument}
     imagePicker={imagePicker}
     checkTitleInput={checkTitleInput}

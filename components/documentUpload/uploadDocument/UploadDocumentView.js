@@ -10,18 +10,13 @@ import ProgressBar from "./ProgressBar";
 function UploadDocumentView({
   toggleDocumentOverlay,
   patientName,
-  file,
-  setFile,
   download,
-  showDownload,
   title,
   setTitle,
   progress,
-  showProgress,
   pickDocument,
   imagePicker,
   checkTitleInput,
-  onChangeText
 }) {
 
 

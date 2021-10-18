@@ -20,6 +20,9 @@ Patient Management System on Mobile using React Native and Firebase for our Soft
 
 Note: Sometimes Expo is finnicky on first start and will force close your application. Just scan the QR code again if this happens and it should work fine.
 
+# Android APK
+See under sprint 2 documentation on Trello.
+
 # License 
 [MIT License](https://github.com/justvinny/sdp-team-doctor-hu/blob/main/LICENSE)
 
@@ -52,6 +55,8 @@ Note: Sometimes Expo is finnicky on first start and will force close your applic
   <img src="https://github.com/justvinny/sdp-team-doctor-hu/blob/main/screenshots/Screenshot_2021-10-18-13-56-50-630_host.exp.exponent.jpg" width=230/>
   <img src="https://github.com/justvinny/sdp-team-doctor-hu/blob/main/screenshots/Screenshot_2021-10-18-13-58-32-156_host.exp.exponent.jpg" width=230/>
   <img src="https://github.com/justvinny/sdp-team-doctor-hu/blob/main/screenshots/Screenshot_2021-10-18-13-59-14-409_host.exp.exponent.jpg" width=230/>
+  <img src="https://github.com/justvinny/sdp-team-doctor-hu/blob/main/screenshots/Screenshot_2021-10-19-00-21-28-131_com.vinsondevexpo.patientmanagementsystem.jpg" width=230/>
+  <img src="https://github.com/justvinny/sdp-team-doctor-hu/blob/main/screenshots/Screenshot_2021-10-19-00-22-45-939_com.vinsondevexpo.patientmanagementsystem.jpg" width=230/>
 </div>
 
 

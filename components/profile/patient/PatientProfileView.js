@@ -8,7 +8,7 @@ import {
 import { Tab, TabView, Overlay, FAB } from "react-native-elements";
 import colorDefaults from "../../../theme/colorDefaults";
 import AddressTab from "./AddressTab";
-import MedicalTab from "./MedicalTab";
+import MedicalTabController from "./MedicalTabController";
 import LoadingScreen from "../../../components/LoadingScreen";
 import TabStyles from "../profilecomponents/styles/TabStyles";
 import GlobalProfileTab from "../profilecomponents/GlobalProfileTab";
@@ -98,7 +98,7 @@ export default function PatientProfileView({
               </TabView.Item>
 
               <TabView.Item style={styles.tabContent} animationType="timing">
-                <MedicalTab user={user} setUser={setUser} />
+                <MedicalTabController user={user} setUser={setUser} />
               </TabView.Item>
             </TabView>
 

@@ -13,7 +13,8 @@ import { StatusBar } from "expo-status-bar";
 export default function Menu({ navigation }) {
   const { authUserId, setAuthUserId } = useContext(AuthContext);
   const [user, setUser] = useState({});
-  const [loading, setLoading] = useState(true);
+  const [loading1, setLoading1] = useState(true);
+  const [loading2, setLoading2] = useState(true);
   const [isStaff, setIsStaff] = useState(false);
   const [notificationsBadge, setNotificationsBadge] = useState(0);
 
@@ -48,7 +49,7 @@ export default function Menu({ navigation }) {
     firestoreService.getUserById(authUserId).then((data) => {
       setUser(data);
       setIsStaff(data.isStaff);
-      setLoading(false);
+      setLoading1(false);
     });
   }, []);
 
@@ -62,7 +63,7 @@ export default function Menu({ navigation }) {
             .notifications.filter((notifcation) => !notifcation.isRead).length;
           setNotificationsBadge(nNotifications);
         }
-        setLoading(false);
+        setLoading2(false);
       });
 
     return unsubscribe;
@@ -79,7 +80,7 @@ export default function Menu({ navigation }) {
   };
 
   const renderPage = () => {
-    if (loading) {
+    if (loading1 || loading2) {
       // empty component
       //only acts if page isnt rendering
       return <LoadingScreen />;
@@ -99,7 +100,7 @@ export default function Menu({ navigation }) {
                 ]}
               >
                 <Text style={styles.text}>
-                  Welcome back, {Staff.getFullName(user.name)}{" "}
+                  Welcome back, {Staff.getFullName(user.name)}
                 </Text>
               </View>
               {menuStaff.map((menuIt, index) => (

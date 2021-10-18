@@ -18,7 +18,7 @@ import StaffProfileController from "./components/profile/staff/StaffProfileContr
 import PatientProfileController from "./components/profile/patient/PatientProfileController";
 import Menu from "./components/mainmenu/Menu";
 import ProfileSelection from "./components/profile/ProfileSelection";
-import ViewFileScreen from "./components/documentUpload/ViewFileScreen";
+import ViewFileScreenController from "./components/documentUpload/viewDocuments/ViewFileScreenController";
 
 import NotificationScreenController from "./components/notifications/NotificationScreenController";
 import CommentScreenController from "./components/profile/comments/CommentScreenController";
@@ -69,8 +69,8 @@ export default function App() {
 
         <Button
           color={colorDefaults.primary}
-          onPress={() => navigation.navigate("ViewFileScreen")}
-          title="ViewFileScreen"
+          onPress={() => navigation.navigate("ViewFileScreenController")}
+          title="ViewFileScreenController"
         />
       </View>
     );
@@ -129,7 +129,7 @@ export default function App() {
               name="ProfileSelection"
             />
 
-            <Stack.Screen component={ViewFileScreen} name="ViewFileScreen" />
+            <Stack.Screen component={ViewFileScreenController} name="ViewFileScreenController" />
             <Stack.Screen
               component={NotificationScreenController}
               name="NotificationScreen"

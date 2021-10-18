@@ -8,12 +8,12 @@ import {
 import { Tab, TabView, Overlay, FAB } from "react-native-elements";
 import colorDefaults from "../../../theme/colorDefaults";
 import AddressTab from "./AddressTab";
-import MedicalTab from "./MedicalTab";
+import MedicalTabController from "./MedicalTabController";
 import LoadingScreen from "../../../components/LoadingScreen";
 import TabStyles from "../profilecomponents/styles/TabStyles";
 import GlobalProfileTab from "../profilecomponents/GlobalProfileTab";
 import BottomSheetNav from "../profilecomponents/BottomSheetNav";
-import UploadDocument from "../../documentUpload/UploadDocument";
+import UploadDocumentController from "../../documentUpload/uploadDocument/UploadDocumentController";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import UploadProfilePictureController from "../profilecomponents/profilePicture/UploadProfilePictureController";
 import ProfilePicture from "../profilecomponents/profilePicture/ProfilePicture";
@@ -39,6 +39,7 @@ export default function PatientProfileView({
   setOpen,
   openComments,
   uploadButtonAction,
+  openFileScreen,
 }) {
   const renderPage = () => {
     if (loading) {
@@ -97,7 +98,7 @@ export default function PatientProfileView({
               </TabView.Item>
 
               <TabView.Item style={styles.tabContent} animationType="timing">
-                <MedicalTab user={user} setUser={setUser} />
+                <MedicalTabController user={user} setUser={setUser} />
               </TabView.Item>
             </TabView>
 
@@ -133,7 +134,7 @@ export default function PatientProfileView({
               animationType="slide"
               transparent
             >
-              <UploadDocument
+              <UploadDocumentController
                 //setProfilePicture={setProfilePicture}
                 toggleDocumentOverlay={toggleDocumentOverlay}
                 patient={user.id}
@@ -161,6 +162,7 @@ export default function PatientProfileView({
             setOpen={setOpen}
             openComments={openComments}
             uploadButtonAction={uploadButtonAction}
+            openFileScreen={openFileScreen}
           />
         ) : (
           <FAB

@@ -37,9 +37,7 @@ const ViewDocumentView = ({
             Document uploaded to Patient:<Text style={styles.regular}> {patient.name.first} {patient.name.last} </Text>
           </Text>
         ) : (
-          <Text style={styles.bold}>
-            Document uploaded by:<Text style={styles.regular}> {staff.name.first} {staff.name.last}</Text>
-          </Text>
+         <></>
         )}
 
       {/* conditonal render to show staff name who uploaded document*/}

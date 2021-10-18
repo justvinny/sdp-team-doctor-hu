@@ -33,7 +33,7 @@ const ViewFileScreenController = ({ navigation, route }) => {
   //sets useStates
   useEffect(() => {
     let userId = authUserId;
-    if (route.params.passedId !== undefined) {
+    if (route.params?.passedId !== undefined) {
       userId = route.params.passedId;
     }
     const unsubscribe = firestoreService

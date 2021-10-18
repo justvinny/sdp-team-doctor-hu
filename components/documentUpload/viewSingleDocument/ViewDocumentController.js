@@ -13,6 +13,7 @@ const ViewDocumentController = ({ url, patientId, staffId, title, date }) => {
   const [patient, setPatient] = useState({});
   const [staff, setStaff] = useState({});
   const [user, setUser] = useState({});
+  
 
   //populate the needed information
   //using three load checks to confirm all information is present and not undefined

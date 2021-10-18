@@ -13,7 +13,7 @@ const ViewDocumentView = ({
   patient,
   staff,
   image,
-  user,
+  user
 }) => {
 
 
@@ -34,11 +34,20 @@ const ViewDocumentView = ({
         {/* conditonal render name so staff can see who docuemnt was loaded to and patient can see from*/}
         {user.isStaff ? (
           <Text style={styles.bold}>
-            Document uploaded to:<Text style={styles.regular}> {patient.name.first} {patient.name.last} </Text>
+            Document uploaded to Patient:<Text style={styles.regular}> {patient.name.first} {patient.name.last} </Text>
+          </Text>
+        ) : (
+         <></>
+        )}
+
+      {/* conditonal render to show staff name who uploaded document*/}
+      {user.id === staff.id ? (
+          <Text style={styles.bold}>
+            You uploaded this document.
           </Text>
         ) : (
           <Text style={styles.bold}>
-            Document uploaded by:<Text style={styles.regular}> {staff.name.first} {staff.name.last}</Text>
+            Document uploaded by Staff:<Text style={styles.regular}> {staff.name.first} {staff.name.last}</Text>
           </Text>
         )}
 
@@ -65,6 +74,7 @@ const styles = StyleSheet.create({
   },
   bold: {
     fontWeight: "bold",
+    paddingBottom: 6,
   },
   regular: {
     fontWeight: "normal",
